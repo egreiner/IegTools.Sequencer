@@ -1,9 +1,10 @@
 # Ieg.Sequencer
 
 
-## Configuration, build and run a sequence
+## Configure, build and run a sequence
+### Simple configuration (.NET 6 style)
 
-Example configuration in .NET 6.0 style for the sequence of an OffTimer:
+A simple example configuration for an OffTimer-sequence:
 
 ```c#
 public class OffTimerExample
@@ -16,17 +17,19 @@ public class OffTimerExample
 }
 ```
 
-Build the sequence:
+### Build the sequence
 
 ```c#
 public class OffTimerExample
 {
+    private ISequence _sequence;
+	
     public OffTimerExample() =>
         _sequence = SequenceBuilder.Build();
 }
 ```
 
-Run the sequence:
+### Run the sequence
 
 ```c#
 public class OffTimerExample
@@ -39,6 +42,40 @@ public class OffTimerExample
         return this;
     }
 }
+```
+
+### Complex configuration (.NET 5 style)
+
+A more complex example configuration for a pump-anti-sticking-sequence:
+
+```c#
+ private ISequenceBuilder SequenceBuilder =>
+        SequenceBuilder.Configure("Paused", builder =>
+        {
+            builder.AddForceState("Paused", () => !_onTimer.Out);
+            builder.AddTransition("Paused", "Activated",
+                () => _onTimer.Out,
+                () => _countStarts = 1);
+            builder.AddTransition("Activated", "Pump on",
+                () => true,
+                () => Stopwatch.Restart());
+            builder.AddTransition("Pump on", "Pump off",
+                () => Stopwatch.Expired(_settings.RunTime * _countStarts.Factorial()),
+                () =>
+                {
+                    Stopwatch.Restart();
+                    _countStarts++;
+                });
+
+            builder.AddTransition("Pump off", "Pump on",
+                () => Stopwatch.Expired(_settings.PauseTime) && !sequenceDone());
+
+            builder.AddTransition("Pump off", "Paused",
+                () => Stopwatch.Expired(_settings.PauseTime) && sequenceDone(),
+                () => _onTimer.In(false));
+
+            bool sequenceDone() => _countStarts > _settings.PumpStartQuantity;
+        });
 ```
 
 
