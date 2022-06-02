@@ -19,6 +19,7 @@ public class SequenceRunner : ISequence
     /// <inheritdoc />
     public string CurrentState { get; private set; }
 
+    /// <inheritdoc />
     public Stopwatch Stopwatch { get; } = new();
 
 

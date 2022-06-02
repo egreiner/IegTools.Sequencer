@@ -5,15 +5,24 @@ using System.Diagnostics;
 
 public interface ISequence
 {
+    /// <summary>
+    /// The current state of the sequence.
+    /// </summary>
     string CurrentState { get; }
 
+    /// <summary>
+    /// A builtin stopwatch.
+    /// </summary>
     Stopwatch Stopwatch { get; }
         
+    /// <summary>
+    /// Run the sequence.
+    /// </summary>
     ISequence Run();
 
     /// <summary>
     /// CurrentState will be set to the state immediately and unconditional.
-    /// and the execution of the sequence will continue.
+    /// The execution of the sequence will continue.
     /// </summary>
     /// <param name="state">The state that will be set.</param>
     ISequence SetState(string state);
