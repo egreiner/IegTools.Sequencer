@@ -3,27 +3,42 @@
 
 ## Configuration, build and run a sequence
 
-Example configuration in .NET 6.0 style for the sequence for an OffTimer:
+Example configuration in .NET 6.0 style for the sequence of an OffTimer:
 
 ```c#
-private ISequenceBuilder SequenceConfig =>
-    SequenceBuilder.Create("Off")
-        .AddForceState("On", () => LastValue)
-        .AddTransition("On", "PrepareOff", () => !LastValue, () => Stopwatch.Restart())
-        .AddTransition("PrepareOff", "Off", () => Stopwatch.Expired(MyTimeSpan));
+public class OffTimerExample
+{
+    private ISequenceBuilder SequenceBuilder =>
+        SequenceBuilder.Create("Off")
+            .AddForceState("On", () => LastValue)
+            .AddTransition("On", "PrepareOff", () => !LastValue, () => Stopwatch.Restart())
+            .AddTransition("PrepareOff", "Off", () => Stopwatch.Expired(MyTimeSpan));
+}
 ```
 
 Build the sequence:
 
 ```c#
-public OffTimerExample() =>
-    _sequence = SequenceBuilder.Build();
+public class OffTimerExample
+{
+    public OffTimerExample() =>
+        _sequence = SequenceBuilder.Build();
+}
 ```
 
 Run the sequence:
 
 ```c#
-_sequence.Run();
+public class OffTimerExample
+{
+    public OffTimerExample In(bool value)
+    {
+        LastValue = value;
+        _sequence.Run();
+
+        return this;
+    }
+}
 ```
 
 
