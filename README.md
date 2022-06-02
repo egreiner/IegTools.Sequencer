@@ -1,18 +1,9 @@
 # Ieg.Sequencer
 
 
+## Configuration, build and run a sequence
 
-## Markdown guides 
-
-Basic [^md_basic]
-Extended [^md_extended]
-Cheat Sheet [^md_cheat]
-
-
-
-## Example configuration
-
-This is an example configuration in .NET 6.0 style for the sequence for an OffTimer:
+Example configuration in .NET 6.0 style for the sequence for an OffTimer:
 
 ```c#
 private ISequenceBuilder SequenceConfig =>
@@ -21,6 +12,26 @@ private ISequenceBuilder SequenceConfig =>
         .AddTransition("On", "PrepareOff", () => !LastValue, () => Stopwatch.Restart())
         .AddTransition("PrepareOff", "Off", () => Stopwatch.Expired(MyTimeSpan));
 ```
+
+Build the sequence:
+
+```c#
+public OffTimerExample() =>
+    _sequence = SequenceBuilder.Build();
+```
+
+Run the sequence:
+
+```c#
+_sequence.Run();
+```
+
+
+## Markdown guides 
+
+Basic [^md_basic]
+Extended [^md_extended]
+Cheat Sheet [^md_cheat]
 
 
 
