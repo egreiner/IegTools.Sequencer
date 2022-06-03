@@ -25,7 +25,7 @@ public class SequenceEnumTests
         var builder = SequenceBuilder.Configure(InitialState, builder =>
             builder.AddForceState(MyEnum.Force, () => constraint));
 
-        var sut = builder.Build().Run();
+        var sut = builder.Build(InitialState).Run();
 
         var actual = sut.CurrentState;
         Assert.Equal(expected.ToString(), actual);
@@ -42,7 +42,7 @@ public class SequenceEnumTests
                 .AddForceState(MyEnum.Force, () => constraint);
         });
 
-        var sut = builder.Build().Run();
+        var sut = builder.Build(InitialState).Run();
 
         var actual = sut.CurrentState;
         Assert.Equal(expected.ToString(), actual);
@@ -56,7 +56,7 @@ public class SequenceEnumTests
         var builder = SequenceBuilder.Configure(InitialState, builder =>
             builder.AddForceState(MyEnum.Force, () => constraint));
 
-        var sut = builder.Build();
+        var sut = builder.Build(InitialState);
 
         sut.SetState(MyEnum.State1, () => constraint);
 
@@ -74,7 +74,7 @@ public class SequenceEnumTests
         var builder = SequenceBuilder.Configure(InitialState, builder =>
             builder.AddForceState(MyEnum.Force, () => constraint));
 
-        var sut = builder.Build();
+        var sut = builder.Build(InitialState);
             
         sut.SetState(MyEnum.StateX, () => constraint);
         sut.SetState(MyEnum.State1, () => constraint);
@@ -95,7 +95,7 @@ public class SequenceEnumTests
         var builder = SequenceBuilder.Configure(InitialState, builder =>
             builder.AddTransition(MyEnum.State1, MyEnum.State2, () => constraint));
 
-        var sut = builder.Build();
+        var sut = builder.Build(InitialState);
 
         sut.SetState(currentState);
         sut.Run();
@@ -115,7 +115,7 @@ public class SequenceEnumTests
         var builder = SequenceBuilder.Configure(InitialState, builder =>
             builder.AddTransition(MyEnum.State1, MyEnum.State2, () => constraint, () => countStarts = 1));
 
-        var sut = builder.Build();
+        var sut = builder.Build(InitialState);
 
         sut.SetState(currentState);
         sut.Run();
@@ -135,7 +135,7 @@ public class SequenceEnumTests
             builder.AddTransition(MyEnum.State2, MyEnum.StateX, () => constraint, () => countStarts++);
         });
 
-        var sut = builder.Build();
+        var sut = builder.Build(InitialState);
 
         sut.SetState(currentState);
         sut.Run();

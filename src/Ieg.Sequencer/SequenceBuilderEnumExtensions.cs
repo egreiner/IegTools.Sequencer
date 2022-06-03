@@ -5,6 +5,16 @@ using Descriptors;
 public static class SequenceBuilderEnumExtensions
 {
     /// <summary>
+    /// Builds a sequence with the specified configuration.
+    /// </summary>
+    /// <param name="builder">The sequence-builder</param>
+    /// <param name="initialState">The state the sequence should start with.</param>
+    public static ISequence Build<T>(this ISequenceBuilder builder, T initialState)
+        where T: Enum =>
+        builder.Build(initialState.ToString());
+
+
+    /// <summary>
     /// Adds a 'state to state'-transition.
     /// The state transition will be executed if the constraint is complied.
     /// The action will be executed just once, at the moment when the constraint is complied.

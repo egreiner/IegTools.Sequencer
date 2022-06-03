@@ -6,7 +6,6 @@ using FluentValidation;
 public class SequenceBuilder : ISequenceBuilder
 {
     private readonly SequenceConfiguration _configuration = new();
-    private static string initialState;
 
     private SequenceBuilder() {}
 
@@ -19,7 +18,7 @@ public class SequenceBuilder : ISequenceBuilder
     }
 
     /// <inheritdoc />
-    public ISequence Build()
+    public ISequence Build(string initialState)
     {
         _configuration.InitialState = initialState;
 
@@ -34,13 +33,8 @@ public class SequenceBuilder : ISequenceBuilder
     /// Creates a new Sequence-Builder for configuration in .NET 6 style.
     /// This is good for short crispy configs.
     /// </summary>
-    /// <param name="theInitialState">The initial-state of the sequence.</param>
     /// <returns>A Sequence-Builder.</returns>
-    public static ISequenceBuilder Create(string theInitialState)
-    {
-        initialState = theInitialState;
-        return new SequenceBuilder();
-    }
+    public static ISequenceBuilder Create() => new SequenceBuilder();
 
     /// <summary>
     /// Configures the sequence in .NET 5 style.
@@ -51,7 +45,7 @@ public class SequenceBuilder : ISequenceBuilder
     /// <returns>The Sequence-Builder.</returns>
     public static ISequenceBuilder Configure(string theInitialState, Action<ISequenceBuilder> configurationActions)
     {
-        var sequenceBuilder = Create(theInitialState);
+        var sequenceBuilder = Create();
         configurationActions.Invoke(sequenceBuilder);
         return sequenceBuilder;
     }

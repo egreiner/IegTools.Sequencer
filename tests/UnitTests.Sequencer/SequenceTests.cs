@@ -12,7 +12,7 @@ public class SequenceTests
         var builder = SequenceBuilder.Configure(InitialState, builder =>
             builder.AddForceState("Force", () => constraint));
 
-        var sut = builder.Build().Run();
+        var sut = builder.Build(InitialState).Run();
 
         var actual = sut.CurrentState;
         Assert.Equal(expected, actual);
@@ -29,7 +29,7 @@ public class SequenceTests
                 .AddForceState("Force", () => constraint);
         });
 
-        var sut = builder.Build().Run();
+        var sut = builder.Build(InitialState).Run();
 
         var actual = sut.CurrentState;
         Assert.Equal(expected, actual);
@@ -43,7 +43,7 @@ public class SequenceTests
         var builder = SequenceBuilder.Configure(InitialState, builder =>
             builder.AddForceState("Force", () => constraint));
 
-        var sut = builder.Build();
+        var sut = builder.Build(InitialState);
 
         sut.SetState("Set", () => constraint);
 
@@ -61,7 +61,7 @@ public class SequenceTests
         var builder = SequenceBuilder.Configure(InitialState, builder =>
             builder.AddForceState("Force", () => constraint));
 
-        var sut = builder.Build();
+        var sut = builder.Build(InitialState);
             
         sut.SetState("test", () => constraint);
         sut.SetState("Set", () => constraint);
@@ -82,7 +82,7 @@ public class SequenceTests
         var builder = SequenceBuilder.Configure(InitialState, builder =>
             builder.AddTransition("State1", "State2", () => constraint));
 
-        var sut = builder.Build();
+        var sut = builder.Build(InitialState);
 
         sut.SetState(currentState);
         sut.Run();
@@ -102,7 +102,7 @@ public class SequenceTests
         var builder = SequenceBuilder.Configure(InitialState, builder =>
             builder.AddTransition("State1", "State2", () => constraint, () => countStarts = 1));
 
-        var sut = builder.Build();
+        var sut = builder.Build(InitialState);
 
         sut.SetState(currentState);
         sut.Run();
@@ -122,7 +122,7 @@ public class SequenceTests
             builder.AddTransition("State2", "State3", () => constraint, () => countStarts++);
         });
 
-        var sut = builder.Build();
+        var sut = builder.Build(InitialState);
 
         sut.SetState(currentState);
         sut.Run();
