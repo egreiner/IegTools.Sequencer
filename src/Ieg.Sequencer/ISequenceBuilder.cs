@@ -1,5 +1,7 @@
 ﻿namespace Ieg.Sequencer;
 
+using Descriptors;
+
 public interface ISequenceBuilder
 {
     /// <summary>

@@ -2,7 +2,7 @@
 
 
 ## Configure, build and run a sequence
-### Simple configuration (.NET 6 style)
+### Configuration .NET 6 style
 
 A simple example configuration for an OffTimer-sequence:
 
@@ -44,7 +44,7 @@ public class OffTimerExample
 }
 ```
 
-### Complex configuration (.NET 5 style)
+### Configuration .NET 5 style
 
 A more complex example configuration for a pump-anti-sticking-sequence:
 

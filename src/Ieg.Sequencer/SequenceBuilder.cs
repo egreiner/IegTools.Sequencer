@@ -1,6 +1,6 @@
 ﻿namespace Ieg.Sequencer;
 
-using System;
+using Descriptors;
 
 public class SequenceBuilder : ISequenceBuilder
 {

@@ -1,6 +1,5 @@
 ﻿namespace Ieg.Sequencer;
 
-using System;
 using System.Diagnostics;
 
 public interface ISequence

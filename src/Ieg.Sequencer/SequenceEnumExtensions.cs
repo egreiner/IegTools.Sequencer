@@ -1,7 +1,5 @@
 ﻿namespace Ieg.Sequencer;
 
-using System;
-
 public static class SequenceEnumExtensions
 {
     /// <summary>
