@@ -4,6 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using Descriptors;
 
+/// <summary>
+/// TODO SequenceRunner
+/// </summary>
 public class SequenceRunner : ISequence
 {
     private readonly SequenceConfiguration _configuration;

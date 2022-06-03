@@ -22,11 +22,22 @@ public class SequenceBuilder : ISequenceBuilder
     {
         _configuration.InitialState = initialState;
 
-        ////var validator = new SequenceConfigurationValidator();
-        ////validator.ValidateAndThrow(_configuration);
-        
+        if (!_configuration.DisableValidation)
+        {
+            var validator = new SequenceConfigurationValidator();
+            validator.ValidateAndThrow(_configuration);
+        }
+
         return new Sequence(_configuration);
     }
+
+    /// <inheritdoc />
+    public ISequenceBuilder DisableValidation()
+    {
+        _configuration.DisableValidation = true;
+        return this;
+    }
+
 
 
     /// <summary>

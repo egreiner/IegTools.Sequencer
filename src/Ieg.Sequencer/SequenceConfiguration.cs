@@ -5,7 +5,9 @@ using Descriptors;
 
 public class SequenceConfiguration
 {
-    public List<SequenceDescriptor> Descriptors { get; } = new();
+    public bool DisableValidation { get; set; }
 
     public string InitialState { get; set; }
+    
+    public List<SequenceDescriptor> Descriptors { get; } = new();
 }
