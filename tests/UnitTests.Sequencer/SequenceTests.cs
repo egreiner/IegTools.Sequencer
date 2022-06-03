@@ -9,7 +9,7 @@ public class SequenceTests
     [InlineData(false, InitialState)]
     public void Test_ForceState(bool constraint, string expected)
     {
-        var builder = SequenceBuilder.Configure(InitialState, builder =>
+        var builder = SequenceBuilder.Configure(builder =>
             builder.AddForceState("Force", () => constraint));
 
         var sut = builder.Build(InitialState).Run();
@@ -23,7 +23,7 @@ public class SequenceTests
     [InlineData(false, InitialState)]
     public void Test_ForceState_Only_Last_Counts(bool constraint, string expected)
     {
-        var builder = SequenceBuilder.Configure(InitialState, builder =>
+        var builder = SequenceBuilder.Configure(builder =>
         {
             builder.AddForceState("test", () => constraint)
                 .AddForceState("Force", () => constraint);
@@ -40,7 +40,7 @@ public class SequenceTests
     [InlineData(false, InitialState)]
     public void Test_Set(bool constraint, string expected)
     {
-        var builder = SequenceBuilder.Configure(InitialState, builder =>
+        var builder = SequenceBuilder.Configure(builder =>
             builder.AddForceState("Force", () => constraint));
 
         var sut = builder.Build(InitialState);
@@ -58,7 +58,7 @@ public class SequenceTests
     [InlineData(false, InitialState)]
     public void Test_SetState_Only_Last_Counts(bool constraint, string expected)
     {
-        var builder = SequenceBuilder.Configure(InitialState, builder =>
+        var builder = SequenceBuilder.Configure(builder =>
             builder.AddForceState("Force", () => constraint));
 
         var sut = builder.Build(InitialState);
@@ -79,7 +79,7 @@ public class SequenceTests
     [InlineData("StateX", false, "StateX")]
     public void Test_Constrain_Add_Conditional_State(string currentState, bool constraint, string expected)
     {
-        var builder = SequenceBuilder.Configure(InitialState, builder =>
+        var builder = SequenceBuilder.Configure(builder =>
             builder.AddTransition("State1", "State2", () => constraint));
 
         var sut = builder.Build(InitialState);
@@ -99,7 +99,7 @@ public class SequenceTests
     public void Test_Action_Add_Conditional_State(string currentState, bool constraint, int expected)
     {
         var countStarts = 0;
-        var builder = SequenceBuilder.Configure(InitialState, builder =>
+        var builder = SequenceBuilder.Configure(builder =>
             builder.AddTransition("State1", "State2", () => constraint, () => countStarts = 1));
 
         var sut = builder.Build(InitialState);
@@ -116,7 +116,7 @@ public class SequenceTests
     public void Test_Concatenation_Add_Conditional_State(string currentState, bool constraint, int expected)
     {
         var countStarts = 0;
-        var builder = SequenceBuilder.Configure(InitialState, builder =>
+        var builder = SequenceBuilder.Configure(builder =>
         {
             builder.AddTransition("State1", "State2", () => constraint, () => countStarts++);
             builder.AddTransition("State2", "State3", () => constraint, () => countStarts++);

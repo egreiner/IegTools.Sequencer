@@ -22,7 +22,7 @@ public class SequenceEnumTests
     [InlineData(false, InitialState)]
     public void Test_ForceState(bool constraint, MyEnum expected)
     {
-        var builder = SequenceBuilder.Configure(InitialState, builder =>
+        var builder = SequenceBuilder.Configure(builder =>
             builder.AddForceState(MyEnum.Force, () => constraint));
 
         var sut = builder.Build(InitialState).Run();
@@ -36,7 +36,7 @@ public class SequenceEnumTests
     [InlineData(false, InitialState)]
     public void Test_ForceState_Only_Last_Counts(bool constraint, MyEnum expected)
     {
-        var builder = SequenceBuilder.Configure(InitialState, builder =>
+        var builder = SequenceBuilder.Configure(builder =>
         {
             builder.AddForceState(MyEnum.StateX, () => constraint)
                 .AddForceState(MyEnum.Force, () => constraint);
@@ -53,7 +53,7 @@ public class SequenceEnumTests
     [InlineData(false, InitialState)]
     public void Test_Set(bool constraint, MyEnum expected)
     {
-        var builder = SequenceBuilder.Configure(InitialState, builder =>
+        var builder = SequenceBuilder.Configure(builder =>
             builder.AddForceState(MyEnum.Force, () => constraint));
 
         var sut = builder.Build(InitialState);
@@ -71,7 +71,7 @@ public class SequenceEnumTests
     [InlineData(false, InitialState)]
     public void Test_SetState_Only_Last_Counts(bool constraint, MyEnum expected)
     {
-        var builder = SequenceBuilder.Configure(InitialState, builder =>
+        var builder = SequenceBuilder.Configure(builder =>
             builder.AddForceState(MyEnum.Force, () => constraint));
 
         var sut = builder.Build(InitialState);
@@ -92,7 +92,7 @@ public class SequenceEnumTests
     [InlineData(MyEnum.StateX, false, MyEnum.StateX)]
     public void Test_Constrain_Add_Conditional_State(MyEnum currentState, bool constraint, MyEnum expected)
     {
-        var builder = SequenceBuilder.Configure(InitialState, builder =>
+        var builder = SequenceBuilder.Configure(builder =>
             builder.AddTransition(MyEnum.State1, MyEnum.State2, () => constraint));
 
         var sut = builder.Build(InitialState);
@@ -112,7 +112,7 @@ public class SequenceEnumTests
     public void Test_Action_Add_Conditional_State(MyEnum currentState, bool constraint, int expected)
     {
         var countStarts = 0;
-        var builder = SequenceBuilder.Configure(InitialState, builder =>
+        var builder = SequenceBuilder.Configure(builder =>
             builder.AddTransition(MyEnum.State1, MyEnum.State2, () => constraint, () => countStarts = 1));
 
         var sut = builder.Build(InitialState);
@@ -129,7 +129,7 @@ public class SequenceEnumTests
     public void Test_Concatenation_Add_Conditional_State(MyEnum currentState, bool constraint, int expected)
     {
         var countStarts = 0;
-        var builder = SequenceBuilder.Configure(InitialState, builder =>
+        var builder = SequenceBuilder.Configure(builder =>
         {
             builder.AddTransition(MyEnum.State1, MyEnum.State2, () => constraint, () => countStarts++);
             builder.AddTransition(MyEnum.State2, MyEnum.StateX, () => constraint, () => countStarts++);
