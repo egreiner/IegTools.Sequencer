@@ -1,6 +1,7 @@
 ﻿namespace Ieg.Sequencer;
 
 using Descriptors;
+using FluentValidation;
 
 public class SequenceBuilder : ISequenceBuilder
 {
@@ -21,6 +22,10 @@ public class SequenceBuilder : ISequenceBuilder
     public ISequence Build()
     {
         _configuration.InitialState = initialState;
+
+        ////var validator = new SequenceConfigurationValidator();
+        ////validator.ValidateAndThrow(_configuration);
+        
         return new Sequence(_configuration);
     }
 

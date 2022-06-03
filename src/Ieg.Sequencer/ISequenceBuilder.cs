@@ -6,7 +6,6 @@ public interface ISequenceBuilder
 {
     /// <summary>
     /// Builds a sequence with the specified configuration.
-    /// TODO add configuration validation.
     /// </summary>
     ISequence Build();
         
