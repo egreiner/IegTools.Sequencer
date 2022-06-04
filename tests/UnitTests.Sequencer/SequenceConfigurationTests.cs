@@ -9,7 +9,7 @@ public class SequenceConfigurationTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_Configure(bool constraint)
+    public void Test_Configure_NET5(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -25,11 +25,25 @@ public class SequenceConfigurationTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_Create(bool constraint)
+    public void Test_Create_NET6v1(bool constraint)
     {
         var builder = SequenceBuilder.Create()
             .AddForceState("Force", () => constraint)
             .DisableValidation();
+
+        var actual = builder.Build(InitialState);
+
+        actual.Should().NotBeNull();
+    }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void Test_Create_NET6v2(bool constraint)
+    {
+        var builder = SequenceBuilder.Create();
+        builder.AddForceState("Force", () => constraint);
+        builder.DisableValidation();
 
         var actual = builder.Build(InitialState);
 
