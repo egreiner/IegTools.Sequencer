@@ -2,6 +2,7 @@
 
 using FluentAssertions;
 
+// TODO clean up
 public class SequenceConfigurationValidatorTests
 {
     private const string InitialState = "InitialState";
@@ -47,7 +48,8 @@ public class SequenceConfigurationValidatorTests
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.AddForceState("State1", () => constraint);
-            builder.AddTransition("State1", "not existing", () => constraint, () => countStarts++);
+            builder.AddTransition("State1", "State2", () => constraint, () => countStarts++);
+            builder.AddTransition("State2", "State1", () => constraint, () => countStarts++);
         });
 
         var sut = builder.Build(InitialState);
@@ -69,7 +71,7 @@ public class SequenceConfigurationValidatorTests
 
         var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build(InitialState));
 
-        actual.Message.Should().Contain("Each goto state");
+        actual.Message.Should().Contain("Each 'NextState'");
     }
 
 
@@ -83,7 +85,7 @@ public class SequenceConfigurationValidatorTests
         {
             builder.AddForceState("State1", () => constraint);
             builder.AddTransition("State1", "State2", () => constraint, () => countStarts++);
-            builder.AddTransition("State2", "not existing", () => constraint, () => countStarts++);
+            builder.AddTransition("State2", "State1", () => constraint, () => countStarts++);
         });
 
         var sut = builder.Build(InitialState);
