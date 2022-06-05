@@ -6,10 +6,13 @@ using FluentValidation;
 public class SequenceBuilder : ISequenceBuilder
 {
     private readonly IValidator<SequenceConfiguration> _validator;
-    private readonly SequenceConfiguration _configuration = new();
 
     private SequenceBuilder(IValidator<SequenceConfiguration> validator) =>
         _validator = validator;
+
+    
+    /// <inheritdoc />
+    public SequenceConfiguration Configuration { get; init; } = new();
 
 
     /// <summary>
@@ -59,38 +62,38 @@ public class SequenceBuilder : ISequenceBuilder
     /// <inheritdoc />
     public ISequence Build<TSequence>() where TSequence : ISequence, new()
     {
-        if (!_configuration.DisableValidation)
-            _validator?.ValidateAndThrow(_configuration);
+        if (!Configuration.DisableValidation)
+            _validator?.ValidateAndThrow(Configuration);
 
-        return new TSequence().SetConfiguration(_configuration);
+        return new TSequence().SetConfiguration(Configuration);
     }
 
     
     /// <inheritdoc />
     public ISequenceBuilder SetInitialState(string initialState)
     {
-        _configuration.InitialState = initialState;
+        Configuration.InitialState = initialState;
         return this;
     }
     
     /// <inheritdoc />
     public ISequenceBuilder AddDescriptor<T>(T descriptor) where T: SequenceDescriptor
     {
-        _configuration.Descriptors.Add(descriptor);
+        Configuration.Descriptors.Add(descriptor);
         return this;
     }
 
     /// <inheritdoc />
     public ISequenceBuilder DisableValidation()
     {
-        _configuration.DisableValidation = true;
+        Configuration.DisableValidation = true;
         return this;
     }
 
     /// <inheritdoc />
     public ISequenceBuilder DisableValidationForStates(params string[] states)
     {
-        _configuration.DisableValidationForStates = states;
+        Configuration.DisableValidationForStates = states;
         return this;
     }
 }

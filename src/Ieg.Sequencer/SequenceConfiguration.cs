@@ -5,6 +5,9 @@ using Descriptors;
 
 public class SequenceConfiguration
 {
+    public string IgnoreTag { get; set; } = "!";
+    public string InitialStateTag { get; set; } = ">";
+
     public bool     DisableValidation          { get; set; }
     public string[] DisableValidationForStates { get; set; }
 

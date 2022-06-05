@@ -14,8 +14,13 @@ public static class SequenceBuilderDefaultExtensions
     /// <param name="nextState">The next state.</param>
     /// <param name="constraint">The constraint.</param>
     /// <param name="action">The action that should be executed.</param>
-    public static ISequenceBuilder AddTransition(this ISequenceBuilder builder, string currentState, string nextState, Func<bool> constraint, Action action = null) =>
-        builder.AddDescriptor(new StateTransitionDescriptor(currentState, nextState, constraint, action));
+    public static ISequenceBuilder AddTransition(this ISequenceBuilder builder, string currentState, string nextState, Func<bool> constraint, Action action = null)
+    {
+        builder.AddInitialStates(currentState, nextState);
+        return builder.AddDescriptor(
+            new StateTransitionDescriptor(builder.GetStateWithoutTags(currentState), builder.GetStateWithoutTags(nextState), constraint, action));
+    }
+
 
     /// <summary>
     /// Adds a state action that should be executed during the state is active.
@@ -24,8 +29,12 @@ public static class SequenceBuilderDefaultExtensions
     /// <param name="builder">The sequence-builder</param>
     /// <param name="currentState">State of the current.</param>
     /// <param name="action">The action.</param>
-    public static ISequenceBuilder AddStateAction(this ISequenceBuilder builder, string currentState, Action action) =>
-        builder.AddTransition(currentState, currentState, () => true, action);
+    public static ISequenceBuilder AddStateAction(this ISequenceBuilder builder, string currentState, Action action)
+    {
+        builder.AddInitialStates(currentState);
+        var state = builder.GetStateWithoutTags(currentState);
+        return builder.AddDescriptor(new StateActionDescriptor(state, action));
+    }
 
     /// <summary>
     /// Adds a ForceStateDescriptor to the sequence-descriptors.
@@ -35,6 +44,28 @@ public static class SequenceBuilderDefaultExtensions
     /// <param name="builder">The sequence-builder</param>
     /// <param name="state">The state that should be forced.</param>
     /// <param name="constraint">The constraint that must be fulfilled that the sequence is forced to the defined state.</param>
-    public static ISequenceBuilder AddForceState(this ISequenceBuilder builder, string state, Func<bool> constraint) =>
-        builder.AddDescriptor(new ForceStateDescriptor(state, constraint));
+    public static ISequenceBuilder AddForceState(this ISequenceBuilder builder, string state, Func<bool> constraint)
+    {
+        builder.AddInitialStates(state);
+        state = builder.GetStateWithoutTags(state);
+        return builder.AddDescriptor(new ForceStateDescriptor(state, constraint));
+    }
+
+
+    private static void AddInitialStates(this ISequenceBuilder builder, params string[] states)
+    {
+        foreach (var state in states)
+        {
+            if (state.StartsWith(builder.InitialStateTag()))
+                builder.SetInitialState(builder.GetStateWithoutTags(state));
+        }
+    }
+
+    private static string GetStateWithoutTags(this ISequenceBuilder builder, string state) =>
+        state.StartsWith(builder.InitialStateTag())
+            ? state.Substring(builder.InitialStateTag().Length)
+            : state;
+
+    private static string InitialStateTag(this ISequenceBuilder builder) =>
+        builder.Configuration.InitialStateTag;
 }

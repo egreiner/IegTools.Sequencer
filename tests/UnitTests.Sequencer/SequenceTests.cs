@@ -3,7 +3,7 @@
 public class SequenceTests
 {
     private const string InitialState = "InitialState";
-
+    
     [Theory]
     [InlineData(true, "Force")]
     [InlineData(false, InitialState)]

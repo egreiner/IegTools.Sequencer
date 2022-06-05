@@ -41,17 +41,18 @@ public class Sequence : ISequence
     /// <inheritdoc />
     public virtual ISequence Run()
     {
-        if (ExecuteForceStateDescriptor(GetForceStateDescriptor())) return this;
+        if (ExecuteForceState(GetForceStateDescriptor())) return this;
             
-        ExecuteStateTransitionDescriptors();
+        ExecuteStateTransitions();
+        ExecuteStateActions();
         return this;
     }
 
-      
+    // TODO there is no reason why there shouldn't be more than one ForceDescriptors      
     private ForceStateDescriptor GetForceStateDescriptor() =>
         _configuration.Descriptors.OfType<ForceStateDescriptor>()?.LastOrDefault();
 
-    private bool ExecuteForceStateDescriptor(ForceStateDescriptor forceState)
+    private bool ExecuteForceState(ForceStateDescriptor forceState)
     {
         var complied = forceState?.Constraint?.Invoke() ?? false;
         if (complied) CurrentState = forceState.State;
@@ -59,16 +60,26 @@ public class Sequence : ISequence
         return complied;
     }
 
-    private void ExecuteStateTransitionDescriptors() =>
+    private void ExecuteStateTransitions() =>
         _configuration.Descriptors.OfType<StateTransitionDescriptor>().ToList()
-            .ForEach(ExecuteStateTransitionDescriptor);
+            .ForEach(ExecuteStateTransition);
 
-    private void ExecuteStateTransitionDescriptor(StateTransitionDescriptor state)
+    private void ExecuteStateTransition(StateTransitionDescriptor state)
     {
         if (state.ValidateTransition(CurrentState))
         {
             SetState(state.NextState);
             state.Action?.Invoke();
         }
+    }
+
+    private void ExecuteStateActions() =>
+        _configuration.Descriptors.OfType<StateActionDescriptor>().ToList()
+            .ForEach(ExecuteStateAction);
+
+    private void ExecuteStateAction(StateActionDescriptor state)
+    {
+        if (state.ValidateState(CurrentState))
+            state.Action?.Invoke();
     }
 }

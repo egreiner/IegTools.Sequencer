@@ -5,6 +5,11 @@ using Descriptors;
 public interface ISequenceBuilder
 {
     /// <summary>
+    /// The sequence configuration
+    /// </summary>
+    SequenceConfiguration Configuration { get; init; }
+
+    /// <summary>
     /// Builds a default sequence with the specified configuration
     /// </summary>
     ISequence Build();
