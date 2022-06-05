@@ -7,25 +7,22 @@ using Descriptors;
 public class Sequence : ISequence
 {
     private SequenceConfiguration _configuration;
-
-    /// <inheritdoc />
-    public SequenceConfiguration Configuration
-    {
-        get => _configuration;
-        set 
-        {
-            _configuration = value;
-            CurrentState = _configuration.InitialState;
-        }
-    }
-
-
+    
+    
     /// <inheritdoc />
     public string CurrentState { get; private set; }
 
     /// <inheritdoc />
     public Stopwatch Stopwatch { get; } = new();
 
+    
+    /// <inheritdoc />
+    public ISequence SetConfiguration(SequenceConfiguration configuration)
+    {
+        _configuration = configuration;
+        CurrentState = configuration.InitialState;
+        return this;
+    }
 
     /// <inheritdoc />
     public ISequence SetState(string state)
@@ -52,7 +49,7 @@ public class Sequence : ISequence
 
       
     private ForceStateDescriptor GetForceStateDescriptor() =>
-        Configuration.Descriptors.OfType<ForceStateDescriptor>()?.LastOrDefault();
+        _configuration.Descriptors.OfType<ForceStateDescriptor>()?.LastOrDefault();
 
     private bool ExecuteForceStateDescriptor(ForceStateDescriptor forceState)
     {
@@ -63,7 +60,7 @@ public class Sequence : ISequence
     }
 
     private void ExecuteStateTransitionDescriptors() =>
-        Configuration.Descriptors.OfType<StateTransitionDescriptor>().ToList()
+        _configuration.Descriptors.OfType<StateTransitionDescriptor>().ToList()
             .ForEach(ExecuteStateTransitionDescriptor);
 
     private void ExecuteStateTransitionDescriptor(StateTransitionDescriptor state)

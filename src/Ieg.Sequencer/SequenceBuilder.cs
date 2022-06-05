@@ -53,20 +53,25 @@ public class SequenceBuilder : ISequenceBuilder
 
 
     /// <inheritdoc />
-    public ISequence Build(string initialState) =>
-        Build<Sequence>(initialState);
+    public ISequence Build() =>
+        Build<Sequence>();
 
     /// <inheritdoc />
-    public ISequence Build<TSequence>(string initialState) where TSequence : ISequence, new()
+    public ISequence Build<TSequence>() where TSequence : ISequence, new()
     {
-        _configuration.InitialState = initialState;
-
         if (!_configuration.DisableValidation)
             _validator?.ValidateAndThrow(_configuration);
 
-        return new TSequence { Configuration = _configuration };
+        return new TSequence().SetConfiguration(_configuration);
     }
 
+    
+    /// <inheritdoc />
+    public ISequenceBuilder SetInitialState(string initialState)
+    {
+        _configuration.InitialState = initialState;
+        return this;
+    }
     
     /// <inheritdoc />
     public ISequenceBuilder AddDescriptor<T>(T descriptor) where T: SequenceDescriptor

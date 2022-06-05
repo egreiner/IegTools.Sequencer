@@ -5,11 +5,6 @@ using System.Diagnostics;
 public interface ISequence
 {
     /// <summary>
-    /// The sequence-configuration
-    /// </summary>
-    SequenceConfiguration Configuration { get; set; }
-
-    /// <summary>
     /// The current state of the sequence
     /// </summary>
     string CurrentState { get; }
@@ -19,10 +14,16 @@ public interface ISequence
     /// </summary>
     Stopwatch Stopwatch { get; }
 
+    
     /// <summary>
     /// Run the sequence
     /// </summary>
     ISequence Run();
+
+    /// <summary>
+    /// Set the sequence-configuration
+    /// </summary>
+    ISequence SetConfiguration(SequenceConfiguration configuration);
 
     /// <summary>
     /// CurrentState will be set to the state immediately and unconditional.

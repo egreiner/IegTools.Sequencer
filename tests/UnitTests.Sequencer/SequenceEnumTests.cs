@@ -24,11 +24,12 @@ public class SequenceEnumTests
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
+            builder.SetInitialState(InitialState);
             builder.AddForceState(MyEnum.Force, () => constraint)
                    .DisableValidation();
         });
 
-        var sut = builder.Build(InitialState).Run();
+        var sut = builder.Build().Run();
 
         var actual = sut.CurrentState;
         Assert.Equal(expected.ToString(), actual);
@@ -41,12 +42,13 @@ public class SequenceEnumTests
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
+            builder.SetInitialState(InitialState);
             builder.AddForceState(MyEnum.StateX, () => constraint)
                    .AddForceState(MyEnum.Force, () => constraint)
                    .DisableValidation();
         });
 
-        var sut = builder.Build(InitialState).Run();
+        var sut = builder.Build().Run();
 
         var actual = sut.CurrentState;
         Assert.Equal(expected.ToString(), actual);
@@ -59,11 +61,12 @@ public class SequenceEnumTests
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
+            builder.SetInitialState(InitialState);
             builder.AddForceState(MyEnum.Force, () => constraint)
                    .DisableValidation();
         });
 
-        var sut = builder.Build(InitialState);
+        var sut = builder.Build();
 
         sut.SetState(MyEnum.State1, () => constraint);
 
@@ -80,12 +83,13 @@ public class SequenceEnumTests
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
+            builder.SetInitialState(InitialState);
             builder.AddForceState(MyEnum.Force, () => constraint)
                    .DisableValidation();
 
         });
 
-        var sut = builder.Build(InitialState);
+        var sut = builder.Build();
             
         sut.SetState(MyEnum.StateX, () => constraint);
         sut.SetState(MyEnum.State1, () => constraint);
@@ -105,11 +109,12 @@ public class SequenceEnumTests
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
+            builder.SetInitialState(InitialState);
             builder.AddTransition(MyEnum.State1, MyEnum.State2, () => constraint)
                    .DisableValidation();
         });
 
-        var sut = builder.Build(InitialState);
+        var sut = builder.Build();
 
         sut.SetState(currentState);
         sut.Run();
@@ -128,11 +133,12 @@ public class SequenceEnumTests
         var countStarts = 0;
         var builder = SequenceBuilder.Configure(builder =>
         {
+            builder.SetInitialState(InitialState);
             builder.AddTransition(MyEnum.State1, MyEnum.State2, () => constraint, () => countStarts = 1)
                    .DisableValidation();
         });
 
-        var sut = builder.Build(InitialState);
+        var sut = builder.Build();
 
         sut.SetState(currentState);
         sut.Run();
@@ -148,12 +154,13 @@ public class SequenceEnumTests
         var countStarts = 0;
         var builder = SequenceBuilder.Configure(builder =>
         {
+            builder.SetInitialState(InitialState);
             builder.AddTransition(MyEnum.State1, MyEnum.State2, () => constraint, () => countStarts++);
             builder.AddTransition(MyEnum.State2, MyEnum.StateX, () => constraint, () => countStarts++)
                    .DisableValidation();
         });
 
-        var sut = builder.Build(InitialState);
+        var sut = builder.Build();
 
         sut.SetState(currentState);
         sut.Run();

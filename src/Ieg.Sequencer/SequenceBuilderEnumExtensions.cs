@@ -5,14 +5,22 @@ using Descriptors;
 public static class SequenceBuilderEnumExtensions
 {
     /// <summary>
-    /// Builds a sequence with the specified configuration.
+    /// Builds a sequence with the specified configuration
     /// </summary>
     /// <param name="builder">The sequence-builder</param>
-    /// <param name="initialState">The state the sequence should start with.</param>
-    public static ISequence Build<T>(this ISequenceBuilder builder, T initialState)
+    public static ISequence Build<T>(this ISequenceBuilder builder)
         where T: Enum =>
-        builder.Build(initialState.ToString());
+        builder.Build();
 
+    /// <summary>
+    /// Sets the initial state
+    /// </summary>
+    /// <param name="builder">The sequence-builder</param>
+    /// <param name="initialState">The initial state</param>
+    /// <returns></returns>
+    public static ISequenceBuilder SetInitialState<T>(this ISequenceBuilder builder, T initialState)   
+        where T: Enum =>
+        builder.SetInitialState(initialState.ToString());
 
     /// <summary>
     /// Adds a 'state to state'-transition.
@@ -20,9 +28,9 @@ public static class SequenceBuilderEnumExtensions
     /// The action will be executed just once, at the moment when the constraint is complied.
     /// </summary>
     /// <param name="builder">The sequence-builder</param>
-    /// <param name="currentState">The current state.</param>
-    /// <param name="nextState">The next state.</param>
-    /// <param name="constraint">The constraint.</param>
+    /// <param name="currentState">The current state</param>
+    /// <param name="nextState">The next state</param>
+    /// <param name="constraint">The constraint</param>
     /// <param name="action">The action that should be executed.</param>
     public static ISequenceBuilder AddTransition<T>(
         this ISequenceBuilder builder, T currentState, T nextState, Func<bool> constraint, Action action = null) 

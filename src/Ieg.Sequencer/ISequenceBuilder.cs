@@ -7,14 +7,18 @@ public interface ISequenceBuilder
     /// <summary>
     /// Builds a default sequence with the specified configuration.
     /// </summary>
-    /// <param name="initialState">The state the sequence should start with.</param>
-    ISequence Build(string initialState);
+    ISequence Build();
 
     /// <summary>
     /// Builds a customized sequence with the specified configuration.
     /// </summary>
-    /// <param name="initialState">The state the sequence should start with.</param>
-    ISequence Build<TSequence>(string initialState) where TSequence : ISequence, new();
+    ISequence Build<TSequence>() where TSequence : ISequence, new();
+
+    /// <summary>
+    /// Sets the initial state
+    /// </summary>
+    /// <param name="initialState">The initial state</param>
+    ISequenceBuilder SetInitialState(string initialState);
 
     /// <summary>
     /// Adds an sequence descriptor.

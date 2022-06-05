@@ -13,11 +13,12 @@ public class SequenceConfigurationTests
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
+            builder.SetInitialState(InitialState);
             builder.AddForceState("Force", () => constraint);
             builder.DisableValidation();
         });
 
-        var actual = builder.Build(InitialState);
+        var actual = builder.Build();
 
         actual.Should().NotBeNull();
     }
@@ -28,10 +29,11 @@ public class SequenceConfigurationTests
     public void Test_Create_NET6v1(bool constraint)
     {
         var builder = SequenceBuilder.Create()
+            .SetInitialState(InitialState)
             .AddForceState("Force", () => constraint)
             .DisableValidation();
 
-        var actual = builder.Build(InitialState);
+        var actual = builder.Build();
 
         actual.Should().NotBeNull();
     }
@@ -42,10 +44,11 @@ public class SequenceConfigurationTests
     public void Test_Create_NET6v2(bool constraint)
     {
         var builder = SequenceBuilder.Create();
+        builder.SetInitialState(InitialState);
         builder.AddForceState("Force", () => constraint);
         builder.DisableValidation();
 
-        var actual = builder.Build(InitialState);
+        var actual = builder.Build();
 
         actual.Should().NotBeNull();
     }

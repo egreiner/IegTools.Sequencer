@@ -15,11 +15,12 @@ public class SequenceConfigurationValidatorTests
         var countStarts = 0;
         var builder = SequenceBuilder.Configure(builder =>
         {
+            // builder.SetInitialState(InitialState)
             builder.AddTransition("State1", "State2", () => constraint, () => countStarts++);
             builder.AddTransition("State2", "State1", () => constraint, () => countStarts++);
         });
 
-        var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build(string.Empty));
+        var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build());
 
         actual.Message.Should().Contain("Initial State");
         actual.Message.Should().NotContain("Each goto state");
@@ -32,9 +33,12 @@ public class SequenceConfigurationValidatorTests
     public void Test_ThrowsValidationError_DescriptorCount(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
-            builder.AddForceState("Force", () => constraint));
+        {
+            builder.SetInitialState(InitialState);
+            builder.AddForceState("Force", () => constraint);
+        });
 
-        var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build(InitialState));
+        var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build());
 
         actual.Message.Should().Contain("Descriptors Count");
     }
@@ -47,12 +51,13 @@ public class SequenceConfigurationValidatorTests
         var countStarts = 0;
         var builder = SequenceBuilder.Configure(builder =>
         {
+            builder.SetInitialState(InitialState);
             builder.AddForceState("State1", () => constraint);
             builder.AddTransition("State1", "State2", () => constraint, () => countStarts++);
             builder.AddTransition("State2", "State1", () => constraint, () => countStarts++);
         });
 
-        var sut = builder.Build(InitialState);
+        var sut = builder.Build();
 
         sut.Should().NotBeNull();
     }
@@ -65,11 +70,12 @@ public class SequenceConfigurationValidatorTests
         var countStarts = 0;
         var builder = SequenceBuilder.Configure(builder =>
         {
+            builder.SetInitialState(InitialState);
             builder.AddTransition("State1", "State2", () => constraint, () => countStarts++);
             builder.AddTransition("State2", "not existing", () => constraint, () => countStarts++);
         });
 
-        var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build(InitialState));
+        var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build());
 
         actual.Message.Should().Contain("Each 'NextState'");
     }
@@ -83,12 +89,13 @@ public class SequenceConfigurationValidatorTests
         var countStarts = 0;
         var builder = SequenceBuilder.Configure(builder =>
         {
+            builder.SetInitialState(InitialState);
             builder.AddForceState("State1", () => constraint);
             builder.AddTransition("State1", "State2", () => constraint, () => countStarts++);
             builder.AddTransition("State2", "State1", () => constraint, () => countStarts++);
         });
 
-        var sut = builder.Build(InitialState);
+        var sut = builder.Build();
 
         sut.Should().NotBeNull();
     }
@@ -101,11 +108,12 @@ public class SequenceConfigurationValidatorTests
         var countStarts = 0;
         var builder = SequenceBuilder.Configure(builder =>
         {
+            builder.SetInitialState(InitialState);
             builder.AddTransition("State1", "State2", () => constraint, () => countStarts++);
             builder.AddTransition("State2", "State1", () => constraint, () => countStarts++);
         });
 
-        var sut = builder.Build(InitialState);
+        var sut = builder.Build();
 
         sut.Should().NotBeNull();
     }
