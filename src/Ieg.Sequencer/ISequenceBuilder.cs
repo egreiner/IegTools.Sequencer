@@ -5,6 +5,18 @@ using Descriptors;
 public interface ISequenceBuilder
 {
     /// <summary>
+    /// Builds a default sequence with the specified configuration.
+    /// </summary>
+    /// <param name="initialState">The state the sequence should start with.</param>
+    ISequence Build(string initialState);
+
+    /// <summary>
+    /// Builds a customized sequence with the specified configuration.
+    /// </summary>
+    /// <param name="initialState">The state the sequence should start with.</param>
+    ISequence Build<TSequence>(string initialState) where TSequence : ISequence, new();
+
+    /// <summary>
     /// Adds an sequence descriptor.
     /// </summary>
     /// <typeparam name="T"></typeparam>
@@ -15,10 +27,4 @@ public interface ISequenceBuilder
     /// Does not validate the sequence configuration on build.
     /// </summary>
     ISequenceBuilder DisableValidation();
-
-    /// <summary>
-    /// Builds a sequence with the specified configuration.
-    /// </summary>
-    /// <param name="initialState">The state the sequence should start with.</param>
-    ISequence Build(string initialState);
 }

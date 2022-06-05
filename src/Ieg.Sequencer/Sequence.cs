@@ -6,13 +6,17 @@ using Descriptors;
 
 public class Sequence : ISequence
 {
-    private readonly SequenceConfiguration _configuration;
+    private SequenceConfiguration _configuration;
 
-
-    public Sequence(SequenceConfiguration configuration)
+    /// <inheritdoc />
+    public SequenceConfiguration Configuration
     {
-        _configuration = configuration;
-        CurrentState   = configuration.InitialState;
+        get => _configuration;
+        set 
+        {
+            _configuration = value;
+            CurrentState = _configuration.InitialState;
+        }
     }
 
 
@@ -48,7 +52,7 @@ public class Sequence : ISequence
 
       
     private ForceStateDescriptor GetForceStateDescriptor() =>
-        _configuration.Descriptors.OfType<ForceStateDescriptor>()?.LastOrDefault();
+        Configuration.Descriptors.OfType<ForceStateDescriptor>()?.LastOrDefault();
 
     private bool ExecuteForceStateDescriptor(ForceStateDescriptor forceState)
     {
@@ -59,7 +63,7 @@ public class Sequence : ISequence
     }
 
     private void ExecuteStateTransitionDescriptors() =>
-        _configuration.Descriptors.OfType<StateTransitionDescriptor>().ToList()
+        Configuration.Descriptors.OfType<StateTransitionDescriptor>().ToList()
             .ForEach(ExecuteStateTransitionDescriptor);
 
     private void ExecuteStateTransitionDescriptor(StateTransitionDescriptor state)

@@ -33,14 +33,18 @@ public class SequenceBuilder : ISequenceBuilder
 
 
     /// <inheritdoc />
-    public ISequence Build(string initialState)
+    public ISequence Build(string initialState) =>
+        Build<Sequence>(initialState);
+
+    /// <inheritdoc />
+    public ISequence Build<TSequence>(string initialState) where TSequence : ISequence, new()
     {
         _configuration.InitialState = initialState;
 
         if (!_configuration.DisableValidation)
             _validator?.ValidateAndThrow(_configuration);
 
-        return new Sequence(_configuration);
+        return new TSequence { Configuration = _configuration };
     }
 
     
