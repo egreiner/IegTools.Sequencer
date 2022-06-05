@@ -12,8 +12,13 @@ public class SequenceConfigurationValidator: AbstractValidator<SequenceConfigura
         RuleFor(config => config.Descriptors.Count).GreaterThan(1);
         RuleFor(config => config.InitialState).NotEmpty();
 
-        RuleFor(config => config).Must(CorrectForceStateDescriptor).WithMessage("Each ForceStateDescriptor must have a StateTransitionDescriptor counterpart");
-        RuleFor(config => config).Must(CorrectStateTransitionDescriptor).WithMessage("Each 'NextState' must have an 'CurrentState' counterpart");
+        RuleFor(config => config)
+            .Must(CorrectForceStateDescriptor)
+            .WithMessage("Each ForceStateDescriptor must have a StateTransitionDescriptor counterpart");
+        
+        RuleFor(config => config)
+            .Must(CorrectStateTransitionDescriptor)
+            .WithMessage("Each 'NextState' must have an 'CurrentState' counterpart");
     }
 
     /// <summary>
