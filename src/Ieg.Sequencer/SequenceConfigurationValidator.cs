@@ -17,13 +17,6 @@ public class SequenceConfigurationValidator: AbstractValidator<SequenceConfigura
     }
 
     /// <summary>
-    /// Each 'NextState' must have an 'CurrentState' (or a force-state)
-    /// otherwise you have created an dead end.
-    /// </summary>
-    private static bool CorrectStateDescriptors(SequenceConfiguration config) =>
-        CorrectForceStateDescriptor(config) || CorrectStateTransitionDescriptor(config);
-
-    /// <summary>
     /// Each 'NextState' must have an 'CurrentState'
     /// otherwise you have created an dead end.
     /// </summary>
