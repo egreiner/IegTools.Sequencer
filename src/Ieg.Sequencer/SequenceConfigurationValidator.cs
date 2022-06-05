@@ -49,11 +49,12 @@ public class SequenceConfigurationValidator: AbstractValidator<SequenceConfigura
         var transitions = config.Descriptors.OfType<StateTransitionDescriptor>().ToList();
         if (transitions.Count == 0) return true;
        
+        var doNotValidate = config.DisableValidationForStates?.ToList() ?? new List<string>();
         var missingDescriptors = new List<StateTransitionDescriptor>();
-        
+
         // for easy reading do not simplify this
         // each StateTransition should have an counterpart so that no dead end is reached
-        foreach (var transition in transitions)
+        foreach (var transition in transitions.Where(x => !doNotValidate.Contains(x.NextState)))
         {
             if (!transitions.Any(x => x.CurrentState == transition.NextState))
                 missingDescriptors.Add(transition);

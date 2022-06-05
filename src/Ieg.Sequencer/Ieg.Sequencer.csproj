@@ -14,6 +14,7 @@
 	  <Copyright>(c) 2022 ieg Systems - Ing. Ernst Greiner</Copyright>
 	  <Company>ieg Systems</Company>
 	  <Authors>Ernst Greiner</Authors>
+	  <Version>1.1.1.0</Version>
     <RepositoryType>git</RepositoryType>
     <PackageIcon>fsharp.PNG</PackageIcon>
   </PropertyGroup>

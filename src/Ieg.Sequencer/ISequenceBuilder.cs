@@ -5,12 +5,12 @@ using Descriptors;
 public interface ISequenceBuilder
 {
     /// <summary>
-    /// Builds a default sequence with the specified configuration.
+    /// Builds a default sequence with the specified configuration
     /// </summary>
     ISequence Build();
 
     /// <summary>
-    /// Builds a customized sequence with the specified configuration.
+    /// Builds a customized sequence with the specified configuration
     /// </summary>
     ISequence Build<TSequence>() where TSequence : ISequence, new();
 
@@ -21,14 +21,19 @@ public interface ISequenceBuilder
     ISequenceBuilder SetInitialState(string initialState);
 
     /// <summary>
-    /// Adds an sequence descriptor.
+    /// Adds an sequence descriptor
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="descriptor">The descriptor.</param>
     ISequenceBuilder AddDescriptor<T>(T descriptor) where T: SequenceDescriptor;
 
     /// <summary>
-    /// Does not validate the sequence configuration on build.
+    /// Does not validate the sequence configuration on build
     /// </summary>
     ISequenceBuilder DisableValidation();
+
+    /// <summary>
+    /// Does not validate NextSates that are in this list
+    /// </summary>
+    ISequenceBuilder DisableValidationForStates(params string[] states);
 }

@@ -86,4 +86,11 @@ public class SequenceBuilder : ISequenceBuilder
         _configuration.DisableValidation = true;
         return this;
     }
+
+    /// <inheritdoc />
+    public ISequenceBuilder DisableValidationForStates(params string[] states)
+    {
+        _configuration.DisableValidationForStates = states;
+        return this;
+    }
 }

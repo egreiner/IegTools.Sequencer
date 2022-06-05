@@ -5,7 +5,8 @@ using Descriptors;
 
 public class SequenceConfiguration
 {
-    public bool DisableValidation { get; set; }
+    public bool     DisableValidation          { get; set; }
+    public string[] DisableValidationForStates { get; set; }
 
     public string InitialState { get; set; }
     

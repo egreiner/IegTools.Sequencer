@@ -79,7 +79,26 @@ public class SequenceConfigurationValidatorTests
 
         actual.Message.Should().Contain("Each 'NextState'");
     }
+    
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void Test_DoesNotThrowValidationError_MissingState(bool constraint)
+    {
+        var countStarts = 0;
+        var builder = SequenceBuilder.Configure(builder =>
+        {
+            builder.SetInitialState(InitialState);
+            builder.AddForceState("State1", () => constraint);
+            builder.AddTransition("State1", "State2", () => constraint, () => countStarts++);
+            builder.AddTransition("State2", "unknown", () => constraint, () => countStarts++);
+            builder.DisableValidationForStates("unknown", "unknown1", "unknown2");
+        });
 
+        var sut = builder.Build();
+
+        sut.Should().NotBeNull();
+    }
 
     [Theory]
     [InlineData(true)]
