@@ -1,3 +1,5 @@
 ﻿namespace Ieg.Sequencer.Descriptors;
 
-public abstract record SequenceDescriptor;
+public abstract class SequenceDescriptor
+{
+}
