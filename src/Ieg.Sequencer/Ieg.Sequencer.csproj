@@ -8,7 +8,7 @@
     <PackageProjectUrl>https://github.com/egreiner/Ieg.Sequencer</PackageProjectUrl>
     <PackageReadmeFile></PackageReadmeFile>
     <PackageTags>sequence;statemachine</PackageTags>
-    <PackageReleaseNotes>Introduce state-tags</PackageReleaseNotes>
+    <PackageReleaseNotes>Make Descriptors more generic 1/x</PackageReleaseNotes>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageLicenseFile></PackageLicenseFile>
     <Description>Framework to build sequences, simple to use, simple to extend.</Description>
@@ -16,7 +16,7 @@
 	  <Company>ieg Systems</Company>
 	  <Owner>Ernst Greiner</Owner>
 	  <Authors>Ernst Greiner</Authors>
-	  <Version>1.2.2.0</Version>
+	  <Version>1.3.0.0</Version>
     <RepositoryType>git</RepositoryType>
     <PackageIcon>fsharp.PNG</PackageIcon>
   </PropertyGroup>

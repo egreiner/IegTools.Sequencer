@@ -4,22 +4,30 @@ public class StateTransitionDescriptor : SequenceDescriptor
 {
     public StateTransitionDescriptor(string currentState, string nextState, Func<bool> constraint, Action action)
     {
-        this.CurrentState = currentState;
-        this.NextState    = nextState;
-        this.Constraint   = constraint;
-        this.Action       = action;
+        CurrentState = currentState;
+        NextState    = nextState;
+        Constraint   = constraint;
+        Action       = action;
     }
 
 
-    public string CurrentState { get; init; }
-    public string NextState { get; init; }
-    public Func<bool> Constraint { get; init; }
-    public Action Action { get; init; }
+    public string CurrentState   { get; }
+    public string NextState      { get; }
+    public Func<bool> Constraint { get; }
+    public Action Action         { get; }
 
     
     public override string ToString() =>
         $"{CurrentState}->{NextState} (Transition)";
 
-    public bool ValidateTransition(string state) =>
-        state == CurrentState && (Constraint?.Invoke() ?? true);
+    
+    public override bool ValidateAction(ISequence sequence) =>
+        CurrentState == sequence.CurrentState && (Constraint?.Invoke() ?? true);
+
+    
+    public override void ExecuteAction(ISequence sequence)
+    {
+        sequence.SetState(NextState);
+        Action?.Invoke();
+    }
 }
