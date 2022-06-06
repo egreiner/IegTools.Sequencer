@@ -2,22 +2,17 @@
 
 public class StateActionDescriptor : SequenceDescriptor
 {
-    public StateActionDescriptor(string State, Action Action)
+    public StateActionDescriptor(string state, Action action)
     {
-        this.State = State;
-        this.Action = Action;
+        this.State  = state;
+        this.Action = action;
     }
 
-    public override string ToString() => $"{State} (Action)";
-
-    
-    public bool ValidateState(string state) => state == State;
-    public string State { get; init; }
+    public string State  { get; init; }
     public Action Action { get; init; }
 
-    public void Deconstruct(out string State, out Action Action)
-    {
-        State = this.State;
-        Action = this.Action;
-    }
+
+    public override string ToString() => $"{State} (Action)";
+    
+    public bool ValidateState(string state) => state == State;
 }
