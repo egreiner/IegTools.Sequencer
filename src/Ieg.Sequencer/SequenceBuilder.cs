@@ -77,7 +77,7 @@ public class SequenceBuilder : ISequenceBuilder
     }
     
     /// <inheritdoc />
-    public ISequenceBuilder AddDescriptor<T>(T descriptor) where T: SequenceDescriptor
+    public ISequenceBuilder AddDescriptor<T>(T descriptor) where T: IDescriptor
     {
         Configuration.Descriptors.Add(descriptor);
         return this;

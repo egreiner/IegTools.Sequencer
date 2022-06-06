@@ -1,6 +1,6 @@
 ﻿namespace Ieg.Sequencer.Descriptors;
 
-public class StateActionDescriptor : SequenceDescriptor
+public class StateActionDescriptor : DescriptorBase
 {
     public StateActionDescriptor(string state, Action action)
     {

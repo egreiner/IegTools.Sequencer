@@ -1,6 +1,6 @@
 ﻿namespace Ieg.Sequencer.Descriptors;
 
-public abstract class SequenceDescriptor
+public abstract class DescriptorBase : IDescriptor
 {
     public abstract bool ValidateAction(ISequence sequence);
     public abstract void ExecuteAction(ISequence sequence);
@@ -13,5 +13,4 @@ public abstract class SequenceDescriptor
 
         return complied;
     }
-
 }

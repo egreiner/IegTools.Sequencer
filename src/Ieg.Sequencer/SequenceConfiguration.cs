@@ -13,5 +13,5 @@ public class SequenceConfiguration
 
     public string InitialState { get; set; }
     
-    public List<SequenceDescriptor> Descriptors { get; } = new();
+    public List<IDescriptor> Descriptors { get; } = new();
 }

@@ -1,6 +1,6 @@
 ﻿namespace Ieg.Sequencer.Descriptors;
 
-public class ForceStateDescriptor : SequenceDescriptor
+public class ForceStateDescriptor : DescriptorBase
 {
     public ForceStateDescriptor(string state, Func<bool> constraint)
     {

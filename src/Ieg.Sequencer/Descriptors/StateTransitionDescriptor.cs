@@ -1,6 +1,6 @@
 ﻿namespace Ieg.Sequencer.Descriptors;
 
-public class StateTransitionDescriptor : SequenceDescriptor
+public class StateTransitionDescriptor : DescriptorBase
 {
     public StateTransitionDescriptor(string currentState, string nextState, Func<bool> constraint, Action action)
     {

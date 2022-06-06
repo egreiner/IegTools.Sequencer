@@ -30,7 +30,7 @@ public interface ISequenceBuilder
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="descriptor">The descriptor.</param>
-    ISequenceBuilder AddDescriptor<T>(T descriptor) where T: SequenceDescriptor;
+    ISequenceBuilder AddDescriptor<T>(T descriptor) where T: IDescriptor;
 
     /// <summary>
     /// Does not validate the sequence configuration on build
