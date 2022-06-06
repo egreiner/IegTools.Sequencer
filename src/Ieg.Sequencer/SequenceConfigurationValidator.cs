@@ -29,7 +29,7 @@ public class SequenceConfigurationValidator: AbstractValidator<SequenceConfigura
     {
         var doNotValidate = DoNotValidateStates(config);
         var forceStates = config.Descriptors.OfType<ForceStateDescriptor>()
-            .Where(x => !doNotValidate.Contains(x.State) && !x.State.StartsWith(config.IgnoreTag)).ToList();
+            .Where(x => !doNotValidate.Contains(x.State) && !x.State.StartsWith(config.IgnoreTag.ToString())).ToList();
         if (forceStates.Count == 0) return true;
         
         var transitions = config.Descriptors.OfType<StateTransitionDescriptor>().ToList();
@@ -62,7 +62,7 @@ public class SequenceConfigurationValidator: AbstractValidator<SequenceConfigura
         
         // for easy reading do not simplify this
         // each StateTransition should have an counterpart so that no dead end is reached
-        foreach (var transition in transitions.Where(x => !doNotValidate.Contains(x.NextState) && !x.NextState.StartsWith(config.IgnoreTag)))
+        foreach (var transition in transitions.Where(x => !doNotValidate.Contains(x.NextState) && !x.NextState.StartsWith(config.IgnoreTag.ToString())))
         {
             if (!transitions.Any(x => x.CurrentState == transition.NextState))
                 missingDescriptors.Add(transition);

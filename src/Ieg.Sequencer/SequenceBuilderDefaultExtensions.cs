@@ -18,7 +18,7 @@ public static class SequenceBuilderDefaultExtensions
     {
         builder.AddInitialStates(currentState, nextState);
         return builder.AddDescriptor(
-            new StateTransitionDescriptor(builder.GetStateWithoutTags(currentState), builder.GetStateWithoutTags(nextState), constraint, action));
+            new StateTransitionDescriptor(currentState, nextState, constraint, action));
     }
 
 
@@ -27,12 +27,11 @@ public static class SequenceBuilderDefaultExtensions
     /// Internal it's handled like a StateTransition...
     /// </summary>
     /// <param name="builder">The sequence-builder</param>
-    /// <param name="currentState">State of the current.</param>
+    /// <param name="state">The state where the action should be invoked</param>
     /// <param name="action">The action.</param>
-    public static ISequenceBuilder AddStateAction(this ISequenceBuilder builder, string currentState, Action action)
+    public static ISequenceBuilder AddStateAction(this ISequenceBuilder builder, string state, Action action)
     {
-        builder.AddInitialStates(currentState);
-        var state = builder.GetStateWithoutTags(currentState);
+        builder.AddInitialStates(state);
         return builder.AddDescriptor(new StateActionDescriptor(state, action));
     }
 
@@ -47,7 +46,6 @@ public static class SequenceBuilderDefaultExtensions
     public static ISequenceBuilder AddForceState(this ISequenceBuilder builder, string state, Func<bool> constraint)
     {
         builder.AddInitialStates(state);
-        state = builder.GetStateWithoutTags(state);
         return builder.AddDescriptor(new ForceStateDescriptor(state, constraint));
     }
 
@@ -57,15 +55,10 @@ public static class SequenceBuilderDefaultExtensions
         foreach (var state in states)
         {
             if (state.StartsWith(builder.InitialStateTag()))
-                builder.SetInitialState(builder.GetStateWithoutTags(state));
+                builder.SetInitialState(state);
         }
     }
 
-    private static string GetStateWithoutTags(this ISequenceBuilder builder, string state) =>
-        state.StartsWith(builder.InitialStateTag())
-            ? state.Substring(builder.InitialStateTag().Length)
-            : state;
-
     private static string InitialStateTag(this ISequenceBuilder builder) =>
-        builder.Configuration.InitialStateTag;
+        builder.Configuration.InitialStateTag.ToString();
 }

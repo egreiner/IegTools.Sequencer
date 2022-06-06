@@ -2,16 +2,16 @@
 
 public class InitialStateTagTests
 {
-    private const string InitialState = "InitialState";
+    private const string InitialState = ">InitialState";
 
     [Theory]
-    [InlineData(true, "Force")]
+    [InlineData(true, ">Force")]
     [InlineData(false, InitialState)]
     public void Test_ForceStateDescriptor(bool constraint, string expected)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
-            builder.AddForceState(">" + expected, () => constraint)
+            builder.AddForceState(expected, () => constraint)
                 .DisableValidation();
         });
 
@@ -20,13 +20,13 @@ public class InitialStateTagTests
     }
 
     [Theory]
-    [InlineData(true, "Force")]
+    [InlineData(true, ">Force")]
     [InlineData(false, InitialState)]
     public void Test_AddTransitionDescriptor(bool constraint, string expected)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
-            builder.AddTransition(">" + expected, "State2", () => constraint)
+            builder.AddTransition(expected, "State2", () => constraint)
                 .DisableValidation();
         });
 
@@ -35,13 +35,13 @@ public class InitialStateTagTests
     }
 
     [Theory]
-    [InlineData("Force")]
+    [InlineData(">Force")]
     [InlineData(InitialState)]
     public void Test_AddStateActionDescriptor(string expected)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
-            builder.AddStateAction(">" + expected, null)
+            builder.AddStateAction(expected, null)
                 .DisableValidation();
         });
 

@@ -3,18 +3,20 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <RepositoryUrl>https://github.com/egreiner/Ieg.Sequencer</RepositoryUrl>
+	  <RepositoryUrl>https://github.com/egreiner/Ieg.Sequencer</RepositoryUrl>
+	  <RepositoryEmail>sequencer@ieg-tools.net</RepositoryEmail>
     <PackageProjectUrl>https://github.com/egreiner/Ieg.Sequencer</PackageProjectUrl>
     <PackageReadmeFile></PackageReadmeFile>
     <PackageTags>sequence;statemachine</PackageTags>
-    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <PackageReleaseNotes>Introduce state-tags</PackageReleaseNotes>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageLicenseFile></PackageLicenseFile>
-    <Description>Simple Framework to build sequences</Description>
+    <Description>Framework to build sequences, simple to use, simple to extend.</Description>
 	  <Copyright>(c) 2022 ieg Systems - Ing. Ernst Greiner</Copyright>
 	  <Company>ieg Systems</Company>
+	  <Owner>Ernst Greiner</Owner>
 	  <Authors>Ernst Greiner</Authors>
-	  <Version>1.1.1.0</Version>
+	  <Version>1.2.2.0</Version>
     <RepositoryType>git</RepositoryType>
     <PackageIcon>fsharp.PNG</PackageIcon>
   </PropertyGroup>
