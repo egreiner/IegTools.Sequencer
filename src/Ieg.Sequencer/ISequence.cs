@@ -1,6 +1,7 @@
 ﻿namespace Ieg.Sequencer;
 
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 public interface ISequence
 {
@@ -19,6 +20,11 @@ public interface ISequence
     /// Run the sequence
     /// </summary>
     ISequence Run();
+
+    /// <summary>
+    /// Runs the sequence asynchronous
+    /// </summary>
+    Task<ISequence> RunAsync();
 
     /// <summary>
     /// Set the sequence-configuration

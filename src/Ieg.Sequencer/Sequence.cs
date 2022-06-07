@@ -1,8 +1,7 @@
 ﻿namespace Ieg.Sequencer;
 
 using System.Diagnostics;
-using System.Linq;
-using Descriptors;
+using System.Threading.Tasks;
 
 public class Sequence : ISequence
 {
@@ -50,4 +49,7 @@ public class Sequence : ISequence
 
         return this;
     }
+
+    /// <inheritdoc />
+    public virtual async Task<ISequence> RunAsync() => await Task.Run(Run);
 }
