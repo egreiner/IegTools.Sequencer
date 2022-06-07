@@ -33,7 +33,7 @@ public class OffTimerExample
 
 ### Run the sequence
 
-The sequence will be executed in the confgured order 
+The sequence will be executed in the configuration order .
 
 ```c#
 public class OffTimerExample
@@ -85,6 +85,40 @@ A more complex example configuration for a pump-anti-sticking-sequence:
 ```
 
 
+## States
+
+States can be defined as strings or enums, internally the will be stored as strings.
+
+
+
+## State Tags
+
+State-Tags can only be used if using string-states.
+For enum-states there are other possibilities. (link to ...)
+
+There are available two state tags as prefix for states
+- the IgnoreTag '!'
+- and the InitialStateTag '>'
+
+### IgnoreTag
+Use the IgnoreTag as prefix for an state to tell the Validator not to check this state for counterpart-plausibility.
+
+Example:
+```C#
+ .AddTransition("PrepareOff", "!Off", () => Stopwatch.Expired(MyTimeSpan));
+```
+
+
+### InitialStateTag
+Use the InitialStateTag as prefix for an state to tell the Sequence what state to start from.
+
+Example:
+```C#
+ builder.AddForceState(">Paused", () => !_onTimer.Out);
+```
+
+
+
 ## Descriptors
 
 Internally the Framework is working with Descriptors (you can write your own customized descriptor).
@@ -116,20 +150,6 @@ or with tagging states that shouldn't' be validated
  ```C#
  builder.DisableValidationForStates("state1", "state2", ...)
  ```
-
-
-
-## State Tags
-
-Ther are available two state tags as prefix for states
-- the IgnoreTag '!'
-- and the InitialStateTag '>'
-
-### IgnoreTag
-Use the IgnoreTag as prefix for an state to tell the Validator not to check this state for plausibility.
-
-### InitialStateTag
-Use the InitialStateTag as prefix for an state to tell the Sequence from what state to start from.
 
 
 
