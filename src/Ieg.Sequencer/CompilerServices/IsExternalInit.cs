@@ -1,4 +1,4 @@
 ﻿namespace System.Runtime.CompilerServices;
 
-// Compiler hack to enable usage for records
+// Compiler hack 
 public class IsExternalInit { }
