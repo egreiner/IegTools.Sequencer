@@ -6,6 +6,7 @@ public class ForceStateDescriptor : DescriptorBase
     {
         State      = state;
         Constraint = constraint;
+        ResumeSequence = false;
     }
 
     

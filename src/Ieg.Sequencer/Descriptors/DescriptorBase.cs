@@ -2,6 +2,8 @@
 
 public abstract class DescriptorBase : IDescriptor
 {
+    public bool ResumeSequence { get; set; } = true;
+    
     public abstract bool ValidateAction(ISequence sequence);
     public abstract void ExecuteAction(ISequence sequence);
 
