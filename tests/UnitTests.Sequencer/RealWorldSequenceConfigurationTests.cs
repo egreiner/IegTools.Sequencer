@@ -50,6 +50,7 @@ public class RealWorldSequenceConfigurationTests
         sut.Should().NotBeNull();
         result.Should().Be(0);
     }
+    
     [Fact]
     public void Test_AntiStickingFeature()
     {
@@ -60,27 +61,11 @@ public class RealWorldSequenceConfigurationTests
 
             builder.AddForceState("Paused", () => false);
             
-            builder.AddTransition("Paused", "Activated",
-                () => false,
-                () => result = 1);
-            
-            builder.AddTransition("Activated", "Pump on",
-                () => true,
-                () => result++);
-            
-            builder.AddTransition("Pump on", "Pump off",
-                () => false,
-                () =>
-                {
-                    result++;
-                });
-
-            builder.AddTransition("Pump off", "Pump on",
-                () => false);
-
-            builder.AddTransition("Pump off", "Paused",
-                () => false,
-                () => result++);
+            builder.AddTransition("Paused", "Activated",  () => false, () => result = 1);
+            builder.AddTransition("Activated", "Pump on", () => true,  () => result++);
+            builder.AddTransition("Pump on", "Pump off",  () => false, () => result++);
+            builder.AddTransition("Pump off", "Pump on",  () => false); 
+            builder.AddTransition("Pump off", "Paused",   () => false, () => result++);
         });
 
         var sut = builder.Build();
