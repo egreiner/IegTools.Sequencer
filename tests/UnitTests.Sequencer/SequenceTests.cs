@@ -24,15 +24,15 @@ public class SequenceTests
     }
 
     [Theory]
-    [InlineData(true, "Force")]
-    [InlineData(false, InitialState)]
-    public void Test_ForceState_Only_Last_Counts(bool constraint, string expected)
+    [InlineData(true,  "Force1")]
+    [InlineData(false, "Force2")]
+    public void Test_AllForceStates_are_working(bool constraint, string expected)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.SetInitialState(InitialState)
-                .AddForceState("test", () => constraint)
-                .AddForceState("Force", () => constraint)
+                .AddForceState("Force1", () => constraint)
+                .AddForceState("Force2", () => !constraint)
                 .DisableValidation();
         });
 

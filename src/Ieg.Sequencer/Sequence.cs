@@ -41,28 +41,13 @@ public class Sequence : ISequence
     /// <inheritdoc />
     public virtual ISequence Run()
     {
-        if (ExecuteForceState()) return this;
-            
-        ExecuteStateTransitions();
-        ExecuteStateActions();
+        foreach (var descriptor in _configuration.Descriptors)
+        {
+            var executed = descriptor.ExecuteIfValid(this);
+            if (!descriptor.ResumeSequence && executed) 
+                break;
+        }
+
         return this;
     }
-
-    
-    private bool ExecuteForceState()
-    {
-        var result = false;
-        _configuration.Descriptors.OfType<ForceStateDescriptor>().ToList()
-            .ForEach(state => result |= state.ExecuteIfValid(this));
-
-        return result;
-    }
-
-    private void ExecuteStateTransitions() =>
-        _configuration.Descriptors.OfType<StateTransitionDescriptor>().ToList()
-            .ForEach(state => state.ExecuteIfValid(this));
-
-    private void ExecuteStateActions() =>
-        _configuration.Descriptors.OfType<StateActionDescriptor>().ToList()
-            .ForEach(state => state.ExecuteIfValid(this));
 }

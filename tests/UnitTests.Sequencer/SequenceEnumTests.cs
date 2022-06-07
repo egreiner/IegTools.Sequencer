@@ -36,15 +36,15 @@ public class SequenceEnumTests
     }
 
     [Theory]
-    [InlineData(true, MyEnum.Force)]
-    [InlineData(false, InitialState)]
-    public void Test_ForceState_Only_Last_Counts(bool constraint, MyEnum expected)
+    [InlineData(true, MyEnum.State1)]
+    [InlineData(false, MyEnum.State2)]
+    public void Test_AllForceStates_are_working(bool constraint, MyEnum expected)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.SetInitialState(InitialState);
-            builder.AddForceState(MyEnum.StateX, () => constraint)
-                   .AddForceState(MyEnum.Force, () => constraint)
+            builder.AddForceState(MyEnum.State1, () => constraint)
+                   .AddForceState(MyEnum.State2, () => !constraint)
                    .DisableValidation();
         });
 
