@@ -1,6 +1,8 @@
 # Ieg.Sequencer
 
 A small framework to create sequences, simple to use, simple to extend.
+Long unreadable if/else statements that describe a sequence become obsolete.
+
 
 # Usage
 ## Configure, build and run a sequence
@@ -87,13 +89,13 @@ A more complex example configuration for a pump-anti-sticking-sequence:
 
 ## States
 
-States can be defined as strings or enums, internally the will be stored as strings.
+States can be defined as strings or enums, internally they will be stored as strings.
 
 
 
 ## State Tags
 
-State-Tags can only be used if using string-states.
+State-Tags can only be used with string-states.
 For enum-states there are other possibilities. (link to ...)
 
 There are available two state tags as prefix for states
@@ -140,17 +142,25 @@ Validation Rules:
 - InitialState must be defined
 - The InitialState must have an counterpart in a StateTransition
 - The Sequence must have at least two steps
-- Each 'NextStep'' must have a counterpart StateTransition with an 'CurrentState'
+- Each 'NextStep' must have a counterpart StateTransition with an 'CurrentState'
 
-Validation could be disabled completely with 
+Validation could be disabled completely with:
  ```C#
  builder.DisableValidation()
  ```
-or with tagging states that shouldn't' be validated
+or with specifing states that shouldn't be validated:
  ```C#
  builder.DisableValidationForStates("state1", "state2", ...)
  ```
 
+
+## Extensibility
+Write your own customized 
+- Descriptors
+- Sequence
+- and Validator
+
+TODO
 
 
 ## Markdown guides 
