@@ -5,14 +5,6 @@ using Descriptors;
 public static class SequenceBuilderEnumExtensions
 {
     /// <summary>
-    /// Builds a sequence with the specified configuration
-    /// </summary>
-    /// <param name="builder">The sequence-builder</param>
-    public static ISequence Build<T>(this ISequenceBuilder builder)
-        where T: Enum =>
-        builder.Build();
-
-    /// <summary>
     /// Sets the initial state
     /// </summary>
     /// <param name="builder">The sequence-builder</param>

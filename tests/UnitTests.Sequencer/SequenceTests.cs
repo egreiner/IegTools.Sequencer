@@ -148,4 +148,25 @@ public class SequenceTests
         var actualState = sut.CurrentState;
         Assert.Equal("State3", actualState);
     }
+
+    [Theory]
+    [InlineData(">State1", ">State2", 0)]
+    [InlineData(">State1", ">State1", 1)]
+    public void Test_AddStateActionDescriptor(string state, string currentState, int expected)
+    {
+        var result = 0;
+        var builder = SequenceBuilder.Configure(builder =>
+        {
+            builder.AddStateAction(state, () => result++)
+                .DisableValidation();
+        });
+
+        var sut = builder.Build();
+
+        sut.SetState(currentState);
+        sut.Run();
+
+        var actual = result;
+        Assert.Equal(expected, actual);
+    }
 }
