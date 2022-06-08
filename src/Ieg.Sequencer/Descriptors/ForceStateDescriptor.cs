@@ -30,13 +30,13 @@ public class ForceStateDescriptor : DescriptorBase
     /// This descriptor is not dependent on the current sequence state.
     /// It depends on the constraint only.
     /// </summary>
-    /// <param name="sequence"></param>
+    /// <param name="sequence">The sequence</param>
     public override bool ValidateAction(ISequence sequence) => Constraint?.Invoke() ?? false;
 
     /// <summary>
     /// The sequence will be set to the specified state
     /// </summary>
-    /// <param name="sequence"></param>
+    /// <param name="sequence">The sequence</param>
     public override void ExecuteAction(ISequence sequence)
     {
         sequence.SetState(State);

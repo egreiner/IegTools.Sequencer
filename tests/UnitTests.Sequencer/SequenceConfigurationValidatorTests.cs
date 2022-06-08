@@ -78,7 +78,7 @@ public class SequenceConfigurationValidatorTests
 
         var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build());
 
-        actual.Message.Should().Contain("Each 'NextState'");
+        actual.Message.Should().Contain("Each 'ToState'");
         countStarts.Should().Be(0);
     }
 
@@ -97,7 +97,7 @@ public class SequenceConfigurationValidatorTests
 
         var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build());
 
-        actual.Message.Should().Contain("Each 'CurrentState'");
+        actual.Message.Should().Contain("Each 'FromState'");
         countStarts.Should().Be(0);
     }
     
@@ -118,7 +118,7 @@ public class SequenceConfigurationValidatorTests
 
         var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build());
 
-        actual.Message.Should().Contain("Each 'CurrentState'");
+        actual.Message.Should().Contain("Each 'FromState'");
         countStarts.Should().Be(0);
     }
     

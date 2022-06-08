@@ -7,26 +7,26 @@
 /// </summary>
 public class StateTransitionDescriptor : DescriptorBase
 {
-    public StateTransitionDescriptor(string currentState, string nextState, Func<bool> constraint, Action action)
+    public StateTransitionDescriptor(string fromState, string toState, Func<bool> constraint, Action action)
     {
-        CurrentState = currentState;
-        NextState    = nextState;
-        Constraint   = constraint;
-        Action       = action;
+        FromState  = fromState;
+        ToState    = toState;
+        Constraint = constraint;
+        Action     = action;
     }
 
     /// <summary>
-    /// The current state the sequence must met
+    /// The state from which the transition should be made
     /// </summary>
-    public string CurrentState   { get; }
+    public string FromState   { get; }
 
     /// <summary>
-    /// The next state the sequence will be in when the constraint is met
+    /// The state to which the transition should be made
     /// </summary>
-    public string NextState      { get; }
+    public string ToState      { get; }
 
     /// <summary>
-    /// The constraint
+    /// The constraint that should be met to make the transition
     /// </summary>
     public Func<bool> Constraint { get; }
 
@@ -37,7 +37,7 @@ public class StateTransitionDescriptor : DescriptorBase
 
     
     public override string ToString() =>
-        $"{CurrentState}->{NextState} (Transition)";
+        $"{FromState}->{ToState} (Transition)";
 
 
     /// <summary>
@@ -45,16 +45,16 @@ public class StateTransitionDescriptor : DescriptorBase
     /// </summary>
     /// <param name="sequence">The sequence</param>
     public override bool ValidateAction(ISequence sequence) =>
-        CurrentState == sequence.CurrentState && (Constraint?.Invoke() ?? true);
+        FromState == sequence.CurrentState && (Constraint?.Invoke() ?? true);
 
 
     /// <summary>
     /// Invokes the action if the validation is fulfilled
     /// </summary>
-    /// <param name="sequence"></param>
+    /// <param name="sequence">The sequence</param>
     public override void ExecuteAction(ISequence sequence)
     {
-        sequence.SetState(NextState);
+        sequence.SetState(ToState);
         Action?.Invoke();
     }
 }

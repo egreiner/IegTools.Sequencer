@@ -29,13 +29,13 @@ public class StateActionDescriptor : DescriptorBase
     /// <summary>
     /// Returns true if the sequence is in the specified state
     /// </summary>
-    /// <param name="sequence"></param>
+    /// <param name="sequence">The sequence</param>
     public override bool ValidateAction(ISequence sequence) => State == sequence.CurrentState;
 
     /// <summary>
     /// Invokes the specified action
     /// </summary>
-    /// <param name="sequence"></param>
+    /// <param name="sequence">The sequence</param>
     public override void ExecuteAction(ISequence sequence)
     {
         Action?.Invoke();

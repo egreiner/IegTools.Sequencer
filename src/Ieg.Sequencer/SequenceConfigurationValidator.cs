@@ -17,17 +17,17 @@ public class SequenceConfigurationValidator: AbstractValidator<SequenceConfigura
             .WithMessage("Each ForceStateDescriptor must have a StateTransitionDescriptor counterpart.");
         
         RuleFor(config => config)
-            .Must(CorrectCurrentState)
+            .Must(CorrectFromState)
             .WithMessage(
-                "Each 'CurrentState' must have an 'NextState' counterpart or an ForceState where it comes from.");
+                "Each 'FromState' must have an 'ToState' counterpart or an ForceState where it comes from.");
         
         RuleFor(config => config)
-            .Must(CorrectNextState)
-            .WithMessage("Each 'NextState' must have an 'CurrentState' counterpart.");
+            .Must(CorrectToState)
+            .WithMessage("Each 'ToState' must have an 'FromState' counterpart.");
     }
 
     /// <summary>
-    /// Each 'NextState' must have an 'CurrentState'
+    /// Each 'Force.State' must have an corresponding 'Transition.FromState '
     /// otherwise you have created an dead end.
     /// </summary>
     private static bool CorrectForceStateDescriptor(SequenceConfiguration config)
@@ -43,7 +43,7 @@ public class SequenceConfigurationValidator: AbstractValidator<SequenceConfigura
         // each ForceStateDescriptor should have an counterpart StateTransitionDescriptor so that no dead end is reached
         foreach (var forceState in forceStates)
         {
-            if (!transitions.Any(x => x.CurrentState == forceState.State))
+            if (!transitions.Any(x => x.FromState == forceState.State))
                 missingDescriptors.Add(forceState);
         }
 
@@ -51,11 +51,11 @@ public class SequenceConfigurationValidator: AbstractValidator<SequenceConfigura
     }
 
     /// <summary>
-    /// Each 'NextState' must have an corresponding 'CurrentState' counterpart,
+    /// Each 'ToState' must have an corresponding 'FromState' counterpart,
     /// otherwise you have created an dead end.
     /// Use '!' as first character to tag an state as dead-end with purpose.
     /// </summary>
-    private static bool CorrectNextState(SequenceConfiguration config)
+    private static bool CorrectToState(SequenceConfiguration config)
     {
         var transitions = config.Descriptors.OfType<StateTransitionDescriptor>().ToList();
         if (transitions.Count == 0) return true;
@@ -64,9 +64,9 @@ public class SequenceConfigurationValidator: AbstractValidator<SequenceConfigura
         
         // for easy reading do not simplify this
         // each StateTransition should have an counterpart so that no dead end is reached
-        foreach (var transition in transitions.Where(x => IsValidState(x.NextState, config)))
+        foreach (var transition in transitions.Where(x => IsValidState(x.ToState, config)))
         {
-            if (!transitions.Any(x => x.CurrentState == transition.NextState))
+            if (!transitions.Any(x => x.FromState == transition.ToState))
                 missingDescriptors.Add(transition);
         }
 
@@ -75,11 +75,11 @@ public class SequenceConfigurationValidator: AbstractValidator<SequenceConfigura
 
 
     /// <summary>
-    /// Each 'CurrentState' must have an corresponding 'NextState'  counterpart or a ForceState where it comes from,
+    /// Each 'FromState' must have an corresponding 'ToState'  counterpart or a ForceState where it comes from,
     /// otherwise you have created an dead end.
     /// Use '!' as first character to tag an state as dead-end with purpose.
     /// </summary>
-    private static bool CorrectCurrentState(SequenceConfiguration config)
+    private static bool CorrectFromState(SequenceConfiguration config)
     {
         var transitions = config.Descriptors.OfType<StateTransitionDescriptor>().ToList();
         var forceStates = config.Descriptors.OfType<ForceStateDescriptor>();
@@ -89,9 +89,9 @@ public class SequenceConfigurationValidator: AbstractValidator<SequenceConfigura
         
         // for easy reading do not simplify this
         // each StateTransition should have an counterpart so that no dead end is reached
-        foreach (var transition in transitions.Where(x => IsValidState(x.CurrentState, config)))
+        foreach (var transition in transitions.Where(x => IsValidState(x.FromState, config)))
         {
-            if (!transitions.Any(x => x.NextState == transition.CurrentState) && !forceStates.Any(x => x.State == transition.CurrentState))
+            if (!transitions.Any(x => x.ToState == transition.FromState) && !forceStates.Any(x => x.State == transition.FromState))
                 missingDescriptors.Add(transition);
         }
 
