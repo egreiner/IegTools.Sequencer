@@ -19,7 +19,7 @@ public class Sequence : ISequence
     public ISequence SetConfiguration(SequenceConfiguration configuration)
     {
         _configuration = configuration;
-        CurrentState = configuration.InitialState;
+        CurrentState   = configuration.InitialState;
         return this;
     }
 

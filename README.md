@@ -86,6 +86,20 @@ A more complex example configuration for a pump-anti-sticking-sequence:
         });
 ```
 
+## Config in Detail
+
+- Force state on condition:
+  builder.AddForceState("ForceState", constraint)
+
+- State transition on condition (with optional action)
+  builder.AddTransition("FromState", "ToState", constraint, action)
+
+- Action on state:
+  builder.AddStateAction("State", action)
+
+TODO
+
+
 
 ## States
 
@@ -121,30 +135,21 @@ Example:
 
 
 
-## Descriptors
-
-Internally the Framework is working with Descriptors (you can write your own customized descriptor).
-The Descriptors describe what they are supposed to do within the sequence.
-
-There are three default descriptor:
-- The StateTransitionDescriptor
-- The ForceStateDescriptor
-- The StateActionDescriptor
-
-
-
 ## Validation
 
-The sequence will be validated on build.
+The sequence will be validated when build.
+        _sequence = builder.Build();
+
 
 Validation Rules:
 
 - InitialState must be defined
 - The InitialState must have an counterpart in a StateTransition
 - The Sequence must have at least two steps
-- Each 'NextStep' must have a counterpart StateTransition with an 'CurrentState'
+- Each 'NextStep' must have a counterpart StateTransition with an matching 'CurrentState'
+- Each 'CurrentState' must have a counterpart StateTransition with an matching 'NextStep' or ForceState
 
-Validation could be disabled completely with:
+Validation could be disabled completely:
  ```C#
  builder.DisableValidation()
  ```
@@ -152,6 +157,8 @@ or with specifing states that shouldn't be validated:
  ```C#
  builder.DisableValidationForStates("state1", "state2", ...)
  ```
+or with the IgnoreTag:
+TODO
 
 
 ## Extensibility
@@ -161,6 +168,17 @@ Write your own customized
 - and Validator
 
 TODO
+
+
+### Descriptors
+
+Internally the Framework is working with Descriptors (you can write your own customized descriptor).
+The Descriptors describe what they are supposed to do within the sequence.
+
+There are three default descriptor:
+- The StateTransitionDescriptor
+- The ForceStateDescriptor
+- The StateActionDescriptor
 
 
 ## Markdown guides 
