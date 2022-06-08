@@ -38,7 +38,7 @@ public interface ISequenceBuilder
     ISequenceBuilder DisableValidation();
 
     /// <summary>
-    /// Does not validate NextSates that are in this list
+    /// Does not validate statuses that are in this list
     /// </summary>
-    ISequenceBuilder DisableValidationForStates(params string[] states);
+    ISequenceBuilder DisableValidationForStatuses(params string[] statuses);
 }

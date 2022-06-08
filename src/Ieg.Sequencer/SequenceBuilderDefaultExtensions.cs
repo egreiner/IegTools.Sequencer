@@ -16,7 +16,7 @@ public static class SequenceBuilderDefaultExtensions
     /// <param name="action">The action that should be executed.</param>
     public static ISequenceBuilder AddTransition(this ISequenceBuilder builder, string currentState, string nextState, Func<bool> constraint, Action action = null)
     {
-        builder.AddInitialStates(currentState, nextState);
+        builder.AddInitialStatuses(currentState, nextState);
         return builder.AddDescriptor(
             new StateTransitionDescriptor(currentState, nextState, constraint, action));
     }
@@ -31,7 +31,7 @@ public static class SequenceBuilderDefaultExtensions
     /// <param name="action">The action.</param>
     public static ISequenceBuilder AddStateAction(this ISequenceBuilder builder, string state, Action action)
     {
-        builder.AddInitialStates(state);
+        builder.AddInitialStatuses(state);
         return builder.AddDescriptor(new StateActionDescriptor(state, action));
     }
 
@@ -45,14 +45,14 @@ public static class SequenceBuilderDefaultExtensions
     /// <param name="constraint">The constraint that must be fulfilled that the sequence is forced to the defined state.</param>
     public static ISequenceBuilder AddForceState(this ISequenceBuilder builder, string state, Func<bool> constraint)
     {
-        builder.AddInitialStates(state);
+        builder.AddInitialStatuses(state);
         return builder.AddDescriptor(new ForceStateDescriptor(state, constraint));
     }
 
 
-    private static void AddInitialStates(this ISequenceBuilder builder, params string[] states)
+    private static void AddInitialStatuses(this ISequenceBuilder builder, params string[] statuses)
     {
-        foreach (var state in states)
+        foreach (var state in statuses)
         {
             if (state.StartsWith(builder.InitialStateTag()))
                 builder.SetInitialState(state);

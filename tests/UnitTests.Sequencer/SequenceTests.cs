@@ -26,7 +26,7 @@ public class SequenceTests
     [Theory]
     [InlineData(true,  "Force1")]
     [InlineData(false, "Force2")]
-    public void Test_AllForceStates_are_working(bool constraint, string expected)
+    public void Test_AllForceStatuses_are_working(bool constraint, string expected)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {

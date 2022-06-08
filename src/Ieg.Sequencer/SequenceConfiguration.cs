@@ -6,12 +6,12 @@ using Descriptors;
 public class SequenceConfiguration
 {
     /// <summary>
-    /// Prefix states with the IgnoreTag, does tag states as dead-end-states (the validator will not check for dead ends)
+    /// Prefix statuses with the IgnoreTag, does tag statuses as dead-end-statuses (the validator will not check for dead ends)
     /// </summary>
     public char IgnoreTag { get; set; } = '!';
 
     /// <summary>
-    /// Prefix states with the InitialStateTag, does tag states for the sequence to start from
+    /// Prefix statuses with the InitialStateTag, does tag statuses for the sequence to start from
     /// </summary>
     public char InitialStateTag { get; set; } = '>';
 
@@ -21,9 +21,9 @@ public class SequenceConfiguration
     public bool     DisableValidation          { get; set; }
 
     /// <summary>
-    /// Does tell the validator to not check this states
+    /// Does tell the validator to not check this statuses
     /// </summary>
-    public string[] DisableValidationForStates { get; set; }
+    public string[] DisableValidationForStatuses { get; set; }
 
     /// <summary>
     /// The state the sequence will start from

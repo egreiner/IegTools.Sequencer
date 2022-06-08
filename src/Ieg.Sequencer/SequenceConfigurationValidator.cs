@@ -32,16 +32,16 @@ public class SequenceConfigurationValidator: AbstractValidator<SequenceConfigura
     /// </summary>
     private static bool CorrectForceStateDescriptor(SequenceConfiguration config)
     {
-        var forceStates = config.Descriptors.OfType<ForceStateDescriptor>()
+        var forceStatuses = config.Descriptors.OfType<ForceStateDescriptor>()
             .Where(x => IsValidState(x.State, config)).ToList();
-        if (forceStates.Count == 0) return true;
+        if (forceStatuses.Count == 0) return true;
         
         var transitions = config.Descriptors.OfType<StateTransitionDescriptor>().ToList();
         var missingDescriptors = new List<ForceStateDescriptor>();
         
         // for easy reading do not simplify this
         // each ForceStateDescriptor should have an counterpart StateTransitionDescriptor so that no dead end is reached
-        foreach (var forceState in forceStates)
+        foreach (var forceState in forceStatuses)
         {
             if (!transitions.Any(x => x.FromState == forceState.State))
                 missingDescriptors.Add(forceState);
@@ -82,7 +82,7 @@ public class SequenceConfigurationValidator: AbstractValidator<SequenceConfigura
     private static bool CorrectFromState(SequenceConfiguration config)
     {
         var transitions = config.Descriptors.OfType<StateTransitionDescriptor>().ToList();
-        var forceStates = config.Descriptors.OfType<ForceStateDescriptor>();
+        var forceStatuses = config.Descriptors.OfType<ForceStateDescriptor>();
         if (transitions.Count == 0) return true;
        
         var missingDescriptors = new List<StateTransitionDescriptor>();
@@ -91,7 +91,7 @@ public class SequenceConfigurationValidator: AbstractValidator<SequenceConfigura
         // each StateTransition should have an counterpart so that no dead end is reached
         foreach (var transition in transitions.Where(x => IsValidState(x.FromState, config)))
         {
-            if (!transitions.Any(x => x.ToState == transition.FromState) && !forceStates.Any(x => x.State == transition.FromState))
+            if (!transitions.Any(x => x.ToState == transition.FromState) && !forceStatuses.Any(x => x.State == transition.FromState))
                 missingDescriptors.Add(transition);
         }
 
@@ -100,9 +100,9 @@ public class SequenceConfigurationValidator: AbstractValidator<SequenceConfigura
 
     private static bool IsValidState(string state, SequenceConfiguration config)
     {
-        return !state.StartsWith(config.IgnoreTag.ToString()) && !invalidStates().Contains(state);
+        return !state.StartsWith(config.IgnoreTag.ToString()) && !invalidStatuses().Contains(state);
 
-        List<string> invalidStates() =>
-            config.DisableValidationForStates?.ToList() ?? new List<string>();
+        List<string> invalidStatuses() =>
+            config.DisableValidationForStatuses?.ToList() ?? new List<string>();
     }
 }

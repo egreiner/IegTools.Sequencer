@@ -154,7 +154,7 @@ public class SequenceConfigurationValidatorTests
             builder.AddForceState("State1", () => constraint);
             builder.AddTransition("State1", "State2", () => constraint, () => countStarts++);
             builder.AddTransition("State2", "unknown", () => constraint, () => countStarts++);
-            builder.DisableValidationForStates("unknown", "unknown1", "unknown2");
+            builder.DisableValidationForStatuses("unknown", "unknown1", "unknown2");
         });
 
         var sut = builder.Build();

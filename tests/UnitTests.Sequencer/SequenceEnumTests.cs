@@ -38,7 +38,7 @@ public class SequenceEnumTests
     [Theory]
     [InlineData(true, MyEnum.State1)]
     [InlineData(false, MyEnum.State2)]
-    public void Test_AllForceStates_are_working(bool constraint, MyEnum expected)
+    public void Test_AllForceStatuses_are_working(bool constraint, MyEnum expected)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {

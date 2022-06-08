@@ -101,18 +101,18 @@ TODO
 
 
 
-## States
+## Statuses
 
-States can be defined as strings or enums, internally they will be stored as strings.
+Statuses can be defined as strings or enums, internally they will be stored as strings.
 
 
 
 ## State Tags
 
-State-Tags can only be used with string-states.
-For enum-states there are other possibilities. (link to ...)
+State-Tags can only be used with string-statuses.
+For enum-statuses there are other possibilities. (link to ...)
 
-There are available two state tags as prefix for states
+There are available two state tags as prefix for statuses
 - the IgnoreTag '!'
 - and the InitialStateTag '>'
 
@@ -153,9 +153,9 @@ Validation could be disabled completely:
  ```C#
  builder.DisableValidation()
  ```
-or with specifing states that shouldn't be validated:
+or with specifing statuses that shouldn't be validated:
  ```C#
- builder.DisableValidationForStates("state1", "state2", ...)
+ builder.DisableValidationForStatuses("state1", "state2", ...)
  ```
 or with the IgnoreTag:
 TODO
