@@ -1,37 +1,44 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>latest</LangVersion>
+	  <TargetFramework>netstandard2.0</TargetFramework>
+	  <LangVersion>latest</LangVersion>
+
 	  <RepositoryUrl>https://github.com/egreiner/Ieg.Sequencer</RepositoryUrl>
 	  <RepositoryEmail>sequencer@ieg-tools.net</RepositoryEmail>
-    <PackageProjectUrl>https://github.com/egreiner/Ieg.Sequencer</PackageProjectUrl>
-    <PackageReadmeFile></PackageReadmeFile>
-    <PackageTags>sequence;statemachine</PackageTags>
-    <PackageReleaseNotes>Make Sequence open for custom Descriptors</PackageReleaseNotes>
-    <NeutralLanguage>en</NeutralLanguage>
-    <PackageLicenseFile></PackageLicenseFile>
-    <Description>Framework to build sequences, simple to use, simple to extend.</Description>
-	  <Copyright>(c) 2022 ieg Systems - Ing. Ernst Greiner</Copyright>
+	  <PackageProjectUrl>https://github.com/egreiner/Ieg.Sequencer</PackageProjectUrl>
+	  <PackageReadmeFile></PackageReadmeFile>
+	  <PackageId>Ieg.Sequencer</PackageId>
+	  <Title>Ieg.Sequencer</Title>
+	  <Version>1.4.1.0</Version>
 	  <Company>ieg Systems</Company>
-	  <Owner>Ernst Greiner</Owner>
+	  <Owners>Ernst Greiner</Owners>
 	  <Authors>Ernst Greiner</Authors>
-	  <Version>1.4.0.0</Version>
-    <RepositoryType>git</RepositoryType>
-    <PackageIcon>fsharp.PNG</PackageIcon>
+	  <Copyright>(c) 2022 ieg Systems - Ing. Ernst Greiner</Copyright>
+	  <Description>Small Framework to build sequences, simple to use, simple to extend.</Description>
+	  <PackageTags>sequence;statemachine</PackageTags>
+	  <PackageReleaseNotes>Make Sequence open for custom Descriptors</PackageReleaseNotes>
+	  <NeutralLanguage>en</NeutralLanguage>
+	  <RepositoryType>git</RepositoryType>
+	  <UserSecretsId>940bf605-ef83-43f5-9f75-715291de7535</UserSecretsId>
+	  <PackageIcon>icon2.png</PackageIcon>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="C:\Users\Ernst\Pictures\fsharp.PNG">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
+    <None Remove="Images\LICENSE.txt" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.0.2" />
   </ItemGroup>
 
- 
+  <ItemGroup>
+	  <None Include="Images\icon2.png">
+		  <Pack>True</Pack>
+		  <PackagePath></PackagePath>
+	  </None>
+	  <None Include="Licences\LICENSE.txt" Pack="true" PackagePath=""/>
+  </ItemGroup>
 
 </Project>

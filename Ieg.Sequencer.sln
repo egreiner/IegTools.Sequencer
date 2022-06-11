@@ -15,7 +15,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.Sequencer", "tests\UnitTests.Sequencer\UnitTests.Sequencer.csproj", "{DC3A838F-D3F6-49C3-AA09-4C948641F296}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests.Sequencer", "tests\UnitTests.Sequencer\UnitTests.Sequencer.csproj", "{DC3A838F-D3F6-49C3-AA09-4C948641F296}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{E7BE9CF3-F6A8-4745-82C2-08DEF278514E}"
+	ProjectSection(SolutionItems) = preProject
+		src\Ieg.Sequencer\Images\icon.png = src\Ieg.Sequencer\Images\icon.png
+		src\Ieg.Sequencer\Images\icon2.png = src\Ieg.Sequencer\Images\icon2.png
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
