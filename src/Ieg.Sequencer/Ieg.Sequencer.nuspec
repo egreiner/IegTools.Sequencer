@@ -9,11 +9,11 @@
 		<owners>Ernst Greiner</owners>
 		<licenseUrl>https://github.com/egreiner/Ieg.Sequencer/blob/master/LICENSE.txt</licenseUrl>
 		<projectUrl>https://github.com/egreiner/Ieg.Sequencer</projectUrl>
-		<iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
+		<iconUrl>https://github.com/egreiner/Ieg.Sequencer/blob/master/images/icon2.png</iconUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>Small Framework to build sequences, simple to use, simple to extend.</description>
 		<releaseNotes>New icon</releaseNotes>
 		<copyright>(c) 2022 ieg Systems - Ing. Ernst Greiner</copyright>
-		<tags>sequence;statemachine</tags>
+		<tags>sequence statemachine</tags>
 	</metadata>
 </package>
