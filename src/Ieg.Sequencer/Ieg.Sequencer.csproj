@@ -1,28 +1,43 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-	  <TargetFramework>netstandard2.0</TargetFramework>
-	  <LangVersion>latest</LangVersion>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
 
-	  <NeutralLanguage>en</NeutralLanguage>
-	  <RepositoryType>git</RepositoryType>
-	  <UserSecretsId>940bf605-ef83-43f5-9f75-715291de7535</UserSecretsId>
-  </PropertyGroup>
+		<RepositoryUrl>https://github.com/egreiner/Ieg.Sequencer</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/egreiner/Ieg.Sequencer</PackageProjectUrl>
+		<PackageReadme>https://github.com/egreiner/Ieg.Sequencer/blob/master/README.md</PackageReadme>
+		<License>https://github.com/egreiner/Ieg.Sequencer/blob/master/LICENSE.txt</License>
+		<PackageId>Ieg.Sequencer</PackageId>
+		<Title>Ieg.Sequencer</Title>
+		<Version>1.4.1.0</Version>
+		<Company>ieg Systems</Company>
+		<Authors>Ernst Greiner</Authors>
+		<Copyright>(c) 2022 ieg Systems - Ing. Ernst Greiner</Copyright>
+		<Description>Framework to build sequences, simple to use, simple to extend.</Description>
+		<PackageTags>sequence;statemachine</PackageTags>
+		<PackageReleaseNotes>Make Sequence open for custom Descriptors</PackageReleaseNotes>
+		<NeutralLanguage>en</NeutralLanguage>
+		<RepositoryType>git</RepositoryType>
+		<UserSecretsId>940bf605-ef83-43f5-9f75-715291de7535</UserSecretsId>
+		<PackageIcon>icon2.png</PackageIcon>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Images\LICENSE.txt" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="Images\LICENSE.txt" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="11.0.2" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="FluentValidation" Version="11.0.2" />
+	</ItemGroup>
 
-  <ItemGroup>
-	  <None Include="Images\icon2.png">
-		  <Pack>True</Pack>
-		  <PackagePath></PackagePath>
-	  </None>
-	  <None Include="Licences\LICENSE.txt" Pack="true" PackagePath=""/>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="Images\icon2.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="Licences\LICENSE.txt" Pack="true" PackagePath=""/>
+	</ItemGroup>
 
 </Project>
