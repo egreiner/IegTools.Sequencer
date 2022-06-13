@@ -1,34 +1,33 @@
 # Ieg.Sequencer
 
-A small framework to create sequences, simple to use, simple to extend.
-Long unreadable if/else statements that describe a sequence become obsolete.
+Ieg.Sequencer allows you to create sequences in code, simple to use and simple to extend.  
+It helps you get rid of long unreadable if/else statements that represent a sequence of events.
 
 
 # Usage
 ## Configure, build and run a sequence
 ### Configuration .NET 6 style
 
-A simple example configuration for an OffTimer-sequence:
+A simple example configuration for an OnTimer-sequence:
 
 ```c#
-public class OffTimerExample
+public class OnTimerExample
 {
     private ISequenceBuilder SequenceConfig =>
         SequenceBuilder.Create()
-            .AddForceState("On", () => LastValue)
-            .AddTransition("On", "PrepareOff", () => !LastValue, () => Stopwatch.Restart())
-            .AddTransition("PrepareOff", ">Off", () => Stopwatch.Expired(MyTimeSpan));
-}
+            .AddForceState(">Off", () => false)
+            .AddTransition(">Off", "PrepareOn", () => false, () => result = 1)
+            .AddTransition("PrepareOn", "!On", () => false);}
 ```
 
 ### Build the sequence
 
 ```c#
-public class OffTimerExample
+public class OnTimerExample
 {
     private ISequence _sequence;
 	
-    public OffTimerExample() =>
+    public OnTimerExample() =>
         _sequence = SequenceConfig.Build();
 }
 ```
@@ -38,7 +37,7 @@ public class OffTimerExample
 The sequence will be executed in the configuration order .
 
 ```c#
-public class OffTimerExample
+public class OnTimerExample
 {
     public void In(bool value)
     {
@@ -97,7 +96,7 @@ A more complex example configuration for a pump-anti-sticking-sequence:
 - Action on state:
   builder.AddStateAction("State", action)
 
-TODO
+TODO Documentation
 
 
 
@@ -158,7 +157,8 @@ or with specifing statuses that shouldn't be validated:
  builder.DisableValidationForStatuses("state1", "state2", ...)
  ```
 or with the IgnoreTag:
-TODO
+TODO Documentation
+
 
 
 ## Extensibility
@@ -167,7 +167,8 @@ Write your own customized
 - Sequence
 - and Validator
 
-TODO
+TODO Documentation
+
 
 
 ### Descriptors
@@ -180,17 +181,5 @@ There are three default descriptor:
 - The ForceStateDescriptor
 - The StateActionDescriptor
 
+TODO Documentation
 
-## Markdown guides 
-
-Basic [^md_basic]
-Extended [^md_extended]
-Cheat Sheet [^md_cheat]
-
-
-
-## Footnotes
-
-[^md_basic]: https://www.markdownguide.org/basic-syntax
-[^md_extended]: https://www.markdownguide.org/extended-syntax
-[^md_cheat]:https://www.markdownguide.org/cheat-sheet/

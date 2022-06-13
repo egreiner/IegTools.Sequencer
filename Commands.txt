@@ -1,0 +1,1 @@
+dotnet pack .\src\Ieg.Sequencer\Ieg.Sequencer.csproj --include-symbols --configuration Release
