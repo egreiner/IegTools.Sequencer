@@ -7,10 +7,11 @@
 		<RepositoryUrl>https://github.com/egreiner/Ieg.Sequencer</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/egreiner/Ieg.Sequencer</PackageProjectUrl>
 		<PackageReadme>https://github.com/egreiner/Ieg.Sequencer/blob/master/README.md</PackageReadme>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<License>https://github.com/egreiner/Ieg.Sequencer/blob/master/LICENSE.txt</License>
 		<PackageId>Ieg.Sequencer</PackageId>
 		<Title>Ieg.Sequencer</Title>
-		<Version>1.4.2</Version>
+		<Version>1.4.3</Version>
 		<Company>ieg Systems</Company>
 		<Authors>Ernst Greiner</Authors>
 		<Copyright>(c) 2022 ieg Systems - Ing. Ernst Greiner</Copyright>
@@ -37,7 +38,8 @@
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
-		<None Include="Licences\LICENSE.txt" Pack="true" PackagePath=""/>
+		<None Include="Documentation/README.md" Pack="true" PackagePath="" />
+		<None Include="Documentation/License.txt" Pack="true" PackagePath="" />
 	</ItemGroup>
 
 </Project>
