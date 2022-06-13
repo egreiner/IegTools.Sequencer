@@ -10,11 +10,11 @@
 		<License>https://github.com/egreiner/Ieg.Sequencer/blob/master/LICENSE.txt</License>
 		<PackageId>Ieg.Sequencer</PackageId>
 		<Title>Ieg.Sequencer</Title>
-		<Version>1.4.1.0</Version>
+		<Version>1.4.1</Version>
 		<Company>ieg Systems</Company>
 		<Authors>Ernst Greiner</Authors>
 		<Copyright>(c) 2022 ieg Systems - Ing. Ernst Greiner</Copyright>
-		<Description>Framework to build sequences, simple to use, simple to extend.</Description>
+		<Description>Ieg.Sequencer allows you to create sequences in code, simple to use and simple to extend. It helps you get rid of long unreadable if/else statements that represent a sequence of events.</Description>
 		<PackageTags>sequence;statemachine</PackageTags>
 		<PackageReleaseNotes>Make Sequence open for custom Descriptors</PackageReleaseNotes>
 		<NeutralLanguage>en</NeutralLanguage>

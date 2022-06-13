@@ -1,4 +1,4 @@
-# Ieg.Sequencer
+# Ieg.Sequencer in a Nutshell
 
 Ieg.Sequencer allows you to create sequences in code, simple to use and simple to extend.  
 It helps you get rid of long unreadable if/else statements that represent a sequence of events.
@@ -15,9 +15,9 @@ public class OnTimerExample
 {
     private ISequenceBuilder SequenceConfig =>
         SequenceBuilder.Create()
-            .AddForceState(">Off", () => false)
-            .AddTransition(">Off", "PrepareOn", () => false, () => result = 1)
-            .AddTransition("PrepareOn", "!On", () => false);}
+            .AddForceState(">Off", () => !LastValue)
+            .AddTransition(">Off", "PrepareOn", () => LastValue, () => _sequence.Stopwatch.Restart())
+            .AddTransition("PrepareOn", "!On", () => _sequence.Stopwatch.Expired(MyTimeSpan));
 ```
 
 ### Build the sequence

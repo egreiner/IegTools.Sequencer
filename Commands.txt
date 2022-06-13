@@ -1,1 +1,3 @@
 dotnet pack .\src\Ieg.Sequencer\Ieg.Sequencer.csproj --include-symbols --configuration Release
+
+nuget init .\src\Ieg.Sequencer\bin\Release D:\NuGet
