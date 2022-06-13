@@ -34,8 +34,9 @@ jobs:
         run: dotnet build ${{ env.PROJECT_PATH }} --no-restore --configuration Release
 
       - name: 'Get Version'
-        id: version
+        id: get_version
         uses: battila7/get-version-action@v2
+      - run: echo ${{ steps.get_version.outputs.version }}
       
       - name: 'Pack project'
         run: dotnet pack ${{ env.PROJECT_PATH }} --no-restore --no-build --configuration Release --include-symbols -p:PackageVersion=1.4.1 --output ${{ env.PACKAGE_OUTPUT_DIRECTORY }}
