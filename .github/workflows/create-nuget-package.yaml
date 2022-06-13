@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     
 env:
-  PROJECT_PATH: 'src/Ieg.Sequencer.csproj'
+  PROJECT_PATH: 'src/Ieg.Sequencer/Ieg.Sequencer.csproj'
   PACKAGE_OUTPUT_DIRECTORY: ${{ github.workspace }}\output
   NUGET_SOURCE_URL: 'https://api.nuget.org/v3/index.json'
   
