@@ -8,7 +8,7 @@ on:
     
 env:
   PROJECT_PATH: 'src/Ieg.Sequencer/Ieg.Sequencer.csproj'
-  PACKAGE_OUTPUT_DIRECTORY: ${{ github.workspace }}\output
+  PACKAGE_OUTPUT_DIRECTORY: ${{ github.workspace }}/output
   NUGET_SOURCE_URL: 'https://api.nuget.org/v3/index.json'
   
 jobs:
@@ -38,5 +38,5 @@ jobs:
         uses: battila7/get-version-action@v2
       
       - name: 'Pack project'
-        run: dotnet pack ${{ env.PROJECT_PATH }} --no-restore --no-build --configuration Release --include-symbols -p:PackageVersion=${{ steps.version.outputs.version-without-v }} --output ${{ env.PACKAGE_OUTPUT_DIRECTORY }}
+        run: dotnet pack ${{ env.PROJECT_PATH }} --no-restore --no-build --configuration Release --include-symbols -p:PackageVersion=1.4.1 --output ${{ env.PACKAGE_OUTPUT_DIRECTORY }}
 
