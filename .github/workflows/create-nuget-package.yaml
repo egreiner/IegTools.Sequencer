@@ -1,4 +1,4 @@
-name: create-nuget-package
+name: run-tests-create-and-push-nuget-package
 
 on:
   push:
@@ -33,21 +33,17 @@ jobs:
       - name: 'Build project'
         run: dotnet build ${{ env.PROJECT_PATH }} --no-restore --configuration Release
 
-      - name: 'Get Version old'
-        id: get_version_old
-        uses: battila7/get-version-action@v2
-      - run: echo ${{ steps.get_version.outputs.version }}
+      - name: 'Test project'
+        run: dotnet test --no-restore --verbosity normal
       
-      - uses: actions/checkout@v3
       - name: 'Get Version'
         uses: bbonkr/get-version-action@v1.0.4
         id: get_version
         with:
           project: ${{ env.PROJECT_PATH }}
       
-      - name: 'log version'
-        run: echo "Version=${{ steps.get_version.outputs.version }}"
-
       - name: 'Pack project'
-        run: dotnet pack ${{ env.PROJECT_PATH }} --no-restore --no-build --configuration Release --include-symbols -p:PackageVersion=1.4.1 --output ${{ env.PACKAGE_OUTPUT_DIRECTORY }}
+        run: dotnet pack ${{ env.PROJECT_PATH }} --no-restore --no-build --configuration Release -p:PackageVersion=${{ steps.get_version.outputs.version }} --output ${{ env.PACKAGE_OUTPUT_DIRECTORY }}
 
+      - name: 'Push package'
+        run: dotnet nuget push ${{ env.PACKAGE_OUTPUT_DIRECTORY }}/*.nupkg -k ${{ secrets.NUGET_OPEN_SOURCE }} -s ${{ env.NUGET_SOURCE_URL }} --skip-duplicate 
