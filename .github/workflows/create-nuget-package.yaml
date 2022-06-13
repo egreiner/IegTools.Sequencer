@@ -39,16 +39,13 @@ jobs:
       - run: echo ${{ steps.get_version.outputs.version }}
       
       - name: 'Get Version'
-      #- uses: actions/checkout@v2
-      - uses: actions/checkout@v3
       - uses: bbonkr/get-version-action@v1.0.4
         id: get_version
         with:
           project: ${{ env.PROJECT_PATH }}
       
       - name: 'log version'
-        run: |
-          echo "Version=${{ steps.get_version.outputs.version }}"
+        run: echo "Version=${{ steps.get_version.outputs.version }}"
 
       - name: 'Pack project'
         run: dotnet pack ${{ env.PROJECT_PATH }} --no-restore --no-build --configuration Release --include-symbols -p:PackageVersion=1.4.1 --output ${{ env.PACKAGE_OUTPUT_DIRECTORY }}
