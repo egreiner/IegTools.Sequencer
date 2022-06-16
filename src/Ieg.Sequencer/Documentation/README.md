@@ -1,6 +1,6 @@
-# Ieg.Sequencer in a Nutshell
+# IegTools.Sequencer in a Nutshell
 
-Ieg.Sequencer allows you to create sequences in code, simple to use and simple to extend.  
+IegTools.Sequencer allows you to create sequences in code, simple to use and simple to extend.  
 It helps you get rid of long unreadable if/else statements that represent a sequence of events.
 
 
