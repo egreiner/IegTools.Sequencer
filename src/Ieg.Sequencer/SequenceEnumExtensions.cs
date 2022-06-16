@@ -1,4 +1,4 @@
-﻿namespace Ieg.Sequencer;
+﻿namespace IegTools.Sequencer;
 
 public static class SequenceEnumExtensions
 {

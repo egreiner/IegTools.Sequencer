@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1545EFA1-088
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{737927F6-DDB1-4F23-B897-767EBF4CBD9A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ieg.Sequencer", "src\Ieg.Sequencer\Ieg.Sequencer.csproj", "{3E9A3114-7972-4222-9A18-F57A60B499F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IegTools.Sequencer", "src\Ieg.Sequencer\IegTools.Sequencer.csproj", "{3E9A3114-7972-4222-9A18-F57A60B499F0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4AFD2E78-CDEE-4041-905A-1A1F7D96BA84}"
 	ProjectSection(SolutionItems) = preProject

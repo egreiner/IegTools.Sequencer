@@ -1,7 +1,5 @@
 ﻿namespace UnitTests.Sequencer;
 
-using FluentAssertions;
-
 public class SequenceConfigurationTests
 {
     private const string InitialState = "InitialState";

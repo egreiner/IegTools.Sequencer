@@ -1,7 +1,5 @@
 ﻿namespace UnitTests.Sequencer;
 
-using FluentAssertions;
-
 // TODO clean up
 public class SequenceConfigurationValidatorTests
 {

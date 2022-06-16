@@ -1,7 +1,5 @@
 ﻿namespace UnitTests.Sequencer;
 
-using Ieg.Sequencer;
-
 public class SequenceEnumTests
 {
     private const MyEnum InitialState = MyEnum.InitialState;

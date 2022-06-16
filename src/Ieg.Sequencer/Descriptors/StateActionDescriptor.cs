@@ -1,4 +1,4 @@
-﻿namespace Ieg.Sequencer.Descriptors;
+﻿namespace IegTools.Sequencer.Descriptors;
 
 
 /// <summary>

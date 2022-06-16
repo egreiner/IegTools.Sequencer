@@ -9,8 +9,8 @@
 		<PackageReadme>https://github.com/egreiner/Ieg.Sequencer/blob/master/README.md</PackageReadme>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<License>https://github.com/egreiner/Ieg.Sequencer/blob/master/LICENSE.txt</License>
-		<PackageId>Ieg.Sequencer</PackageId>
-		<Title>Ieg.Sequencer</Title>
+		<PackageId>IegTools.Sequencer</PackageId>
+		<Title>IegTools.Sequencer</Title>
 		<Version>1.4.3</Version>
 		<Company>ieg Systems</Company>
 		<Authors>Ernst Greiner</Authors>

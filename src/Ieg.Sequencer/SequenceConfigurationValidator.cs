@@ -1,4 +1,4 @@
-﻿namespace Ieg.Sequencer;
+﻿namespace IegTools.Sequencer;
 
 using System.Collections.Generic;
 using System.Linq;

@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Ieg.Sequencer\Ieg.Sequencer.csproj" />
+    <ProjectReference Include="..\..\src\Ieg.Sequencer\IegTools.Sequencer.csproj" />
   </ItemGroup>
 
 </Project>
