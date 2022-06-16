@@ -1,6 +1,6 @@
 name: ci-run-tests
 
-on: [workflow_dispatch]
+on: [workflow_dispatch, push]
 
 jobs:
   build:
