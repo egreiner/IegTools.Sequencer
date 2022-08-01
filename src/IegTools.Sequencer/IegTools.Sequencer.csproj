@@ -11,13 +11,13 @@
 		<License>https://github.com/egreiner/Ieg.Sequencer/blob/master/LICENSE.txt</License>
 		<PackageId>IegTools.Sequencer</PackageId>
 		<Title>IegTools.Sequencer</Title>
-		<Version>1.5.0</Version>
+		<Version>1.6.0</Version>
 		<Company>ieg Systems</Company>
 		<Authors>Ernst Greiner</Authors>
 		<Copyright>(c) 2022 ieg Systems - Ing. Ernst Greiner</Copyright>
 		<Description>IegTools.Sequencer allows you to create sequences in code, simple to use and simple to extend. It helps you get rid of long unreadable if/else statements that represent a sequence of events.</Description>
 		<PackageTags>sequence;statemachine</PackageTags>
-		<PackageReleaseNotes>Make Sequence open for custom Descriptors</PackageReleaseNotes>
+		<PackageReleaseNotes>Add Sequence.HasCurrentState(state)</PackageReleaseNotes>
 		<NeutralLanguage>en</NeutralLanguage>
 		<RepositoryType>git</RepositoryType>
 		<UserSecretsId>940bf605-ef83-43f5-9f75-715291de7535</UserSecretsId>

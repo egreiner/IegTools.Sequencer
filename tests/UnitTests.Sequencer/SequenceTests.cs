@@ -103,6 +103,25 @@ public class SequenceTests
         Assert.Equal(expected, actual);
     }
 
+
+    [Theory]
+    [InlineData("State1", "State2", false)]
+    [InlineData("State1", "State1", true)]
+    public void Test_HasCurrentState(string currentState, string queryState, bool expected)
+    {
+        var builder = SequenceBuilder.Configure(builder =>
+            builder.AddTransition("State1", "State2", () => false)
+                .DisableValidation());
+
+        var sut = builder.Build();
+
+        sut.SetState(currentState);
+        sut.Run();
+
+        var actual = sut.HasCurrentState(queryState);
+        Assert.Equal(expected, actual);
+    }
+
     [Theory]
     [InlineData("State1", true, 1)]
     [InlineData("State1", false, 0)]

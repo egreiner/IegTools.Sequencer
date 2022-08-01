@@ -29,7 +29,10 @@ public class Sequence : ISequence
         CurrentState = state;
         return this;
     }
-        
+
+    /// <inheritdoc />
+    public bool HasCurrentState(string state) => CurrentState == state;
+
     /// <inheritdoc />
     public ISequence SetState(string state, Func<bool> constraint)
     {

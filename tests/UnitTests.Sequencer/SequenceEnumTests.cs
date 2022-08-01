@@ -121,6 +121,25 @@ public class SequenceEnumTests
         Assert.Equal(expected.ToString(), actual);
     }
 
+    
+    [Theory]
+    [InlineData(MyEnum.State1, MyEnum.State2, false)]
+    [InlineData(MyEnum.State1, MyEnum.State1, true)]
+    public void Test_HasCurrentState(MyEnum currentState, MyEnum queryState, bool expected)
+    {
+        var builder = SequenceBuilder.Configure(builder =>
+            builder.AddTransition(MyEnum.State1, MyEnum.State2, () => false)
+                .DisableValidation());
+
+        var sut = builder.Build();
+
+        sut.SetState(currentState);
+        sut.Run();
+
+        var actual = sut.HasCurrentState(queryState);
+        Assert.Equal(expected, actual);
+    }
+
     [Theory]
     [InlineData(MyEnum.State1, true, 1)]
     [InlineData(MyEnum.State1, false, 0)]

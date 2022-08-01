@@ -39,6 +39,12 @@ public interface ISequence
     ISequence SetState(string state);
 
     /// <summary>
+    /// Returns true if the sequence.CurrentState is in the specified state.
+    /// </summary>
+    /// <param name="state">The state that is asked for.</param>
+    bool HasCurrentState(string state);
+
+    /// <summary>
     /// If the constraint is fulfilled the CurrentState will be set to the state immediately
     /// and the execution of the sequence will continue.
     /// </summary>

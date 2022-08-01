@@ -22,4 +22,13 @@ public static class SequenceEnumExtensions
     public static ISequence SetState<T>(this ISequence sequence, T state, Func<bool> constraint)
         where T: Enum =>
         sequence.SetState(state.ToString(), constraint);
+
+    /// <summary>
+    /// Returns true if the sequence.CurrentState is in the specified state.
+    /// </summary>
+    /// <param name="sequence">The sequence.</param>
+    /// <param name="state">The state that is asked for.</param>
+    public static bool HasCurrentState<T>(this ISequence sequence, T state)
+        where T: Enum =>
+        sequence.HasCurrentState(state.ToString());
 }
