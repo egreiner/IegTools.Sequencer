@@ -1,5 +1,6 @@
 ﻿namespace IegTools.Sequencer;
 
+using System.Linq;
 using Descriptors;
 
 public static class SequenceBuilderEnumExtensions
@@ -51,4 +52,18 @@ public static class SequenceBuilderEnumExtensions
     public static ISequenceBuilder AddForceState<T>(this ISequenceBuilder builder, T state, Func<bool> constraint)
         where T: Enum =>
         builder.AddDescriptor(new ForceStateDescriptor(state.ToString(), constraint));
+
+
+    /// <summary>
+    /// Does not validate statuses that are in this list
+    /// </summary>
+    /// <param name="builder">The sequence-builder</param>
+    /// <param name="statuses">A list of statuses that should not be validated.</param>
+    public static ISequenceBuilder DisableValidationForStatuses<T>(this ISequenceBuilder builder, params T[] statuses)
+        where T: Enum
+    {
+        builder.Configuration.DisableValidationForStatuses = statuses.Select(x1 => x1.ToString()).ToArray();
+        return builder;
+    }
+
 }
