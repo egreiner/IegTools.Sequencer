@@ -30,7 +30,6 @@ public class SequenceConfigurationValidatorTests
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.SetInitialState(InitialState);
-            builder.AddForceState("Force", () => constraint);
         });
 
         var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build());
@@ -59,24 +58,7 @@ public class SequenceConfigurationValidatorTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_DoesThrowValidationError_wrong_NextState(bool constraint)
-    {
-        var builder = SequenceBuilder.Configure(builder =>
-        {
-            builder.SetInitialState(InitialState);
-            builder.AddTransition("State1", "State2", () => constraint);
-            builder.AddTransition("State2", "not existing", () => constraint);
-        });
-
-        var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build());
-
-        actual.Message.Should().Contain("Each 'ToState'");
-    }
-
-    [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public void Test_DoesNotThrowValidationError_wrong_NextState(bool constraint)
+    public void Test_DoesNotThrowValidationError_WrongNextState(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -93,7 +75,25 @@ public class SequenceConfigurationValidatorTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_DoesThrowValidationError_wrong_CurrentState(bool constraint)
+    public void Test_DoesThrowValidationError_WrongNextState(bool constraint)
+    {
+        var builder = SequenceBuilder.Configure(builder =>
+        {
+            builder.SetInitialState(InitialState);
+            builder.AddTransition("State1", "State2", () => constraint);
+            builder.AddTransition("State2", "State1", () => constraint);
+            builder.AddTransition("State2", "not existing", () => constraint);
+        });
+
+        var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build());
+
+        actual.Message.Should().Contain("Each 'ToState'");
+    }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void Test_DoesThrowValidationError_WrongCurrentState(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -111,7 +111,7 @@ public class SequenceConfigurationValidatorTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_DoesThrowValidationError_wrong_CurrentState2(bool constraint)
+    public void Test_DoesThrowValidationError_WrongCurrentState2(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -129,7 +129,7 @@ public class SequenceConfigurationValidatorTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_DoesNotThrowValidationError_wrong_CurrentState(bool constraint)
+    public void Test_DoesNotThrowValidationError_WrongCurrentState(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {

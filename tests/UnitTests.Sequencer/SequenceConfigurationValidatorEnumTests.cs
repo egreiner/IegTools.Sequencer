@@ -39,7 +39,6 @@ public class SequenceConfigurationValidatorEnumTests
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.SetInitialState(MyEnum.InitialState);
-            builder.AddForceState(MyEnum.Force, () => constraint);
         });
 
         var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build());
