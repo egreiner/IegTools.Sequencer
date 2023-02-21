@@ -45,6 +45,12 @@ public interface ISequence
     bool HasCurrentState(string state);
 
     /// <summary>
+    /// Returns true if the queried state is registered in the sequence-configuration.
+    /// </summary>
+    /// <param name="state">The state</param>
+    bool IsRegisteredState(string state);
+
+    /// <summary>
     /// If the constraint is fulfilled the CurrentState will be set to the state immediately
     /// and the execution of the sequence will continue.
     /// </summary>

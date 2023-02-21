@@ -26,6 +26,11 @@ public class ForceStateDescriptor : DescriptorBase
     
     public override string ToString() => $"{State} (Forced)";
 
+
+    /// <inheritdoc />
+    public override bool IsRegisteredState(string state) =>
+        state == State;
+
     /// <summary>
     /// This descriptor is not dependent on the current sequence state.
     /// It depends on the constraint only.

@@ -1,4 +1,6 @@
-﻿namespace IegTools.Sequencer.Descriptors;
+﻿using System.Net.NetworkInformation;
+
+namespace IegTools.Sequencer.Descriptors;
 
 
 /// <summary>
@@ -25,6 +27,11 @@ public class StateActionDescriptor : DescriptorBase
 
 
     public override string ToString() => $"{State} (Action)";
+
+
+    /// <inheritdoc />
+    public override bool IsRegisteredState(string state) =>
+        state == State;
 
     /// <summary>
     /// Returns true if the sequence is in the specified state

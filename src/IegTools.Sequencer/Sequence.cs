@@ -1,6 +1,7 @@
 ﻿namespace IegTools.Sequencer;
 
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 public class Sequence : ISequence
@@ -26,12 +27,16 @@ public class Sequence : ISequence
     /// <inheritdoc />
     public ISequence SetState(string state)
     {
-        CurrentState = state;
+        CurrentState = IsRegisteredState(state) ? state : _configuration.InitialState;
         return this;
     }
 
     /// <inheritdoc />
     public bool HasCurrentState(string state) => CurrentState == state;
+
+    /// <inheritdoc />
+    public bool IsRegisteredState(string state) =>
+        _configuration.Descriptors.Any(x => x.IsRegisteredState(state));
 
     /// <inheritdoc />
     public ISequence SetState(string state, Func<bool> constraint)

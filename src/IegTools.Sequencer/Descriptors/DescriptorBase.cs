@@ -8,6 +8,10 @@ public abstract class DescriptorBase : IDescriptor
     /// <inheritdoc />
     public bool ResumeSequence { get; set; } = true;
 
+
+    /// <inheritdoc />
+    public abstract bool IsRegisteredState(string state);
+
     /// <inheritdoc />
     public abstract bool ValidateAction(ISequence sequence);
 

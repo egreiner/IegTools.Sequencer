@@ -24,4 +24,10 @@ public interface IDescriptor
     /// </summary>
     /// <param name="sequence">The sequence</param>
     bool ExecuteIfValid(ISequence sequence);
+    
+    /// <summary>
+    /// Returns true if the queried state is registered in the descriptor.
+    /// </summary>
+    /// <param name="state">The state</param>
+    bool IsRegisteredState(string state);
 }

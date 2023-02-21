@@ -1,98 +1,23 @@
 ﻿namespace UnitTests.Sequencer;
 
-public class SequenceTests
+public class StateTransitionDescriptorTests
 {
     private const string InitialState = "InitialState";
     
-    [Theory]
-    [InlineData(true, "Force")]
-    [InlineData(false, InitialState)]
-    public void Test_ForceState(bool constraint, string expected)
-    {
-        var builder = SequenceBuilder.Configure(builder =>
-        {
-            builder.SetInitialState(InitialState);
-            builder.AddForceState("Force", () => constraint)
-                .DisableValidation();
-        });
-
-
-        var sut = builder.Build().Run();
-
-        var actual = sut.CurrentState;
-        Assert.Equal(expected, actual);
-    }
-
-    [Theory]
-    [InlineData(true,  "Force1")]
-    [InlineData(false, "Force2")]
-    public void Test_AllForceStatuses_are_working(bool constraint, string expected)
-    {
-        var builder = SequenceBuilder.Configure(builder =>
-        {
-            builder.SetInitialState(InitialState)
-                .AddForceState("Force1", () => constraint)
-                .AddForceState("Force2", () => !constraint)
-                .DisableValidation();
-        });
-
-        var sut = builder.Build().Run();
-
-        var actual = sut.CurrentState;
-        Assert.Equal(expected, actual);
-    }
-
-    [Theory]
-    [InlineData(true, "Set")]
-    [InlineData(false, InitialState)]
-    public void Test_Set(bool constraint, string expected)
-    {
-        var builder = SequenceBuilder.Configure(builder =>
-            builder.SetInitialState(InitialState)
-                .AddForceState("Force", () => constraint)
-                .DisableValidation());
-
-        var sut = builder.Build();
-
-        sut.SetState("Set", () => constraint);
-
-        // no Execute is necessary
-
-        var actual = sut.CurrentState;
-        Assert.Equal(expected, actual);
-    }
-
-    [Theory]
-    [InlineData(true, "Set")]
-    [InlineData(false, InitialState)]
-    public void Test_SetState_Only_Last_Counts(bool constraint, string expected)
-    {
-        var builder = SequenceBuilder.Configure(builder =>
-            builder.SetInitialState(InitialState)
-                .AddForceState("Force", () => constraint)
-                .DisableValidation());
-
-        var sut = builder.Build();
-            
-        sut.SetState("test", () => constraint);
-        sut.SetState("Set", () => constraint);
-
-        // no Execute is necessary
-
-        var actual = sut.CurrentState;
-        Assert.Equal(expected, actual);
-    }
 
     [Theory]
     [InlineData("State1", true, "State2")]
     [InlineData("State1", false, "State1")]
-    [InlineData("StateX", true, "StateX")]
-    [InlineData("StateX", false, "StateX")]
+    [InlineData("StateX", true, "State2")]
+    [InlineData("StateX", false, "State1")]
     public void Test_Constrain_Add_Conditional_State(string currentState, bool constraint, string expected)
     {
         var builder = SequenceBuilder.Configure(builder =>
+        {
+            builder.SetInitialState("State1");
             builder.AddTransition("State1", "State2", () => constraint)
-                .DisableValidation());
+                .DisableValidation();
+        });
 
         var sut = builder.Build();
 
@@ -167,25 +92,26 @@ public class SequenceTests
         var actualState = sut.CurrentState;
         Assert.Equal("State3", actualState);
     }
-
+        
     [Theory]
-    [InlineData(">State1", ">State2", 0)]
-    [InlineData(">State1", ">State1", 1)]
-    public void Test_AddStateActionDescriptor(string state, string currentState, int expected)
+    [InlineData("State1", true)]
+    [InlineData("State2", true)]
+    [InlineData("State3", true)]
+    [InlineData("NotDefined", false)]
+    public void Test_IsRegisteredState(string state, bool expected)
     {
-        var result = 0;
+        var countStarts = 0;
         var builder = SequenceBuilder.Configure(builder =>
         {
-            builder.AddStateAction(state, () => result++)
+            builder.SetInitialState(InitialState);
+            builder.AddTransition("State1", "State2", () => true, () => countStarts++);
+            builder.AddTransition("State2", "State3", () => true, () => countStarts++)
                 .DisableValidation();
         });
 
         var sut = builder.Build();
 
-        sut.SetState(currentState);
-        sut.Run();
-
-        var actual = result;
+        var actual = sut.IsRegisteredState(state);
         Assert.Equal(expected, actual);
     }
 }

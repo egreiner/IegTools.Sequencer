@@ -40,6 +40,10 @@ public class StateTransitionDescriptor : DescriptorBase
         $"{FromState}->{ToState} (Transition)";
 
 
+    /// <inheritdoc />
+    public override bool IsRegisteredState(string state) =>
+        state == FromState || state == ToState;
+
     /// <summary>
     /// Returns true if the sequence met the specified state and the constraint is fulfilled
     /// </summary>

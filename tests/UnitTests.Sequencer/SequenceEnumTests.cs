@@ -101,8 +101,8 @@ public class SequenceEnumTests
     [Theory]
     [InlineData(MyEnum.State1, true,  MyEnum.State2)]
     [InlineData(MyEnum.State1, false, MyEnum.State1)]
-    [InlineData(MyEnum.StateX, true,  MyEnum.StateX)]
-    [InlineData(MyEnum.StateX, false, MyEnum.StateX)]
+    [InlineData(MyEnum.StateX, true,  MyEnum.InitialState)]
+    [InlineData(MyEnum.StateX, false, MyEnum.InitialState)]
     public void Test_Constrain_Add_Conditional_State(MyEnum currentState, bool constraint, MyEnum expected)
     {
         var builder = SequenceBuilder.Configure(builder =>
