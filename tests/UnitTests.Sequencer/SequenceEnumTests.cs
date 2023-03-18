@@ -2,28 +2,18 @@
 
 public class SequenceEnumTests
 {
-    private const MyEnum InitialState = MyEnum.InitialState;
-
-        
-    public enum MyEnum
-    {
-        InitialState,
-        State1,
-        State2,
-        StateX,
-        Force,
-    }
+    private const TestEnum InitialState = TestEnum.InitialState;
 
 
     [Theory]
-    [InlineData(true, MyEnum.Force)]
+    [InlineData(true, TestEnum.Force)]
     [InlineData(false, InitialState)]
-    public void Test_ForceState(bool constraint, MyEnum expected)
+    public void Test_ForceState(bool constraint, TestEnum expected)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.SetInitialState(InitialState);
-            builder.AddForceState(MyEnum.Force, () => constraint)
+            builder.AddForceState(TestEnum.Force, () => constraint)
                    .DisableValidation();
         });
 
@@ -34,15 +24,15 @@ public class SequenceEnumTests
     }
 
     [Theory]
-    [InlineData(true, MyEnum.State1)]
-    [InlineData(false, MyEnum.State2)]
-    public void Test_AllForceStatuses_are_working(bool constraint, MyEnum expected)
+    [InlineData(true, TestEnum.State1)]
+    [InlineData(false, TestEnum.State2)]
+    public void Test_AllForceStatuses_are_working(bool constraint, TestEnum expected)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.SetInitialState(InitialState);
-            builder.AddForceState(MyEnum.State1, () => constraint)
-                   .AddForceState(MyEnum.State2, () => !constraint)
+            builder.AddForceState(TestEnum.State1, () => constraint)
+                   .AddForceState(TestEnum.State2, () => !constraint)
                    .DisableValidation();
         });
 
@@ -53,20 +43,20 @@ public class SequenceEnumTests
     }
 
     [Theory]
-    [InlineData(true, MyEnum.State1)]
+    [InlineData(true, TestEnum.State1)]
     [InlineData(false, InitialState)]
-    public void Test_Set(bool constraint, MyEnum expected)
+    public void Test_Set(bool constraint, TestEnum expected)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.SetInitialState(InitialState);
-            builder.AddForceState(MyEnum.Force, () => constraint)
+            builder.AddForceState(TestEnum.Force, () => constraint)
                    .DisableValidation();
         });
 
         var sut = builder.Build();
 
-        sut.SetState(MyEnum.State1, () => constraint);
+        sut.SetState(TestEnum.State1, () => constraint);
 
         // no Execute is necessary
 
@@ -75,22 +65,22 @@ public class SequenceEnumTests
     }
 
     [Theory]
-    [InlineData(true, MyEnum.State1)]
+    [InlineData(true, TestEnum.State1)]
     [InlineData(false, InitialState)]
-    public void Test_SetState_Only_Last_Counts(bool constraint, MyEnum expected)
+    public void Test_SetState_Only_Last_Counts(bool constraint, TestEnum expected)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.SetInitialState(InitialState);
-            builder.AddForceState(MyEnum.Force, () => constraint)
+            builder.AddForceState(TestEnum.Force, () => constraint)
                    .DisableValidation();
 
         });
 
         var sut = builder.Build();
             
-        sut.SetState(MyEnum.StateX, () => constraint);
-        sut.SetState(MyEnum.State1, () => constraint);
+        sut.SetState(TestEnum.StateX, () => constraint);
+        sut.SetState(TestEnum.State1, () => constraint);
 
         // no Execute is necessary
 
@@ -99,16 +89,16 @@ public class SequenceEnumTests
     }
 
     [Theory]
-    [InlineData(MyEnum.State1, true,  MyEnum.State2)]
-    [InlineData(MyEnum.State1, false, MyEnum.State1)]
-    [InlineData(MyEnum.StateX, true,  MyEnum.InitialState)]
-    [InlineData(MyEnum.StateX, false, MyEnum.InitialState)]
-    public void Test_Constrain_Add_Conditional_State(MyEnum currentState, bool constraint, MyEnum expected)
+    [InlineData(TestEnum.State1, true,  TestEnum.State2)]
+    [InlineData(TestEnum.State1, false, TestEnum.State1)]
+    [InlineData(TestEnum.StateX, true,  TestEnum.InitialState)]
+    [InlineData(TestEnum.StateX, false, TestEnum.InitialState)]
+    public void Test_Constrain_Add_Conditional_State(TestEnum currentState, bool constraint, TestEnum expected)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.SetInitialState(InitialState);
-            builder.AddTransition(MyEnum.State1, MyEnum.State2, () => constraint)
+            builder.AddTransition(TestEnum.State1, TestEnum.State2, () => constraint)
                    .DisableValidation();
         });
 
@@ -123,12 +113,12 @@ public class SequenceEnumTests
 
     
     [Theory]
-    [InlineData(MyEnum.State1, MyEnum.State2, false)]
-    [InlineData(MyEnum.State1, MyEnum.State1, true)]
-    public void Test_HasCurrentState(MyEnum currentState, MyEnum queryState, bool expected)
+    [InlineData(TestEnum.State1, TestEnum.State2, false)]
+    [InlineData(TestEnum.State1, TestEnum.State1, true)]
+    public void Test_HasCurrentState(TestEnum currentState, TestEnum queryState, bool expected)
     {
         var builder = SequenceBuilder.Configure(builder =>
-            builder.AddTransition(MyEnum.State1, MyEnum.State2, () => false)
+            builder.AddTransition(TestEnum.State1, TestEnum.State2, () => false)
                 .DisableValidation());
 
         var sut = builder.Build();
@@ -139,19 +129,57 @@ public class SequenceEnumTests
         var actual = sut.HasCurrentState(queryState);
         Assert.Equal(expected, actual);
     }
+    
+    [Theory]
+    [InlineData(false, TestEnum.State1, TestEnum.State2)]
+    [InlineData(false, TestEnum.State1, TestEnum.State2, TestEnum.InitialState, TestEnum.Force)]
+    [InlineData(true, TestEnum.State1, TestEnum.State1, TestEnum.InitialState, TestEnum.Force)]
+    public void Test_HasAnyCurrentState(bool expected, TestEnum currentState, params TestEnum[] queryStates)
+    {
+        var builder = SequenceBuilder.Configure(builder =>
+            builder.AddTransition(TestEnum.State1, TestEnum.State2, () => false)
+                .DisableValidation());
+
+        var sut = builder.Build();
+
+        sut.SetState(currentState);
+        sut.Run();
+
+        var actual = sut.HasAnyCurrentState(queryStates);
+        Assert.Equal(expected, actual);
+    }
+
+    
+    [Theory]
+    [InlineData(TestEnum.State1, true)]
+    [InlineData(TestEnum.State2, true)]
+    [InlineData(TestEnum.StateX, false)]
+    public void Test_IsRegisteredState(TestEnum queryState, bool expected)
+    {
+        var builder = SequenceBuilder.Configure(builder =>
+            builder.AddTransition(TestEnum.State1, TestEnum.State2, () => false)
+                .DisableValidation());
+
+        var sut = builder.Build();
+
+        sut.Run();
+
+        var actual = sut.IsRegisteredState(queryState);
+        Assert.Equal(expected, actual);
+    }
 
     [Theory]
-    [InlineData(MyEnum.State1, true, 1)]
-    [InlineData(MyEnum.State1, false, 0)]
-    [InlineData(MyEnum.StateX, true, 0)]
-    [InlineData(MyEnum.StateX, false, 0)]
-    public void Test_Action_Add_Conditional_State(MyEnum currentState, bool constraint, int expected)
+    [InlineData(TestEnum.State1, true, 1)]
+    [InlineData(TestEnum.State1, false, 0)]
+    [InlineData(TestEnum.StateX, true, 0)]
+    [InlineData(TestEnum.StateX, false, 0)]
+    public void Test_Action_Add_Conditional_State(TestEnum currentState, bool constraint, int expected)
     {
         var countStarts = 0;
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.SetInitialState(InitialState);
-            builder.AddTransition(MyEnum.State1, MyEnum.State2, () => constraint, () => countStarts = 1)
+            builder.AddTransition(TestEnum.State1, TestEnum.State2, () => constraint, () => countStarts = 1)
                    .DisableValidation();
         });
 
@@ -165,15 +193,15 @@ public class SequenceEnumTests
     }
 
     [Theory]
-    [InlineData(MyEnum.State1, true, 2)]
-    public void Test_Concatenation_Add_Conditional_State(MyEnum currentState, bool constraint, int expected)
+    [InlineData(TestEnum.State1, true, 2)]
+    public void Test_Concatenation_Add_Conditional_State(TestEnum currentState, bool constraint, int expected)
     {
         var countStarts = 0;
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.SetInitialState(InitialState);
-            builder.AddTransition(MyEnum.State1, MyEnum.State2, () => constraint, () => countStarts++);
-            builder.AddTransition(MyEnum.State2, MyEnum.StateX, () => constraint, () => countStarts++)
+            builder.AddTransition(TestEnum.State1, TestEnum.State2, () => constraint, () => countStarts++);
+            builder.AddTransition(TestEnum.State2, TestEnum.StateX, () => constraint, () => countStarts++)
                    .DisableValidation();
         });
 
@@ -186,14 +214,14 @@ public class SequenceEnumTests
         Assert.Equal(expected, actualCount);
 
         var actualState = sut.CurrentState;
-        Assert.Equal(MyEnum.StateX.ToString(), actualState);
+        Assert.Equal(TestEnum.StateX.ToString(), actualState);
     }
 
     
     [Theory]
-    [InlineData(MyEnum.State1, MyEnum.State2, 0)]
-    [InlineData(MyEnum.State1, MyEnum.State1, 1)]
-    public void Test_AddStateActionDescriptor(MyEnum state, MyEnum currentState, int expected)
+    [InlineData(TestEnum.State1, TestEnum.State2, 0)]
+    [InlineData(TestEnum.State1, TestEnum.State1, 1)]
+    public void Test_AddStateActionDescriptor(TestEnum state, TestEnum currentState, int expected)
     {
         var result = 0;
         var builder = SequenceBuilder.Configure(builder =>

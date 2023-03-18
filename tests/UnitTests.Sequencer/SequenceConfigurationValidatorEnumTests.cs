@@ -2,17 +2,6 @@
 
 public class SequenceConfigurationValidatorEnumTests
 {
-    private enum MyEnum
-    {
-        InitialState,
-        State1,
-        State2,
-        State3,
-        NotExisting,
-        Unknown,
-        Force
-    }
-
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
@@ -20,9 +9,9 @@ public class SequenceConfigurationValidatorEnumTests
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
-            // builder.SetInitialState(MyEnum.InitialState)
-            builder.AddTransition(MyEnum.State1, MyEnum.State2, () => constraint);
-            builder.AddTransition(MyEnum.State2, MyEnum.State1, () => constraint);
+            // builder.SetInitialState(TestEnum.InitialState)
+            builder.AddTransition(TestEnum.State1, TestEnum.State2, () => constraint);
+            builder.AddTransition(TestEnum.State2, TestEnum.State1, () => constraint);
         });
 
         var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build());
@@ -38,7 +27,7 @@ public class SequenceConfigurationValidatorEnumTests
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
-            builder.SetInitialState(MyEnum.InitialState);
+            builder.SetInitialState(TestEnum.InitialState);
         });
 
         var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build());
@@ -53,10 +42,10 @@ public class SequenceConfigurationValidatorEnumTests
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
-            builder.SetInitialState(MyEnum.InitialState);
-            builder.AddForceState(MyEnum.State1, () => constraint);
-            builder.AddTransition(MyEnum.State1, MyEnum.State2, () => constraint);
-            builder.AddTransition(MyEnum.State2, MyEnum.State1, () => constraint);
+            builder.SetInitialState(TestEnum.InitialState);
+            builder.AddForceState(TestEnum.State1, () => constraint);
+            builder.AddTransition(TestEnum.State1, TestEnum.State2, () => constraint);
+            builder.AddTransition(TestEnum.State2, TestEnum.State1, () => constraint);
         });
 
         var sut = builder.Build();
@@ -71,9 +60,9 @@ public class SequenceConfigurationValidatorEnumTests
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
-            builder.SetInitialState(MyEnum.InitialState);
-            builder.AddTransition(MyEnum.State1, MyEnum.State2, () => constraint);
-            builder.AddTransition(MyEnum.State2, MyEnum.NotExisting, () => constraint);
+            builder.SetInitialState(TestEnum.InitialState);
+            builder.AddTransition(TestEnum.State1, TestEnum.State2, () => constraint);
+            builder.AddTransition(TestEnum.State2, TestEnum.NotExisting, () => constraint);
         });
 
         var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build());
@@ -88,12 +77,12 @@ public class SequenceConfigurationValidatorEnumTests
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
-            builder.SetInitialState(MyEnum.InitialState);
+            builder.SetInitialState(TestEnum.InitialState);
             
-            builder.DisableValidationForStatuses(MyEnum.State2);
+            builder.DisableValidationForStatuses(TestEnum.State2);
             
-            builder.AddTransition(MyEnum.State1, MyEnum.State2, () => constraint);
-            builder.AddTransition(MyEnum.NotExisting, MyEnum.State1, () => constraint);
+            builder.AddTransition(TestEnum.State1, TestEnum.State2, () => constraint);
+            builder.AddTransition(TestEnum.NotExisting, TestEnum.State1, () => constraint);
         });
 
         var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build());
@@ -109,13 +98,13 @@ public class SequenceConfigurationValidatorEnumTests
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
-            builder.SetInitialState(MyEnum.InitialState);
+            builder.SetInitialState(TestEnum.InitialState);
             
-            builder.DisableValidationForStatuses(MyEnum.State2);
+            builder.DisableValidationForStatuses(TestEnum.State2);
             
-            builder.AddForceState(MyEnum.State1, () => constraint);
-            builder.AddTransition(MyEnum.State1, MyEnum.State2, () => constraint);
-            builder.AddTransition(MyEnum.NotExisting, MyEnum.State1, () => constraint);
+            builder.AddForceState(TestEnum.State1, () => constraint);
+            builder.AddTransition(TestEnum.State1, TestEnum.State2, () => constraint);
+            builder.AddTransition(TestEnum.NotExisting, TestEnum.State1, () => constraint);
         });
 
         var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build());
@@ -130,13 +119,13 @@ public class SequenceConfigurationValidatorEnumTests
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
-            builder.SetInitialState(MyEnum.InitialState);
+            builder.SetInitialState(TestEnum.InitialState);
 
-            builder.DisableValidationForStatuses(MyEnum.State2);
+            builder.DisableValidationForStatuses(TestEnum.State2);
             
-            builder.AddForceState(MyEnum.State3, () => constraint);
-            builder.AddTransition(MyEnum.State1, MyEnum.State2, () => constraint);
-            builder.AddTransition(MyEnum.State3, MyEnum.State1, () => constraint);
+            builder.AddForceState(TestEnum.State3, () => constraint);
+            builder.AddTransition(TestEnum.State1, TestEnum.State2, () => constraint);
+            builder.AddTransition(TestEnum.State3, TestEnum.State1, () => constraint);
         });
 
         var sut = builder.Build();
@@ -151,13 +140,13 @@ public class SequenceConfigurationValidatorEnumTests
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
-            builder.SetInitialState(MyEnum.InitialState);
+            builder.SetInitialState(TestEnum.InitialState);
 
-            builder.DisableValidationForStatuses(MyEnum.Unknown);
+            builder.DisableValidationForStatuses(TestEnum.Unknown);
             
-            builder.AddForceState(MyEnum.State1, () => constraint);
-            builder.AddTransition(MyEnum.State1, MyEnum.State2, () => constraint);
-            builder.AddTransition(MyEnum.State2, (MyEnum.Unknown), () => constraint);
+            builder.AddForceState(TestEnum.State1, () => constraint);
+            builder.AddTransition(TestEnum.State1, TestEnum.State2, () => constraint);
+            builder.AddTransition(TestEnum.State2, (TestEnum.Unknown), () => constraint);
         });
 
         var sut = builder.Build();
@@ -172,13 +161,13 @@ public class SequenceConfigurationValidatorEnumTests
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
-            builder.SetInitialState(MyEnum.InitialState);
+            builder.SetInitialState(TestEnum.InitialState);
             
-            builder.DisableValidationForStatuses(MyEnum.Unknown);
+            builder.DisableValidationForStatuses(TestEnum.Unknown);
             
-            builder.AddForceState(MyEnum.State1, () => constraint);
-            builder.AddTransition(MyEnum.State1, MyEnum.State2, () => constraint);
-            builder.AddTransition(MyEnum.State2, MyEnum.Unknown, () => constraint);
+            builder.AddForceState(TestEnum.State1, () => constraint);
+            builder.AddTransition(TestEnum.State1, TestEnum.State2, () => constraint);
+            builder.AddTransition(TestEnum.State2, TestEnum.Unknown, () => constraint);
         });
 
         var sut = builder.Build();
@@ -193,10 +182,10 @@ public class SequenceConfigurationValidatorEnumTests
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
-            builder.SetInitialState(MyEnum.InitialState);
-            builder.AddForceState(MyEnum.State1, () => constraint);
-            builder.AddTransition(MyEnum.State1, MyEnum.State2, () => constraint);
-            builder.AddTransition(MyEnum.State2, MyEnum.State1, () => constraint);
+            builder.SetInitialState(TestEnum.InitialState);
+            builder.AddForceState(TestEnum.State1, () => constraint);
+            builder.AddTransition(TestEnum.State1, TestEnum.State2, () => constraint);
+            builder.AddTransition(TestEnum.State2, TestEnum.State1, () => constraint);
         });
 
         var sut = builder.Build();
@@ -211,9 +200,9 @@ public class SequenceConfigurationValidatorEnumTests
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
-            builder.SetInitialState(MyEnum.InitialState);
-            builder.AddTransition(MyEnum.State1, MyEnum.State2, () => constraint);
-            builder.AddTransition(MyEnum.State2, MyEnum.State1, () => constraint);
+            builder.SetInitialState(TestEnum.InitialState);
+            builder.AddTransition(TestEnum.State1, TestEnum.State2, () => constraint);
+            builder.AddTransition(TestEnum.State2, TestEnum.State1, () => constraint);
         });
 
         var sut = builder.Build();

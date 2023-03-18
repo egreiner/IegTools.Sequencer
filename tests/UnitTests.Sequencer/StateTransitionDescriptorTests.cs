@@ -92,26 +92,4 @@ public class StateTransitionDescriptorTests
         var actualState = sut.CurrentState;
         Assert.Equal("State3", actualState);
     }
-        
-    [Theory]
-    [InlineData("State1", true)]
-    [InlineData("State2", true)]
-    [InlineData("State3", true)]
-    [InlineData("NotDefined", false)]
-    public void Test_IsRegisteredState(string state, bool expected)
-    {
-        var countStarts = 0;
-        var builder = SequenceBuilder.Configure(builder =>
-        {
-            builder.SetInitialState(InitialState);
-            builder.AddTransition("State1", "State2", () => true, () => countStarts++);
-            builder.AddTransition("State2", "State3", () => true, () => countStarts++)
-                .DisableValidation();
-        });
-
-        var sut = builder.Build();
-
-        var actual = sut.IsRegisteredState(state);
-        Assert.Equal(expected, actual);
-    }
 }

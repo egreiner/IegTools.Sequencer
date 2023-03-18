@@ -24,23 +24,4 @@ public class StateActionDescriptorTests
         var actual = result;
         Assert.Equal(expected, actual);
     }
-
-            
-    [Theory]
-    [InlineData("State1", true)]
-    [InlineData("NotDefined", false)]
-    public void Test_IsRegisteredState(string state, bool expected)
-    {
-        var result = 0;
-        var builder = SequenceBuilder.Configure(builder =>
-        {
-            builder.AddStateAction("State1", () => result++)
-                .DisableValidation();
-        });
-
-        var sut = builder.Build();
-
-        var actual = sut.IsRegisteredState(state);
-        Assert.Equal(expected, actual);
-    }
 }

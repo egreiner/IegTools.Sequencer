@@ -17,6 +17,25 @@ public interface ISequence
 
     
     /// <summary>
+    /// Returns true if the sequence.CurrentState is in the specified state.
+    /// </summary>
+    /// <param name="state">The state that is asked for.</param>
+    bool HasCurrentState(string state);
+
+    /// <summary>
+    /// Returns true if the sequence.CurrentState is in one of the specified states.
+    /// </summary>
+    /// <param name="states">The states that are asked for.</param>
+    bool HasAnyCurrentState(params string[] states);
+
+    /// <summary>
+    /// Returns true if the queried state is registered in the sequence-configuration.
+    /// </summary>
+    /// <param name="state">The state</param>
+    bool IsRegisteredState(string state);
+
+
+    /// <summary>
     /// Run the sequence
     /// </summary>
     ISequence Run();
@@ -26,10 +45,12 @@ public interface ISequence
     /// </summary>
     Task<ISequence> RunAsync();
 
+
     /// <summary>
     /// Set the sequence-configuration
     /// </summary>
     ISequence SetConfiguration(SequenceConfiguration configuration);
+
 
     /// <summary>
     /// CurrentState will be set to the state immediately and unconditional.
@@ -37,19 +58,7 @@ public interface ISequence
     /// </summary>
     /// <param name="state">The state that will be set</param>
     ISequence SetState(string state);
-
-    /// <summary>
-    /// Returns true if the sequence.CurrentState is in the specified state.
-    /// </summary>
-    /// <param name="state">The state that is asked for.</param>
-    bool HasCurrentState(string state);
-
-    /// <summary>
-    /// Returns true if the queried state is registered in the sequence-configuration.
-    /// </summary>
-    /// <param name="state">The state</param>
-    bool IsRegisteredState(string state);
-
+    
     /// <summary>
     /// If the constraint is fulfilled the CurrentState will be set to the state immediately
     /// and the execution of the sequence will continue.
