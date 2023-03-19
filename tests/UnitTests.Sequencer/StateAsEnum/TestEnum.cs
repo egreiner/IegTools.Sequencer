@@ -1,4 +1,4 @@
-﻿namespace UnitTests.Sequencer;
+﻿namespace UnitTests.Sequencer.StateAsEnum;
 
 public enum TestEnum
 {

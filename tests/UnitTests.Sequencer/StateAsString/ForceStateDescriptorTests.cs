@@ -1,9 +1,11 @@
-﻿namespace UnitTests.Sequencer;
+﻿using IegTools.Sequencer.Extensions;
+
+namespace UnitTests.Sequencer.StateAsString;
 
 public class ForceStateDescriptorTests
 {
     private const string InitialState = "InitialState";
-    
+
 
     [Theory]
     [InlineData(true, "Force")]
@@ -25,7 +27,7 @@ public class ForceStateDescriptorTests
     }
 
     [Theory]
-    [InlineData(true,  "Force1")]
+    [InlineData(true, "Force1")]
     [InlineData(false, "Force2")]
     public void Test_AllForceStatuses_are_working(bool constraint, string expected)
     {
@@ -74,7 +76,7 @@ public class ForceStateDescriptorTests
                 .DisableValidation());
 
         var sut = builder.Build();
-            
+
         sut.SetState("test", () => constraint);
         sut.SetState("Set", () => constraint);
 
@@ -83,7 +85,7 @@ public class ForceStateDescriptorTests
         var actual = sut.CurrentState;
         Assert.Equal(expected, actual);
     }
-        
+
     [Theory]
     [InlineData("Force", true)]
     [InlineData("NotDefined", false)]

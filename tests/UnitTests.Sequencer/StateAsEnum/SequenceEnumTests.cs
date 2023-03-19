@@ -1,4 +1,6 @@
-﻿namespace UnitTests.Sequencer;
+﻿using IegTools.Sequencer.Extensions;
+
+namespace UnitTests.Sequencer.StateAsEnum;
 
 public class SequenceEnumTests
 {
@@ -78,7 +80,7 @@ public class SequenceEnumTests
         });
 
         var sut = builder.Build();
-            
+
         sut.SetState(TestEnum.StateX, () => constraint);
         sut.SetState(TestEnum.State1, () => constraint);
 
@@ -89,9 +91,9 @@ public class SequenceEnumTests
     }
 
     [Theory]
-    [InlineData(TestEnum.State1, true,  TestEnum.State2)]
+    [InlineData(TestEnum.State1, true, TestEnum.State2)]
     [InlineData(TestEnum.State1, false, TestEnum.State1)]
-    [InlineData(TestEnum.StateX, true,  TestEnum.InitialState)]
+    [InlineData(TestEnum.StateX, true, TestEnum.InitialState)]
     [InlineData(TestEnum.StateX, false, TestEnum.InitialState)]
     public void Test_Constrain_Add_Conditional_State(TestEnum currentState, bool constraint, TestEnum expected)
     {
@@ -111,7 +113,7 @@ public class SequenceEnumTests
         Assert.Equal(expected.ToString(), actual);
     }
 
-    
+
     [Theory]
     [InlineData(TestEnum.State1, TestEnum.State2, false)]
     [InlineData(TestEnum.State1, TestEnum.State1, true)]
@@ -129,7 +131,7 @@ public class SequenceEnumTests
         var actual = sut.HasCurrentState(queryState);
         Assert.Equal(expected, actual);
     }
-    
+
     [Theory]
     [InlineData(false, TestEnum.State1, TestEnum.State2)]
     [InlineData(false, TestEnum.State1, TestEnum.State2, TestEnum.InitialState, TestEnum.Force)]
@@ -149,7 +151,7 @@ public class SequenceEnumTests
         Assert.Equal(expected, actual);
     }
 
-    
+
     [Theory]
     [InlineData(TestEnum.State1, true)]
     [InlineData(TestEnum.State2, true)]
@@ -217,7 +219,7 @@ public class SequenceEnumTests
         Assert.Equal(TestEnum.StateX.ToString(), actualState);
     }
 
-    
+
     [Theory]
     [InlineData(TestEnum.State1, TestEnum.State2, 0)]
     [InlineData(TestEnum.State1, TestEnum.State1, 1)]

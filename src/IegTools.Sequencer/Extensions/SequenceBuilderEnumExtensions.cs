@@ -1,7 +1,8 @@
-﻿namespace IegTools.Sequencer;
+﻿namespace IegTools.Sequencer.Extensions;
 
 using System.Linq;
 using Descriptors;
+using IegTools.Sequencer;
 
 public static class SequenceBuilderEnumExtensions
 {
@@ -11,8 +12,8 @@ public static class SequenceBuilderEnumExtensions
     /// <param name="builder">The sequence-builder</param>
     /// <param name="initialState">The initial state</param>
     /// <returns></returns>
-    public static ISequenceBuilder SetInitialState<T>(this ISequenceBuilder builder, T initialState)   
-        where T: Enum =>
+    public static ISequenceBuilder SetInitialState<T>(this ISequenceBuilder builder, T initialState)
+        where T : Enum =>
         builder.SetInitialState(initialState.ToString());
 
     /// <summary>
@@ -26,8 +27,8 @@ public static class SequenceBuilderEnumExtensions
     /// <param name="constraint">The constraint</param>
     /// <param name="action">The action that should be executed.</param>
     public static ISequenceBuilder AddTransition<T>(
-        this ISequenceBuilder builder, T currentState, T nextState, Func<bool> constraint, Action action = null) 
-        where T: Enum =>
+        this ISequenceBuilder builder, T currentState, T nextState, Func<bool> constraint, Action action = null)
+        where T : Enum =>
         builder.AddDescriptor(new StateTransitionDescriptor(currentState.ToString(), nextState.ToString(), constraint, action));
 
     /// <summary>
@@ -38,7 +39,7 @@ public static class SequenceBuilderEnumExtensions
     /// <param name="currentState">State of the current.</param>
     /// <param name="action">The action.</param>
     public static ISequenceBuilder AddStateAction<T>(this ISequenceBuilder builder, T currentState, Action action)
-        where T: Enum =>
+        where T : Enum =>
         builder.AddTransition(currentState, currentState, () => true, action);
 
     /// <summary>
@@ -50,7 +51,7 @@ public static class SequenceBuilderEnumExtensions
     /// <param name="state">The state that should be forced.</param>
     /// <param name="constraint">The constraint that must be fulfilled that the sequence is forced to the defined state.</param>
     public static ISequenceBuilder AddForceState<T>(this ISequenceBuilder builder, T state, Func<bool> constraint)
-        where T: Enum =>
+        where T : Enum =>
         builder.AddDescriptor(new ForceStateDescriptor(state.ToString(), constraint));
 
 
@@ -60,7 +61,7 @@ public static class SequenceBuilderEnumExtensions
     /// <param name="builder">The sequence-builder</param>
     /// <param name="statuses">A list of statuses that should not be validated.</param>
     public static ISequenceBuilder DisableValidationForStatuses<T>(this ISequenceBuilder builder, params T[] statuses)
-        where T: Enum
+        where T : Enum
     {
         builder.Configuration.DisableValidationForStatuses = statuses.Select(x1 => x1.ToString()).ToArray();
         return builder;

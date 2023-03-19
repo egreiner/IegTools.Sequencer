@@ -19,8 +19,7 @@
 		<Copyright>(c) 2023 ieg Systems - Ing. Ernst Greiner</Copyright>
 
 		<Description>
-			IegTools.Sequencer allows you to create fluent sequences, simple to use and simple to extend.
-			It helps you get rid of long unreadable if/else statements that represent a sequence of events.
+			IegTools.Sequencer allows you to create fluent sequences, simple to use and simple to extend. It helps you get rid of long unreadable if/else statements.
 		</Description>
 
 		<PackageReleaseNotes>

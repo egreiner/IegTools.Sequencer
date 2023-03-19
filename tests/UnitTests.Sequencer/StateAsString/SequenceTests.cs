@@ -1,4 +1,6 @@
-﻿namespace UnitTests.Sequencer;
+﻿using IegTools.Sequencer.Extensions;
+
+namespace UnitTests.Sequencer.StateAsString;
 
 public class SequenceTests
 {
@@ -25,7 +27,7 @@ public class SequenceTests
         Assert.Equal(expected, actual);
     }
 
-        
+
     [Theory]
     [InlineData(false, "State1", "State2")]
     [InlineData(false, "State1", "State2", "InitialState", "Force")]

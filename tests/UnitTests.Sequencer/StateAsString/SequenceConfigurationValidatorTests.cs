@@ -1,4 +1,6 @@
-﻿namespace UnitTests.Sequencer;
+﻿using IegTools.Sequencer.Extensions;
+
+namespace UnitTests.Sequencer.StateAsString;
 
 public class SequenceConfigurationValidatorTests
 {
@@ -106,7 +108,7 @@ public class SequenceConfigurationValidatorTests
 
         actual.Message.Should().Contain("Each 'FromState'");
     }
-    
+
 
     [Theory]
     [InlineData(true)]
@@ -125,7 +127,7 @@ public class SequenceConfigurationValidatorTests
 
         actual.Message.Should().Contain("Each 'FromState'");
     }
-    
+
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
@@ -143,7 +145,7 @@ public class SequenceConfigurationValidatorTests
 
         sut.Should().NotBeNull();
     }
-    
+
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
@@ -154,7 +156,7 @@ public class SequenceConfigurationValidatorTests
             builder.SetInitialState(InitialState);
 
             builder.DisableValidationForStatuses("unknown", "unknown1", "unknown2");
-            
+
             builder.AddForceState("State1", () => constraint);
             builder.AddTransition("State1", "State2", () => constraint);
             builder.AddTransition("State2", "unknown", () => constraint);

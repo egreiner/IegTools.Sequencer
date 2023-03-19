@@ -1,9 +1,11 @@
-﻿namespace UnitTests.Sequencer;
+﻿using IegTools.Sequencer.Extensions;
+
+namespace UnitTests.Sequencer.StateAsString;
 
 public class StateTransitionDescriptorTests
 {
     private const string InitialState = "InitialState";
-    
+
 
     [Theory]
     [InlineData("State1", true, "State2")]

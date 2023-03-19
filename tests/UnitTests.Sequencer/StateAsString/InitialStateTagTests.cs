@@ -1,4 +1,6 @@
-﻿namespace UnitTests.Sequencer;
+﻿using IegTools.Sequencer.Extensions;
+
+namespace UnitTests.Sequencer.StateAsString;
 
 public class InitialStateTagTests
 {

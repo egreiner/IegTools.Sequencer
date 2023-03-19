@@ -1,6 +1,7 @@
-﻿namespace IegTools.Sequencer;
+﻿namespace IegTools.Sequencer.Extensions;
 
 using System.Linq;
+using IegTools.Sequencer;
 
 public static class SequenceEnumExtensions
 {
@@ -10,7 +11,7 @@ public static class SequenceEnumExtensions
     /// <param name="sequence">The sequence.</param>
     /// <param name="state">The state that is asked for.</param>
     public static bool HasCurrentState<T>(this ISequence sequence, T state)
-        where T: Enum =>
+        where T : Enum =>
         sequence.HasCurrentState(state.ToString());
 
     /// <summary>
@@ -18,8 +19,8 @@ public static class SequenceEnumExtensions
     /// </summary>
     /// <param name="sequence">The sequence.</param>
     /// <param name="states">The states that are asked for.</param>
-    public static bool HasAnyCurrentState<T>(this ISequence sequence, params T[] states) 
-        where T: Enum =>
+    public static bool HasAnyCurrentState<T>(this ISequence sequence, params T[] states)
+        where T : Enum =>
         states.Any(sequence.HasCurrentState);
 
     /// <summary>
@@ -38,7 +39,7 @@ public static class SequenceEnumExtensions
     /// <param name="sequence">The sequence.</param>
     /// <param name="state">The state that will be set.</param>
     public static ISequence SetState<T>(this ISequence sequence, T state)
-        where T: Enum =>
+        where T : Enum =>
         sequence.SetState(state.ToString());
 
     /// <summary>
@@ -49,6 +50,6 @@ public static class SequenceEnumExtensions
     /// <param name="state">The state that should be set.</param>
     /// <param name="constraint">The constraint that must be fulfilled that the sequence is set to the defined state.</param>
     public static ISequence SetState<T>(this ISequence sequence, T state, Func<bool> constraint)
-        where T: Enum =>
+        where T : Enum =>
         sequence.SetState(state.ToString(), constraint);
 }

@@ -1,6 +1,7 @@
-﻿namespace IegTools.Sequencer;
+﻿namespace IegTools.Sequencer.Extensions;
 
 using Descriptors;
+using IegTools.Sequencer;
 
 public static class SequenceBuilderDefaultExtensions
 {

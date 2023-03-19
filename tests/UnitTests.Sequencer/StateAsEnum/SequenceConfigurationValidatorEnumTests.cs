@@ -1,4 +1,6 @@
-﻿namespace UnitTests.Sequencer;
+﻿using IegTools.Sequencer.Extensions;
+
+namespace UnitTests.Sequencer.StateAsEnum;
 
 public class SequenceConfigurationValidatorEnumTests
 {
@@ -78,9 +80,9 @@ public class SequenceConfigurationValidatorEnumTests
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.SetInitialState(TestEnum.InitialState);
-            
+
             builder.DisableValidationForStatuses(TestEnum.State2);
-            
+
             builder.AddTransition(TestEnum.State1, TestEnum.State2, () => constraint);
             builder.AddTransition(TestEnum.NotExisting, TestEnum.State1, () => constraint);
         });
@@ -89,7 +91,7 @@ public class SequenceConfigurationValidatorEnumTests
 
         actual.Message.Should().Contain("Each 'FromState'");
     }
-    
+
 
     [Theory]
     [InlineData(true)]
@@ -99,9 +101,9 @@ public class SequenceConfigurationValidatorEnumTests
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.SetInitialState(TestEnum.InitialState);
-            
+
             builder.DisableValidationForStatuses(TestEnum.State2);
-            
+
             builder.AddForceState(TestEnum.State1, () => constraint);
             builder.AddTransition(TestEnum.State1, TestEnum.State2, () => constraint);
             builder.AddTransition(TestEnum.NotExisting, TestEnum.State1, () => constraint);
@@ -111,7 +113,7 @@ public class SequenceConfigurationValidatorEnumTests
 
         actual.Message.Should().Contain("Each 'FromState'");
     }
-    
+
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
@@ -122,7 +124,7 @@ public class SequenceConfigurationValidatorEnumTests
             builder.SetInitialState(TestEnum.InitialState);
 
             builder.DisableValidationForStatuses(TestEnum.State2);
-            
+
             builder.AddForceState(TestEnum.State3, () => constraint);
             builder.AddTransition(TestEnum.State1, TestEnum.State2, () => constraint);
             builder.AddTransition(TestEnum.State3, TestEnum.State1, () => constraint);
@@ -132,7 +134,7 @@ public class SequenceConfigurationValidatorEnumTests
 
         sut.Should().NotBeNull();
     }
-    
+
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
@@ -143,10 +145,10 @@ public class SequenceConfigurationValidatorEnumTests
             builder.SetInitialState(TestEnum.InitialState);
 
             builder.DisableValidationForStatuses(TestEnum.Unknown);
-            
+
             builder.AddForceState(TestEnum.State1, () => constraint);
             builder.AddTransition(TestEnum.State1, TestEnum.State2, () => constraint);
-            builder.AddTransition(TestEnum.State2, (TestEnum.Unknown), () => constraint);
+            builder.AddTransition(TestEnum.State2, TestEnum.Unknown, () => constraint);
         });
 
         var sut = builder.Build();
@@ -162,9 +164,9 @@ public class SequenceConfigurationValidatorEnumTests
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.SetInitialState(TestEnum.InitialState);
-            
+
             builder.DisableValidationForStatuses(TestEnum.Unknown);
-            
+
             builder.AddForceState(TestEnum.State1, () => constraint);
             builder.AddTransition(TestEnum.State1, TestEnum.State2, () => constraint);
             builder.AddTransition(TestEnum.State2, TestEnum.Unknown, () => constraint);
