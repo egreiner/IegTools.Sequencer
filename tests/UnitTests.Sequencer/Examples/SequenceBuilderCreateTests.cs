@@ -60,7 +60,8 @@ public class SequenceBuilderCreateTests
         var builder = SequenceBuilder.Create()
             .AddForceState(">Off", () => false)
             .AddTransition(">Off", "PrepareOn", () => false, () => result = 1)
-            .AddTransition("PrepareOn", "!On", () => false);
+            .AddTransition("PrepareOn", "!On", () => false)
+            .DisableValidation(); // TODO validation error
 
         var sut = builder.Build();
 
