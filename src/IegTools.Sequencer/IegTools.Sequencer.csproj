@@ -12,7 +12,7 @@
 		
 		<PackageId>IegTools.Sequencer</PackageId>
 		<Title>IegTools.Sequencer</Title>
-		<Version>2.0.0-rc1</Version>
+		<Version>2.0.0</Version>
 		
 		<Company>ieg Systems</Company>
 		<Authors>Ernst Greiner</Authors>
@@ -23,7 +23,7 @@
 		</Description>
 
 		<PackageReleaseNotes>
-			Add Sequence.AddAnyTransition(states, nextState, constraint, action)
+			Add AnyStateTransitionDescriptor and ContainsStateTransitionDescriptor
 		</PackageReleaseNotes>
 		
 		<PackageTags>sequence;statemachine</PackageTags>
