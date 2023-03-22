@@ -1,6 +1,6 @@
 ﻿namespace UnitTests.Sequencer.StateAsString;
 
-using IegTools.Sequencer.Images;
+using IegTools.Sequencer;
 
 public class AnyStateTransitionDescriptorTests
 {

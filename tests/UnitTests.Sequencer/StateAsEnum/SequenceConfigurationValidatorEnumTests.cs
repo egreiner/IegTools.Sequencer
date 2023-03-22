@@ -1,6 +1,4 @@
-﻿using IegTools.Sequencer.Images;
-
-namespace UnitTests.Sequencer.StateAsEnum;
+﻿namespace UnitTests.Sequencer.StateAsEnum;
 
 public class SequenceConfigurationValidatorEnumTests
 {

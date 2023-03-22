@@ -1,7 +1,6 @@
-﻿namespace IegTools.Sequencer.Images;
+﻿namespace IegTools.Sequencer;
 
 using System.Linq;
-using IegTools.Sequencer;
 
 public static class SequenceEnumExtensions
 {

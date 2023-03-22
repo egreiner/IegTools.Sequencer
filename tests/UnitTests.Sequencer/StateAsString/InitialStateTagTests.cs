@@ -1,6 +1,4 @@
-﻿using IegTools.Sequencer.Images;
-
-namespace UnitTests.Sequencer.StateAsString;
+﻿namespace UnitTests.Sequencer.StateAsString;
 
 public class InitialStateTagTests
 {

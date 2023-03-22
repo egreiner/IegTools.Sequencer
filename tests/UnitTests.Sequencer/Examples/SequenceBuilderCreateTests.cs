@@ -1,6 +1,6 @@
 ﻿namespace UnitTests.Sequencer.Examples;
 
-using IegTools.Sequencer.Images;
+using IegTools.Sequencer;
 
 public class SequenceBuilderCreateTests
 {
