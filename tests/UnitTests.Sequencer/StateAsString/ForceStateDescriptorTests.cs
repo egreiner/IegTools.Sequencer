@@ -22,8 +22,7 @@ public class ForceStateDescriptorTests
 
         var sut = builder.Build().Run();
 
-        var actual = sut.CurrentState;
-        Assert.Equal(expected, actual);
+        sut.CurrentState.Should().Be(expected);
     }
 
     [Theory]
@@ -41,8 +40,7 @@ public class ForceStateDescriptorTests
 
         var sut = builder.Build().Run();
 
-        var actual = sut.CurrentState;
-        Assert.Equal(expected, actual);
+        sut.CurrentState.Should().Be(expected);
     }
 
     [Theory]
@@ -61,8 +59,7 @@ public class ForceStateDescriptorTests
 
         // no Execute is necessary
 
-        var actual = sut.CurrentState;
-        Assert.Equal(expected, actual);
+        sut.CurrentState.Should().Be(expected);
     }
 
     [Theory]
@@ -82,8 +79,7 @@ public class ForceStateDescriptorTests
 
         // no Execute is necessary
 
-        var actual = sut.CurrentState;
-        Assert.Equal(expected, actual);
+        sut.CurrentState.Should().Be(expected);
     }
 
     [Theory]
@@ -101,7 +97,6 @@ public class ForceStateDescriptorTests
 
         var sut = builder.Build();
 
-        var actual = sut.IsRegisteredState(state);
-        Assert.Equal(expected, actual);
+        sut.IsRegisteredState(state).Should().Be(expected);
     }
 }
