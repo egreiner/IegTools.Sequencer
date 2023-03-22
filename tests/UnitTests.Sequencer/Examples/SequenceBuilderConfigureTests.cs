@@ -25,9 +25,9 @@ public class SequenceBuilderConfigureTests
             builder.AddTransition("Pump off", "Paused", () => false, () => result++);
         });
 
-        var sut = builder.Build();
+        var build = () => builder.Build();
+        build.Should().NotThrow();
 
-        sut.Should().NotBeNull();
         result.Should().Be(0);
     }
     
@@ -43,9 +43,8 @@ public class SequenceBuilderConfigureTests
             builder.DisableValidation();
         });
 
-        var actual = builder.Build();
-
-        actual.Should().NotBeNull();
+        var build = () => builder.Build();
+        build.Should().NotThrow();
     }
     
     [Theory]
@@ -60,6 +59,7 @@ public class SequenceBuilderConfigureTests
             //builder.DisableValidation();
         });
 
-        Assert.Throws<ValidationException>(() => _ = builder.Build());
+        FluentActions.Invoking(() => builder.Build())
+            .Should().Throw<ValidationException>();
     }
 }

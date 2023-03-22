@@ -16,10 +16,10 @@ public class SequenceConfigurationValidatorEnumTests
             builder.AddTransition(TestEnum.State2, TestEnum.State1, () => constraint);
         });
 
-        var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build());
-
-        actual.Message.Should().Contain("Initial State");
-        actual.Message.Should().NotContain("Each goto state");
+        FluentActions.Invoking(() => builder.Build())
+            .Should().Throw<FluentValidation.ValidationException>()
+            .WithMessage("*Initial State*")
+            .Where(x => !x.Message.Contains("Each goto state"));
     }
 
     [Theory]
@@ -32,9 +32,9 @@ public class SequenceConfigurationValidatorEnumTests
             builder.SetInitialState(TestEnum.InitialState);
         });
 
-        var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build());
-
-        actual.Message.Should().Contain("Descriptors Count");
+        FluentActions.Invoking(() => builder.Build())
+            .Should().Throw<FluentValidation.ValidationException>()
+            .WithMessage("*Descriptors Count*");
     }
 
     [Theory]
@@ -50,9 +50,8 @@ public class SequenceConfigurationValidatorEnumTests
             builder.AddTransition(TestEnum.State2, TestEnum.State1, () => constraint);
         });
 
-        var sut = builder.Build();
-
-        sut.Should().NotBeNull();
+        var build = () => builder.Build();
+        build.Should().NotThrow();
     }
 
     [Theory]
@@ -67,9 +66,9 @@ public class SequenceConfigurationValidatorEnumTests
             builder.AddTransition(TestEnum.State2, TestEnum.NotExisting, () => constraint);
         });
 
-        var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build());
-
-        actual.Message.Should().Contain("Each 'ToState'");
+        FluentActions.Invoking(() => builder.Build())
+            .Should().Throw<FluentValidation.ValidationException>()
+            .WithMessage("*Each 'ToState'*");
     }
 
     [Theory]
@@ -87,9 +86,9 @@ public class SequenceConfigurationValidatorEnumTests
             builder.AddTransition(TestEnum.NotExisting, TestEnum.State1, () => constraint);
         });
 
-        var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build());
-
-        actual.Message.Should().Contain("Each 'FromState'");
+        FluentActions.Invoking(() => builder.Build())
+            .Should().Throw<FluentValidation.ValidationException>()
+            .WithMessage("*Each 'FromState'*");
     }
 
 
@@ -109,9 +108,9 @@ public class SequenceConfigurationValidatorEnumTests
             builder.AddTransition(TestEnum.NotExisting, TestEnum.State1, () => constraint);
         });
 
-        var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build());
-
-        actual.Message.Should().Contain("Each 'FromState'");
+        FluentActions.Invoking(() => builder.Build())
+            .Should().Throw<FluentValidation.ValidationException>()
+            .WithMessage("*Each 'FromState'*");
     }
 
     [Theory]
@@ -130,9 +129,8 @@ public class SequenceConfigurationValidatorEnumTests
             builder.AddTransition(TestEnum.State3, TestEnum.State1, () => constraint);
         });
 
-        var sut = builder.Build();
-
-        sut.Should().NotBeNull();
+        var build = () => builder.Build();
+        build.Should().NotThrow();
     }
 
     [Theory]
@@ -151,9 +149,8 @@ public class SequenceConfigurationValidatorEnumTests
             builder.AddTransition(TestEnum.State2, TestEnum.Unknown, () => constraint);
         });
 
-        var sut = builder.Build();
-
-        sut.Should().NotBeNull();
+        var build = () => builder.Build();
+        build.Should().NotThrow();
     }
 
     [Theory]
@@ -172,9 +169,8 @@ public class SequenceConfigurationValidatorEnumTests
             builder.AddTransition(TestEnum.State2, TestEnum.Unknown, () => constraint);
         });
 
-        var sut = builder.Build();
-
-        sut.Should().NotBeNull();
+        var build = () => builder.Build();
+        build.Should().NotThrow();
     }
 
     [Theory]
@@ -190,9 +186,8 @@ public class SequenceConfigurationValidatorEnumTests
             builder.AddTransition(TestEnum.State2, TestEnum.State1, () => constraint);
         });
 
-        var sut = builder.Build();
-
-        sut.Should().NotBeNull();
+        var build = () => builder.Build();
+        build.Should().NotThrow();
     }
 
     [Theory]
@@ -207,8 +202,7 @@ public class SequenceConfigurationValidatorEnumTests
             builder.AddTransition(TestEnum.State2, TestEnum.State1, () => constraint);
         });
 
-        var sut = builder.Build();
-
-        sut.Should().NotBeNull();
+        var build = () => builder.Build();
+        build.Should().NotThrow();
     }
 }

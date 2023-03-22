@@ -1,6 +1,5 @@
 ﻿namespace UnitTests.Sequencer.Examples;
 
-using FluentValidation;
 using IegTools.Sequencer.Extensions;
 
 public class SequenceBuilderCreateTests
@@ -33,7 +32,8 @@ public class SequenceBuilderCreateTests
             .AddForceState("Force", () => constraint);
             //.DisableValidation();
 
-            Assert.Throws<ValidationException>(() => _ = builder.Build());
+            FluentActions.Invoking(() => builder.Build())
+                .Should().Throw<FluentValidation.ValidationException>();
     }
 
     
@@ -47,9 +47,8 @@ public class SequenceBuilderCreateTests
         builder.AddForceState("Force", () => constraint);
         builder.DisableValidation();
 
-        var actual = builder.Build();
-
-        actual.Should().NotBeNull();
+        var build = () => builder.Build();
+        build.Should().NotThrow();
     }
 
 
@@ -63,9 +62,9 @@ public class SequenceBuilderCreateTests
             .AddTransition("PrepareOn", "!On", () => false)
             .DisableValidation(); // TODO validation error
 
-        var sut = builder.Build();
+        var build = () => builder.Build();
+        build.Should().NotThrow();
 
-        sut.Should().NotBeNull();
         result.Should().Be(0);
     }
 
@@ -79,9 +78,9 @@ public class SequenceBuilderCreateTests
             .AddTransition("On", "PrepareOff", () => false, () => result = 1)
             .AddTransition("PrepareOff", "!Off", () => false);
 
-        var sut = builder.Build();
+        var build = () => builder.Build();
+        build.Should().NotThrow();
 
-        sut.Should().NotBeNull();
         result.Should().Be(0);
     }
 
@@ -95,9 +94,9 @@ public class SequenceBuilderCreateTests
             .AddTransition("Pulse", "PrepareOff", () => false)
             .AddTransition("PrepareOff", ">Off", () => false);
 
-        var sut = builder.Build();
+        var build = () => builder.Build();
+        build.Should().NotThrow();
 
-        sut.Should().NotBeNull();
         result.Should().Be(0);
     }
 }

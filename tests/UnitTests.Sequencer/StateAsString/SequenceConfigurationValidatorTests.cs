@@ -18,10 +18,10 @@ public class SequenceConfigurationValidatorTests
             builder.AddTransition("State2", "State1", () => constraint);
         });
 
-        var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build());
-
-        actual.Message.Should().Contain("Initial State");
-        actual.Message.Should().NotContain("Each goto state");
+        FluentActions.Invoking(() => builder.Build())
+            .Should().Throw<FluentValidation.ValidationException>()
+            .WithMessage("*Initial State*")
+            .Where(x => !x.Message.Contains("Each goto state"));
     }
 
     [Theory]
@@ -34,9 +34,9 @@ public class SequenceConfigurationValidatorTests
             builder.SetInitialState(InitialState);
         });
 
-        var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build());
-
-        actual.Message.Should().Contain("Descriptors Count");
+        FluentActions.Invoking(() => builder.Build())
+            .Should().Throw<FluentValidation.ValidationException>()
+            .WithMessage("*Descriptors Count*");
     }
 
     [Theory]
@@ -52,9 +52,8 @@ public class SequenceConfigurationValidatorTests
             builder.AddTransition("State2", "State1", () => constraint);
         });
 
-        var sut = builder.Build();
-
-        sut.Should().NotBeNull();
+        var build = () => builder.Build();
+        build.Should().NotThrow();
     }
 
     [Theory]
@@ -69,9 +68,8 @@ public class SequenceConfigurationValidatorTests
             builder.AddTransition("State2", "State1", () => !constraint);
         });
 
-        var sut = builder.Build();
-
-        sut.Should().NotBeNull();
+        var build = () => builder.Build();
+        build.Should().NotThrow();
     }
 
     [Theory]
@@ -87,9 +85,9 @@ public class SequenceConfigurationValidatorTests
             builder.AddTransition("State2", "not existing", () => constraint);
         });
 
-        var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build());
-
-        actual.Message.Should().Contain("Each 'ToState'");
+        FluentActions.Invoking(() => builder.Build())
+            .Should().Throw<FluentValidation.ValidationException>()
+            .WithMessage("*Each 'ToState'*");
     }
 
     [Theory]
@@ -104,9 +102,9 @@ public class SequenceConfigurationValidatorTests
             builder.AddTransition("not existing", "State1", () => constraint);
         });
 
-        var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build());
-
-        actual.Message.Should().Contain("Each 'FromState'");
+        FluentActions.Invoking(() => builder.Build())
+            .Should().Throw<FluentValidation.ValidationException>()
+            .WithMessage("*Each 'FromState'*");
     }
 
 
@@ -123,9 +121,9 @@ public class SequenceConfigurationValidatorTests
             builder.AddTransition("not existing", "State1", () => constraint);
         });
 
-        var actual = Assert.Throws<FluentValidation.ValidationException>(() => builder.Build());
-
-        actual.Message.Should().Contain("Each 'FromState'");
+        FluentActions.Invoking(() => builder.Build())
+            .Should().Throw<FluentValidation.ValidationException>()
+            .WithMessage("*Each 'FromState'*");
     }
 
     [Theory]
@@ -141,9 +139,8 @@ public class SequenceConfigurationValidatorTests
             builder.AddTransition("State3", "State1", () => constraint);
         });
 
-        var sut = builder.Build();
-
-        sut.Should().NotBeNull();
+        var build = () => builder.Build();
+        build.Should().NotThrow();
     }
 
     [Theory]
@@ -162,9 +159,8 @@ public class SequenceConfigurationValidatorTests
             builder.AddTransition("State2", "unknown", () => constraint);
         });
 
-        var sut = builder.Build();
-
-        sut.Should().NotBeNull();
+        var build = () => builder.Build();
+        build.Should().NotThrow();
     }
 
     [Theory]
@@ -182,9 +178,8 @@ public class SequenceConfigurationValidatorTests
             builder.AddTransition("State2", "!unknown", () => constraint);
         });
 
-        var sut = builder.Build();
-
-        sut.Should().NotBeNull();
+        var build = () => builder.Build();
+        build.Should().NotThrow();
     }
 
     [Theory]
@@ -200,9 +195,8 @@ public class SequenceConfigurationValidatorTests
             builder.AddTransition("State2", "State1", () => constraint);
         });
 
-        var sut = builder.Build();
-
-        sut.Should().NotBeNull();
+        var build = () => builder.Build();
+        build.Should().NotThrow();
     }
 
     [Theory]
@@ -217,8 +211,7 @@ public class SequenceConfigurationValidatorTests
             builder.AddTransition("State2", "State1", () => constraint);
         });
 
-        var sut = builder.Build();
-
-        sut.Should().NotBeNull();
+        var build = () => builder.Build();
+        build.Should().NotThrow();
     }
 }
