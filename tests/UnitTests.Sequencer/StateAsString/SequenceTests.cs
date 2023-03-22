@@ -23,8 +23,7 @@ public class SequenceTests
 
         var sut = builder.Build();
 
-        var actual = sut.IsRegisteredState(state);
-        Assert.Equal(expected, actual);
+        sut.IsRegisteredState(state).Should().Be(expected);
     }
 
 
@@ -43,7 +42,6 @@ public class SequenceTests
         sut.SetState(currentState);
         sut.Run();
 
-        var actual = sut.HasAnyCurrentState(queryStates);
-        Assert.Equal(expected, actual);
+        sut.HasAnyCurrentState(queryStates).Should().Be(expected);
     }
 }
