@@ -1,4 +1,4 @@
-﻿namespace IegTools.Sequencer.Extensions;
+﻿namespace IegTools.Sequencer.Images;
 
 using System.Linq;
 using Descriptors;

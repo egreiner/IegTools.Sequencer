@@ -1,4 +1,4 @@
-﻿using IegTools.Sequencer.Extensions;
+﻿using IegTools.Sequencer.Images;
 
 namespace UnitTests.Sequencer.StateAsString;
 

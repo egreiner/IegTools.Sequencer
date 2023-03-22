@@ -1,7 +1,7 @@
 ﻿namespace UnitTests.Sequencer.Examples;
 
 using FluentValidation;
-using IegTools.Sequencer.Extensions;
+using IegTools.Sequencer.Images;
 
 public class SequenceBuilderConfigureTests
 {

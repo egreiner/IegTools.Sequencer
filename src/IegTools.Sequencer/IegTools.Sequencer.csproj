@@ -53,4 +53,8 @@
 		<None Include="Documentation/License.txt" Pack="true" PackagePath="" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Extensions\" />
+	</ItemGroup>
+
 </Project>

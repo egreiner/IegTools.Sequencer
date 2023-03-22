@@ -1,6 +1,6 @@
 ﻿namespace UnitTests.Sequencer.StateAsEnum;
 
-using IegTools.Sequencer.Extensions;
+using IegTools.Sequencer.Images;
 
 public class AnyStateTransitionDescriptorEnumTests
 {
