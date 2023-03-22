@@ -26,7 +26,7 @@ public static class SequenceBuilderDefaultExtensions
     /// <summary>
     /// Adds a 'state_s_ to state'-transition.
     /// The state transition will be executed if
-    /// the CurrentState contains parts of the currentStateContains
+    /// the CurrentState contains a substring of the currentStateContains
     /// (eg1. CurrentState 'ActivatedByApi' contains 'Activated')
     /// (eg2. CurrentState 'ActivatedByApi' contains 'ByApi')
     /// (eg3. CurrentState 'ActivatedByApi' contains 'tedBy')

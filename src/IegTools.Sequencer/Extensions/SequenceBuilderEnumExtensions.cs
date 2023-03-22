@@ -32,6 +32,41 @@ public static class SequenceBuilderEnumExtensions
         builder.AddDescriptor(new StateTransitionDescriptor(currentState.ToString(), nextState.ToString(), constraint, action));
 
     /// <summary>
+    /// Adds a 'state_s_ to state'-transition.
+    /// The state transition will be executed if
+    /// the CurrentState-string contains a substring of the currentStateContains
+    /// (eg1. CurrentState 'ActivatedByApi' contains 'Activated')
+    /// (eg2. CurrentState 'ActivatedByApi' contains 'ByApi')
+    /// (eg3. CurrentState 'ActivatedByApi' contains 'tedBy')
+    /// and the constraint is complied.
+    /// The action will be executed just once, at the moment when the constraint is complied.
+    /// </summary>
+    /// <param name="builder">The sequence-builder</param>
+    /// <param name="currentStateContains">Does current-state contains this substring?</param>
+    /// <param name="nextState">The next state.</param>
+    /// <param name="constraint">The constraint.</param>
+    /// <param name="action">The action that should be executed.</param>
+    public static ISequenceBuilder AddContainsTransition<T>(
+        this ISequenceBuilder builder, string currentStateContains, T nextState, Func<bool> constraint, Action action = null)
+        where T : Enum =>
+        builder.AddDescriptor(new ContainsStateTransitionDescriptor(currentStateContains, nextState.ToString(), constraint, action));
+
+    /// <summary>
+    /// Adds a 'state to state'-transition.
+    /// The state transition will be executed if the constraint is complied.
+    /// The action will be executed just once, at the moment when the constraint is complied.
+    /// </summary>
+    /// <param name="builder">The sequence-builder</param>
+    /// <param name="compareStates">The state(s) that will be compared with the current state.</param>
+    /// <param name="nextState">The next state</param>
+    /// <param name="constraint">The constraint</param>
+    /// <param name="action">The action that should be executed.</param>
+    public static ISequenceBuilder AddAnyTransition<T>(
+        this ISequenceBuilder builder, T[] compareStates, T nextState, Func<bool> constraint, Action action = null)
+        where T : Enum =>
+        builder.AddDescriptor(new AnyStateTransitionDescriptor(compareStates.Select(x => x.ToString()).ToArray(), nextState.ToString(), constraint, action));
+
+    /// <summary>
     /// Adds a state action that should be executed during the state is active.
     /// Internal it's handled like a StateTransition...
     /// </summary>

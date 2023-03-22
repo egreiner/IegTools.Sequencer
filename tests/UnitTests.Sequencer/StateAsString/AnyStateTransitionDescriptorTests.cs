@@ -1,6 +1,6 @@
-﻿using IegTools.Sequencer.Extensions;
+﻿namespace UnitTests.Sequencer.StateAsString;
 
-namespace UnitTests.Sequencer.StateAsString;
+using IegTools.Sequencer.Extensions;
 
 public class AnyStateTransitionDescriptorTests
 {
@@ -38,7 +38,6 @@ public class AnyStateTransitionDescriptorTests
         sut.SetState(currentState);
         sut.Run();
 
-        var actual = sut.CurrentState;
-        Assert.Equal(expected, actual);
+        sut.CurrentState.Should().Be(expected);
     }
 }
