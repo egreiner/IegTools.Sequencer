@@ -21,8 +21,7 @@ public class SequenceEnumTests
 
         var sut = builder.Build().Run();
 
-        var actual = sut.CurrentState;
-        Assert.Equal(expected.ToString(), actual);
+        sut.CurrentState.Should().Be(expected.ToString());
     }
 
     [Theory]
@@ -40,8 +39,7 @@ public class SequenceEnumTests
 
         var sut = builder.Build().Run();
 
-        var actual = sut.CurrentState;
-        Assert.Equal(expected.ToString(), actual);
+        sut.CurrentState.Should().Be(expected.ToString());
     }
 
     [Theory]
@@ -62,8 +60,7 @@ public class SequenceEnumTests
 
         // no Execute is necessary
 
-        var actual = sut.CurrentState;
-        Assert.Equal(expected.ToString(), actual);
+        sut.CurrentState.Should().Be(expected.ToString());
     }
 
     [Theory]
@@ -86,8 +83,7 @@ public class SequenceEnumTests
 
         // no Execute is necessary
 
-        var actual = sut.CurrentState;
-        Assert.Equal(expected.ToString(), actual);
+        sut.CurrentState.Should().Be(expected.ToString());
     }
 
     [Theory]
@@ -109,8 +105,7 @@ public class SequenceEnumTests
         sut.SetState(currentState);
         sut.Run();
 
-        var actual = sut.CurrentState;
-        Assert.Equal(expected.ToString(), actual);
+        sut.CurrentState.Should().Be(expected.ToString());
     }
 
 
@@ -128,8 +123,7 @@ public class SequenceEnumTests
         sut.SetState(currentState);
         sut.Run();
 
-        var actual = sut.HasCurrentState(queryState);
-        Assert.Equal(expected, actual);
+        sut.HasCurrentState(queryState).Should().Be(expected);
     }
 
     [Theory]
@@ -147,8 +141,7 @@ public class SequenceEnumTests
         sut.SetState(currentState);
         sut.Run();
 
-        var actual = sut.HasAnyCurrentState(queryStates);
-        Assert.Equal(expected, actual);
+        sut.HasAnyCurrentState(queryStates).Should().Be(expected);
     }
 
 
@@ -166,8 +159,7 @@ public class SequenceEnumTests
 
         sut.Run();
 
-        var actual = sut.IsRegisteredState(queryState);
-        Assert.Equal(expected, actual);
+        sut.IsRegisteredState(queryState).Should().Be(expected);
     }
 
     [Theory]
@@ -190,8 +182,7 @@ public class SequenceEnumTests
         sut.SetState(currentState);
         sut.Run();
 
-        var actual = countStarts;
-        Assert.Equal(expected, actual);
+        countStarts.Should().Be(expected);
     }
 
     [Theory]
@@ -212,11 +203,8 @@ public class SequenceEnumTests
         sut.SetState(currentState);
         sut.Run();
 
-        var actualCount = countStarts;
-        Assert.Equal(expected, actualCount);
-
-        var actualState = sut.CurrentState;
-        Assert.Equal(TestEnum.StateX.ToString(), actualState);
+        countStarts.Should().Be(expected);
+        sut.CurrentState.Should().Be(TestEnum.StateX.ToString());
     }
 
 
@@ -237,7 +225,6 @@ public class SequenceEnumTests
         sut.SetState(currentState);
         sut.Run();
 
-        var actual = result;
-        Assert.Equal(expected, actual);
+        result.Should().Be(expected);
     }
 }
