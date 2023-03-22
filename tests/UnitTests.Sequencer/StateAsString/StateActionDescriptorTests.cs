@@ -23,7 +23,6 @@ public class StateActionDescriptorTests
         sut.SetState(currentState);
         sut.Run();
 
-        var actual = result;
-        Assert.Equal(expected, actual);
+        result.Should().Be(expected);
     }
 }
