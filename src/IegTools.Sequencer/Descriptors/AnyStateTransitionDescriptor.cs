@@ -1,14 +1,17 @@
 ﻿namespace IegTools.Sequencer.Descriptors;
 
+using System.Linq;
+
 /// <summary>
 /// Transfers the sequence from the current state to the next state
-/// if the constraint is met and invokes the specified action
+/// when the constraint is met
+/// and invokes the specified action
 /// </summary>
-public class StateTransitionDescriptor : DescriptorBase
+public class AnyStateTransitionDescriptor : DescriptorBase
 {
-    public StateTransitionDescriptor(string fromState, string toState, Func<bool> constraint, Action action)
+    public AnyStateTransitionDescriptor(string[] fromStates, string toState, Func<bool> constraint, Action action)
     {
-        FromState  = fromState;
+        FromStates  = fromStates;
         ToState    = toState;
         Constraint = constraint;
         Action     = action;
@@ -18,7 +21,7 @@ public class StateTransitionDescriptor : DescriptorBase
     /// <summary>
     /// The state from which the transition should be made
     /// </summary>
-    public string FromState   { get; }
+    public string[] FromStates   { get; }
 
     /// <summary>
     /// The state to which the transition should be made
@@ -37,19 +40,19 @@ public class StateTransitionDescriptor : DescriptorBase
 
     
     public override string ToString() =>
-        $"{FromState}->{ToState} (Transition)";
+        $"{FromStates}->{ToState} (Transition)";
 
 
     /// <inheritdoc />
     public override bool IsRegisteredState(string state) =>
-        state == ToState || state == FromState;
+        state == ToState || FromStates.Contains(state);
 
     /// <summary>
     /// Returns true if the sequence met the specified state and the constraint is fulfilled
     /// </summary>
     /// <param name="sequence">The sequence</param>
     public override bool ValidateAction(ISequence sequence) =>
-        FromState == sequence.CurrentState && (Constraint?.Invoke() ?? true);
+        FromStates.Contains(sequence.CurrentState) && (Constraint?.Invoke() ?? true);
 
 
     /// <summary>

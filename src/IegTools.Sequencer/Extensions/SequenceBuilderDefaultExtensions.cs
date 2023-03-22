@@ -1,5 +1,6 @@
 ﻿namespace IegTools.Sequencer.Extensions;
 
+using System.Linq;
 using Descriptors;
 using IegTools.Sequencer;
 
@@ -20,6 +21,51 @@ public static class SequenceBuilderDefaultExtensions
         builder.AddInitialStatuses(currentState, nextState);
         return builder.AddDescriptor(
             new StateTransitionDescriptor(currentState, nextState, constraint, action));
+    }
+
+    /// <summary>
+    /// Adds a 'state_s_ to state'-transition.
+    /// The state transition will be executed if
+    /// the CurrentState contains parts of the currentStateContains
+    /// (eg1. CurrentState 'ActivatedByApi' contains 'Activated')
+    /// (eg2. CurrentState 'ActivatedByApi' contains 'ByApi')
+    /// (eg3. CurrentState 'ActivatedByApi' contains 'tedBy')
+    /// and the constraint is complied.
+    /// The action will be executed just once, at the moment when the constraint is complied.
+    /// </summary>
+    /// <param name="builder">The sequence-builder</param>
+    /// <param name="currentStateContains">Does current-state contains this substring?</param>
+    /// <param name="nextState">The next state.</param>
+    /// <param name="constraint">The constraint.</param>
+    /// <param name="action">The action that should be executed.</param>
+    public static ISequenceBuilder AddContainsTransition(this ISequenceBuilder builder, string currentStateContains, string nextState, Func<bool> constraint, Action action = null)
+    {
+        builder.AddInitialStatuses(nextState);
+        return builder.AddDescriptor(
+            new ContainsStateTransitionDescriptor(currentStateContains, nextState, constraint, action));
+    }
+
+    /// <summary>
+    /// Adds a 'state_s_ to state'-transition.
+    /// The state transition will be executed if
+    /// the CurrentState is one of the specified compareStates
+    /// (eg. CurrentState is compareState1 or compareState2 or...) 
+    /// and the constraint is complied.
+    /// The action will be executed just once, at the moment when the constraint is complied.
+    /// </summary>
+    /// <param name="builder">The sequence-builder</param>
+    /// <param name="compareStates">The state(s) that will be compared with the current state.</param>
+    /// <param name="nextState">The next state.</param>
+    /// <param name="constraint">The constraint.</param>
+    /// <param name="action">The action that should be executed.</param>
+    public static ISequenceBuilder AddAnyTransition(this ISequenceBuilder builder, string[] compareStates, string nextState, Func<bool> constraint, Action action = null)
+    {
+        var states = compareStates.ToList();
+        states.Add(nextState);
+
+        builder.AddInitialStatuses(states.ToArray());
+        return builder.AddDescriptor(
+            new AnyStateTransitionDescriptor(compareStates, nextState, constraint, action));
     }
 
 

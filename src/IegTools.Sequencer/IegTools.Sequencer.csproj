@@ -12,19 +12,18 @@
 		
 		<PackageId>IegTools.Sequencer</PackageId>
 		<Title>IegTools.Sequencer</Title>
-		<Version>1.10.1</Version>
+		<Version>2.0.0-rc1</Version>
 		
 		<Company>ieg Systems</Company>
 		<Authors>Ernst Greiner</Authors>
 		<Copyright>(c) 2023 ieg Systems - Ing. Ernst Greiner</Copyright>
 
 		<Description>
-			IegTools.Sequencer allows you to create fluent sequences, simple to use and simple to extend. It helps you get rid of long unreadable if/else statements.
+			IegTools.Sequencer provides a fluent interface for creating easy-to-read and extensible sequences/statemachines, eliminating the need for lengthy if/else statements.
 		</Description>
 
 		<PackageReleaseNotes>
-			Add Sequence.HasAnyCurrentState(params string[] states) 
-			and the ExtensionMethod HasAnyCurrentState(this ISequence sequence, params TEnum[] states).
+			Add Sequence.AddAnyTransition(states, nextState, constraint, action)
 		</PackageReleaseNotes>
 		
 		<PackageTags>sequence;statemachine</PackageTags>

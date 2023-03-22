@@ -1,6 +1,4 @@
-﻿using System.Net.NetworkInformation;
-
-namespace IegTools.Sequencer.Descriptors;
+﻿namespace IegTools.Sequencer.Descriptors;
 
 
 /// <summary>

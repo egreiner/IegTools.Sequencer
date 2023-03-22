@@ -1,24 +1,27 @@
 ﻿namespace IegTools.Sequencer.Descriptors;
 
+using System.Linq;
+
 /// <summary>
 /// Transfers the sequence from the current state to the next state
-/// if the constraint is met and invokes the specified action
+/// when the constraint is met
+/// and invokes the specified action
 /// </summary>
-public class StateTransitionDescriptor : DescriptorBase
+public class ContainsStateTransitionDescriptor : DescriptorBase
 {
-    public StateTransitionDescriptor(string fromState, string toState, Func<bool> constraint, Action action)
+    public ContainsStateTransitionDescriptor(string fromStateContains, string toState, Func<bool> constraint, Action action)
     {
-        FromState  = fromState;
-        ToState    = toState;
-        Constraint = constraint;
-        Action     = action;
+        FromStateContains  = fromStateContains;
+        ToState            = toState;
+        Constraint         = constraint;
+        Action             = action;
     }
 
 
     /// <summary>
     /// The state from which the transition should be made
     /// </summary>
-    public string FromState   { get; }
+    public string FromStateContains   { get; }
 
     /// <summary>
     /// The state to which the transition should be made
@@ -37,19 +40,19 @@ public class StateTransitionDescriptor : DescriptorBase
 
     
     public override string ToString() =>
-        $"{FromState}->{ToState} (Transition)";
+        $"{FromStateContains}->{ToState} (Transition)";
 
 
     /// <inheritdoc />
     public override bool IsRegisteredState(string state) =>
-        state == ToState || state == FromState;
+        state == ToState || FromStateContains.Contains(state);
 
     /// <summary>
     /// Returns true if the sequence met the specified state and the constraint is fulfilled
     /// </summary>
     /// <param name="sequence">The sequence</param>
     public override bool ValidateAction(ISequence sequence) =>
-        FromState == sequence.CurrentState && (Constraint?.Invoke() ?? true);
+        sequence.CurrentState.Contains(FromStateContains) && (Constraint?.Invoke() ?? true);
 
 
     /// <summary>
