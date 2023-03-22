@@ -17,8 +17,7 @@ public class InitialStateTagTests
                 .DisableValidation();
         });
 
-        var actual = builder.Configuration.InitialState;
-        Assert.Equal(expected, actual);
+        builder.Configuration.InitialState.Should().Be(expected);
     }
 
     [Theory]
@@ -32,8 +31,7 @@ public class InitialStateTagTests
                 .DisableValidation();
         });
 
-        var actual = builder.Configuration.InitialState;
-        Assert.Equal(expected, actual);
+        builder.Configuration.InitialState.Should().Be(expected);
     }
 
     [Theory]
@@ -47,7 +45,6 @@ public class InitialStateTagTests
                 .DisableValidation();
         });
 
-        var actual = builder.Configuration.InitialState;
-        Assert.Equal(expected, actual);
+        builder.Configuration.InitialState.Should().Be(expected);
     }
 }
