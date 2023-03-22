@@ -1,7 +1,14 @@
 # IegTools.Sequencer in a Nutshell
 
-IegTools.Sequencer allows you to create sequences in code, simple to use and simple to extend.  
-It helps you get rid of long unreadable if/else statements that represent a sequence of events.
+IegTools.Sequencer provides a fluent interface for creating easy-to-read and extensible sequences,
+eliminating the need for lengthy if/else statements.
+
+Define transition jobs: 
+from state -> to state, when it should be triggerd and the action that should be invoked
+
+Force state on certain conditions
+
+Invoke Actions on certain states
 
 
 # Usage
