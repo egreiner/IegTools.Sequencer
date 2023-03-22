@@ -26,8 +26,7 @@ public class StateTransitionDescriptorTests
         sut.SetState(currentState);
         sut.Run();
 
-        var actual = sut.CurrentState;
-        Assert.Equal(expected, actual);
+        sut.CurrentState.Should().Be(expected);
     }
 
 
@@ -45,8 +44,7 @@ public class StateTransitionDescriptorTests
         sut.SetState(currentState);
         sut.Run();
 
-        var actual = sut.HasCurrentState(queryState);
-        Assert.Equal(expected, actual);
+        sut.HasCurrentState(queryState).Should().Be(expected);
     }
 
     [Theory]
@@ -66,8 +64,7 @@ public class StateTransitionDescriptorTests
         sut.SetState(currentState);
         sut.Run();
 
-        var actual = countStarts;
-        Assert.Equal(expected, actual);
+        countStarts.Should().Be(expected);
     }
 
     [Theory]
@@ -88,10 +85,8 @@ public class StateTransitionDescriptorTests
         sut.SetState(currentState);
         sut.Run();
 
-        var actualCount = countStarts;
-        Assert.Equal(expected, actualCount);
+        countStarts.Should().Be(expected);
 
-        var actualState = sut.CurrentState;
-        Assert.Equal("State3", actualState);
+        sut.CurrentState.Should().Be("State3");
     }
 }
