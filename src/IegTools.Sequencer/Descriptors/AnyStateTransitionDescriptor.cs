@@ -52,7 +52,7 @@ public class AnyStateTransitionDescriptor : DescriptorBase
     /// </summary>
     /// <param name="sequence">The sequence</param>
     public override bool ValidateAction(ISequence sequence) =>
-        FromStates.Contains(sequence.CurrentState) && (Constraint?.Invoke() ?? true);
+        sequence.CurrentState != ToState && FromStates.Contains(sequence.CurrentState) && (Constraint?.Invoke() ?? true);
 
 
     /// <summary>
