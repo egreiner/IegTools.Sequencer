@@ -1,7 +1,5 @@
 ﻿namespace IegTools.Sequencer.Descriptors;
 
-using System.Linq;
-
 /// <summary>
 /// Transfers the sequence from the current state to the next state
 /// when the constraint is met
@@ -52,7 +50,7 @@ public class ContainsStateTransitionDescriptor : DescriptorBase
     /// </summary>
     /// <param name="sequence">The sequence</param>
     public override bool ValidateAction(ISequence sequence) =>
-        sequence.CurrentState.Contains(FromStateContains) && (Constraint?.Invoke() ?? true);
+        sequence.CurrentState != ToState && sequence.CurrentState.Contains(FromStateContains) && (Constraint?.Invoke() ?? true);
 
 
     /// <summary>

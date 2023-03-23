@@ -3,12 +3,12 @@
 IegTools.Sequencer provides a fluent interface for creating easy-to-read and extensible sequences,
 eliminating the need for lengthy if/else statements.
 
-Define transition jobs: 
+Define transition jobs:   
 from state -> to state, when it should be triggerd and the action that should be invoked
 
-Force state on certain conditions
+Force state on specified conditions
 
-Invoke Actions on certain states
+Invoke Actions on specified states
 
 
 # Usage
