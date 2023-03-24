@@ -17,7 +17,7 @@ public static class SequenceBuilderDefaultExtensions
     /// <param name="action">The action that should be executed.</param>
     public static ISequenceBuilder AddTransition(this ISequenceBuilder builder, string currentState, string nextState, Func<bool> constraint, Action action = null)
     {
-        builder.AddInitialStatuses(currentState, nextState);
+        builder.AddInitialStates(currentState, nextState);
         return builder.AddDescriptor(
             new StateTransitionDescriptor(currentState, nextState, constraint, action));
     }
@@ -39,7 +39,7 @@ public static class SequenceBuilderDefaultExtensions
     /// <param name="action">The action that should be executed.</param>
     public static ISequenceBuilder AddContainsTransition(this ISequenceBuilder builder, string currentStateContains, string nextState, Func<bool> constraint, Action action = null)
     {
-        builder.AddInitialStatuses(nextState);
+        builder.AddInitialStates(nextState);
         return builder.AddDescriptor(
             new ContainsStateTransitionDescriptor(currentStateContains, nextState, constraint, action));
     }
@@ -59,10 +59,7 @@ public static class SequenceBuilderDefaultExtensions
     /// <param name="action">The action that should be executed.</param>
     public static ISequenceBuilder AddAnyTransition(this ISequenceBuilder builder, string[] compareStates, string nextState, Func<bool> constraint, Action action = null)
     {
-        var states = compareStates.ToList();
-        states.Add(nextState);
-
-        builder.AddInitialStatuses(states.ToArray());
+        builder.AddInitialStates(nextState);
         return builder.AddDescriptor(
             new AnyStateTransitionDescriptor(compareStates, nextState, constraint, action));
     }
@@ -77,7 +74,7 @@ public static class SequenceBuilderDefaultExtensions
     /// <param name="action">The action.</param>
     public static ISequenceBuilder AddStateAction(this ISequenceBuilder builder, string state, Action action)
     {
-        builder.AddInitialStatuses(state);
+        builder.AddInitialStates(state);
         return builder.AddDescriptor(new StateActionDescriptor(state, action));
     }
 
@@ -91,18 +88,15 @@ public static class SequenceBuilderDefaultExtensions
     /// <param name="constraint">The constraint that must be fulfilled that the sequence is forced to the defined state.</param>
     public static ISequenceBuilder AddForceState(this ISequenceBuilder builder, string state, Func<bool> constraint)
     {
-        builder.AddInitialStatuses(state);
+        builder.AddInitialStates(state);
         return builder.AddDescriptor(new ForceStateDescriptor(state, constraint));
     }
 
 
-    private static void AddInitialStatuses(this ISequenceBuilder builder, params string[] statuses)
+    private static void AddInitialStates(this ISequenceBuilder builder, params string[] statuses)
     {
-        foreach (var state in statuses)
-        {
-            if (state.StartsWith(builder.InitialStateTag()))
-                builder.SetInitialState(state);
-        }
+        foreach (var state in statuses.Where(state => state.StartsWith(builder.InitialStateTag())))
+            builder.SetInitialState(state);
     }
 
     private static string InitialStateTag(this ISequenceBuilder builder) =>

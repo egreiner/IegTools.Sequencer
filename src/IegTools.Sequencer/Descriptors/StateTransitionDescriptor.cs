@@ -4,7 +4,7 @@
 /// Transfers the sequence from the current state to the next state
 /// if the constraint is met and invokes the specified action
 /// </summary>
-public class StateTransitionDescriptor : DescriptorBase
+public class StateTransitionDescriptor : DescriptorBase, IHasFromState, IHasToState
 {
     public StateTransitionDescriptor(string fromState, string toState, Func<bool> constraint, Action action)
     {

@@ -18,7 +18,7 @@ public class SequenceConfiguration
     /// <summary>
     /// The complete validation will be disabled
     /// </summary>
-    public bool     DisableValidation          { get; set; }
+    public bool DisableValidation { get; set; }
 
     /// <summary>
     /// Does tell the validator to not check this statuses
@@ -29,6 +29,11 @@ public class SequenceConfiguration
     /// The state the sequence will start from
     /// </summary>
     public string InitialState { get; set; }
+
+    /// <summary>
+    /// All states in the sequence
+    /// </summary>
+    public HashSet<string> AvailableStates { get; set; } = new();
     
     /// <summary>
     /// The sequence-descriptors that describe how the sequence is supposed to work

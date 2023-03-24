@@ -7,11 +7,11 @@ using System.Linq;
 /// when the constraint is met
 /// and invokes the specified action
 /// </summary>
-public class AnyStateTransitionDescriptor : DescriptorBase
+public class AnyStateTransitionDescriptor : DescriptorBase, IHasToState
 {
     public AnyStateTransitionDescriptor(string[] fromStates, string toState, Func<bool> constraint, Action action)
     {
-        FromStates  = fromStates;
+        FromStates = fromStates;
         ToState    = toState;
         Constraint = constraint;
         Action     = action;
@@ -61,7 +61,15 @@ public class AnyStateTransitionDescriptor : DescriptorBase
     /// <param name="sequence">The sequence</param>
     public override void ExecuteAction(ISequence sequence)
     {
-        sequence.SetState(ToState);
+        SetState(sequence);
         Action?.Invoke();
     }
+
+    // TODO is this needed
+    /// <summary>
+    /// Sets the new Sequence's CurrentState
+    /// </summary>
+    /// <param name="sequence">The sequence</param>
+    public void SetState(ISequence sequence) =>
+        sequence.SetState(ToState);
 }

@@ -12,18 +12,18 @@
 		
 		<PackageId>IegTools.Sequencer</PackageId>
 		<Title>IegTools.Sequencer</Title>
-		<Version>2.0.1</Version>
+		<Version>2.0.2-beta1</Version>
 		
 		<Company>ieg Systems</Company>
 		<Authors>Ernst Greiner</Authors>
 		<Copyright>(c) 2023 ieg Systems - Ing. Ernst Greiner</Copyright>
 
 		<Description>
-			IegTools.Sequencer provides a fluent interface for creating easy-to-read and extensible sequences/statemachines, eliminating the need for lengthy if/else statements.
+			IegTools.Sequencer provides a fluent interface for creating easy-to-read and extensible sequences, eliminating the need for lengthy if/else statements.
 		</Description>
 
 		<PackageReleaseNotes>
-			Add AnyStateTransitionDescriptor and ContainsStateTransitionDescriptor
+			Bugfix AnyStateTransitionDescriptor, ContainsStateTransitionDescriptor, SequenceValidator
 		</PackageReleaseNotes>
 		
 		<PackageTags>sequence;statemachine</PackageTags>

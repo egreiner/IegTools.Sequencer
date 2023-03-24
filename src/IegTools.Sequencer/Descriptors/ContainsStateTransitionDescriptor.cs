@@ -5,7 +5,7 @@
 /// when the constraint is met
 /// and invokes the specified action
 /// </summary>
-public class ContainsStateTransitionDescriptor : DescriptorBase
+public class ContainsStateTransitionDescriptor : DescriptorBase, IHasToState
 {
     public ContainsStateTransitionDescriptor(string fromStateContains, string toState, Func<bool> constraint, Action action)
     {
