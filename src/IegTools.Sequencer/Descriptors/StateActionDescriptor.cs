@@ -10,6 +10,8 @@ public class StateActionDescriptor : DescriptorBase
     {
         State  = state;
         Action = action;
+
+        ValidationTargetStates.Add(State);
     }
 
     

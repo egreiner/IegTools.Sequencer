@@ -15,6 +15,8 @@ public class AnyStateTransitionDescriptor : DescriptorBase, IHasToState
         ToState    = toState;
         Constraint = constraint;
         Action     = action;
+
+        ValidationTargetStates.Add(ToState);
     }
 
 

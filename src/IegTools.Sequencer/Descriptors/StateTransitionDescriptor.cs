@@ -12,6 +12,9 @@ public class StateTransitionDescriptor : DescriptorBase, IHasFromState, IHasToSt
         ToState    = toState;
         Constraint = constraint;
         Action     = action;
+
+        ValidationTargetStates.Add(FromState);
+        ValidationTargetStates.Add(ToState);
     }
 
 

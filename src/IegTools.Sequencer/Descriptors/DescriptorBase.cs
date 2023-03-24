@@ -1,17 +1,22 @@
 ﻿namespace IegTools.Sequencer.Descriptors;
 
+using System.Collections.Generic;
+
 /// <summary>
 /// The base descriptor
 /// </summary>
 public abstract class DescriptorBase : IDescriptor
 {
+    /// <inheritdoc />
+    public bool ResumeSequence { get; set; } = true;
+
+    /// <inheritdoc />
+    public HashSet<string> ValidationTargetStates { get; set; } = new();
+
     /// <summary>
     /// The constraint that should be met to make the transition
     /// </summary>
     protected Func<bool> Constraint { get; init; }
-
-    /// <inheritdoc />
-    public bool ResumeSequence { get; set; } = true;
 
 
     /// <inheritdoc />

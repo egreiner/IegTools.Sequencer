@@ -82,12 +82,6 @@ public class SequenceBuilder : ISequenceBuilder
     {
         Configuration.Descriptors.Add(descriptor);
 
-        if (descriptor is IHasFromState fromDesc) 
-            Configuration.AvailableStates.Add(fromDesc.FromState);
-        
-        if (descriptor is IHasToState toDesc) 
-            Configuration.AvailableStates.Add(toDesc.ToState);
-
         return this;
     }
 
