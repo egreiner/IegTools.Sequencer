@@ -1,4 +1,5 @@
-﻿namespace IegTools.Sequencer;
+﻿// ReSharper disable once CheckNamespace, should be reachable from root-namespace (no additional usings are needed)
+namespace IegTools.Sequencer;
 
 using System.Linq;
 using Descriptors;
