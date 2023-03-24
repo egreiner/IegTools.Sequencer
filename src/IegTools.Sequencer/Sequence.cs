@@ -9,14 +9,23 @@ public class Sequence : ISequence
     private SequenceConfiguration _configuration;
 
     
-    public override string ToString() => $"CurrentState: {CurrentState}";
+    public Sequence() : this(false) {  }
 
+    public Sequence(bool validationOnly) =>
+        ValidationOnly = validationOnly;
+
+
+    /// <inheritdoc />
+    public bool ValidationOnly { get; }
 
     /// <inheritdoc />
     public string CurrentState { get; private set; }
 
     /// <inheritdoc />
     public Stopwatch Stopwatch { get; } = new();
+
+
+    public override string ToString() => $"CurrentState: {CurrentState}";
 
 
     /// <inheritdoc />

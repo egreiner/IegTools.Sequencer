@@ -5,6 +5,11 @@
 /// </summary>
 public abstract class DescriptorBase : IDescriptor
 {
+    /// <summary>
+    /// The constraint that should be met to make the transition
+    /// </summary>
+    protected Func<bool> Constraint { get; init; }
+
     /// <inheritdoc />
     public bool ResumeSequence { get; set; } = true;
 
@@ -22,8 +27,17 @@ public abstract class DescriptorBase : IDescriptor
     public bool ExecuteIfValid(ISequence sequence)
     {
         var complied = ValidateAction(sequence);
-        if (complied)  ExecuteAction(sequence);
+
+        if (complied && !sequence.ValidationOnly) 
+            ExecuteAction(sequence);
 
         return complied;
     }
+
+    /// <summary>
+    /// Returns true the sequence is in ValidationOnly-mode or if the descriptors constraint is fulfilled
+    /// </summary>
+    /// <param name="sequence"></param>
+    protected bool IsConditionFulfilled(ISequence sequence) =>
+        (sequence.ValidationOnly || (Constraint?.Invoke() ?? true));
 }

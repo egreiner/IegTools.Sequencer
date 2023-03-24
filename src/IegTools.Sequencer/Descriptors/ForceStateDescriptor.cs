@@ -18,11 +18,6 @@ public class ForceStateDescriptor : DescriptorBase
     /// </summary>
     public string State          { get; }
     
-    /// <summary>
-    /// This constraint must be fulfilled that the sequence will be set to the specified state
-    /// </summary>
-    public Func<bool> Constraint { get; }
-
     
     public override string ToString() => $"{State} (Forced)";
 
@@ -36,7 +31,8 @@ public class ForceStateDescriptor : DescriptorBase
     /// It depends on the constraint only.
     /// </summary>
     /// <param name="sequence">The sequence</param>
-    public override bool ValidateAction(ISequence sequence) => Constraint?.Invoke() ?? false;
+    public override bool ValidateAction(ISequence sequence) =>
+        sequence.ValidationOnly || (Constraint?.Invoke() ?? false);
 
     /// <summary>
     /// The sequence will be set to the specified state

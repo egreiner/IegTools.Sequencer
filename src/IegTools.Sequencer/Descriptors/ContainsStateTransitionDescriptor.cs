@@ -27,11 +27,6 @@ public class ContainsStateTransitionDescriptor : DescriptorBase, IHasToState
     public string ToState      { get; }
 
     /// <summary>
-    /// The constraint that should be met to make the transition
-    /// </summary>
-    public Func<bool> Constraint { get; }
-
-    /// <summary>
     /// The action that will be invoked when the state transition will be executed
     /// </summary>
     public Action Action         { get; }
@@ -50,7 +45,7 @@ public class ContainsStateTransitionDescriptor : DescriptorBase, IHasToState
     /// </summary>
     /// <param name="sequence">The sequence</param>
     public override bool ValidateAction(ISequence sequence) =>
-        sequence.CurrentState != ToState && sequence.CurrentState.Contains(FromStateContains) && (Constraint?.Invoke() ?? true);
+        !sequence.HasCurrentState(ToState) && sequence.CurrentState.Contains(FromStateContains) && IsConditionFulfilled(sequence);
 
 
     /// <summary>
@@ -60,6 +55,8 @@ public class ContainsStateTransitionDescriptor : DescriptorBase, IHasToState
     public override void ExecuteAction(ISequence sequence)
     {
         sequence.SetState(ToState);
+
+        if (sequence.ValidationOnly) return;
         Action?.Invoke();
     }
 }

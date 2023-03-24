@@ -35,7 +35,8 @@ public class StateActionDescriptor : DescriptorBase
     /// Returns true if the sequence is in the specified state
     /// </summary>
     /// <param name="sequence">The sequence</param>
-    public override bool ValidateAction(ISequence sequence) => State == sequence.CurrentState;
+    public override bool ValidateAction(ISequence sequence) =>
+        sequence.HasCurrentState(State);
 
     /// <summary>
     /// Invokes the specified action
@@ -43,6 +44,7 @@ public class StateActionDescriptor : DescriptorBase
     /// <param name="sequence">The sequence</param>
     public override void ExecuteAction(ISequence sequence)
     {
+        if (sequence.ValidationOnly) return;
         Action?.Invoke();
     }
 }
