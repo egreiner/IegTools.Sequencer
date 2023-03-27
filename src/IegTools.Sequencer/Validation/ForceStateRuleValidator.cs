@@ -6,7 +6,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using Rules;
 
-public class ForceStateRuleValidator : ISequenceRuleValidator
+public class ForceStateRuleValidator : RuleValidatorBase, ISequenceRuleValidator
 {
     private List<ForceStateRule> _rules;
 
@@ -28,6 +28,12 @@ public class ForceStateRuleValidator : ISequenceRuleValidator
     /// </summary>
     private bool RuleIsValidated(SequenceConfiguration config)
     {
+        var result = base.RuleIsValidatedTo<ForceStateRule>(config);
+        _rules = result.list.ToList();
+
+        return result.isValid;
+
+
         var forceStates = config.Rules.OfType<ForceStateRule>()
             .Where(x => ShouldBeValidated(x.ToState, config)).ToList();
 
@@ -60,15 +66,5 @@ public class ForceStateRuleValidator : ISequenceRuleValidator
         }
 
         return _rules.Count == 0;
-    }
-
-   
-
-    private static bool ShouldBeValidated(string state, SequenceConfiguration config)
-    {
-        return !state.StartsWith(config.IgnoreTag.ToString()) && !disabledStatuses().Contains(state);
-
-        IEnumerable<string> disabledStatuses() =>
-            config.DisableValidationForStatuses?.ToList() ?? Enumerable.Empty<string>();
     }
 }

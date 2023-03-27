@@ -1,12 +1,11 @@
 ﻿namespace IegTools.Sequencer.Validation;
 
-using System.Collections.Generic;
 using System.Linq;
 using FluentValidation;
 using FluentValidation.Results;
 using Rules;
 
-public class InitialStateValidator : ISequenceRuleValidator
+public class InitialStateValidator : RuleValidatorBase, ISequenceRuleValidator
 {
     /// <inheritdoc />
     public bool Validate(ValidationContext<SequenceConfiguration> context, ValidationResult result)
@@ -26,14 +25,4 @@ public class InitialStateValidator : ISequenceRuleValidator
         config.Rules.OfType<StateTransitionRule>().Any(x => config.InitialState == x.FromState) ||
         config.Rules.OfType<ContainsStateTransitionRule>().Any(x => config.InitialState.Contains(x.FromStateContains)) ||
         config.Rules.OfType<AnyStateTransitionRule>().Any(x => x.FromStates.Contains(config.InitialState));
-
-    
-    private static bool ShouldBeValidated(string state, SequenceConfiguration config)
-    {
-        return (!state?.StartsWith(config.IgnoreTag.ToString()) ?? true) && !disabledStatuses().Contains(state);
-
-        IEnumerable<string> disabledStatuses() =>
-            config.DisableValidationForStatuses?.ToList() ?? Enumerable.Empty<string>();
-    }
-
 }

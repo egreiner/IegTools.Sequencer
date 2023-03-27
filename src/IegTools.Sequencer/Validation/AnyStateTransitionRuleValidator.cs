@@ -6,7 +6,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using Rules;
 
-public class AnyStateTransitionRuleValidator : ISequenceRuleValidator
+public class AnyStateTransitionRuleValidator : RuleValidatorBase, ISequenceRuleValidator
 {
     private List<AnyStateTransitionRule> _rulesFrom;
     private List<AnyStateTransitionRule> _rulesTo;
@@ -76,6 +76,12 @@ public class AnyStateTransitionRuleValidator : ISequenceRuleValidator
     /// </summary>
     private bool RuleIsValidatedTo(SequenceConfiguration config)
     {
+        var result = base.RuleIsValidatedTo<AnyStateTransitionRule>(config);
+        _rulesTo = result.list.ToList();
+
+        return result.isValid;
+
+
         var anyTransitions = config.Rules.OfType<AnyStateTransitionRule>().ToList();
         if (anyTransitions.Count == 0) return true;
 
@@ -108,15 +114,5 @@ public class AnyStateTransitionRuleValidator : ISequenceRuleValidator
         }
 
         return _rulesTo.Count == 0;
-    }
-
-
-
-    private static bool ShouldBeValidated(string state, SequenceConfiguration config)
-    {
-        return !state.StartsWith(config.IgnoreTag.ToString()) && !disabledStatuses().Contains(state);
-
-        IEnumerable<string> disabledStatuses() =>
-            config.DisableValidationForStatuses?.ToList() ?? Enumerable.Empty<string>();
     }
 }
