@@ -2,6 +2,7 @@
 
 using Descriptors;
 using FluentValidation;
+using Validation;
 
 public class SequenceBuilder : ISequenceBuilder
 {
