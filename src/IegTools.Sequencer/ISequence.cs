@@ -5,11 +5,6 @@ using System.Threading.Tasks;
 
 public interface ISequence
 {
-    /////// <summary>
-    /////// The sequence should only run within a validator, no actions are invoked or state-transition constrains are called
-    /////// </summary>
-    ////bool ValidationOnly { get; }
-
     /// <summary>
     /// The current state of the sequence
     /// </summary>
