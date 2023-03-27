@@ -1,6 +1,6 @@
-﻿namespace UnitTests.Sequencer.StateAsString;
+﻿namespace UnitTests.Sequencer.Validation;
 
-public class SequenceConfigurationValidatorTests
+public class ConfigurationValidatorTests
 {
     private const string InitialState = "InitialState";
 
@@ -138,7 +138,7 @@ public class SequenceConfigurationValidatorTests
             builder.SetInitialState(InitialState);
 
             builder.AddForceState("State3", () => constraint);
-            
+
             builder.AddTransition("InitialState", "State1", () => constraint);
             builder.AddTransition("State1", "!State2", () => constraint);
             builder.AddTransition("State3", "State1", () => constraint);

@@ -1,6 +1,8 @@
-﻿namespace UnitTests.Sequencer.StateAsEnum;
+﻿namespace UnitTests.Sequencer.Validation;
 
-public class SequenceConfigurationValidatorEnumTests
+using UnitTests.Sequencer.StateAsEnum;
+
+public class ConfigurationValidatorEnumTests
 {
     [Theory]
     [InlineData(true)]

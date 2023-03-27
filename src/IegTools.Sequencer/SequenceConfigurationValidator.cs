@@ -30,35 +30,35 @@ public class SequenceConfigurationValidator: AbstractValidator<SequenceConfigura
         var config = context.InstanceToValidate;
         if (!CorrectForceStateDescriptor(config)) 
         {
-            result.Errors.Add(new ValidationFailure("", 
+            result.Errors.Add(new ValidationFailure("ForceState", 
                 "Each Force-State must have a StateTransition counterpart." +
                 $"Violating rule(s): {string.Join("; ", missingForces)}"));
             result1 = false;
         }
         if (!CorrectFromState(config)) 
         {
-            result.Errors.Add(new ValidationFailure("", 
+            result.Errors.Add(new ValidationFailure("StateTransition", 
                 "Each 'FromState' must have an 'ToState' counterpart where it comes from (Force-State, Initial-State...)" +
                 $"Violating rule(s): {string.Join("; ", missingFromStates)}"));
             result1 = false;
         }
         if (!CorrectToState(config)) 
         {
-            result.Errors.Add(new ValidationFailure("", 
+            result.Errors.Add(new ValidationFailure("StateTransition", 
                 "Each 'ToState' must have an 'FromState' counterpart." +
                 $"Violating Rule(s): {string.Join("; ", missingToStates)}"));
             result1 = false;
         }
         if (!CorrectAnyState(config)) 
         {
-            result.Errors.Add(new ValidationFailure("", 
+            result.Errors.Add(new ValidationFailure("AnyStateTransition", 
                 "Each 'FromState' of an AnyTransition must have an 'ToState' counterpart." +
                 $"Violating Rule(s): {string.Join("; ", missingAnyStates)}"));
             result1 = false;
         }
         if (!CorrectContainsState(config)) 
         {
-            result.Errors.Add(new ValidationFailure("", 
+            result.Errors.Add(new ValidationFailure("ContainsStateTransition", 
                 "Each 'State-part' of an ContainsTransition must have an 'ToState' counterpart." +
                 $"Violating Rule(s): {string.Join("; ", missingContainsStates)}"));
             result1 = false;
@@ -87,6 +87,7 @@ public class SequenceConfigurationValidator: AbstractValidator<SequenceConfigura
                 missingForces.Add(forceState);
         }
 
+        // TODO add Any and Contains StateTransitions
         ////// if there are any transitions for the force-state remove it from the error-list
         ////var anyTransitions = config.Descriptors.OfType<AnyStateTransitionDescriptor>().ToList();
         ////foreach (var forceState in forceStatuses)
