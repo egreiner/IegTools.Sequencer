@@ -6,10 +6,10 @@ using FluentValidation;
 using FluentValidation.Results;
 using Rules;
 
-public class StateTransitionRuleValidator : ISequenceRuleValidator
+public class AnyStateTransitionRuleValidator : ISequenceRuleValidator
 {
-    private List<StateTransitionRule> _rulesFrom;
-    private List<StateTransitionRule> _rulesTo;
+    private List<AnyStateTransitionRule> _rulesFrom;
+    private List<AnyStateTransitionRule> _rulesTo;
 
 
     /// <inheritdoc />
@@ -19,8 +19,8 @@ public class StateTransitionRuleValidator : ISequenceRuleValidator
 
         if (!RuleIsValidatedFrom(context.InstanceToValidate))
         {
-            result.Errors.Add(new ValidationFailure("StateTransition",
-                "Each 'FromState' must have an 'ToState' counterpart where it comes from (other Transition, Initial-State...)\n" +
+            result.Errors.Add(new ValidationFailure("AnyStateTransition",
+                "Each 'FromState' of an AnyTransition must have an 'ToState' counterpart where it comes from (other Transition, Initial-State...)\n" +
                 $"Violating rule(s): {string.Join("; ", _rulesFrom)}"));
 
             isValid = false;
@@ -28,7 +28,7 @@ public class StateTransitionRuleValidator : ISequenceRuleValidator
 
         if (!RuleIsValidatedTo(context.InstanceToValidate))
         {
-            result.Errors.Add(new ValidationFailure("StateTransition",
+            result.Errors.Add(new ValidationFailure("AnyStateTransition",
                 "Each 'ToState' must have an 'FromState' counterpart where it goes to (other Transition...)\n" +
                 $"Violating Rule(s): {string.Join("; ", _rulesTo)}"));
 
@@ -48,28 +48,25 @@ public class StateTransitionRuleValidator : ISequenceRuleValidator
     /// </summary>
     private bool RuleIsValidatedFrom(SequenceConfiguration config)
     {
-        var transitions = config.Rules.OfType<StateTransitionRule>().ToList();
+        var transitions = config.Rules.OfType<AnyStateTransitionRule>().ToList();
         var allTransitions = config.Rules.OfType<IHasToState>().ToList();
         if (transitions.Count == 0) return true;
 
-        _rulesFrom = new List<StateTransitionRule>();
+        _rulesFrom = new List<AnyStateTransitionRule>();
 
         // for easy reading do not simplify this
         // each StateTransition should have an counterpart so that no dead-end is reached
-        foreach (var transition in transitions.Where(x => ShouldBeValidated(x.FromState, config)))
+        foreach (var transition in transitions)
         {
-            if (allTransitions.All(x => transition.FromState != x.ToState) && 
-                transition.FromState != config.InitialState)
-                _rulesFrom.Add(transition);
-            
-            ////if (transitions.All(x => transition.FromState != x.ToState) &&
-            ////    allTransitions.All(x => transition.FromState != x.ToState) &&
-            ////    transition.FromState != config.InitialState)
-            ////    _rulesFrom.Add(transition);
+            foreach (var state in transition.FromStates.Where(x => ShouldBeValidated(x, config)))
+            {
+                if (allTransitions.All(x => state != x.ToState) &&
+                    state != config.InitialState)
+                    _rulesFrom.Add(transition);
+            }
         }
 
-        return _rulesFrom.Count == 0;
-    }
+        return _rulesFrom.Count == 0;    }
 
         
     /// <summary>
@@ -79,14 +76,16 @@ public class StateTransitionRuleValidator : ISequenceRuleValidator
     /// </summary>
     private bool RuleIsValidatedTo(SequenceConfiguration config)
     {
-        var transitions = config.Rules.OfType<StateTransitionRule>().ToList();
-        if (transitions.Count == 0) return true;
+        var anyTransitions = config.Rules.OfType<AnyStateTransitionRule>().ToList();
+        if (anyTransitions.Count == 0) return true;
 
-        _rulesTo = new List<StateTransitionRule>();
+        var transitions = config.Rules.OfType<StateTransitionRule>().ToList();
+
+        _rulesTo = new List<AnyStateTransitionRule>();
 
         // for easy reading do not simplify this
         // each StateTransition should have an counterpart so that no dead-end is reached
-        foreach (var transition in transitions.Where(x => ShouldBeValidated(x.ToState, config)))
+        foreach (var transition in anyTransitions.Where(x => ShouldBeValidated(x.ToState, config)))
         {
             if (transitions.All(x => transition.ToState != x.FromState))
                 _rulesTo.Add(transition);
@@ -95,14 +94,14 @@ public class StateTransitionRuleValidator : ISequenceRuleValidator
         if (_rulesTo.Count == 0) return true;
 
         // remove all ForceStates that have a ContainsStateTransition counterpart
-        foreach (var transition in transitions.Where(x => ShouldBeValidated(x.ToState, config)))
+        foreach (var transition in anyTransitions.Where(x => ShouldBeValidated(x.ToState, config)))
         {
             if (config.Rules.OfType<ContainsStateTransitionRule>().Any(x => transition.ToState.Contains(x.FromStateContains)))
                 _rulesTo.Remove(transition);
         }
 
         // remove all ForceStates that have a AnyStateTransition counterpart
-        foreach (var transition in transitions.Where(x => ShouldBeValidated(x.ToState, config)))
+        foreach (var transition in anyTransitions.Where(x => ShouldBeValidated(x.ToState, config)))
         {
             if (config.Rules.OfType<AnyStateTransitionRule>().Any(x => x.FromStates.Contains(transition.ToState)))
                 _rulesTo.Remove(transition);

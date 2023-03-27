@@ -43,6 +43,8 @@ public class ForceStateRuleValidator : ISequenceRuleValidator
                 _rules.Add(forceState);
         }
 
+        if (_rules.Count == 0) return true;
+        
         // remove all ForceStates that have a ContainsStateTransition counterpart
         foreach (var forceState in forceStates)
         {

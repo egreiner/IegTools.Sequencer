@@ -29,6 +29,7 @@ public class SequenceConfigurationValidator : AbstractValidator<SequenceConfigur
         validators.ForEach(x => isValide &= x.Validate(context, result));
 
         return isValide;
+
         ////if (!CorrectAnyState(config))
         ////{
         ////    result.Errors.Add(new ValidationFailure("AnyStateTransition",

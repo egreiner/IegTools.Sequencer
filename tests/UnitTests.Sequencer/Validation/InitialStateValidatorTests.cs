@@ -63,8 +63,8 @@ public class InitialStateValidatorTests
             =>
         {
             builder.SetInitialState("State1");
-            builder.AddTransition("State2", "State1", () => true);
-            builder.AddAnyTransition(new[] { "State1", "!State2" }, "State3", () => true);
+            builder.AddTransition("State1", "State2", () => true);
+            builder.AddAnyTransition(new[] { "State1", "State2" }, "!State3", () => true);
         });
 
         var build = () => builder.Build();

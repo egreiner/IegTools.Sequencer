@@ -117,5 +117,6 @@ public class SequenceBuilder : ISequenceBuilder
         AddRuleValidator<InitialStateValidator>();
         AddRuleValidator<ForceStateRuleValidator>();
         AddRuleValidator<StateTransitionRuleValidator>();
+        AddRuleValidator<AnyStateTransitionRuleValidator>();
     }
 }
