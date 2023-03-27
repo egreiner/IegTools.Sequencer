@@ -5,14 +5,8 @@
 /// </summary>
 public abstract class RuleBase : IRule
 {
-    /////// <inheritdoc />
-    ////public Guid Id { get; } = Guid.NewGuid();
-
     /// <inheritdoc />
     public bool ResumeSequence { get; set; } = true;
-
-    /////// <inheritdoc />
-    ////public HashSet<string> ValidationTargetStates { get; set; } = new();
 
     /// <summary>
     /// The constraint that should be met to make the transition
@@ -27,9 +21,6 @@ public abstract class RuleBase : IRule
 
     /// <inheritdoc />
     public abstract bool IsRegisteredState(string state);
-
-    /////// <inheritdoc />
-    ////public abstract bool IsConditionFulfilled(ISequence sequence);
 
     /// <summary>
     /// Returns true the sequence is in ValidationOnly-mode or if the rules constraint is fulfilled

@@ -2,20 +2,10 @@
 
 public interface IRule
 {
-    /////// <summary>
-    /////// The Rule Id
-    /////// </summary>
-    ////Guid Id { get; }
-
     /// <summary>
     /// Standard is that the sequence should continue to run after a action is executed
     /// </summary>
     bool ResumeSequence { get; set; }
-
-    /////// <summary>
-    /////// All states that should be validated from the SequenceValidator
-    /////// </summary>
-    ////HashSet<string> ValidationTargetStates { get; set; }
 
     /// <summary>
     /// The Condition that should be met to make the transition
