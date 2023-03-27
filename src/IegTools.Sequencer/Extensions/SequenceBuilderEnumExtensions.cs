@@ -66,11 +66,6 @@ public static class SequenceBuilderEnumExtensions
         where T : Enum
     {
         return builder.AddRule(new AnyStateTransitionRule(compareStates.Select(x => x.ToString()).ToArray(), nextState.ToString(), constraint, action));
-
-        ////foreach (var state in compareStates)
-        ////    builder.AddTransition(state.ToString(), nextState.ToString(), constraint, action);
-
-        ////return builder;
     }
 
     /// <summary>
@@ -108,5 +103,4 @@ public static class SequenceBuilderEnumExtensions
         builder.Configuration.DisableValidationForStatuses = statuses.Select(x1 => x1.ToString()).ToArray();
         return builder;
     }
-
 }

@@ -65,12 +65,6 @@ public static class SequenceBuilderDefaultExtensions
         
         return builder.AddRule(
             new AnyStateTransitionRule(compareStates, nextState, constraint, action));
-
-
-        ////foreach (var state in compareStates)
-        ////    builder.AddTransition(state, nextState, constraint, action);
-
-        ////return builder;
     }
 
 
