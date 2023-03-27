@@ -158,7 +158,7 @@ public class ConfigurationValidatorTests
         {
             builder.SetInitialState(InitialState);
 
-            builder.DisableValidationForStatuses("unknown", "unknown1", "unknown2");
+            builder.DisableValidationForStates("unknown", "unknown1", "unknown2");
 
             builder.AddForceState("State1", () => constraint);
 

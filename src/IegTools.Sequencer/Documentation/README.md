@@ -107,18 +107,18 @@ TODO Documentation
 
 
 
-## Statuses
+## States
 
-Statuses can be defined as strings or enums, internally they will be stored as strings.
+States can be defined as strings or enums, internally they will be stored as strings.
 
 
 
 ## State Tags
 
-State-Tags can only be used with string-statuses.
-For enum-statuses there are other possibilities. (link to ...)
+State-Tags can only be used with string-states.
+For enum-states there are other possibilities. (link to ...)
 
-There are available two state tags as prefix for statuses
+There are available two state tags as prefix for states
 - the IgnoreTag '!'
 - and the InitialStateTag '>'
 
@@ -159,9 +159,9 @@ Validation could be disabled completely:
  ```C#
  builder.DisableValidation()
  ```
-or with specifing statuses that shouldn't be validated:
+or with specifing states that shouldn't be validated:
  ```C#
- builder.DisableValidationForStatuses("state1", "state2", ...)
+ builder.DisableValidationForStates("state1", "state2", ...)
  ```
 or with the IgnoreTag:
 TODO Documentation
@@ -180,13 +180,14 @@ TODO Documentation
 
 ### Rules
 
-Internally the Framework is working with Rules (you can write your own customized rule).
+Internally the Framework is working with Rules (you can write your own customized rules).
 The Rules describe what they are supposed to do within the sequence.
 
-There are three default rule:
+There are five default rule:
 - The StateTransitionRule
+- The ContainsStateTransitionRule
+- The AnyStateTransitionRule
 - The ForceStateRule
 - The StateActionRule
 
 TODO Documentation
-
