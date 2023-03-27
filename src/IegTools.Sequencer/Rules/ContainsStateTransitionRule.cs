@@ -1,13 +1,13 @@
-﻿namespace IegTools.Sequencer.Descriptors;
+﻿namespace IegTools.Sequencer.Rules;
 
 /// <summary>
 /// Transfers the sequence from the current state to the next state
 /// when the condition is met
 /// and invokes the specified action
 /// </summary>
-public class ContainsStateTransitionDescriptor : DescriptorBase, IHasToState
+public class ContainsStateTransitionRule : RuleBase, IHasToState
 {
-    public ContainsStateTransitionDescriptor(string fromStateContains, string toState, Func<bool> condition, Action action)
+    public ContainsStateTransitionRule(string fromStateContains, string toState, Func<bool> condition, Action action)
     {
         FromStateContains = fromStateContains;
         ToState           = toState;

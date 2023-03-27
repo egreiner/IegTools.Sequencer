@@ -1,21 +1,19 @@
-﻿namespace IegTools.Sequencer.Descriptors;
-
-using System.Linq;
+﻿namespace IegTools.Sequencer.Rules;
 
 /// <summary>
 /// Transfers the sequence from the current state to the next state
-/// when the condition is met
-/// and invokes the specified action
+/// if the condition is met and invokes the specified action
 /// </summary>
-public class AnyStateTransitionDescriptor : DescriptorBase, IHasToState
+public class StateTransitionRule : RuleBase, IHasToState
 {
-    public AnyStateTransitionDescriptor(string[] fromStates, string toState, Func<bool> condition, Action action)
+    public StateTransitionRule(string fromState, string toState, Func<bool> condition, Action action)
     {
-        FromStates = fromStates;
-        ToState    = toState;
-        Condition  = condition;
-        Action     = action;
+        FromState = fromState;
+        ToState   = toState;
+        Condition = condition;
+        Action    = action;
 
+        ////ValidationTargetStates.Add(FromState);
         ////ValidationTargetStates.Add(ToState);
     }
 
@@ -23,28 +21,28 @@ public class AnyStateTransitionDescriptor : DescriptorBase, IHasToState
     /// <summary>
     /// The state from which the transition should be made
     /// </summary>
-    public string[] FromStates   { get; }
+    public string FromState   { get; }
 
     /// <summary>
     /// The state to which the transition should be made
     /// </summary>
     public string ToState      { get; }
 
-    
+
     public override string ToString() =>
-        $"Any-StateTransition: [ {string.Join(", ", FromStates)} ]->{ToState}";
+        $"State-Transition: {FromState} -> {ToState}";
 
 
     /// <inheritdoc />
     public override bool IsRegisteredState(string state) =>
-        state == ToState || FromStates.Contains(state);
+        state == ToState || state == FromState;
 
     /// <summary>
     /// Returns true if the sequence met the specified state and the condition is fulfilled
     /// </summary>
     /// <param name="sequence">The sequence</param>
     public override bool IsConditionFulfilled(ISequence sequence) =>
-        sequence.CurrentState != ToState && FromStates.Contains(sequence.CurrentState) && base.IsConditionFulfilled(sequence);
+        sequence.HasCurrentState(FromState) && base.IsConditionFulfilled(sequence);
 
 
     /// <summary>

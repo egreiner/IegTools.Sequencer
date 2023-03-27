@@ -1,7 +1,7 @@
 ﻿namespace IegTools.Sequencer;
 
-using Descriptors;
 using FluentValidation;
+using Rules;
 using Validation;
 
 public class SequenceBuilder : ISequenceBuilder

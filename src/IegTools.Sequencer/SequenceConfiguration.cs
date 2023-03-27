@@ -1,7 +1,7 @@
 ﻿namespace IegTools.Sequencer;
 
 using System.Collections.Generic;
-using Descriptors;
+using Rules;
 
 public class SequenceConfiguration
 {

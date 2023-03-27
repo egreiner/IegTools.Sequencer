@@ -1,6 +1,6 @@
 ﻿namespace IegTools.Sequencer;
 
-using Descriptors;
+using Rules;
 
 public interface ISequenceBuilder
 {

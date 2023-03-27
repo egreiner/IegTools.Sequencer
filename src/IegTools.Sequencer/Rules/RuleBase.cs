@@ -1,9 +1,9 @@
-﻿namespace IegTools.Sequencer.Descriptors;
+﻿namespace IegTools.Sequencer.Rules;
 
 /// <summary>
 /// The base descriptor
 /// </summary>
-public abstract class DescriptorBase : IDescriptor
+public abstract class RuleBase : IDescriptor
 {
     /// <inheritdoc />
     public Guid Id { get; } = Guid.NewGuid();

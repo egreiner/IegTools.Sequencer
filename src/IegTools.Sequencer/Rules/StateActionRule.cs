@@ -1,12 +1,11 @@
-﻿namespace IegTools.Sequencer.Descriptors;
-
+﻿namespace IegTools.Sequencer.Rules;
 
 /// <summary>
 /// Invokes an specified action when the sequence is in the specified state
 /// </summary>
-public class StateActionDescriptor : DescriptorBase
+public class StateActionRule : RuleBase
 {
-    public StateActionDescriptor(string state, Action action)
+    public StateActionRule(string state, Action action)
     {
         State  = state;
         Action = action;

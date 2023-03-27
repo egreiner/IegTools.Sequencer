@@ -1,11 +1,11 @@
-﻿namespace IegTools.Sequencer.Descriptors;
+﻿namespace IegTools.Sequencer.Rules;
 
 /// <summary>
 /// Forces the sequence to the specified state if the condition is fulfilled
 /// </summary>
-public class ForceStateDescriptor : DescriptorBase, IHasToState
+public class ForceStateRule : RuleBase, IHasToState
 {
-    public ForceStateDescriptor(string toState, Func<bool> condition)
+    public ForceStateRule(string toState, Func<bool> condition)
     {
         ToState   = toState;
         Condition = condition;
