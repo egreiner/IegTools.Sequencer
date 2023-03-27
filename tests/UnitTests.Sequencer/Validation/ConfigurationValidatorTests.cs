@@ -24,7 +24,7 @@ public class ConfigurationValidatorTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_ThrowsValidationError_DescriptorCount(bool constraint)
+    public void Test_ThrowsValidationError_RuleCount(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -39,7 +39,7 @@ public class ConfigurationValidatorTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_DoesNotThrowValidationError_DescriptorCount(bool constraint)
+    public void Test_DoesNotThrowValidationError_RuleCount(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -193,7 +193,7 @@ public class ConfigurationValidatorTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_DoesNotThrowValidationError_DescriptorState(bool constraint)
+    public void Test_DoesNotThrowValidationError_RuleState(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -211,7 +211,7 @@ public class ConfigurationValidatorTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_DoesNotThrowValidationError_DescriptorState2(bool constraint)
+    public void Test_DoesNotThrowValidationError_RuleState2(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {

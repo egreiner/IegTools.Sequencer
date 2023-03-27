@@ -26,11 +26,11 @@ public interface ISequenceBuilder
     ISequenceBuilder SetInitialState(string initialState);
 
     /// <summary>
-    /// Adds an sequence descriptor
+    /// Adds an sequence rule
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <param name="descriptor">The descriptor.</param>
-    ISequenceBuilder AddDescriptor<T>(T descriptor) where T: IDescriptor;
+    /// <param name="rule">The rule.</param>
+    ISequenceBuilder AddRule<T>(T rule) where T: IRule;
 
     /// <summary>
     /// Does not validate the sequence configuration on build

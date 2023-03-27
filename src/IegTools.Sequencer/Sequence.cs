@@ -36,16 +36,16 @@ public class Sequence : ISequence
 
     /// <inheritdoc />
     public bool IsRegisteredState(string state) =>
-        _configuration.Descriptors.Any(x => x.IsRegisteredState(state));
+        _configuration.Rules.Any(x => x.IsRegisteredState(state));
 
 
     /// <inheritdoc />
     public virtual ISequence Run()
     {
-        foreach (var descriptor in _configuration.Descriptors)
+        foreach (var rule in _configuration.Rules)
         {
-            var executed = descriptor.ExecuteIfValid(this);
-            if (!descriptor.ResumeSequence && executed) 
+            var executed = rule.ExecuteIfValid(this);
+            if (!rule.ResumeSequence && executed) 
                 break;
         }
 

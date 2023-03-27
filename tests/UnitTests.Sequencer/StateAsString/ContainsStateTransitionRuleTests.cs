@@ -2,7 +2,7 @@
 
 using IegTools.Sequencer;
 
-public class ContainsStateTransitionDescriptorTests
+public class ContainsStateTransitionRuleTests
 {
     [Theory]
     [InlineData("State1", true, "StateX")]

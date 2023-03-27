@@ -23,7 +23,7 @@
 		</Description>
 
 		<PackageReleaseNotes>
-			Bugfix AnyStateTransitionDescriptor, ContainsStateTransitionDescriptor, SequenceValidator
+			Bugfix AnyStateTransitionRule, ContainsStateTransitionRule, SequenceValidator
 		</PackageReleaseNotes>
 		
 		<PackageTags>sequence;statemachine</PackageTags>

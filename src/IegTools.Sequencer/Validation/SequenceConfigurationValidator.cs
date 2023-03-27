@@ -16,7 +16,7 @@ public class SequenceConfigurationValidator : AbstractValidator<SequenceConfigur
 
     public SequenceConfigurationValidator()
     {
-        RuleFor(config => config.Descriptors.Count).GreaterThan(1).WithMessage("The sequence must have more than one rule");
+        RuleFor(config => config.Rules.Count).GreaterThan(1).WithMessage("The sequence must have more than one rule");
         RuleFor(config => config.InitialState).NotEmpty();
     }
 
@@ -28,7 +28,7 @@ public class SequenceConfigurationValidator : AbstractValidator<SequenceConfigur
 
         var result1 = true;
         var config = context.InstanceToValidate;
-        if (!CorrectForceStateDescriptor(config))
+        if (!CorrectForceStateRule(config))
         {
             result.Errors.Add(new ValidationFailure("ForceState",
                 "Each Force-State must have a StateTransition counterpart." +
@@ -70,13 +70,13 @@ public class SequenceConfigurationValidator : AbstractValidator<SequenceConfigur
     /// Each 'Force.State' must have an corresponding 'Transition.FromState '
     /// otherwise you have created an dead-end.
     /// </summary>
-    private static bool CorrectForceStateDescriptor(SequenceConfiguration config)
+    private static bool CorrectForceStateRule(SequenceConfiguration config)
     {
-        var forceStatuses = config.Descriptors.OfType<ForceStateRule>()
+        var forceStatuses = config.Rules.OfType<ForceStateRule>()
             .Where(x => ShouldBeValidated(x.ToState, config)).ToList();
         if (forceStatuses.Count == 0) return true;
 
-        var transitions = config.Descriptors.OfType<StateTransitionRule>().ToList();
+        var transitions = config.Rules.OfType<StateTransitionRule>().ToList();
         missingForces = new List<ForceStateRule>();
 
         // for easy reading do not simplify this
@@ -89,15 +89,15 @@ public class SequenceConfigurationValidator : AbstractValidator<SequenceConfigur
 
         // TODO add Any and Contains StateTransitions
         ////// if there are any transitions for the force-state remove it from the error-list
-        ////var anyTransitions = config.Descriptors.OfType<AnyStateTransitionRule>().ToList();
+        ////var anyTransitions = config.Rules.OfType<AnyStateTransitionRule>().ToList();
         ////foreach (var forceState in forceStatuses)
         ////{
         ////    if (anyTransitions.All(x => x.FromStates.Contains(forceState.State)))
-        ////        missingForceStateDescriptors.Remove(forceState);
+        ////        missingForceStateRules.Remove(forceState);
         ////}
 
         // if there are any transitions for the force-state remove it from the error-list
-        var containsTransitions = config.Descriptors.OfType<ContainsStateTransitionRule>().ToList();
+        var containsTransitions = config.Rules.OfType<ContainsStateTransitionRule>().ToList();
         foreach (var forceState in forceStatuses)
         {
             if (containsTransitions.All(x => forceState.ToState.Contains(x.FromStateContains)))
@@ -114,7 +114,7 @@ public class SequenceConfigurationValidator : AbstractValidator<SequenceConfigur
     /// </summary>
     private static bool CorrectToState(SequenceConfiguration config)
     {
-        var transitions = config.Descriptors.OfType<StateTransitionRule>().ToList();
+        var transitions = config.Rules.OfType<StateTransitionRule>().ToList();
         if (transitions.Count == 0) return true;
 
         missingToStates = new List<StateTransitionRule>();
@@ -140,8 +140,8 @@ public class SequenceConfigurationValidator : AbstractValidator<SequenceConfigur
     /// </summary>
     private static bool CorrectFromState(SequenceConfiguration config)
     {
-        var transitions = config.Descriptors.OfType<StateTransitionRule>().ToList();
-        var allTransitions = config.Descriptors.OfType<IHasToState>();
+        var transitions = config.Rules.OfType<StateTransitionRule>().ToList();
+        var allTransitions = config.Rules.OfType<IHasToState>();
         if (transitions.Count == 0) return true;
 
         missingFromStates = new List<StateTransitionRule>();
@@ -168,8 +168,8 @@ public class SequenceConfigurationValidator : AbstractValidator<SequenceConfigur
     /// </summary>
     private static bool CorrectAnyState(SequenceConfiguration config)
     {
-        var transitions = config.Descriptors.OfType<AnyStateTransitionRule>().ToList();
-        var allTransitions = config.Descriptors.OfType<IHasToState>();
+        var transitions = config.Rules.OfType<AnyStateTransitionRule>().ToList();
+        var allTransitions = config.Rules.OfType<IHasToState>();
         if (transitions.Count == 0) return true;
 
         missingAnyStates = new List<AnyStateTransitionRule>();
@@ -199,8 +199,8 @@ public class SequenceConfigurationValidator : AbstractValidator<SequenceConfigur
     /// </summary>
     private static bool CorrectContainsState(SequenceConfiguration config)
     {
-        var transitions = config.Descriptors.OfType<ContainsStateTransitionRule>().ToList();
-        ////var allTransitions = config.Descriptors.OfType<IHasToState>();
+        var transitions = config.Rules.OfType<ContainsStateTransitionRule>().ToList();
+        ////var allTransitions = config.Rules.OfType<IHasToState>();
         if (transitions.Count == 0) return true;
 
         missingContainsStates = new List<ContainsStateTransitionRule>();

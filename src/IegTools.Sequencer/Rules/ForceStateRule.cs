@@ -30,7 +30,7 @@ public class ForceStateRule : RuleBase, IHasToState
         state == ToState;
 
     /// <summary>
-    /// This descriptor is not dependent on the current sequence state.
+    /// This rule is not dependent on the current sequence state.
     /// It depends on the condition only.
     /// </summary>
     /// <param name="sequence">The sequence</param>

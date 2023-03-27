@@ -1,11 +1,11 @@
 ﻿namespace IegTools.Sequencer.Rules;
 
-public interface IDescriptor
+public interface IRule
 {
-    /// <summary>
-    /// The Descriptor Id
-    /// </summary>
-    Guid Id { get; }
+    /////// <summary>
+    /////// The Rule Id
+    /////// </summary>
+    ////Guid Id { get; }
 
     /// <summary>
     /// Standard is that the sequence should continue to run after a action is executed
@@ -47,7 +47,7 @@ public interface IDescriptor
     bool ExecuteIfValid(ISequence sequence);
     
     /// <summary>
-    /// Returns true if the queried state is registered in the descriptor.
+    /// Returns true if the queried state is registered in the rule.
     /// </summary>
     /// <param name="state">The state</param>
     bool IsRegisteredState(string state);

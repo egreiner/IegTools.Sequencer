@@ -36,7 +36,7 @@ public class SequenceConfiguration
     ////public HashSet<string> AvailableStates { get; set; } = new();
     
     /// <summary>
-    /// The sequence-descriptors that describe how the sequence is supposed to work
+    /// The sequence-rules that describe how the sequence is supposed to work
     /// </summary>
-    public List<IDescriptor> Descriptors { get; } = new();
+    public List<IRule> Rules { get; } = new();
 }

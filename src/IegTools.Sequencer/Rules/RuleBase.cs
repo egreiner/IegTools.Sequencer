@@ -1,12 +1,12 @@
 ﻿namespace IegTools.Sequencer.Rules;
 
 /// <summary>
-/// The base descriptor
+/// The base rule
 /// </summary>
-public abstract class RuleBase : IDescriptor
+public abstract class RuleBase : IRule
 {
-    /// <inheritdoc />
-    public Guid Id { get; } = Guid.NewGuid();
+    /////// <inheritdoc />
+    ////public Guid Id { get; } = Guid.NewGuid();
 
     /// <inheritdoc />
     public bool ResumeSequence { get; set; } = true;
@@ -32,7 +32,7 @@ public abstract class RuleBase : IDescriptor
     ////public abstract bool IsConditionFulfilled(ISequence sequence);
 
     /// <summary>
-    /// Returns true the sequence is in ValidationOnly-mode or if the descriptors constraint is fulfilled
+    /// Returns true the sequence is in ValidationOnly-mode or if the rules constraint is fulfilled
     /// </summary>
     /// <param name="sequence"></param>
     public virtual bool IsConditionFulfilled(ISequence sequence) =>

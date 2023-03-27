@@ -170,7 +170,7 @@ TODO Documentation
 
 ## Extensibility
 Write your own customized 
-- Descriptors
+- Rules
 - Sequence
 - and Validator
 
@@ -178,15 +178,15 @@ TODO Documentation
 
 
 
-### Descriptors
+### Rules
 
-Internally the Framework is working with Descriptors (you can write your own customized descriptor).
-The Descriptors describe what they are supposed to do within the sequence.
+Internally the Framework is working with Rules (you can write your own customized rule).
+The Rules describe what they are supposed to do within the sequence.
 
-There are three default descriptor:
-- The StateTransitionDescriptor
-- The ForceStateDescriptor
-- The StateActionDescriptor
+There are three default rule:
+- The StateTransitionRule
+- The ForceStateRule
+- The StateActionRule
 
 TODO Documentation
 
