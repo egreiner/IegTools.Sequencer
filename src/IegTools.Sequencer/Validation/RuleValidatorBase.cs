@@ -6,6 +6,9 @@ using System.Linq;
 
 public class RuleValidatorBase
 {
+    private List<IHasToState> rulesTo;
+
+
     protected static bool ShouldBeValidated(string state, SequenceConfiguration config)
     {
         return (!state?.StartsWith(config.IgnoreTag.ToString()) ?? true) && !disabledStatuses().Contains(state);
@@ -23,12 +26,35 @@ public class RuleValidatorBase
     protected (bool isValid, IEnumerable<T> list) RuleIsValidatedTo<T>(SequenceConfiguration config) where T: IHasToState
     {
         var containsTransitions = config.Rules.OfType<T>().ToList();
-        if (containsTransitions is null || containsTransitions.Count == 0) return (true, Enumerable.Empty<T>());
+        if (containsTransitions is null || containsTransitions.Count == 0)
+            return (true, Enumerable.Empty<T>());
 
         var transitions = config.Rules.OfType<StateTransitionRule>().ToList();
 
-        var rulesTo = new List<IHasToState>();
+        rulesTo = new List<IHasToState>();
 
+        
+        AddMissingTransitions(config, containsTransitions, transitions);
+        
+        if (rulesTo.Count == 0)
+            return (true, Enumerable.Empty<T>());
+
+        
+        RemoveWithContainsTransitions(config, containsTransitions);
+        
+        if (rulesTo.Count == 0)
+            return (true, Enumerable.Empty<T>());
+
+
+        RemoveWithAnyTransitions(config, containsTransitions);
+
+        return (rulesTo.Count == 0, rulesTo.ConvertAll(x => (T)x));
+    }
+
+
+    private void AddMissingTransitions<T>(SequenceConfiguration config, List<T> containsTransitions, List<StateTransitionRule> transitions)
+        where T : IHasToState
+    {
         // for easy reading do not simplify this
         // each StateTransition should have an counterpart so that no dead-end is reached
         foreach (var transition in containsTransitions.Where(x => ShouldBeValidated(x.ToState, config)))
@@ -36,23 +62,26 @@ public class RuleValidatorBase
             if (transitions.All(x => transition.ToState != x.FromState))
                 rulesTo.Add(transition);
         }
+    }
 
-        if (rulesTo.Count == 0) return (true, Enumerable.Empty<T>());
-
-        // remove all ForceStates that have a ContainsStateTransition counterpart
-        foreach (var transition in containsTransitions.Where(x => ShouldBeValidated(x.ToState, config)))
-        {
-            if (config.Rules.OfType<ContainsStateTransitionRule>().Any(x => transition.ToState.Contains(x.FromStateContains)))
-                rulesTo.Remove(transition);
-        }
-
-        // remove all ForceStates that have a AnyStateTransition counterpart
+    private void RemoveWithAnyTransitions<T>(SequenceConfiguration config, List<T> containsTransitions)
+        where T : IHasToState
+    {
         foreach (var transition in containsTransitions.Where(x => ShouldBeValidated(x.ToState, config)))
         {
             if (config.Rules.OfType<AnyStateTransitionRule>().Any(x => x.FromStates.Contains(transition.ToState)))
                 rulesTo.Remove(transition);
         }
+    }
 
-        return (rulesTo.Count == 0, rulesTo.ConvertAll(x => (T)x));
+    private void RemoveWithContainsTransitions<T>(SequenceConfiguration config, List<T> containsTransitions)
+        where T : IHasToState
+    {
+        foreach (var transition in containsTransitions.Where(x => ShouldBeValidated(x.ToState, config)))
+        {
+            if (config.Rules.OfType<ContainsStateTransitionRule>()
+                .Any(x => transition.ToState.Contains(x.FromStateContains)))
+                rulesTo.Remove(transition);
+        }
     }
 }

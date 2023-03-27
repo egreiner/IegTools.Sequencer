@@ -28,43 +28,9 @@ public class ForceStateRuleValidator : RuleValidatorBase, ISequenceRuleValidator
     /// </summary>
     private bool RuleIsValidated(SequenceConfiguration config)
     {
-        var result = base.RuleIsValidatedTo<ForceStateRule>(config);
+        var result = RuleIsValidatedTo<ForceStateRule>(config);
         _rules = result.list.ToList();
 
         return result.isValid;
-
-
-        var forceStates = config.Rules.OfType<ForceStateRule>()
-            .Where(x => ShouldBeValidated(x.ToState, config)).ToList();
-
-        if (forceStates.Count == 0) return true;
-
-        _rules = new List<ForceStateRule>();
-
-        // for easy reading do not simplify this
-        // each ForceStateRule should have an counterpart StateTransitionRule so that no dead-end is reached
-        foreach (var forceState in forceStates.Where(x => ShouldBeValidated(x.ToState, config)))
-        {
-            if (config.Rules.OfType<StateTransitionRule>().All(x => forceState.ToState != x.FromState))
-                _rules.Add(forceState);
-        }
-
-        if (_rules.Count == 0) return true;
-        
-        // remove all ForceStates that have a ContainsStateTransition counterpart
-        foreach (var forceState in forceStates)
-        {
-            if (config.Rules.OfType<ContainsStateTransitionRule>().Any(x => forceState.ToState.Contains(x.FromStateContains)))
-                _rules.Remove(forceState);
-        }
-
-        // remove all ForceStates that have a AnyStateTransition counterpart
-        foreach (var forceState in forceStates)
-        {
-            if (config.Rules.OfType<AnyStateTransitionRule>().Any(x => x.FromStates.Contains(forceState.ToState)))
-                _rules.Remove(forceState);
-        }
-
-        return _rules.Count == 0;
     }
 }

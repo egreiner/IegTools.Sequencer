@@ -78,42 +78,9 @@ public class ContainsStateTransitionRuleValidator : RuleValidatorBase, ISequence
     /// </summary>
     private bool RuleIsValidatedTo(SequenceConfiguration config)
     {
-        var result = base.RuleIsValidatedTo<ContainsStateTransitionRule>(config);
+        var result = RuleIsValidatedTo<ContainsStateTransitionRule>(config);
         _rulesTo = result.list.ToList();
 
         return result.isValid;
-
-        var containsTransitions = config.Rules.OfType<ContainsStateTransitionRule>().ToList();
-        if (containsTransitions.Count == 0) return true;
-
-        var transitions = config.Rules.OfType<StateTransitionRule>().ToList();
-
-        _rulesTo = new List<ContainsStateTransitionRule>();
-
-        // for easy reading do not simplify this
-        // each StateTransition should have an counterpart so that no dead-end is reached
-        foreach (var transition in containsTransitions.Where(x => ShouldBeValidated(x.ToState, config)))
-        {
-            if (transitions.All(x => transition.ToState != x.FromState))
-                _rulesTo.Add(transition);
-        }
-
-        if (_rulesTo.Count == 0) return true;
-
-        // remove all ForceStates that have a ContainsStateTransition counterpart
-        foreach (var transition in containsTransitions.Where(x => ShouldBeValidated(x.ToState, config)))
-        {
-            if (config.Rules.OfType<ContainsStateTransitionRule>().Any(x => transition.ToState.Contains(x.FromStateContains)))
-                _rulesTo.Remove(transition);
-        }
-
-        // remove all ForceStates that have a AnyStateTransition counterpart
-        foreach (var transition in containsTransitions.Where(x => ShouldBeValidated(x.ToState, config)))
-        {
-            if (config.Rules.OfType<AnyStateTransitionRule>().Any(x => x.FromStates.Contains(transition.ToState)))
-                _rulesTo.Remove(transition);
-        }
-
-        return _rulesTo.Count == 0;
     }
 }
