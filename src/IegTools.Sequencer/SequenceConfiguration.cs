@@ -30,10 +30,10 @@ public class SequenceConfiguration
     /// </summary>
     public string InitialState { get; set; }
 
-    /// <summary>
-    /// All states in the sequence
-    /// </summary>
-    public HashSet<string> AvailableStates { get; set; } = new();
+    /////// <summary>
+    /////// All states in the sequence
+    /////// </summary>
+    ////public HashSet<string> AvailableStates { get; set; } = new();
     
     /// <summary>
     /// The sequence-descriptors that describe how the sequence is supposed to work

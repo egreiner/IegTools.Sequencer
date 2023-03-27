@@ -9,14 +9,14 @@ public class Sequence : ISequence
     private SequenceConfiguration _configuration;
 
     
-    public Sequence() : this(false) {  }
+    ////public Sequence() : this(false) {  }
 
-    public Sequence(bool validationOnly) =>
-        ValidationOnly = validationOnly;
+    ////public Sequence(bool validationOnly) =>
+    ////    ValidationOnly = false;
 
 
-    /// <inheritdoc />
-    public bool ValidationOnly { get; }
+    /////// <inheritdoc />
+    ////public bool ValidationOnly { get; }
 
     /// <inheritdoc />
     public string CurrentState { get; private set; }

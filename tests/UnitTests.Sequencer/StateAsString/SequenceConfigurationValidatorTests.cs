@@ -18,8 +18,7 @@ public class SequenceConfigurationValidatorTests
 
         FluentActions.Invoking(() => builder.Build())
             .Should().Throw<FluentValidation.ValidationException>()
-            .WithMessage("*Initial State*")
-            .Where(x => !x.Message.Contains("Each goto state"));
+            .WithMessage("*InitialState*");
     }
 
     [Theory]
@@ -34,7 +33,7 @@ public class SequenceConfigurationValidatorTests
 
         FluentActions.Invoking(() => builder.Build())
             .Should().Throw<FluentValidation.ValidationException>()
-            .WithMessage("*Descriptors Count*");
+            .WithMessage("*more than one rule*");
     }
 
     [Theory]
@@ -46,6 +45,7 @@ public class SequenceConfigurationValidatorTests
         {
             builder.SetInitialState(InitialState);
             builder.AddForceState("State1", () => constraint);
+            builder.AddTransition("InitialState", "State1", () => constraint);
             builder.AddTransition("State1", "State2", () => constraint);
             builder.AddTransition("State2", "State1", () => constraint);
         });
@@ -78,14 +78,18 @@ public class SequenceConfigurationValidatorTests
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.SetInitialState(InitialState);
+
+            builder.AddTransition(InitialState, "State1", () => constraint);
             builder.AddTransition("State1", "State2", () => constraint);
             builder.AddTransition("State2", "State1", () => constraint);
             builder.AddTransition("State2", "not existing", () => constraint);
+            builder.AddTransition("State2", "not existing2", () => constraint);
         });
 
         FluentActions.Invoking(() => builder.Build())
             .Should().Throw<FluentValidation.ValidationException>()
-            .WithMessage("*Each 'ToState'*");
+            .WithMessage("*not existing*")
+            .WithMessage("*not existing2*");
     }
 
     [Theory]
@@ -132,7 +136,10 @@ public class SequenceConfigurationValidatorTests
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.SetInitialState(InitialState);
+
             builder.AddForceState("State3", () => constraint);
+            
+            builder.AddTransition("InitialState", "State1", () => constraint);
             builder.AddTransition("State1", "!State2", () => constraint);
             builder.AddTransition("State3", "State1", () => constraint);
         });
@@ -153,6 +160,8 @@ public class SequenceConfigurationValidatorTests
             builder.DisableValidationForStatuses("unknown", "unknown1", "unknown2");
 
             builder.AddForceState("State1", () => constraint);
+
+            builder.AddTransition("InitialState", "State1", () => constraint);
             builder.AddTransition("State1", "State2", () => constraint);
             builder.AddTransition("State2", "unknown", () => constraint);
         });
@@ -170,6 +179,7 @@ public class SequenceConfigurationValidatorTests
         {
             builder.SetInitialState(InitialState);
             builder.AddForceState("State1", () => constraint);
+            builder.AddTransition("InitialState", "State1", () => constraint);
             builder.AddTransition("State1", "State2", () => constraint);
 
             // '!' is the DeadEndCharacter
@@ -189,6 +199,7 @@ public class SequenceConfigurationValidatorTests
         {
             builder.SetInitialState(InitialState);
             builder.AddForceState("State1", () => constraint);
+            builder.AddTransition("InitialState", "State1", () => constraint);
             builder.AddTransition("State1", "State2", () => constraint);
             builder.AddTransition("State2", "State1", () => constraint);
         });
@@ -205,6 +216,7 @@ public class SequenceConfigurationValidatorTests
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.SetInitialState(InitialState);
+            builder.AddTransition("InitialState", "State1", () => constraint);
             builder.AddTransition("State1", "State2", () => constraint);
             builder.AddTransition("State2", "State1", () => constraint);
         });

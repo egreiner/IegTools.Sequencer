@@ -63,8 +63,15 @@ public static class SequenceBuilderEnumExtensions
     /// <param name="action">The action that should be executed.</param>
     public static ISequenceBuilder AddAnyTransition<T>(
         this ISequenceBuilder builder, T[] compareStates, T nextState, Func<bool> constraint, Action action = null)
-        where T : Enum =>
-        builder.AddDescriptor(new AnyStateTransitionDescriptor(compareStates.Select(x => x.ToString()).ToArray(), nextState.ToString(), constraint, action));
+        where T : Enum
+    {
+        return builder.AddDescriptor(new AnyStateTransitionDescriptor(compareStates.Select(x => x.ToString()).ToArray(), nextState.ToString(), constraint, action));
+
+        ////foreach (var state in compareStates)
+        ////    builder.AddTransition(state.ToString(), nextState.ToString(), constraint, action);
+
+        ////return builder;
+    }
 
     /// <summary>
     /// Adds a state action that should be executed during the state is active.

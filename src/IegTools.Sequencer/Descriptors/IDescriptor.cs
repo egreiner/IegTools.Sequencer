@@ -1,28 +1,41 @@
 ﻿namespace IegTools.Sequencer.Descriptors;
 
-using System.Collections.Generic;
-
 public interface IDescriptor
 {
+    /// <summary>
+    /// The Descriptor Id
+    /// </summary>
+    Guid Id { get; }
+
     /// <summary>
     /// Standard is that the sequence should continue to run after a action is executed
     /// </summary>
     bool ResumeSequence { get; set; }
 
+    /////// <summary>
+    /////// All states that should be validated from the SequenceValidator
+    /////// </summary>
+    ////HashSet<string> ValidationTargetStates { get; set; }
+
     /// <summary>
-    /// All states that should be validated from the SequenceValidator
+    /// The Condition that should be met to make the transition
     /// </summary>
-    HashSet<string> ValidationTargetStates { get; set; }
+    Func<bool> Condition { get; set; }
+
+    /// <summary>
+    /// The action that will be invoked when the state transition will be executed
+    /// </summary>
+    Action Action { get; set; }
 
 
     /// <summary>
-    /// Returns true if the action is allowed to be executed
+    /// Returns true if all conditions are fulfilled and the action is allowed to be executed
     /// </summary>
     /// <param name="sequence">The sequence</param>
-    bool ValidateAction(ISequence sequence);
+    bool IsConditionFulfilled(ISequence sequence);
 
     /// <summary>
-    /// Invokes the specified action and gives the possibility to manipulate the sequence
+    /// Executes the specified action and enables the adjustment of the sequence state. 
     /// </summary>
     /// <param name="sequence">The sequence</param>
     void ExecuteAction(ISequence sequence);

@@ -60,9 +60,17 @@ public static class SequenceBuilderDefaultExtensions
     /// <param name="action">The action that should be executed.</param>
     public static ISequenceBuilder AddAnyTransition(this ISequenceBuilder builder, string[] compareStates, string nextState, Func<bool> constraint, Action action = null)
     {
+        builder.AddInitialStates(compareStates);
         builder.AddInitialStates(nextState);
+        
         return builder.AddDescriptor(
             new AnyStateTransitionDescriptor(compareStates, nextState, constraint, action));
+
+
+        ////foreach (var state in compareStates)
+        ////    builder.AddTransition(state, nextState, constraint, action);
+
+        ////return builder;
     }
 
 

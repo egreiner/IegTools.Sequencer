@@ -32,7 +32,7 @@ public class SequenceConfigurationValidatorEnumTests
 
         FluentActions.Invoking(() => builder.Build())
             .Should().Throw<FluentValidation.ValidationException>()
-            .WithMessage("*Descriptors Count*");
+            .WithMessage("*more than one rule*");
     }
 
     [Theory]

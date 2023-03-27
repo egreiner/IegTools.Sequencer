@@ -26,4 +26,8 @@
     <ProjectReference Include="..\..\src\IegTools.Sequencer\IegTools.Sequencer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="StateAsString\_obsolet\" />
+  </ItemGroup>
+
 </Project>

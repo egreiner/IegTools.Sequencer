@@ -11,7 +11,7 @@ public class StateActionDescriptor : DescriptorBase
         State  = state;
         Action = action;
 
-        ValidationTargetStates.Add(State);
+        ////ValidationTargetStates.Add(State);
     }
 
     
@@ -20,13 +20,9 @@ public class StateActionDescriptor : DescriptorBase
     /// </summary>
     public string State  { get; }
 
-    /// <summary>
-    /// The action to invoke
-    /// </summary>
-    public Action Action { get; }
 
-
-    public override string ToString() => $"{State} (Action)";
+    public override string ToString() =>
+        $"State-Action: {State}";
 
 
     /// <inheritdoc />
@@ -37,16 +33,15 @@ public class StateActionDescriptor : DescriptorBase
     /// Returns true if the sequence is in the specified state
     /// </summary>
     /// <param name="sequence">The sequence</param>
-    public override bool ValidateAction(ISequence sequence) =>
+    public override bool IsConditionFulfilled(ISequence sequence) =>
         sequence.HasCurrentState(State);
 
     /// <summary>
-    /// Invokes the specified action
+    /// Executes the specified action
     /// </summary>
     /// <param name="sequence">The sequence</param>
     public override void ExecuteAction(ISequence sequence)
     {
-        if (sequence.ValidationOnly) return;
         Action?.Invoke();
     }
 }

@@ -2,19 +2,19 @@
 
 /// <summary>
 /// Transfers the sequence from the current state to the next state
-/// if the constraint is met and invokes the specified action
+/// if the condition is met and invokes the specified action
 /// </summary>
-public class StateTransitionDescriptor : DescriptorBase, IHasFromState, IHasToState
+public class StateTransitionDescriptor : DescriptorBase, IHasToState
 {
-    public StateTransitionDescriptor(string fromState, string toState, Func<bool> constraint, Action action)
+    public StateTransitionDescriptor(string fromState, string toState, Func<bool> condition, Action action)
     {
-        FromState  = fromState;
-        ToState    = toState;
-        Constraint = constraint;
-        Action     = action;
+        FromState = fromState;
+        ToState   = toState;
+        Condition = condition;
+        Action    = action;
 
-        ValidationTargetStates.Add(FromState);
-        ValidationTargetStates.Add(ToState);
+        ////ValidationTargetStates.Add(FromState);
+        ////ValidationTargetStates.Add(ToState);
     }
 
 
@@ -29,14 +29,8 @@ public class StateTransitionDescriptor : DescriptorBase, IHasFromState, IHasToSt
     public string ToState      { get; }
 
 
-    /// <summary>
-    /// The action that will be invoked when the state transition will be executed
-    /// </summary>
-    public Action Action         { get; }
-
-    
     public override string ToString() =>
-        $"{FromState}->{ToState} (Transition)";
+        $"State-Transition: {FromState} -> {ToState}";
 
 
     /// <inheritdoc />
@@ -44,22 +38,20 @@ public class StateTransitionDescriptor : DescriptorBase, IHasFromState, IHasToSt
         state == ToState || state == FromState;
 
     /// <summary>
-    /// Returns true if the sequence met the specified state and the constraint is fulfilled
+    /// Returns true if the sequence met the specified state and the condition is fulfilled
     /// </summary>
     /// <param name="sequence">The sequence</param>
-    public override bool ValidateAction(ISequence sequence) =>
-        sequence.HasCurrentState(FromState) && IsConditionFulfilled(sequence);
+    public override bool IsConditionFulfilled(ISequence sequence) =>
+        sequence.HasCurrentState(FromState) && base.IsConditionFulfilled(sequence);
 
 
     /// <summary>
-    /// Invokes the action if the validation is fulfilled
+    /// Executes the specified action and transitions to the new state
     /// </summary>
     /// <param name="sequence">The sequence</param>
     public override void ExecuteAction(ISequence sequence)
     {
         sequence.SetState(ToState);
-
-        if (sequence.ValidationOnly) return;
         Action?.Invoke();
     }
 }

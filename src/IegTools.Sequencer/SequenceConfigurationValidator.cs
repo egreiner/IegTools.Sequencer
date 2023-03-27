@@ -8,37 +8,59 @@ using FluentValidation.Results;
 
 public class SequenceConfigurationValidator: AbstractValidator<SequenceConfiguration>
 {
-    private static List<StateTransitionDescriptor> missingToStateDescriptors;
-    private static List<ForceStateDescriptor> missingForceStateDescriptors;
-    private static List<StateTransitionDescriptor> missingFromStateDescriptors;
+    private static List<StateTransitionDescriptor> missingToStates;
+    private static List<StateTransitionDescriptor> missingFromStates;
+    private static List<AnyStateTransitionDescriptor> missingAnyStates;
+    private static List<ContainsStateTransitionDescriptor> missingContainsStates;
+    private static List<ForceStateDescriptor> missingForces;
 
     public SequenceConfigurationValidator()
     {
-        RuleFor(config => config.Descriptors.Count).GreaterThan(1);
+        RuleFor(config => config.Descriptors.Count).GreaterThan(1).WithMessage("The sequence must have more than one rule");
         RuleFor(config => config.InitialState).NotEmpty();
     }
 
     
     protected override bool PreValidate(ValidationContext<SequenceConfiguration> context, ValidationResult result)
     {
+        // TODO refactor this to SequenceBuilder.AddDefaultValidation()
+        // TODO provide possibility to add custom validators for custom Rules
+
         var result1 = true;
         var config = context.InstanceToValidate;
         if (!CorrectForceStateDescriptor(config)) 
         {
             result.Errors.Add(new ValidationFailure("", 
-                $"Each ForceStateDescriptor must have a StateTransitionDescriptor counterpart. Transition(s): {string.Join("; ", missingForceStateDescriptors)}"));
+                "Each Force-State must have a StateTransition counterpart." +
+                $"Violating rule(s): {string.Join("; ", missingForces)}"));
             result1 = false;
         }
         if (!CorrectFromState(config)) 
         {
             result.Errors.Add(new ValidationFailure("", 
-                $"Each 'FromState' must have an 'ToState' counterpart or an ForceState where it comes from. Transition(s): {string.Join("; ", missingFromStateDescriptors)}"));
+                "Each 'FromState' must have an 'ToState' counterpart where it comes from (Force-State, Initial-State...)" +
+                $"Violating rule(s): {string.Join("; ", missingFromStates)}"));
             result1 = false;
         }
         if (!CorrectToState(config)) 
         {
             result.Errors.Add(new ValidationFailure("", 
-                $"Each 'ToState' must have an 'FromState' counterpart. Transition(s): {string.Join("; ", missingToStateDescriptors)}"));
+                "Each 'ToState' must have an 'FromState' counterpart." +
+                $"Violating Rule(s): {string.Join("; ", missingToStates)}"));
+            result1 = false;
+        }
+        if (!CorrectAnyState(config)) 
+        {
+            result.Errors.Add(new ValidationFailure("", 
+                "Each 'FromState' of an AnyTransition must have an 'ToState' counterpart." +
+                $"Violating Rule(s): {string.Join("; ", missingAnyStates)}"));
+            result1 = false;
+        }
+        if (!CorrectContainsState(config)) 
+        {
+            result.Errors.Add(new ValidationFailure("", 
+                "Each 'State-part' of an ContainsTransition must have an 'ToState' counterpart." +
+                $"Violating Rule(s): {string.Join("; ", missingContainsStates)}"));
             result1 = false;
         }
         return result1;
@@ -46,47 +68,47 @@ public class SequenceConfigurationValidator: AbstractValidator<SequenceConfigura
 
     /// <summary>
     /// Each 'Force.State' must have an corresponding 'Transition.FromState '
-    /// otherwise you have created an dead end.
+    /// otherwise you have created an dead-end.
     /// </summary>
     private static bool CorrectForceStateDescriptor(SequenceConfiguration config)
     {
         var forceStatuses = config.Descriptors.OfType<ForceStateDescriptor>()
-            .Where(x => ShouldBeValidated(x.State, config)).ToList();
+            .Where(x => ShouldBeValidated(x.ToState, config)).ToList();
         if (forceStatuses.Count == 0) return true;
         
         var transitions = config.Descriptors.OfType<StateTransitionDescriptor>().ToList();
-        missingForceStateDescriptors = new List<ForceStateDescriptor>();
+        missingForces = new List<ForceStateDescriptor>();
         
         // for easy reading do not simplify this
-        // each ForceStateDescriptor should have an counterpart StateTransitionDescriptor so that no dead end is reached
+        // each ForceStateDescriptor should have an counterpart StateTransitionDescriptor so that no dead-end is reached
         foreach (var forceState in forceStatuses)
         {
-            if (transitions.All(x => x.FromState != forceState.State))
-                missingForceStateDescriptors.Add(forceState);
+            if (transitions.All(x => x.FromState != forceState.ToState))
+                missingForces.Add(forceState);
         }
 
-        // if there are any transitions for the force-state remove it from the error-list
-        var anyTransitions = config.Descriptors.OfType<AnyStateTransitionDescriptor>().ToList();
-        foreach (var forceState in forceStatuses)
-        {
-            if (anyTransitions.All(x => x.FromStates.Contains(forceState.State)))
-                missingForceStateDescriptors.Remove(forceState);
-        }
+        ////// if there are any transitions for the force-state remove it from the error-list
+        ////var anyTransitions = config.Descriptors.OfType<AnyStateTransitionDescriptor>().ToList();
+        ////foreach (var forceState in forceStatuses)
+        ////{
+        ////    if (anyTransitions.All(x => x.FromStates.Contains(forceState.State)))
+        ////        missingForceStateDescriptors.Remove(forceState);
+        ////}
 
         // if there are any transitions for the force-state remove it from the error-list
         var containsTransitions = config.Descriptors.OfType<ContainsStateTransitionDescriptor>().ToList();
         foreach (var forceState in forceStatuses)
         {
-            if (containsTransitions.All(x => forceState.State.Contains(x.FromStateContains)))
-                missingForceStateDescriptors.Remove(forceState);
+            if (containsTransitions.All(x => forceState.ToState.Contains(x.FromStateContains)))
+                missingForces.Remove(forceState);
         }
 
-        return missingForceStateDescriptors.Count == 0;
+        return missingForces.Count == 0;
     }
 
     /// <summary>
     /// Each 'ToState' must have an corresponding 'FromState' counterpart,
-    /// otherwise you have created an dead end.
+    /// otherwise you have created an dead-end.
     /// Use '!' as first character to tag an state as dead-end with purpose.
     /// </summary>
     private static bool CorrectToState(SequenceConfiguration config)
@@ -94,43 +116,107 @@ public class SequenceConfigurationValidator: AbstractValidator<SequenceConfigura
         var transitions = config.Descriptors.OfType<StateTransitionDescriptor>().ToList();
         if (transitions.Count == 0) return true;
        
-        missingToStateDescriptors = new List<StateTransitionDescriptor>();
+        missingToStates = new List<StateTransitionDescriptor>();
         
         // for easy reading do not simplify this
-        // each StateTransition should have an counterpart so that no dead end is reached
+        // each StateTransition should have an counterpart so that no dead-end is reached
         foreach (var transition in transitions.Where(x => ShouldBeValidated(x.ToState, config)))
         {
-            if (transitions.All(x => x.FromState != transition.ToState))
-                missingToStateDescriptors.Add(transition);
+            if (transitions.All(x => transition.ToState != x.FromState))
+                missingToStates.Add(transition);
         }
 
-        return missingToStateDescriptors.Count == 0;
+        return missingToStates.Count == 0;
     }
 
 
     /// <summary>
-    /// Each 'FromState' must have an corresponding 'ToState'  counterpart or a ForceState where it comes from,
-    /// otherwise you have created an dead end.
+    /// Each 'FromState' must have an corresponding 'ToState' counterpart,
+    /// or a ForceState where it comes from,
+    /// or it must be the initial-state 
+    /// otherwise you have created an dead-end.
     /// Use '!' as first character to tag an state as dead-end with purpose.
     /// </summary>
     private static bool CorrectFromState(SequenceConfiguration config)
     {
         var transitions = config.Descriptors.OfType<StateTransitionDescriptor>().ToList();
-        var forceStatuses = config.Descriptors.OfType<ForceStateDescriptor>();
+        var allTransitions = config.Descriptors.OfType<IHasToState>();
         if (transitions.Count == 0) return true;
        
-        missingFromStateDescriptors = new List<StateTransitionDescriptor>();
+        missingFromStates = new List<StateTransitionDescriptor>();
         
         // for easy reading do not simplify this
-        // each StateTransition should have an counterpart so that no dead end is reached
+        // each StateTransition should have an counterpart so that no dead-end is reached
         foreach (var transition in transitions.Where(x => ShouldBeValidated(x.FromState, config)))
         {
-            if (transitions.All(x => x.ToState != transition.FromState) && forceStatuses.All(x => x.State != transition.FromState))
-                missingFromStateDescriptors.Add(transition);
+            if (transitions   .All(x => transition.FromState != x.ToState) && 
+                allTransitions.All(x => transition.FromState != x.ToState) &&
+                transition.FromState != config.InitialState)
+                missingFromStates.Add(transition);
         }
 
-        return missingFromStateDescriptors.Count == 0;
+        return missingFromStates.Count == 0;
     }
+
+    /// <summary>
+    /// Each 'FromState' must have an corresponding 'ToState' counterpart,
+    /// or a ForceState where it comes from,
+    /// or it must be the initial-state 
+    /// otherwise you have created an dead-end.
+    /// Use '!' as first character to tag an state as dead-end with purpose.
+    /// </summary>
+    private static bool CorrectAnyState(SequenceConfiguration config)
+    {
+        var transitions = config.Descriptors.OfType<AnyStateTransitionDescriptor>().ToList();
+        var allTransitions = config.Descriptors.OfType<IHasToState>();
+        if (transitions.Count == 0) return true;
+       
+        missingAnyStates = new List<AnyStateTransitionDescriptor>();
+        
+        // for easy reading do not simplify this
+        // each StateTransition should have an counterpart so that no dead-end is reached
+        foreach (var transition in transitions)
+        {
+            foreach (var state in transition.FromStates.Where(x => ShouldBeValidated(x, config)))
+            {
+                if (transitions   .All(x => state != x.ToState) && 
+                    allTransitions.All(x => state != x.ToState) &&
+                    state != config.InitialState)
+                    missingAnyStates.Add(transition);
+            }
+        }
+
+        return missingFromStates.Count == 0;
+    }
+
+    /// <summary>
+    /// Each 'FromState' must have an corresponding 'ToState' counterpart,
+    /// or a ForceState where it comes from,
+    /// or it must be the initial-state 
+    /// otherwise you have created an dead-end.
+    /// Use '!' as first character to tag an state as dead-end with purpose.
+    /// </summary>
+    private static bool CorrectContainsState(SequenceConfiguration config)
+    {
+        var transitions = config.Descriptors.OfType<ContainsStateTransitionDescriptor>().ToList();
+        ////var allTransitions = config.Descriptors.OfType<IHasToState>();
+        if (transitions.Count == 0) return true;
+       
+        missingContainsStates = new List<ContainsStateTransitionDescriptor>();
+        
+        // for easy reading do not simplify this
+        // each StateTransition should have an counterpart so that no dead-end is reached
+        foreach (var transition in transitions)
+        {
+            if (transitions   .All(x => !x.ToState.Contains(transition.FromStateContains)) && 
+                ////allTransitions.All(x => transition.FromState != x.ToState) &&
+                !config.InitialState.Contains(transition.FromStateContains))
+                missingContainsStates.Add(transition);
+        }
+
+        return missingFromStates.Count == 0;
+    }
+
 
     private static bool ShouldBeValidated(string state, SequenceConfiguration config)
     {

@@ -20,7 +20,7 @@ public class SequenceBuilder : ISequenceBuilder
     /// This is good for short crispy configs.
     /// </summary>
     public static ISequenceBuilder Create() =>
-        Create(new SequenceConfigurationValidatorNew());
+        Create(new SequenceConfigurationValidator());
 
     /// <summary>
     /// Creates a new Sequence-Builder for configuration in .NET 6 style.
@@ -73,7 +73,7 @@ public class SequenceBuilder : ISequenceBuilder
     public ISequenceBuilder SetInitialState(string initialState)
     {
         Configuration.InitialState = initialState;
-        Configuration.AvailableStates.Add(initialState);
+        ////Configuration.AvailableStates.Add(initialState);
         return this;
     }
     
