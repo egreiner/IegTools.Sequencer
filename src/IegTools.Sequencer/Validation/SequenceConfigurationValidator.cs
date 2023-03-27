@@ -29,9 +29,12 @@ public class SequenceConfigurationValidator : AbstractValidator<SequenceConfigur
         var result1 = true;
         var config = context.InstanceToValidate;
 
-        var fsv = new ForceStateRuleValidator();
+        var validators = config.RuleValidators.ToList();
 
-        result1 &= fsv.Validate(context, result);
+        validators.ForEach(x => result1 &= x.Validate(context, result));
+
+        return result1;
+
 
         ////if (!CorrectForceStateRule(config))
         ////{
@@ -68,7 +71,6 @@ public class SequenceConfigurationValidator : AbstractValidator<SequenceConfigur
         ////        $"Violating Rule(s): {string.Join("; ", missingContainsStates)}"));
         ////    result1 = false;
         ////}
-        return result1;
     }
 
     /// <summary>

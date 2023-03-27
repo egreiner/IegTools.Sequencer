@@ -63,13 +63,15 @@ public class SequenceBuilder : ISequenceBuilder
     /// <inheritdoc />
     public ISequence Build<TSequence>() where TSequence : ISequence, new()
     {
+        AddDefaultRuleValidators();
+
         if (!Configuration.DisableValidation)
             _validator?.ValidateAndThrow(Configuration);
 
         return new TSequence().SetConfiguration(Configuration);
     }
 
-    
+
     /// <inheritdoc />
     public ISequenceBuilder SetInitialState(string initialState)
     {
@@ -86,6 +88,15 @@ public class SequenceBuilder : ISequenceBuilder
         return this;
     }
 
+
+    /// <inheritdoc />
+    public ISequenceBuilder AddRuleValidator<T>() where T : ISequenceRuleValidator, new()
+    {
+        Configuration.RuleValidators.Add(new T());
+
+        return this;
+    }
+
     /// <inheritdoc />
     public ISequenceBuilder DisableValidation()
     {
@@ -98,5 +109,12 @@ public class SequenceBuilder : ISequenceBuilder
     {
         Configuration.DisableValidationForStatuses = statuses;
         return this;
+    }
+
+    
+    private void AddDefaultRuleValidators()
+    {
+        AddRuleValidator<InitialStateValidator>();
+        AddRuleValidator<ForceStateRuleValidator>();
     }
 }

@@ -1,23 +1,29 @@
 ﻿namespace UnitTests.Sequencer.Validation;
 
-using IegTools.Sequencer.Validation;
-
-public class ForceStateRuleValidatorTests
+public class InitialStateValidatorTests
 {
+    ////[Fact]
+    ////public void Test_ThrowsValidationError_no_InitialState()
+    ////{
+    ////    var builder = SequenceBuilder.Configure(_ => {});
+
+    ////    FluentActions.Invoking(() => builder.Build())
+    ////        .Should().Throw<FluentValidation.ValidationException>()
+    ////        .WithMessage("*The Initial-State*");
+    ////}
+
     [Fact]
-    public void Test_ThrowsValidationError()
+    public void Test_ThrowsValidationError_no_Transition()
     {
         var builder = SequenceBuilder.Configure(builder
             =>
         {
             builder.SetInitialState("State1");
-            builder.AddForceState("unknown", () => true);
-            builder.AddRuleValidator<InitialStateValidator>();
         });
 
         FluentActions.Invoking(() => builder.Build())
             .Should().Throw<FluentValidation.ValidationException>()
-            .WithMessage("*Each Force-State*");
+            .WithMessage("*The Initial-State*");
     }
 
     [Fact]
@@ -27,9 +33,8 @@ public class ForceStateRuleValidatorTests
             =>
         {
             builder.SetInitialState("State1");
-            builder.AddTransition("State1", "!State2", () => true);
-
-            builder.AddForceState("State1", () => true);
+            builder.AddTransition("State1", "State2", () => true);
+            builder.AddTransition("State2", "State1", () => true);
         });
 
         var build = () => builder.Build();
@@ -43,9 +48,8 @@ public class ForceStateRuleValidatorTests
             =>
         {
             builder.SetInitialState("State1");
-            builder.AddContainsTransition("State", "!State2", () => true);
-
-            builder.AddForceState("State1", () => true);
+            builder.AddTransition("State2", "State1", () => true);
+            builder.AddContainsTransition("State", "State2", () => true);
         });
 
         var build = () => builder.Build();
@@ -59,31 +63,11 @@ public class ForceStateRuleValidatorTests
             =>
         {
             builder.SetInitialState("State1");
-            builder.AddAnyTransition(new[] { "State1", "!State2" }, "!State3", () => true);
-
-            builder.AddForceState("State1", () => true);
+            builder.AddTransition("State2", "State1", () => true);
+            builder.AddAnyTransition(new[] { "State1", "!State2" }, "State3", () => true);
         });
 
         var build = () => builder.Build();
         build.Should().NotThrow();
     }
-
-    ////[Theory]
-    ////[InlineData(true)]
-    ////[InlineData(false)]
-    ////public void Test_ThrowsValidationError(bool constraint)
-    ////{
-    ////    var builder = SequenceBuilder.Configure(builder
-    ////        =>
-    ////    {
-    ////        builder.SetInitialState("State1");
-    ////        builder.AddForceState("unknown", () => true);
-    ////    });
-
-    ////    FluentActions.Invoking(() => builder.Build())
-    ////        .Should().Throw<FluentValidation.ValidationException>()
-    ////        .WithMessage("*Each Force-State*");
-    ////}
-
-
 }

@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using Rules;
+using Validation;
 
 public class SequenceConfiguration
 {
@@ -34,4 +35,9 @@ public class SequenceConfiguration
     /// The sequence-rules that describe how the sequence is supposed to work
     /// </summary>
     public List<IRule> Rules { get; } = new();
+
+    /// <summary>
+    /// All rule validators
+    /// </summary>
+    public IList<ISequenceRuleValidator> RuleValidators { get; set; } = new List<ISequenceRuleValidator>();
 }
