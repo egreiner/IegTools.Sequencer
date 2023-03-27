@@ -29,6 +29,7 @@ public class ConfigurationValidatorTests
             var builder = SequenceBuilder.Configure(builder =>
             {
                 builder.SetInitialState(InitialState);
+                builder.AddTransition(InitialState, "!State2", () => constraint);
             });
 
             FluentActions.Invoking(() => builder.Build())

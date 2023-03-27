@@ -1,4 +1,4 @@
-﻿namespace UnitTests.Sequencer.Validation;
+﻿namespace UnitTests.Sequencer.Validation.RuleValidators;
 
 public class ForceStateRuleValidatorTests
 {
