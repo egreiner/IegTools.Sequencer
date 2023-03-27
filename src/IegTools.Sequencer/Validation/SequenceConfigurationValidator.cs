@@ -28,41 +28,46 @@ public class SequenceConfigurationValidator : AbstractValidator<SequenceConfigur
 
         var result1 = true;
         var config = context.InstanceToValidate;
-        if (!CorrectForceStateRule(config))
-        {
-            result.Errors.Add(new ValidationFailure("ForceState",
-                "Each Force-State must have a StateTransition counterpart." +
-                $"Violating rule(s): {string.Join("; ", missingForces)}"));
-            result1 = false;
-        }
-        if (!CorrectFromState(config))
-        {
-            result.Errors.Add(new ValidationFailure("StateTransition",
-                "Each 'FromState' must have an 'ToState' counterpart where it comes from (Force-State, Initial-State...)" +
-                $"Violating rule(s): {string.Join("; ", missingFromStates)}"));
-            result1 = false;
-        }
-        if (!CorrectToState(config))
-        {
-            result.Errors.Add(new ValidationFailure("StateTransition",
-                "Each 'ToState' must have an 'FromState' counterpart." +
-                $"Violating Rule(s): {string.Join("; ", missingToStates)}"));
-            result1 = false;
-        }
-        if (!CorrectAnyState(config))
-        {
-            result.Errors.Add(new ValidationFailure("AnyStateTransition",
-                "Each 'FromState' of an AnyTransition must have an 'ToState' counterpart." +
-                $"Violating Rule(s): {string.Join("; ", missingAnyStates)}"));
-            result1 = false;
-        }
-        if (!CorrectContainsState(config))
-        {
-            result.Errors.Add(new ValidationFailure("ContainsStateTransition",
-                "Each 'State-part' of an ContainsTransition must have an 'ToState' counterpart." +
-                $"Violating Rule(s): {string.Join("; ", missingContainsStates)}"));
-            result1 = false;
-        }
+
+        var fsv = new ForceStateRuleValidator();
+
+        result1 &= fsv.Validate(context, result);
+
+        ////if (!CorrectForceStateRule(config))
+        ////{
+        ////    result.Errors.Add(new ValidationFailure("ForceState",
+        ////        "Each Force-State must have a StateTransition counterpart." +
+        ////        $"Violating rule(s): {string.Join("; ", missingForces)}"));
+        ////    result1 = false;
+        ////}
+        ////if (!CorrectFromState(config))
+        ////{
+        ////    result.Errors.Add(new ValidationFailure("StateTransition",
+        ////        "Each 'FromState' must have an 'ToState' counterpart where it comes from (Force-State, Initial-State...)" +
+        ////        $"Violating rule(s): {string.Join("; ", missingFromStates)}"));
+        ////    result1 = false;
+        ////}
+        ////if (!CorrectToState(config))
+        ////{
+        ////    result.Errors.Add(new ValidationFailure("StateTransition",
+        ////        "Each 'ToState' must have an 'FromState' counterpart." +
+        ////        $"Violating Rule(s): {string.Join("; ", missingToStates)}"));
+        ////    result1 = false;
+        ////}
+        ////if (!CorrectAnyState(config))
+        ////{
+        ////    result.Errors.Add(new ValidationFailure("AnyStateTransition",
+        ////        "Each 'FromState' of an AnyTransition must have an 'ToState' counterpart." +
+        ////        $"Violating Rule(s): {string.Join("; ", missingAnyStates)}"));
+        ////    result1 = false;
+        ////}
+        ////if (!CorrectContainsState(config))
+        ////{
+        ////    result.Errors.Add(new ValidationFailure("ContainsStateTransition",
+        ////        "Each 'State-part' of an ContainsTransition must have an 'ToState' counterpart." +
+        ////        $"Violating Rule(s): {string.Join("; ", missingContainsStates)}"));
+        ////    result1 = false;
+        ////}
         return result1;
     }
 

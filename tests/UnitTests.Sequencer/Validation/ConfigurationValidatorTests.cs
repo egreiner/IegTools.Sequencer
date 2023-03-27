@@ -1,40 +1,40 @@
 ﻿namespace UnitTests.Sequencer.Validation;
 
 public class ConfigurationValidatorTests
-{
-    private const string InitialState = "InitialState";
-
-    [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public void Test_ThrowsValidationError_InitialStateEmpty(bool constraint)
     {
-        var builder = SequenceBuilder.Configure(builder =>
+        private const string InitialState = "InitialState";
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void Test_ThrowsValidationError_InitialStateEmpty(bool constraint)
         {
-            // builder.SetInitialState(InitialState)
-            builder.AddTransition("State1", "State2", () => constraint);
-            builder.AddTransition("State2", "State1", () => constraint);
-        });
+            var builder = SequenceBuilder.Configure(builder =>
+            {
+                // builder.SetInitialState(InitialState)
+                builder.AddTransition("State1", "State2", () => constraint);
+                builder.AddTransition("State2", "State1", () => constraint);
+            });
 
-        FluentActions.Invoking(() => builder.Build())
-            .Should().Throw<FluentValidation.ValidationException>()
-            .WithMessage("*InitialState*");
-    }
+            FluentActions.Invoking(() => builder.Build())
+                .Should().Throw<FluentValidation.ValidationException>()
+                .WithMessage("*InitialState*");
+        }
 
-    [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public void Test_ThrowsValidationError_RuleCount(bool constraint)
-    {
-        var builder = SequenceBuilder.Configure(builder =>
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void Test_ThrowsValidationError_RuleCount(bool constraint)
         {
-            builder.SetInitialState(InitialState);
-        });
+            var builder = SequenceBuilder.Configure(builder =>
+            {
+                builder.SetInitialState(InitialState);
+            });
 
-        FluentActions.Invoking(() => builder.Build())
-            .Should().Throw<FluentValidation.ValidationException>()
-            .WithMessage("*more than one rule*");
-    }
+            FluentActions.Invoking(() => builder.Build())
+                .Should().Throw<FluentValidation.ValidationException>()
+                .WithMessage("*more than one rule*");
+        }
 
     [Theory]
     [InlineData(true)]
