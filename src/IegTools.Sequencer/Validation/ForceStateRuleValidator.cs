@@ -13,7 +13,7 @@ public class ForceStateRuleValidator : ISequenceRuleValidator
     /// <inheritdoc />
     public bool Validate(ValidationContext<SequenceConfiguration> context, ValidationResult result)
     {
-        if (CorrectForceStateRule(context.InstanceToValidate)) return true;
+        if (RuleIsValidated(context.InstanceToValidate)) return true;
 
         result.Errors.Add(new ValidationFailure("ForceState",
             "Each Force-State must have an StateTransition counterpart.\n\r" +
@@ -26,7 +26,7 @@ public class ForceStateRuleValidator : ISequenceRuleValidator
     /// Each 'Force.State' must have an corresponding 'Transition.FromState(s) '
     /// otherwise you have created an dead-end.
     /// </summary>
-    private bool CorrectForceStateRule(SequenceConfiguration config)
+    private bool RuleIsValidated(SequenceConfiguration config)
     {
         var forceStates = config.Rules.OfType<ForceStateRule>()
             .Where(x => ShouldBeValidated(x.ToState, config)).ToList();
@@ -37,7 +37,7 @@ public class ForceStateRuleValidator : ISequenceRuleValidator
 
         // for easy reading do not simplify this
         // each ForceStateRule should have an counterpart StateTransitionRule so that no dead-end is reached
-        foreach (var forceState in forceStates)
+        foreach (var forceState in forceStates.Where(x => ShouldBeValidated(x.ToState, config)))
         {
             if (config.Rules.OfType<StateTransitionRule>().All(x => forceState.ToState != x.FromState))
                 _rules.Add(forceState);

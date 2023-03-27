@@ -23,40 +23,12 @@ public class SequenceConfigurationValidator : AbstractValidator<SequenceConfigur
 
     protected override bool PreValidate(ValidationContext<SequenceConfiguration> context, ValidationResult result)
     {
-        // TODO refactor this to SequenceBuilder.AddDefaultValidation()
-        // TODO provide possibility to add custom validators for custom Rules
+        var isValide   = true;
+        var validators = context.InstanceToValidate.RuleValidators.ToList();
 
-        var result1 = true;
-        var config = context.InstanceToValidate;
+        validators.ForEach(x => isValide &= x.Validate(context, result));
 
-        var validators = config.RuleValidators.ToList();
-
-        validators.ForEach(x => result1 &= x.Validate(context, result));
-
-        return result1;
-
-
-        ////if (!CorrectForceStateRule(config))
-        ////{
-        ////    result.Errors.Add(new ValidationFailure("ForceState",
-        ////        "Each Force-State must have a StateTransition counterpart." +
-        ////        $"Violating rule(s): {string.Join("; ", missingForces)}"));
-        ////    result1 = false;
-        ////}
-        ////if (!CorrectFromState(config))
-        ////{
-        ////    result.Errors.Add(new ValidationFailure("StateTransition",
-        ////        "Each 'FromState' must have an 'ToState' counterpart where it comes from (Force-State, Initial-State...)" +
-        ////        $"Violating rule(s): {string.Join("; ", missingFromStates)}"));
-        ////    result1 = false;
-        ////}
-        ////if (!CorrectToState(config))
-        ////{
-        ////    result.Errors.Add(new ValidationFailure("StateTransition",
-        ////        "Each 'ToState' must have an 'FromState' counterpart." +
-        ////        $"Violating Rule(s): {string.Join("; ", missingToStates)}"));
-        ////    result1 = false;
-        ////}
+        return isValide;
         ////if (!CorrectAnyState(config))
         ////{
         ////    result.Errors.Add(new ValidationFailure("AnyStateTransition",
@@ -72,48 +44,7 @@ public class SequenceConfigurationValidator : AbstractValidator<SequenceConfigur
         ////    result1 = false;
         ////}
     }
-
-    /// <summary>
-    /// Each 'Force.State' must have an corresponding 'Transition.FromState '
-    /// otherwise you have created an dead-end.
-    /// </summary>
-    private static bool CorrectForceStateRule(SequenceConfiguration config)
-    {
-        var forceStatuses = config.Rules.OfType<ForceStateRule>()
-            .Where(x => ShouldBeValidated(x.ToState, config)).ToList();
-        if (forceStatuses.Count == 0) return true;
-
-        var transitions = config.Rules.OfType<StateTransitionRule>().ToList();
-        missingForces = new List<ForceStateRule>();
-
-        // for easy reading do not simplify this
-        // each ForceStateRule should have an counterpart StateTransitionRule so that no dead-end is reached
-        foreach (var forceState in forceStatuses)
-        {
-            if (transitions.All(x => x.FromState != forceState.ToState))
-                missingForces.Add(forceState);
-        }
-
-        // TODO add Any and Contains StateTransitions
-        ////// if there are any transitions for the force-state remove it from the error-list
-        ////var anyTransitions = config.Rules.OfType<AnyStateTransitionRule>().ToList();
-        ////foreach (var forceState in forceStatuses)
-        ////{
-        ////    if (anyTransitions.All(x => x.FromStates.Contains(forceState.State)))
-        ////        missingForceStateRules.Remove(forceState);
-        ////}
-
-        // if there are any transitions for the force-state remove it from the error-list
-        var containsTransitions = config.Rules.OfType<ContainsStateTransitionRule>().ToList();
-        foreach (var forceState in forceStatuses)
-        {
-            if (containsTransitions.All(x => forceState.ToState.Contains(x.FromStateContains)))
-                missingForces.Remove(forceState);
-        }
-
-        return missingForces.Count == 0;
-    }
-
+    
     /// <summary>
     /// Each 'ToState' must have an corresponding 'FromState' counterpart,
     /// otherwise you have created an dead-end.

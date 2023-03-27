@@ -1,7 +1,5 @@
 ﻿namespace UnitTests.Sequencer.Validation;
 
-using IegTools.Sequencer.Validation;
-
 public class ForceStateRuleValidatorTests
 {
     [Fact]
@@ -12,7 +10,6 @@ public class ForceStateRuleValidatorTests
         {
             builder.SetInitialState("State1");
             builder.AddForceState("unknown", () => true);
-            builder.AddRuleValidator<InitialStateValidator>();
         });
 
         FluentActions.Invoking(() => builder.Build())
