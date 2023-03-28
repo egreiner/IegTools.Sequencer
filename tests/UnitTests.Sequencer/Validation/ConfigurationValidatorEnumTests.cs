@@ -29,7 +29,7 @@ public class ConfigurationValidatorEnumTests
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.SetInitialState(TestEnum.State1);
-            builder.DisableValidationForStatuses(TestEnum.State2);
+            builder.DisableValidationForStates(TestEnum.State2);
 
             builder.AddTransition(TestEnum.State1, TestEnum.State2, () => constraint);
         });
@@ -82,7 +82,7 @@ public class ConfigurationValidatorEnumTests
         {
             builder.SetInitialState(TestEnum.InitialState);
 
-            builder.DisableValidationForStatuses(TestEnum.State2);
+            builder.DisableValidationForStates(TestEnum.State2);
 
             builder.AddTransition(TestEnum.State1, TestEnum.State2, () => constraint);
             builder.AddTransition(TestEnum.NotExisting, TestEnum.State1, () => constraint);
@@ -103,7 +103,7 @@ public class ConfigurationValidatorEnumTests
         {
             builder.SetInitialState(TestEnum.InitialState);
 
-            builder.DisableValidationForStatuses(TestEnum.State2);
+            builder.DisableValidationForStates(TestEnum.State2);
 
             builder.AddForceState(TestEnum.State1, () => constraint);
             builder.AddTransition(TestEnum.State1, TestEnum.State2, () => constraint);
@@ -124,7 +124,7 @@ public class ConfigurationValidatorEnumTests
         {
             builder.SetInitialState(TestEnum.State1);
 
-            builder.DisableValidationForStatuses(TestEnum.State2);
+            builder.DisableValidationForStates(TestEnum.State2);
 
             builder.AddForceState(TestEnum.State3, () => constraint);
             builder.AddTransition(TestEnum.State1, TestEnum.State2, () => constraint);
@@ -144,7 +144,7 @@ public class ConfigurationValidatorEnumTests
         {
             builder.SetInitialState(TestEnum.State1);
 
-            builder.DisableValidationForStatuses(TestEnum.Unknown);
+            builder.DisableValidationForStates(TestEnum.Unknown);
 
             builder.AddForceState(TestEnum.State1, () => constraint);
             builder.AddTransition(TestEnum.State1, TestEnum.State2, () => constraint);
@@ -164,7 +164,7 @@ public class ConfigurationValidatorEnumTests
         {
             builder.SetInitialState(TestEnum.State1);
 
-            builder.DisableValidationForStatuses(TestEnum.Unknown);
+            builder.DisableValidationForStates(TestEnum.Unknown);
 
             builder.AddForceState(TestEnum.State1, () => constraint);
             builder.AddTransition(TestEnum.State1, TestEnum.State2, () => constraint);

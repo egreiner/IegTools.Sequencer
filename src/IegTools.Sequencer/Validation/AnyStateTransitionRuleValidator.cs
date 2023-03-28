@@ -6,7 +6,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using Rules;
 
-public class AnyStateTransitionRuleValidator : RuleValidatorBase, ISequenceRuleValidator
+public sealed class AnyStateTransitionRuleValidator : RuleValidatorBase, ISequenceRuleValidator
 {
     private List<AnyStateTransitionRule> _rulesFrom;
     private List<AnyStateTransitionRule> _rulesTo;

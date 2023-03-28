@@ -6,7 +6,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using Rules;
 
-public class ForceStateRuleValidator : RuleValidatorBase, ISequenceRuleValidator
+public sealed class ForceStateRuleValidator : RuleValidatorBase, ISequenceRuleValidator
 {
     private List<ForceStateRule> _rules;
 

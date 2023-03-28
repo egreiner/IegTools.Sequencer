@@ -5,7 +5,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using Rules;
 
-public class InitialStateValidator : RuleValidatorBase, ISequenceRuleValidator
+public sealed class InitialStateValidator : RuleValidatorBase, ISequenceRuleValidator
 {
     /// <inheritdoc />
     public bool Validate(ValidationContext<SequenceConfiguration> context, ValidationResult result)

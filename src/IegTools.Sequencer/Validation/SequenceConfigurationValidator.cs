@@ -4,7 +4,7 @@ using System.Linq;
 using FluentValidation;
 using FluentValidation.Results;
 
-public class SequenceConfigurationValidator : AbstractValidator<SequenceConfiguration>
+public sealed class SequenceConfigurationValidator : AbstractValidator<SequenceConfiguration>
 {
     public SequenceConfigurationValidator()
     {
@@ -15,10 +15,9 @@ public class SequenceConfigurationValidator : AbstractValidator<SequenceConfigur
 
     protected override bool PreValidate(ValidationContext<SequenceConfiguration> context, ValidationResult result)
     {
-        var isValide   = true;
-        var validators = context.InstanceToValidate.RuleValidators.ToList();
-
-        validators.ForEach(x => isValide &= x.Validate(context, result));
+        var isValide = true;
+        context.InstanceToValidate.RuleValidators.ToList()
+            .ForEach(x => isValide &= x.Validate(context, result));
 
         return isValide;
     }
