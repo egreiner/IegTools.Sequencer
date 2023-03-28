@@ -87,9 +87,10 @@ public static class SequenceBuilderEnumExtensions
     /// <param name="builder">The sequence-builder</param>
     /// <param name="state">The state that should be forced.</param>
     /// <param name="constraint">The constraint that must be fulfilled that the sequence is forced to the defined state.</param>
-    public static ISequenceBuilder AddForceState<T>(this ISequenceBuilder builder, T state, Func<bool> constraint)
+    /// <param name="action">The action.</param>
+    public static ISequenceBuilder AddForceState<T>(this ISequenceBuilder builder, T state, Func<bool> constraint, Action action = null)
         where T : Enum =>
-        builder.AddRule(new ForceStateRule(state.ToString(), constraint));
+        builder.AddRule(new ForceStateRule(state.ToString(), constraint, action));
 
 
     /// <summary>
@@ -97,7 +98,7 @@ public static class SequenceBuilderEnumExtensions
     /// </summary>
     /// <param name="builder">The sequence-builder</param>
     /// <param name="statuses">A list of statuses that should not be validated.</param>
-    public static ISequenceBuilder DisableValidationForStatuses<T>(this ISequenceBuilder builder, params T[] statuses)
+    public static ISequenceBuilder DisableValidationForStates<T>(this ISequenceBuilder builder, params T[] statuses)
         where T : Enum
     {
         builder.Configuration.DisableValidationForStatuses = statuses.Select(x1 => x1.ToString()).ToArray();

@@ -5,13 +5,12 @@
 /// </summary>
 public class ForceStateRule : RuleBase, IHasToState
 {
-    public ForceStateRule(string toState, Func<bool> condition)
+    public ForceStateRule(string toState, Func<bool> condition, Action action)
     {
-        ToState   = toState;
-        Condition = condition;
+        ToState        = toState;
+        Condition      = condition;
         ResumeSequence = false;
-
-        ////ValidationTargetStates.Add(State);
+        Action         = action;
     }
 
 
@@ -35,7 +34,7 @@ public class ForceStateRule : RuleBase, IHasToState
     /// </summary>
     /// <param name="sequence">The sequence</param>
     public override bool IsConditionFulfilled(ISequence sequence) =>
-        Condition?.Invoke() ?? false;
+        !sequence.HasCurrentState(ToState) && (Condition?.Invoke() ?? false);
 
     /// <summary>
     /// Transitions to the new state

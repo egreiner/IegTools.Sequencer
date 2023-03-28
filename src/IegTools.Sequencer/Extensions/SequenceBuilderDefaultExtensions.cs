@@ -89,10 +89,11 @@ public static class SequenceBuilderDefaultExtensions
     /// <param name="builder">The sequence-builder</param>
     /// <param name="state">The state that should be forced.</param>
     /// <param name="constraint">The constraint that must be fulfilled that the sequence is forced to the defined state.</param>
-    public static ISequenceBuilder AddForceState(this ISequenceBuilder builder, string state, Func<bool> constraint)
+    /// <param name="action">The action.</param>
+    public static ISequenceBuilder AddForceState(this ISequenceBuilder builder, string state, Func<bool> constraint, Action action = null)
     {
         builder.AddInitialStates(state);
-        return builder.AddRule(new ForceStateRule(state, constraint));
+        return builder.AddRule(new ForceStateRule(state, constraint, action));
     }
 
 
