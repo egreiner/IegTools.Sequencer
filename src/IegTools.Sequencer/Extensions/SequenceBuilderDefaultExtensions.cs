@@ -4,6 +4,10 @@ namespace IegTools.Sequencer;
 using System.Linq;
 using Rules;
 
+
+/// <summary>
+/// Default String-Extensions für the SequenceBuilder
+/// </summary>
 public static class SequenceBuilderDefaultExtensions
 {
     /// <summary>

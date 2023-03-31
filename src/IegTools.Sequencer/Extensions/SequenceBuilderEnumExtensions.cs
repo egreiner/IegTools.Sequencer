@@ -4,6 +4,9 @@ namespace IegTools.Sequencer;
 using System.Linq;
 using Rules;
 
+/// <summary>
+/// Default Enum-Extensions für the SequenceBuilder
+/// </summary>
 public static class SequenceBuilderEnumExtensions
 {
     /// <summary>
