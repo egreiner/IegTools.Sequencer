@@ -11,7 +11,7 @@ public class StateActionRuleTests
         var result = 0;
         var builder = SequenceBuilder.Configure(builder =>
         {
-            builder.AddStateAction(">State1", () => result++);
+            builder.AddStateAction(state, () => result++);
             builder.AddStateAction(">State2", () => result = 0)
                 .DisableValidation();
         });
