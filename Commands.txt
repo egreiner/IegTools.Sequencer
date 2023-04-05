@@ -4,8 +4,8 @@ dotnet pack .\src\IegTools.Sequencer\IegTools.Sequencer.csproj --include-symbols
 
 # push all created packages to local folder
 # https://docs.microsoft.com/en-us/nuget/reference/cli-reference/cli-ref-init 
-nuget init .\src\IegTools.Sequencer\bin\Release D:\NuGet
+d:\nuget\nuget.exe init .\src\IegTools.Sequencer\bin\Release D:\NuGet
 
 # PUSHING
-dotnet nuget push .\src\IegTools.Sequencer\*.nupkg -s https://api.nuget.org/v3/index.json -k <API_KEY>
+dotnet nuget push .\src\IegTools.Sequencer\*.nupkg -s https://api.nuget.org/v3/index.json -k < your NuGet API_KEY >
 

@@ -27,22 +27,19 @@
 		<NeutralLanguage>en</NeutralLanguage>
 		<RepositoryType>git</RepositoryType>
 		<UserSecretsId>940bf605-ef83-43f5-9f75-715291de7535</UserSecretsId>
-		<PackageIcon>icon2.png</PackageIcon>
+		<PackageIcon>docs\icon2.png</PackageIcon>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<None Remove="Images\LICENSE.txt" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="FluentValidation" Version="11.5.1" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="Images\icon2.png">
+		<None Include="..\..\images\icon2.png">
 			<Pack>True</Pack>
-			<PackagePath></PackagePath>
+			<PackagePath>docs</PackagePath>
+			<Link>icon2.png</Link>
 		</None>
 
 		<None Include="..\..\README.md">
