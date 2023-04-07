@@ -37,6 +37,7 @@ public class OnTimerExample
             .AddForceState(">Off", () => !LastValue)
             .AddTransition(">Off", "PrepareOn", () => LastValue, () => _sequence.Stopwatch.Restart())
             .AddTransition("PrepareOn", "!On", () => _sequence.Stopwatch.Expired(MyTimeSpan));
+}
 ```
 
 
@@ -126,7 +127,7 @@ Example:
 
 ## Validation
 
-The sequence will be validated when build.  
+The sequence will be validated on build.  
 `_sequence = builder.Build();` 
 
 
