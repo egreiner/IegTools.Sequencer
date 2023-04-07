@@ -15,19 +15,7 @@ Invoke Actions on specified states
 ## Configure, build and run a sequence
 ### Configuration .NET 6 style
 
-A simple example configuration for an OnTimer-sequence:
-
-```c#
-public class OnTimerExample
-{
-    private ISequenceBuilder SequenceConfig =>
-        SequenceBuilder.Create()
-            .AddForceState(">Off", () => !LastValue)
-            .AddTransition(">Off", "PrepareOn", () => LastValue, () => _sequence.Stopwatch.Restart())
-            .AddTransition("PrepareOn", "!On", () => _sequence.Stopwatch.Expired(MyTimeSpan));
-```
-
-### Build the sequence
+A simple example configuration and usage for an OnTimer-sequence:
 
 ```c#
 public class OnTimerExample
@@ -36,24 +24,22 @@ public class OnTimerExample
 	
     public OnTimerExample() =>
         _sequence = SequenceConfig.Build();
-}
-```
 
-### Run the sequence
 
-The sequence will be executed in the configuration order .
-
-```c#
-public class OnTimerExample
-{
     public void In(bool value)
     {
         LastValue = value;
+
         _sequence.Run();
-        // or await _sequence.RunAsync();
     }
-}
+
+    private ISequenceBuilder SequenceConfig =>
+        SequenceBuilder.Create()
+            .AddForceState(">Off", () => !LastValue)
+            .AddTransition(">Off", "PrepareOn", () => LastValue, () => _sequence.Stopwatch.Restart())
+            .AddTransition("PrepareOn", "!On", () => _sequence.Stopwatch.Expired(MyTimeSpan));
 ```
+
 
 ### Configuration .NET 5 style
 
@@ -102,8 +88,6 @@ A more complex example configuration for a pump-anti-sticking-sequence:
 
 - Action on state:
   builder.AddStateAction("State", action)
-
-TODO Documentation
 
 
 

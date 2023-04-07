@@ -11,10 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IegTools.Sequencer", "src\I
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4AFD2E78-CDEE-4041-905A-1A1F7D96BA84}"
 	ProjectSection(SolutionItems) = preProject
-		Commands.txt = Commands.txt
 		HelpfulInfos.md = HelpfulInfos.md
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
+		NuGet_Commands.txt = NuGet_Commands.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests.Sequencer", "tests\UnitTests.Sequencer\UnitTests.Sequencer.csproj", "{DC3A838F-D3F6-49C3-AA09-4C948641F296}"
