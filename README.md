@@ -3,12 +3,11 @@
 IegTools.Sequencer provides a fluent interface for creating easy-to-read and extensible sequences,
 eliminating the need for lengthy if/else statements.
 
-Define transition jobs:   
-from state -> to state, when it should be triggerd and the action that should be invoked
+The tool allows you to define:
 
-Force state on specified conditions
-
-Invoke Actions on specified states
+- Transition jobs: from one state to another state, when it should be triggered, and the action that should be invoked.
+- Force state on specified conditions.
+- Invoke actions on specified states.
 
 
 # Usage
@@ -80,14 +79,14 @@ A more complex example configuration for a pump-anti-sticking-sequence:
 
 ## Config in Detail
 
-- Force state on condition:
-  builder.AddForceState("ForceState", constraint)
+- Force state on condition:  
+  `builder.AddForceState("ForceState", constraint)`  
 
-- State transition on condition (with optional action)
-  builder.AddTransition("FromState", "ToState", constraint, action)
+- State transition on condition (with optional action)  
+  `builder.AddTransition("FromState", "ToState", constraint, action)`  
 
-- Action on state:
-  builder.AddStateAction("State", action)
+- Action on state:  
+  `builder.AddStateAction("State", action)` 
 
 
 
@@ -100,7 +99,7 @@ States can be defined as strings or enums, internally they will be stored as str
 ## State Tags
 
 State-Tags can only be used with string-states.
-For enum-states there are other possibilities. (link to ...)
+For enum-states there are other possibilities. (-> Validation Rules)  
 
 There are available two state tags as prefix for states
 - the IgnoreTag '!'
@@ -127,8 +126,8 @@ Example:
 
 ## Validation
 
-The sequence will be validated when build.
-        _sequence = builder.Build();
+The sequence will be validated when build.  
+`_sequence = builder.Build();` 
 
 
 Validation Rules:
@@ -139,16 +138,16 @@ Validation Rules:
 - Each 'NextStep' must have a counterpart StateTransition with an matching 'CurrentState'
 - Each 'CurrentState' must have a counterpart StateTransition with an matching 'NextStep' or ForceState
 
-Validation could be disabled completely:
- ```C#
- builder.DisableValidation()
- ```
-or with specifing states that shouldn't be validated:
- ```C#
- builder.DisableValidationForStates("state1", "state2", ...)
- ```
-or with the IgnoreTag:
-TODO Documentation
+Validation could be disabled
+- completely turn off validation  
+    `builder.DisableValidation()`  
+
+- or with specifing states that shouldn't be validated:  
+    `builder.DisableValidationForStates("state1", "state2", ...)`  
+    `builder.DisableValidationForStates(Enum.State1, Enum.State2, ...)`  
+
+- or with the IgnoreTag '!':  
+    `.AddTransition("PrepareOn", "!On", ...);`  
 
 
 
@@ -167,7 +166,7 @@ TODO Documentation
 Internally the Framework is working with Rules (you can write your own customized rules).
 The Rules describe what they are supposed to do within the sequence.
 
-There are five default rule:
+There are five default rules at the moment:  
 - The StateTransitionRule
 - The ContainsStateTransitionRule
 - The AnyStateTransitionRule
