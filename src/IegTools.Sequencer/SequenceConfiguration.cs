@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using Rules;
 using Validation;
 
+/// <summary>
+/// The sequence configuration
+/// </summary>
 public class SequenceConfiguration
 {
     /// <summary>
@@ -15,6 +18,14 @@ public class SequenceConfiguration
     /// Prefix statuses with the InitialStateTag, does tag statuses for the sequence to start from
     /// </summary>
     public char InitialStateTag { get; set; } = '>';
+
+    /// <summary>
+    /// Is an empty sequence.
+    /// On run nothings happens.
+    /// No state changes.
+    /// Validation is disabled.
+    /// </summary>
+    public bool IsEmpty { get; set; }
 
     /// <summary>
     /// The complete validation will be disabled

@@ -17,6 +17,20 @@ public class SequenceBuilder : ISequenceBuilder
 
 
     /// <summary>
+    /// Creates a new Sequence-Builder with an empty sequence.
+    /// In some scenarios it is useful to have an empty sequence.
+    /// </summary>
+    public static ISequenceBuilder CreateEmpty(string fixedState = "Empty")
+    {
+        var builder = Create(new SequenceConfigurationValidator())
+            .DisableValidation()
+            .SetInitialState(fixedState);
+        builder.Configuration.IsEmpty = true;
+        return builder;
+    }
+
+
+    /// <summary>
     /// Creates a new Sequence-Builder for configuration in .NET 6 style.
     /// This is good for short crispy configs.
     /// </summary>
