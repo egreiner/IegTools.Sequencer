@@ -74,15 +74,16 @@ public static class SequenceBuilderDefaultExtensions
 
     /// <summary>
     /// Adds a state action that should be executed during the state is active.
-    /// Internal it's handled like a StateTransition...
     /// </summary>
     /// <param name="builder">The sequence-builder</param>
     /// <param name="state">The state where the action should be invoked</param>
     /// <param name="action">The action.</param>
-    public static ISequenceBuilder AddStateAction(this ISequenceBuilder builder, string state, Action action)
+    /// <param name="constraint">The constraint that must be fulfilled that the sequence executes the action, default is true.</param>
+    public static ISequenceBuilder AddStateAction(this ISequenceBuilder builder, string state, Action action, Func<bool> constraint = null)
     {
         builder.AddInitialStates(state);
-        return builder.AddRule(new StateActionRule(state, action));
+        return builder.AddRule(new StateActionRule(state, action)
+            { Condition = constraint });
     }
 
     /// <summary>
