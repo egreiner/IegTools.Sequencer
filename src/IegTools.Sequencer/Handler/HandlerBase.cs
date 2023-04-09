@@ -1,9 +1,9 @@
-﻿namespace IegTools.Sequencer.Rules;
+﻿namespace IegTools.Sequencer.Handler;
 
 /// <summary>
 /// The base rule
 /// </summary>
-public abstract class RuleBase : IRule
+public abstract class HandlerBase : IHandler
 {
     /// <inheritdoc />
     public bool ResumeSequence { get; set; } = true;

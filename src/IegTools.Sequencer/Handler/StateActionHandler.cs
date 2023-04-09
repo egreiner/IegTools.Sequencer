@@ -1,11 +1,11 @@
-﻿namespace IegTools.Sequencer.Rules;
+﻿namespace IegTools.Sequencer.Handler;
 
 /// <summary>
 /// Invokes an specified action when the sequence is in the specified state
 /// </summary>
-public class StateActionRule : RuleBase
+public class StateActionHandler : HandlerBase
 {
-    public StateActionRule(string state, Action action)
+    public StateActionHandler(string state, Action action)
     {
         State  = state;
         Action = action;

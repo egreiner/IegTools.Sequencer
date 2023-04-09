@@ -1,4 +1,4 @@
-﻿namespace IegTools.Sequencer.Rules;
+﻿namespace IegTools.Sequencer.Handler;
 
 public interface IHasToState
 {

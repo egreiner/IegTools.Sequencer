@@ -1,6 +1,6 @@
 ﻿namespace IegTools.Sequencer;
 
-using Rules;
+using Handler;
 using Validation;
 
 public interface ISequenceBuilder
@@ -31,7 +31,7 @@ public interface ISequenceBuilder
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="rule">The rule.</param>
-    ISequenceBuilder AddRule<T>(T rule) where T: IRule;
+    ISequenceBuilder AddRule<T>(T rule) where T: IHandler;
 
     /// <summary>
     /// Adds an Rule-Validator

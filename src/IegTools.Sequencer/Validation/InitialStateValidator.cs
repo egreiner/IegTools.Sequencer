@@ -3,7 +3,7 @@
 using System.Linq;
 using FluentValidation;
 using FluentValidation.Results;
-using Rules;
+using Handler;
 
 public sealed class InitialStateValidator : RuleValidatorBase, ISequenceRuleValidator
 {
@@ -22,7 +22,7 @@ public sealed class InitialStateValidator : RuleValidatorBase, ISequenceRuleVali
     }
 
     private bool RuleIsValidated(SequenceConfiguration config) =>
-        config.Rules.OfType<StateTransitionRule>().Any(x => config.InitialState == x.FromState) ||
-        config.Rules.OfType<ContainsStateTransitionRule>().Any(x => config.InitialState.Contains(x.FromStateContains)) ||
-        config.Rules.OfType<AnyStateTransitionRule>().Any(x => x.FromStates.Contains(config.InitialState));
+        config.Rules.OfType<StateTransitionHandler>().Any(x => config.InitialState == x.FromState) ||
+        config.Rules.OfType<ContainsStateTransitionHandler>().Any(x => config.InitialState.Contains(x.FromStateContains)) ||
+        config.Rules.OfType<AnyStateTransitionHandler>().Any(x => x.FromStates.Contains(config.InitialState));
 }

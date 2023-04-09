@@ -1,11 +1,11 @@
-﻿namespace IegTools.Sequencer.Rules;
+﻿namespace IegTools.Sequencer.Handler;
 
 /// <summary>
 /// Forces the sequence to the specified state if the condition is fulfilled
 /// </summary>
-public class ForceStateRule : RuleBase, IHasToState
+public class ForceStateHandler : HandlerBase, IHasToState
 {
-    public ForceStateRule(string toState, Func<bool> condition, Action action)
+    public ForceStateHandler(string toState, Func<bool> condition, Action action)
     {
         ToState        = toState;
         Condition      = condition;

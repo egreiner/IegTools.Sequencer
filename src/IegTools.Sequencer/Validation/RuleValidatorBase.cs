@@ -1,8 +1,8 @@
 ﻿namespace IegTools.Sequencer.Validation;
 
-using IegTools.Sequencer.Rules;
 using System.Collections.Generic;
 using System.Linq;
+using Handler;
 
 public class RuleValidatorBase
 {
@@ -29,7 +29,7 @@ public class RuleValidatorBase
         if (containsTransitions is null || containsTransitions.Count == 0)
             return (true, Enumerable.Empty<T>());
 
-        var transitions = config.Rules.OfType<StateTransitionRule>().ToList();
+        var transitions = config.Rules.OfType<StateTransitionHandler>().ToList();
 
         rulesTo = new List<IHasToState>();
 
@@ -52,7 +52,7 @@ public class RuleValidatorBase
     }
 
 
-    private void AddMissingTransitions<T>(SequenceConfiguration config, List<T> containsTransitions, List<StateTransitionRule> transitions)
+    private void AddMissingTransitions<T>(SequenceConfiguration config, List<T> containsTransitions, List<StateTransitionHandler> transitions)
         where T : IHasToState
     {
         // for easy reading do not simplify this
@@ -69,7 +69,7 @@ public class RuleValidatorBase
     {
         foreach (var transition in containsTransitions.Where(x => ShouldBeValidated(x.ToState, config)))
         {
-            if (config.Rules.OfType<AnyStateTransitionRule>().Any(x => x.FromStates.Contains(transition.ToState)))
+            if (config.Rules.OfType<AnyStateTransitionHandler>().Any(x => x.FromStates.Contains(transition.ToState)))
                 rulesTo.Remove(transition);
         }
     }
@@ -79,7 +79,7 @@ public class RuleValidatorBase
     {
         foreach (var transition in containsTransitions.Where(x => ShouldBeValidated(x.ToState, config)))
         {
-            if (config.Rules.OfType<ContainsStateTransitionRule>()
+            if (config.Rules.OfType<ContainsStateTransitionHandler>()
                 .Any(x => transition.ToState.Contains(x.FromStateContains)))
                 rulesTo.Remove(transition);
         }

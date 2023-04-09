@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentValidation;
 using FluentValidation.Results;
-using Rules;
+using Handler;
 
 public sealed class ForceStateRuleValidator : RuleValidatorBase, ISequenceRuleValidator
 {
-    private List<ForceStateRule> _rules;
+    private List<ForceStateHandler> _rules;
 
     /// <inheritdoc />
     public bool Validate(ValidationContext<SequenceConfiguration> context, ValidationResult result)
@@ -28,7 +28,7 @@ public sealed class ForceStateRuleValidator : RuleValidatorBase, ISequenceRuleVa
     /// </summary>
     private bool RuleIsValidated(SequenceConfiguration config)
     {
-        var result = RuleIsValidatedTo<ForceStateRule>(config);
+        var result = RuleIsValidatedTo<ForceStateHandler>(config);
         _rules = result.list.ToList();
 
         return result.isValid;

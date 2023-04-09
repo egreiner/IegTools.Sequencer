@@ -2,8 +2,7 @@
 namespace IegTools.Sequencer;
 
 using System.Linq;
-using Rules;
-
+using Handler;
 
 /// <summary>
 /// Default String-Extensions für the SequenceBuilder
@@ -24,7 +23,7 @@ public static class SequenceBuilderDefaultExtensions
     {
         builder.AddInitialStates(currentState, nextState);
         return builder.AddRule(
-            new StateTransitionRule(currentState, nextState, constraint, action));
+            new StateTransitionHandler(currentState, nextState, constraint, action));
     }
 
     /// <summary>
@@ -46,7 +45,7 @@ public static class SequenceBuilderDefaultExtensions
     {
         builder.AddInitialStates(nextState);
         return builder.AddRule(
-            new ContainsStateTransitionRule(currentStateContains, nextState, constraint, action));
+            new ContainsStateTransitionHandler(currentStateContains, nextState, constraint, action));
     }
 
     /// <summary>
@@ -68,7 +67,7 @@ public static class SequenceBuilderDefaultExtensions
         builder.AddInitialStates(nextState);
         
         return builder.AddRule(
-            new AnyStateTransitionRule(compareStates, nextState, constraint, action));
+            new AnyStateTransitionHandler(compareStates, nextState, constraint, action));
     }
 
 
@@ -82,12 +81,12 @@ public static class SequenceBuilderDefaultExtensions
     public static ISequenceBuilder AddStateAction(this ISequenceBuilder builder, string state, Action action, Func<bool> constraint = null)
     {
         builder.AddInitialStates(state);
-        return builder.AddRule(new StateActionRule(state, action)
+        return builder.AddRule(new StateActionHandler(state, action)
             { Condition = constraint });
     }
 
     /// <summary>
-    /// Adds a ForceStateRule to the sequence-rules.
+    /// Adds a ForceStateHandler to the sequence-rules.
     /// If the constraint is fulfilled on execution the CurrentState will be set to the state
     /// and further execution of the sequence will be prevented.
     /// </summary>
@@ -98,7 +97,7 @@ public static class SequenceBuilderDefaultExtensions
     public static ISequenceBuilder AddForceState(this ISequenceBuilder builder, string state, Func<bool> constraint, Action action = null)
     {
         builder.AddInitialStates(state);
-        return builder.AddRule(new ForceStateRule(state, constraint, action));
+        return builder.AddRule(new ForceStateHandler(state, constraint, action));
     }
 
 

@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentValidation;
 using FluentValidation.Results;
-using Rules;
+using Handler;
 
 public sealed class ContainsStateTransitionRuleValidator : RuleValidatorBase, ISequenceRuleValidator
 {
-    private List<ContainsStateTransitionRule> _rulesFrom;
-    private List<ContainsStateTransitionRule> _rulesTo;
+    private List<ContainsStateTransitionHandler> _rulesFrom;
+    private List<ContainsStateTransitionHandler> _rulesTo;
 
 
     /// <inheritdoc />
@@ -52,11 +52,11 @@ public sealed class ContainsStateTransitionRuleValidator : RuleValidatorBase, IS
     /// </summary>
     private bool RuleIsValidatedFrom(SequenceConfiguration config)
     {
-        var transitions = config.Rules.OfType<ContainsStateTransitionRule>().ToList();
+        var transitions = config.Rules.OfType<ContainsStateTransitionHandler>().ToList();
         var allTransitions = config.Rules.OfType<IHasToState>().ToList();
         if (transitions.Count == 0) return true;
 
-        _rulesFrom = new List<ContainsStateTransitionRule>();
+        _rulesFrom = new List<ContainsStateTransitionHandler>();
 
         // for easy reading do not simplify this
         // each StateTransition should have an counterpart so that no dead-end is reached
@@ -78,7 +78,7 @@ public sealed class ContainsStateTransitionRuleValidator : RuleValidatorBase, IS
     /// </summary>
     private bool RuleIsValidatedTo(SequenceConfiguration config)
     {
-        var result = RuleIsValidatedTo<ContainsStateTransitionRule>(config);
+        var result = RuleIsValidatedTo<ContainsStateTransitionHandler>(config);
         _rulesTo = result.list.ToList();
 
         return result.isValid;

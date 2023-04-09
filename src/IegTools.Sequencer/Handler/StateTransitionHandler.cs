@@ -1,46 +1,45 @@
-﻿namespace IegTools.Sequencer.Rules;
+﻿namespace IegTools.Sequencer.Handler;
 
 /// <summary>
 /// Transfers the sequence from the current state to the next state
-/// when the condition is met
-/// and invokes the specified action
+/// if the condition is met and invokes the specified action
 /// </summary>
-public class ContainsStateTransitionRule : RuleBase, IHasToState
+public class StateTransitionHandler : HandlerBase, IHasToState
 {
-    public ContainsStateTransitionRule(string fromStateContains, string toState, Func<bool> condition, Action action)
+    public StateTransitionHandler(string fromState, string toState, Func<bool> condition, Action action)
     {
-        FromStateContains = fromStateContains;
-        ToState           = toState;
-        Condition         = condition;
-        Action            = action;
+        FromState = fromState;
+        ToState   = toState;
+        Condition = condition;
+        Action    = action;
     }
 
 
     /// <summary>
     /// The state from which the transition should be made
     /// </summary>
-    public string FromStateContains   { get; }
+    public string FromState   { get; }
 
     /// <summary>
     /// The state to which the transition should be made
     /// </summary>
     public string ToState      { get; }
 
-    
+
     public override string ToString() =>
-        $"Contains-State-Transition: *{FromStateContains}* -> {ToState}";
+        $"State-Transition: {FromState} -> {ToState}";
 
 
     /// <inheritdoc />
     public override bool IsRegisteredState(string state) =>
-        state == ToState;
+        state == ToState || state == FromState;
 
     /// <summary>
     /// Returns true if the sequence met the specified state and the condition is fulfilled
     /// </summary>
     /// <param name="sequence">The sequence</param>
     public override bool IsConditionFulfilled(ISequence sequence) =>
-        !sequence.HasCurrentState(ToState) && sequence.CurrentState.Contains(FromStateContains) && IsConditionFulfilled();
+        sequence.HasCurrentState(FromState) && IsConditionFulfilled();
 
 
     /// <summary>

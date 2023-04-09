@@ -1,6 +1,6 @@
-﻿namespace IegTools.Sequencer.Rules;
+﻿namespace IegTools.Sequencer.Handler;
 
-public interface IRule
+public interface IHandler
 {
     /// <summary>
     /// Standard is that the sequence should continue to run after a action is executed

@@ -1,7 +1,7 @@
 ﻿namespace IegTools.Sequencer;
 
 using FluentValidation;
-using Rules;
+using Handler;
 using Validation;
 
 public class SequenceBuilder : ISequenceBuilder
@@ -95,7 +95,7 @@ public class SequenceBuilder : ISequenceBuilder
     }
     
     /// <inheritdoc />
-    public ISequenceBuilder AddRule<T>(T rule) where T: IRule
+    public ISequenceBuilder AddRule<T>(T rule) where T: IHandler
     {
         Configuration.Rules.Add(rule);
 

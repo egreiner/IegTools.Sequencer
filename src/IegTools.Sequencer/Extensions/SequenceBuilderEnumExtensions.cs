@@ -2,7 +2,7 @@
 namespace IegTools.Sequencer;
 
 using System.Linq;
-using Rules;
+using Handler;
 
 /// <summary>
 /// Default Enum-Extensions für the SequenceBuilder
@@ -32,7 +32,7 @@ public static class SequenceBuilderEnumExtensions
     public static ISequenceBuilder AddTransition<T>(
         this ISequenceBuilder builder, T currentState, T nextState, Func<bool> constraint, Action action = null)
         where T : Enum =>
-        builder.AddRule(new StateTransitionRule(currentState.ToString(), nextState.ToString(), constraint, action));
+        builder.AddRule(new StateTransitionHandler(currentState.ToString(), nextState.ToString(), constraint, action));
 
     /// <summary>
     /// Adds a 'state_s_ to state'-transition.
@@ -52,7 +52,7 @@ public static class SequenceBuilderEnumExtensions
     public static ISequenceBuilder AddContainsTransition<T>(
         this ISequenceBuilder builder, string currentStateContains, T nextState, Func<bool> constraint, Action action = null)
         where T : Enum =>
-        builder.AddRule(new ContainsStateTransitionRule(currentStateContains, nextState.ToString(), constraint, action));
+        builder.AddRule(new ContainsStateTransitionHandler(currentStateContains, nextState.ToString(), constraint, action));
 
     /// <summary>
     /// Adds a 'state to state'-transition.
@@ -68,7 +68,7 @@ public static class SequenceBuilderEnumExtensions
         this ISequenceBuilder builder, T[] compareStates, T nextState, Func<bool> constraint, Action action = null)
         where T : Enum
     {
-        return builder.AddRule(new AnyStateTransitionRule(compareStates.Select(x => x.ToString()).ToArray(), nextState.ToString(), constraint, action));
+        return builder.AddRule(new AnyStateTransitionHandler(compareStates.Select(x => x.ToString()).ToArray(), nextState.ToString(), constraint, action));
     }
 
     /// <summary>
@@ -83,7 +83,7 @@ public static class SequenceBuilderEnumExtensions
         builder.AddTransition(currentState, currentState, () => true, action);
 
     /// <summary>
-    /// Adds a ForceStateRule to the sequence-rules.
+    /// Adds a ForceStateHandler to the sequence-rules.
     /// If the constraint is fulfilled on execution the CurrentState will be set to the state
     /// and further execution of the sequence will be prevented.
     /// </summary>
@@ -93,7 +93,7 @@ public static class SequenceBuilderEnumExtensions
     /// <param name="action">The action.</param>
     public static ISequenceBuilder AddForceState<T>(this ISequenceBuilder builder, T state, Func<bool> constraint, Action action = null)
         where T : Enum =>
-        builder.AddRule(new ForceStateRule(state.ToString(), constraint, action));
+        builder.AddRule(new ForceStateHandler(state.ToString(), constraint, action));
 
 
     /// <summary>

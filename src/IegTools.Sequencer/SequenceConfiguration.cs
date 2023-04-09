@@ -1,7 +1,7 @@
 ﻿namespace IegTools.Sequencer;
 
 using System.Collections.Generic;
-using Rules;
+using Handler;
 using Validation;
 
 /// <summary>
@@ -45,7 +45,7 @@ public class SequenceConfiguration
     /// <summary>
     /// The sequence-rules that describe how the sequence is supposed to work
     /// </summary>
-    public List<IRule> Rules { get; } = new();
+    public List<IHandler> Rules { get; } = new();
 
     /// <summary>
     /// All rule validators
