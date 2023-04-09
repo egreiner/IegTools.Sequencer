@@ -9,8 +9,6 @@ public class StateActionRule : RuleBase
     {
         State  = state;
         Action = action;
-
-        ////ValidationTargetStates.Add(State);
     }
 
     
@@ -33,14 +31,12 @@ public class StateActionRule : RuleBase
     /// </summary>
     /// <param name="sequence">The sequence</param>
     public override bool IsConditionFulfilled(ISequence sequence) =>
-        sequence.HasCurrentState(State);
+        sequence.HasCurrentState(State) && IsConditionFulfilled();
 
     /// <summary>
     /// Executes the specified action
     /// </summary>
     /// <param name="sequence">The sequence</param>
-    public override void ExecuteAction(ISequence sequence)
-    {
+    public override void ExecuteAction(ISequence sequence) =>
         Action?.Invoke();
-    }
 }

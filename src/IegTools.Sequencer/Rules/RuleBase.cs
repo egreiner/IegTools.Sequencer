@@ -16,17 +16,19 @@ public abstract class RuleBase : IRule
     /// <summary>
     /// The action that will be invoked when the state transition will be executed
     /// </summary>
-    public Action Action         { get; set; }
+    public Action Action        { get; set; }
 
 
     /// <inheritdoc />
     public abstract bool IsRegisteredState(string state);
 
+    /// <inheritdoc />
+    public abstract bool IsConditionFulfilled(ISequence sequence);
+
     /// <summary>
-    /// Returns true the sequence is in ValidationOnly-mode or if the rules constraint is fulfilled
+    /// Returns true if the rules constraint is fulfilled
     /// </summary>
-    /// <param name="sequence"></param>
-    public virtual bool IsConditionFulfilled(ISequence sequence) =>
+    protected bool IsConditionFulfilled() =>
         Condition?.Invoke() ?? true;
 
 

@@ -13,8 +13,6 @@ public class ContainsStateTransitionRule : RuleBase, IHasToState
         ToState           = toState;
         Condition         = condition;
         Action            = action;
-
-        ////ValidationTargetStates.Add(ToState);
     }
 
 
@@ -42,7 +40,7 @@ public class ContainsStateTransitionRule : RuleBase, IHasToState
     /// </summary>
     /// <param name="sequence">The sequence</param>
     public override bool IsConditionFulfilled(ISequence sequence) =>
-        !sequence.HasCurrentState(ToState) && sequence.CurrentState.Contains(FromStateContains) && base.IsConditionFulfilled(sequence);
+        !sequence.HasCurrentState(ToState) && sequence.CurrentState.Contains(FromStateContains) && IsConditionFulfilled();
 
 
     /// <summary>

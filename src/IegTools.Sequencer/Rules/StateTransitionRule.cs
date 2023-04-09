@@ -12,9 +12,6 @@ public class StateTransitionRule : RuleBase, IHasToState
         ToState   = toState;
         Condition = condition;
         Action    = action;
-
-        ////ValidationTargetStates.Add(FromState);
-        ////ValidationTargetStates.Add(ToState);
     }
 
 
@@ -42,7 +39,7 @@ public class StateTransitionRule : RuleBase, IHasToState
     /// </summary>
     /// <param name="sequence">The sequence</param>
     public override bool IsConditionFulfilled(ISequence sequence) =>
-        sequence.HasCurrentState(FromState) && base.IsConditionFulfilled(sequence);
+        sequence.HasCurrentState(FromState) && IsConditionFulfilled();
 
 
     /// <summary>
