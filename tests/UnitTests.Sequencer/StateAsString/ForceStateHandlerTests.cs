@@ -17,7 +17,6 @@ public class ForceStateHandlerTests
                 .DisableValidation();
         });
 
-
         var sut = builder.Build().Run();
 
         sut.CurrentState.Should().Be(expected);
