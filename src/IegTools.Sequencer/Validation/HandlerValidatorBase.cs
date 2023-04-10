@@ -11,10 +11,10 @@ public class HandlerValidatorBase
 
     protected static bool ShouldBeValidated(string state, SequenceConfiguration config)
     {
-        return (!state?.StartsWith(config.IgnoreTag.ToString()) ?? true) && !disabledStatuses().Contains(state);
+        return (!state?.StartsWith(config.IgnoreTag.ToString()) ?? true) && !disabledStates().Contains(state);
 
-        IEnumerable<string> disabledStatuses() =>
-            config.DisableValidationForStatuses?.ToList() ?? Enumerable.Empty<string>();
+        IEnumerable<string> disabledStates() =>
+            config.DisableValidationForStates?.ToList() ?? Enumerable.Empty<string>();
     }
 
             

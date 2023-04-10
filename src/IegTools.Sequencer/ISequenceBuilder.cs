@@ -46,8 +46,8 @@ public interface ISequenceBuilder
     ISequenceBuilder DisableValidation();
 
     /// <summary>
-    /// Does not validate statuses that are in this list
+    /// Does not validate states that are in this list
     /// </summary>
-    /// <param name="statuses">A list of statuses that should not be validated.</param>
-    ISequenceBuilder DisableValidationForStates(params string[] statuses);
+    /// <param name="states">A list of states that should not be validated.</param>
+    ISequenceBuilder DisableValidationForStates(params string[] states);
 }

@@ -94,7 +94,6 @@ public class SequenceBuilder : ISequenceBuilder
     public ISequenceBuilder SetInitialState(string initialState)
     {
         Configuration.InitialState = initialState;
-        ////Configuration.AvailableStates.Add(initialState);
         return this;
     }
     
@@ -102,7 +101,6 @@ public class SequenceBuilder : ISequenceBuilder
     public ISequenceBuilder AddHandler<T>(T handler) where T: IHandler
     {
         Configuration.Handler.Add(handler);
-
         return this;
     }
 
@@ -111,7 +109,6 @@ public class SequenceBuilder : ISequenceBuilder
     public ISequenceBuilder AddValidator<T>() where T : IHandlerValidator, new()
     {
         Configuration.Validators.Add(new T());
-
         return this;
     }
 
@@ -123,9 +120,9 @@ public class SequenceBuilder : ISequenceBuilder
     }
 
     /// <inheritdoc />
-    public ISequenceBuilder DisableValidationForStates(params string[] statuses)
+    public ISequenceBuilder DisableValidationForStates(params string[] states)
     {
-        Configuration.DisableValidationForStatuses = statuses;
+        Configuration.DisableValidationForStates = states;
         return this;
     }
 

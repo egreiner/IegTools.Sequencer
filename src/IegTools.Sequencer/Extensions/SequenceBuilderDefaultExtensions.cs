@@ -101,9 +101,9 @@ public static class SequenceBuilderDefaultExtensions
     }
 
 
-    private static void AddInitialStates(this ISequenceBuilder builder, params string[] statuses)
+    private static void AddInitialStates(this ISequenceBuilder builder, params string[] states)
     {
-        foreach (var state in statuses.Where(state => state.StartsWith(builder.InitialStateTag())))
+        foreach (var state in states.Where(state => state.StartsWith(builder.InitialStateTag())))
             builder.SetInitialState(state);
     }
 
