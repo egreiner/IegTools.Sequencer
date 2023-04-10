@@ -1,6 +1,6 @@
-﻿namespace UnitTests.Sequencer.Validation.RuleValidators;
+﻿namespace UnitTests.Sequencer.Validation.HandlerValidators;
 
-public class AnyStateTransitionRuleValidatorTests
+public class AnyStateTransitionValidatorTests
 {
     [Fact]
     public void Test_ThrowsValidationError_wrong_FromState()

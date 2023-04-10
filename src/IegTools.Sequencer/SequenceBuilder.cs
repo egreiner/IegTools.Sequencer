@@ -4,6 +4,9 @@ using FluentValidation;
 using Handler;
 using Validation;
 
+/// <summary>
+/// Provides methods to build a sequence.
+/// </summary>
 public class SequenceBuilder : ISequenceBuilder
 {
     private readonly IValidator<SequenceConfiguration> _validator;
@@ -19,6 +22,7 @@ public class SequenceBuilder : ISequenceBuilder
     /// <summary>
     /// Creates a new Sequence-Builder with an empty sequence.
     /// In some scenarios it is useful to have an empty sequence.
+    /// Validation is disabled.
     /// </summary>
     public static ISequenceBuilder CreateEmpty(string fixedState = "Empty")
     {
@@ -77,7 +81,7 @@ public class SequenceBuilder : ISequenceBuilder
     /// <inheritdoc />
     public ISequence Build<TSequence>() where TSequence : ISequence, new()
     {
-        AddDefaultRuleValidators();
+        AddDefaultValidators();
 
         if (!Configuration.DisableValidation)
             _validator?.ValidateAndThrow(Configuration);
@@ -95,18 +99,18 @@ public class SequenceBuilder : ISequenceBuilder
     }
     
     /// <inheritdoc />
-    public ISequenceBuilder AddRule<T>(T rule) where T: IHandler
+    public ISequenceBuilder AddHandler<T>(T handler) where T: IHandler
     {
-        Configuration.Rules.Add(rule);
+        Configuration.Handler.Add(handler);
 
         return this;
     }
 
 
     /// <inheritdoc />
-    public ISequenceBuilder AddRuleValidator<T>() where T : ISequenceRuleValidator, new()
+    public ISequenceBuilder AddValidator<T>() where T : IHandlerValidator, new()
     {
-        Configuration.RuleValidators.Add(new T());
+        Configuration.Validators.Add(new T());
 
         return this;
     }
@@ -126,12 +130,12 @@ public class SequenceBuilder : ISequenceBuilder
     }
 
     
-    private void AddDefaultRuleValidators()
+    private void AddDefaultValidators()
     {
-        AddRuleValidator<InitialStateValidator>();
-        AddRuleValidator<ForceStateRuleValidator>();
-        AddRuleValidator<StateTransitionRuleValidator>();
-        AddRuleValidator<AnyStateTransitionRuleValidator>();
-        AddRuleValidator<ContainsStateTransitionRuleValidator>();
+        AddValidator<InitialStateValidator>();
+        AddValidator<ForceStateValidator>();
+        AddValidator<StateTransitionValidator>();
+        AddValidator<AnyStateTransitionValidator>();
+        AddValidator<ContainsStateTransitionValidator>();
     }
 }

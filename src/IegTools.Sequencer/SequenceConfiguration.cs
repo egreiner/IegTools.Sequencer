@@ -43,12 +43,12 @@ public class SequenceConfiguration
     public string InitialState { get; set; }
 
     /// <summary>
-    /// The sequence-rules that describe how the sequence is supposed to work
+    /// The sequence-handler that describe how the sequence is supposed to work
     /// </summary>
-    public List<IHandler> Rules { get; } = new();
+    public List<IHandler> Handler { get; } = new();
 
     /// <summary>
-    /// All rule validators
+    /// All validators
     /// </summary>
-    public IList<ISequenceRuleValidator> RuleValidators { get; set; } = new List<ISequenceRuleValidator>();
+    public IList<IHandlerValidator> Validators { get; set; } = new List<IHandlerValidator>();
 }

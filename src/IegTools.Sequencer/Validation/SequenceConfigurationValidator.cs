@@ -8,7 +8,7 @@ public sealed class SequenceConfigurationValidator : AbstractValidator<SequenceC
 {
     public SequenceConfigurationValidator()
     {
-        RuleFor(config => config.Rules.Count).GreaterThan(1).WithMessage("The sequence must have more than one rule");
+        RuleFor(config => config.Handler.Count).GreaterThan(1).WithMessage("The sequence must have more than one handler");
         RuleFor(config => config.InitialState).NotEmpty();
     }
 
@@ -16,7 +16,7 @@ public sealed class SequenceConfigurationValidator : AbstractValidator<SequenceC
     protected override bool PreValidate(ValidationContext<SequenceConfiguration> context, ValidationResult result)
     {
         var isValide = true;
-        context.InstanceToValidate.RuleValidators.ToList()
+        context.InstanceToValidate.Validators.ToList()
             .ForEach(x => isValide &= x.Validate(context, result));
 
         return isValide;

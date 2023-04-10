@@ -2,7 +2,7 @@
 
 using IegTools.Sequencer;
 
-public class ContainsStateTransitionRuleEnumTests
+public class ContainsStateTransitionHandlerEnumTests
 {
     [Theory]
     [InlineData(TestEnum.State1, true, TestEnum.StateX)]

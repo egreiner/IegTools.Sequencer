@@ -6,18 +6,18 @@ using FluentValidation;
 using FluentValidation.Results;
 using Handler;
 
-public sealed class ForceStateRuleValidator : RuleValidatorBase, ISequenceRuleValidator
+public sealed class ForceStateValidator : HandlerValidatorBase, IHandlerValidator
 {
-    private List<ForceStateHandler> _rules;
+    private List<ForceStateHandler> _handler;
 
     /// <inheritdoc />
     public bool Validate(ValidationContext<SequenceConfiguration> context, ValidationResult result)
     {
-        if (RuleIsValidated(context.InstanceToValidate)) return true;
+        if (HandlerIsValidated(context.InstanceToValidate)) return true;
 
         result.Errors.Add(new ValidationFailure("ForceState",
             "Each Force-State must have an StateTransition counterpart.\n\r" +
-            $"Violating rule(s): {string.Join("; ", _rules)}"));
+            $"Violating handler: {string.Join("; ", _handler)}"));
         
         return false;
     }
@@ -26,10 +26,10 @@ public sealed class ForceStateRuleValidator : RuleValidatorBase, ISequenceRuleVa
     /// Each 'Force.State' must have an corresponding 'Transition.FromState(s) '
     /// otherwise you have created an dead-end.
     /// </summary>
-    private bool RuleIsValidated(SequenceConfiguration config)
+    private bool HandlerIsValidated(SequenceConfiguration config)
     {
-        var result = RuleIsValidatedTo<ForceStateHandler>(config);
-        _rules = result.list.ToList();
+        var result = HandlerIsValidatedTo<ForceStateHandler>(config);
+        _handler = result.list.ToList();
 
         return result.isValid;
     }

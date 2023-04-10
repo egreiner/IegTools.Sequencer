@@ -6,10 +6,10 @@ using FluentValidation;
 using FluentValidation.Results;
 using Handler;
 
-public sealed class ContainsStateTransitionRuleValidator : RuleValidatorBase, ISequenceRuleValidator
+public sealed class ContainsStateTransitionValidator : HandlerValidatorBase, IHandlerValidator
 {
-    private List<ContainsStateTransitionHandler> _rulesFrom;
-    private List<ContainsStateTransitionHandler> _rulesTo;
+    private List<ContainsStateTransitionHandler> _handlerFrom;
+    private List<ContainsStateTransitionHandler> _handlerTo;
 
 
     /// <inheritdoc />
@@ -17,24 +17,24 @@ public sealed class ContainsStateTransitionRuleValidator : RuleValidatorBase, IS
     {
         var isValid = true;
 
-        if (!RuleIsValidatedFrom(context.InstanceToValidate))
+        if (!HandlerValidatedFrom(context.InstanceToValidate))
         {
             result.Errors.Add(new ValidationFailure("ContainsStateTransition",
                 "Each 'State-part' of an ContainsTransition must have an 'ToState' counterpart." +
-                $"Violating Rule(s): {string.Join("; ", _rulesFrom)}"));
+                $"Violating handler: {string.Join("; ", _handlerFrom)}"));
 
             ////result.Errors.Add(new ValidationFailure("AnyStateTransition",
             ////    "Each 'FromState' of an AnyTransition must have an 'ToState' counterpart where it comes from (other Transition, Initial-State...)\n" +
-            ////    $"Violating rule(s): {string.Join("; ", _rulesFrom)}"));
+            ////    $"Violating handler: {string.Join("; ", _handlerFrom)}"));
 
             isValid = false;
         }
 
-        if (!RuleIsValidatedTo(context.InstanceToValidate))
+        if (!HandlerValidatedTo(context.InstanceToValidate))
         {
             result.Errors.Add(new ValidationFailure("ContainsStateTransition",
                 "Each 'ToState' must have an 'FromState' counterpart where it goes to (other Transition...)\n" +
-                $"Violating Rule(s): {string.Join("; ", _rulesTo)}"));
+                $"Violating handler: {string.Join("; ", _handlerTo)}"));
 
             isValid = false;
         }
@@ -50,13 +50,13 @@ public sealed class ContainsStateTransitionRuleValidator : RuleValidatorBase, IS
     /// otherwise you have created an dead-end.
     /// Use '!' as first character to tag an state as dead-end with purpose.
     /// </summary>
-    private bool RuleIsValidatedFrom(SequenceConfiguration config)
+    private bool HandlerValidatedFrom(SequenceConfiguration config)
     {
-        var transitions = config.Rules.OfType<ContainsStateTransitionHandler>().ToList();
-        var allTransitions = config.Rules.OfType<IHasToState>().ToList();
+        var transitions = config.Handler.OfType<ContainsStateTransitionHandler>().ToList();
+        var allTransitions = config.Handler.OfType<IHasToState>().ToList();
         if (transitions.Count == 0) return true;
 
-        _rulesFrom = new List<ContainsStateTransitionHandler>();
+        _handlerFrom = new List<ContainsStateTransitionHandler>();
 
         // for easy reading do not simplify this
         // each StateTransition should have an counterpart so that no dead-end is reached
@@ -65,10 +65,10 @@ public sealed class ContainsStateTransitionRuleValidator : RuleValidatorBase, IS
             if (transitions.All(x => !x.ToState.Contains(transition.FromStateContains)) &&
                 ////allTransitions.All(x => transition.FromState != x.ToState) &&
                 !config.InitialState.Contains(transition.FromStateContains))
-                _rulesFrom.Add(transition);
+                _handlerFrom.Add(transition);
         }
 
-        return _rulesFrom.Count == 0;    }
+        return _handlerFrom.Count == 0;    }
 
         
     /// <summary>
@@ -76,10 +76,10 @@ public sealed class ContainsStateTransitionRuleValidator : RuleValidatorBase, IS
     /// otherwise you have created an dead-end.
     /// Use '!' as first character to tag an state as dead-end with purpose.
     /// </summary>
-    private bool RuleIsValidatedTo(SequenceConfiguration config)
+    private bool HandlerValidatedTo(SequenceConfiguration config)
     {
-        var result = RuleIsValidatedTo<ContainsStateTransitionHandler>(config);
-        _rulesTo = result.list.ToList();
+        var result = HandlerIsValidatedTo<ContainsStateTransitionHandler>(config);
+        _handlerTo = result.list.ToList();
 
         return result.isValid;
     }

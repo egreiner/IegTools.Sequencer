@@ -24,7 +24,7 @@ public class ConfigurationValidatorTests
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public void Test_ThrowsValidationError_RuleCount(bool constraint)
+        public void Test_ThrowsValidationError_HandlerCount(bool constraint)
         {
             var builder = SequenceBuilder.Configure(builder =>
             {
@@ -34,13 +34,13 @@ public class ConfigurationValidatorTests
 
             FluentActions.Invoking(() => builder.Build())
                 .Should().Throw<FluentValidation.ValidationException>()
-                .WithMessage("*more than one rule*");
+                .WithMessage("*more than one handler*");
         }
 
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_DoesNotThrowValidationError_RuleCount(bool constraint)
+    public void Test_DoesNotThrowValidationError_HandlerCount(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -194,7 +194,7 @@ public class ConfigurationValidatorTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_DoesNotThrowValidationError_RuleState(bool constraint)
+    public void Test_DoesNotThrowValidationError_HandlerState(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -212,7 +212,7 @@ public class ConfigurationValidatorTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_DoesNotThrowValidationError_RuleState2(bool constraint)
+    public void Test_DoesNotThrowValidationError_HandlerState2(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {

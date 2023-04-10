@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Handler;
 
-public class RuleValidatorBase
+public class HandlerValidatorBase
 {
-    private List<IHasToState> rulesTo;
+    private List<IHasToState> handlerTo;
 
 
     protected static bool ShouldBeValidated(string state, SequenceConfiguration config)
@@ -23,32 +23,32 @@ public class RuleValidatorBase
     /// otherwise you have created an dead-end.
     /// Use '!' as first character to tag an state as dead-end with purpose.
     /// </summary>
-    protected (bool isValid, IEnumerable<T> list) RuleIsValidatedTo<T>(SequenceConfiguration config) where T: IHasToState
+    protected (bool isValid, IEnumerable<T> list) HandlerIsValidatedTo<T>(SequenceConfiguration config) where T: IHasToState
     {
-        var containsTransitions = config.Rules.OfType<T>().ToList();
+        var containsTransitions = config.Handler.OfType<T>().ToList();
         if (containsTransitions is null || containsTransitions.Count == 0)
             return (true, Enumerable.Empty<T>());
 
-        var transitions = config.Rules.OfType<StateTransitionHandler>().ToList();
+        var transitions = config.Handler.OfType<StateTransitionHandler>().ToList();
 
-        rulesTo = new List<IHasToState>();
+        handlerTo = new List<IHasToState>();
 
         
         AddMissingTransitions(config, containsTransitions, transitions);
         
-        if (rulesTo.Count == 0)
+        if (handlerTo.Count == 0)
             return (true, Enumerable.Empty<T>());
 
         
         RemoveWithContainsTransitions(config, containsTransitions);
         
-        if (rulesTo.Count == 0)
+        if (handlerTo.Count == 0)
             return (true, Enumerable.Empty<T>());
 
 
         RemoveWithAnyTransitions(config, containsTransitions);
 
-        return (rulesTo.Count == 0, rulesTo.ConvertAll(x => (T)x));
+        return (handlerTo.Count == 0, handlerTo.ConvertAll(x => (T)x));
     }
 
 
@@ -60,7 +60,7 @@ public class RuleValidatorBase
         foreach (var transition in containsTransitions.Where(x => ShouldBeValidated(x.ToState, config)))
         {
             if (transitions.All(x => transition.ToState != x.FromState))
-                rulesTo.Add(transition);
+                handlerTo.Add(transition);
         }
     }
 
@@ -69,8 +69,8 @@ public class RuleValidatorBase
     {
         foreach (var transition in containsTransitions.Where(x => ShouldBeValidated(x.ToState, config)))
         {
-            if (config.Rules.OfType<AnyStateTransitionHandler>().Any(x => x.FromStates.Contains(transition.ToState)))
-                rulesTo.Remove(transition);
+            if (config.Handler.OfType<AnyStateTransitionHandler>().Any(x => x.FromStates.Contains(transition.ToState)))
+                handlerTo.Remove(transition);
         }
     }
 
@@ -79,9 +79,9 @@ public class RuleValidatorBase
     {
         foreach (var transition in containsTransitions.Where(x => ShouldBeValidated(x.ToState, config)))
         {
-            if (config.Rules.OfType<ContainsStateTransitionHandler>()
+            if (config.Handler.OfType<ContainsStateTransitionHandler>()
                 .Any(x => transition.ToState.Contains(x.FromStateContains)))
-                rulesTo.Remove(transition);
+                handlerTo.Remove(transition);
         }
     }
 }

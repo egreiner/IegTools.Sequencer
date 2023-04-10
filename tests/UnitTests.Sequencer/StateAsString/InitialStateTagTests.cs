@@ -7,7 +7,7 @@ public class InitialStateTagTests
     [Theory]
     [InlineData(true, ">Force")]
     [InlineData(false, InitialState)]
-    public void Test_ForceStateRule(bool constraint, string expected)
+    public void Test_ForceStateHandler(bool constraint, string expected)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -21,7 +21,7 @@ public class InitialStateTagTests
     [Theory]
     [InlineData(true, ">Force")]
     [InlineData(false, InitialState)]
-    public void Test_AddTransitionRule(bool constraint, string expected)
+    public void Test_AddTransitionHandler(bool constraint, string expected)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -35,7 +35,7 @@ public class InitialStateTagTests
     [Theory]
     [InlineData(">Force")]
     [InlineData(InitialState)]
-    public void Test_AddStateActionRule(string expected)
+    public void Test_AddStateActionHandler(string expected)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {

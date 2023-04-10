@@ -100,7 +100,7 @@ States can be defined as strings or enums, internally they will be stored as str
 ## State Tags
 
 State-Tags can only be used with string-states.
-For enum-states there are other possibilities. (-> Validation Rules)  
+For enum-states there are other possibilities. (-> Validation Handler)  
 
 There are available two state tags as prefix for states
 - the IgnoreTag '!'
@@ -131,7 +131,7 @@ The sequence will be validated on build.
 `_sequence = builder.Build();` 
 
 
-Validation Rules:
+Validation Handler:
 
 - InitialState must be defined
 - The InitialState must have an counterpart in a StateTransition
@@ -154,7 +154,7 @@ Validation could be disabled
 
 ## Extensibility
 Write your own customized 
-- Rules
+- Handler
 - Sequence
 - and Validator
 
@@ -162,16 +162,16 @@ TODO Documentation
 
 
 
-### Rules
+### Handler
 
-Internally the Framework is working with Rules (you can write your own customized rules).
-The Rules describe what they are supposed to do within the sequence.
+Internally the Framework is working with Handler (you can write your own customized handler).
+The Handler describe what they are supposed to do within the sequence.
 
-There are five default rules at the moment:  
-- The StateTransitionRule
-- The ContainsStateTransitionRule
-- The AnyStateTransitionRule
-- The ForceStateRule
-- The StateActionRule
+There are five default handler at the moment:  
+- The StateTransitionHandler
+- The ContainsStateTransitionHandler
+- The AnyStateTransitionHandler
+- The ForceStateHandler
+- The StateActionHandler
 
 TODO Documentation

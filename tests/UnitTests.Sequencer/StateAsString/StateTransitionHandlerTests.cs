@@ -1,6 +1,6 @@
 ﻿namespace UnitTests.Sequencer.StateAsString;
 
-public class StateTransitionRuleTests
+public class StateTransitionHandlerTests
 {
     private const string InitialState = "InitialState";
 

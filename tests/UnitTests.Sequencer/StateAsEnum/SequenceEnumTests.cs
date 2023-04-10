@@ -209,7 +209,7 @@ public class SequenceEnumTests
     [Theory]
     [InlineData(TestEnum.State1, TestEnum.State2, 0)]
     [InlineData(TestEnum.State1, TestEnum.State1, 1)]
-    public void Test_AddStateActionRule(TestEnum state, TestEnum currentState, int expected)
+    public void Test_AddStateActionHandler(TestEnum state, TestEnum currentState, int expected)
     {
         var result = 0;
         var builder = SequenceBuilder.Configure(builder =>

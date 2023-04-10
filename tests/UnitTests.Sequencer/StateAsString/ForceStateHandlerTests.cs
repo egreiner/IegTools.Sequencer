@@ -1,6 +1,6 @@
 ﻿namespace UnitTests.Sequencer.StateAsString;
 
-public class ForceStateRuleTests
+public class ForceStateHandlerTests
 {
     private const string InitialState = "InitialState";
 

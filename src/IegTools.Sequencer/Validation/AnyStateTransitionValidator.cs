@@ -6,10 +6,10 @@ using FluentValidation;
 using FluentValidation.Results;
 using Handler;
 
-public sealed class AnyStateTransitionRuleValidator : RuleValidatorBase, ISequenceRuleValidator
+public sealed class AnyStateTransitionValidator : HandlerValidatorBase, IHandlerValidator
 {
-    private List<AnyStateTransitionHandler> _rulesFrom;
-    private List<AnyStateTransitionHandler> _rulesTo;
+    private List<AnyStateTransitionHandler> _handlerFrom;
+    private List<AnyStateTransitionHandler> _handlerTo;
 
 
     /// <inheritdoc />
@@ -17,20 +17,20 @@ public sealed class AnyStateTransitionRuleValidator : RuleValidatorBase, ISequen
     {
         var isValid = true;
 
-        if (!RuleIsValidatedFrom(context.InstanceToValidate))
+        if (!HandlerIsValidatedFrom(context.InstanceToValidate))
         {
             result.Errors.Add(new ValidationFailure("AnyStateTransition",
                 "Each 'FromState' of an AnyTransition must have an 'ToState' counterpart where it comes from (other Transition, Initial-State...)\n" +
-                $"Violating rule(s): {string.Join("; ", _rulesFrom)}"));
+                $"Violating handler: {string.Join("; ", _handlerFrom)}"));
 
             isValid = false;
         }
 
-        if (!RuleIsValidatedTo(context.InstanceToValidate))
+        if (!HandlerIsValidatedTo(context.InstanceToValidate))
         {
             result.Errors.Add(new ValidationFailure("AnyStateTransition",
                 "Each 'ToState' must have an 'FromState' counterpart where it goes to (other Transition...)\n" +
-                $"Violating Rule(s): {string.Join("; ", _rulesTo)}"));
+                $"Violating handler: {string.Join("; ", _handlerTo)}"));
 
             isValid = false;
         }
@@ -46,13 +46,13 @@ public sealed class AnyStateTransitionRuleValidator : RuleValidatorBase, ISequen
     /// otherwise you have created an dead-end.
     /// Use '!' as first character to tag an state as dead-end with purpose.
     /// </summary>
-    private bool RuleIsValidatedFrom(SequenceConfiguration config)
+    private bool HandlerIsValidatedFrom(SequenceConfiguration config)
     {
-        var transitions = config.Rules.OfType<AnyStateTransitionHandler>().ToList();
-        var allTransitions = config.Rules.OfType<IHasToState>().ToList();
+        var transitions = config.Handler.OfType<AnyStateTransitionHandler>().ToList();
+        var allTransitions = config.Handler.OfType<IHasToState>().ToList();
         if (transitions.Count == 0) return true;
 
-        _rulesFrom = new List<AnyStateTransitionHandler>();
+        _handlerFrom = new List<AnyStateTransitionHandler>();
 
         // for easy reading do not simplify this
         // each StateTransition should have an counterpart so that no dead-end is reached
@@ -62,11 +62,11 @@ public sealed class AnyStateTransitionRuleValidator : RuleValidatorBase, ISequen
             {
                 if (allTransitions.All(x => state != x.ToState) &&
                     state != config.InitialState)
-                    _rulesFrom.Add(transition);
+                    _handlerFrom.Add(transition);
             }
         }
 
-        return _rulesFrom.Count == 0;    }
+        return _handlerFrom.Count == 0;    }
 
         
     /// <summary>
@@ -74,10 +74,10 @@ public sealed class AnyStateTransitionRuleValidator : RuleValidatorBase, ISequen
     /// otherwise you have created an dead-end.
     /// Use '!' as first character to tag an state as dead-end with purpose.
     /// </summary>
-    private bool RuleIsValidatedTo(SequenceConfiguration config)
+    private bool HandlerIsValidatedTo(SequenceConfiguration config)
     {
-        var result = RuleIsValidatedTo<AnyStateTransitionHandler>(config);
-        _rulesTo = result.list.ToList();
+        var result = HandlerIsValidatedTo<AnyStateTransitionHandler>(config);
+        _handlerTo = result.list.ToList();
 
         return result.isValid;
     }

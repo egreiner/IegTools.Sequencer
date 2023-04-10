@@ -29,7 +29,7 @@ public class ForceStateHandler : HandlerBase, IHasToState
         state == ToState;
 
     /// <summary>
-    /// This rule is not dependent on the current sequence state.
+    /// This handler is not dependent on the current sequence state.
     /// It depends on the condition only.
     /// </summary>
     /// <param name="sequence">The sequence</param>

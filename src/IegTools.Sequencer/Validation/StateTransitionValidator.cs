@@ -6,10 +6,10 @@ using FluentValidation;
 using FluentValidation.Results;
 using Handler;
 
-public sealed class StateTransitionRuleValidator : RuleValidatorBase, ISequenceRuleValidator
+public sealed class StateTransitionValidator : HandlerValidatorBase, IHandlerValidator
 {
-    private List<StateTransitionHandler> _rulesFrom;
-    private List<StateTransitionHandler> _rulesTo;
+    private List<StateTransitionHandler> _handlerFrom;
+    private List<StateTransitionHandler> _handlerTo;
 
 
     /// <inheritdoc />
@@ -17,20 +17,20 @@ public sealed class StateTransitionRuleValidator : RuleValidatorBase, ISequenceR
     {
         var isValid = true;
 
-        if (!RuleIsValidatedFrom(context.InstanceToValidate))
+        if (!HandlerValidatedFrom(context.InstanceToValidate))
         {
             result.Errors.Add(new ValidationFailure("StateTransition",
                 "Each 'FromState' must have an 'ToState' counterpart where it comes from (other Transition, Initial-State...)\n" +
-                $"Violating rule(s): {string.Join("; ", _rulesFrom)}"));
+                $"Violating handler: {string.Join("; ", _handlerFrom)}"));
 
             isValid = false;
         }
 
-        if (!RuleIsValidatedTo(context.InstanceToValidate))
+        if (!HandlerValidatedTo(context.InstanceToValidate))
         {
             result.Errors.Add(new ValidationFailure("StateTransition",
                 "Each 'ToState' must have an 'FromState' counterpart where it goes to (other Transition...)\n" +
-                $"Violating Rule(s): {string.Join("; ", _rulesTo)}"));
+                $"Violating handler: {string.Join("; ", _handlerTo)}"));
 
             isValid = false;
         }
@@ -46,13 +46,13 @@ public sealed class StateTransitionRuleValidator : RuleValidatorBase, ISequenceR
     /// otherwise you have created an dead-end.
     /// Use '!' as first character to tag an state as dead-end with purpose.
     /// </summary>
-    private bool RuleIsValidatedFrom(SequenceConfiguration config)
+    private bool HandlerValidatedFrom(SequenceConfiguration config)
     {
-        var transitions = config.Rules.OfType<StateTransitionHandler>().ToList();
-        var allTransitions = config.Rules.OfType<IHasToState>().ToList();
+        var transitions = config.Handler.OfType<StateTransitionHandler>().ToList();
+        var allTransitions = config.Handler.OfType<IHasToState>().ToList();
         if (transitions.Count == 0) return true;
 
-        _rulesFrom = new List<StateTransitionHandler>();
+        _handlerFrom = new List<StateTransitionHandler>();
 
         // for easy reading do not simplify this
         // each StateTransition should have an counterpart so that no dead-end is reached
@@ -60,15 +60,15 @@ public sealed class StateTransitionRuleValidator : RuleValidatorBase, ISequenceR
         {
             if (allTransitions.All(x => transition.FromState != x.ToState) && 
                 transition.FromState != config.InitialState)
-                _rulesFrom.Add(transition);
+                _handlerFrom.Add(transition);
             
             ////if (transitions.All(x => transition.FromState != x.ToState) &&
             ////    allTransitions.All(x => transition.FromState != x.ToState) &&
             ////    transition.FromState != config.InitialState)
-            ////    _rulesFrom.Add(transition);
+            ////    _handlerFrom.Add(transition);
         }
 
-        return _rulesFrom.Count == 0;
+        return _handlerFrom.Count == 0;
     }
 
         
@@ -77,10 +77,10 @@ public sealed class StateTransitionRuleValidator : RuleValidatorBase, ISequenceR
     /// otherwise you have created an dead-end.
     /// Use '!' as first character to tag an state as dead-end with purpose.
     /// </summary>
-    private bool RuleIsValidatedTo(SequenceConfiguration config)
+    private bool HandlerValidatedTo(SequenceConfiguration config)
     {
-        var result = RuleIsValidatedTo<StateTransitionHandler>(config);
-        _rulesTo = result.list.ToList();
+        var result = HandlerIsValidatedTo<StateTransitionHandler>(config);
+        _handlerTo = result.list.ToList();
 
         return result.isValid;
     }

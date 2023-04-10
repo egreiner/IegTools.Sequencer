@@ -1,12 +1,12 @@
 ﻿namespace UnitTests.Sequencer.StateAsString;
 
-public class StateActionRuleTests
+public class StateActionHandlerTests
 {
 
     [Theory]
     [InlineData(">State1", ">State2", 0)]
     [InlineData(">State1", ">State1", 1)]
-    public void Test_AddStateActionRule(string state, string currentState, int expected)
+    public void Test_AddStateActionHandler(string state, string currentState, int expected)
     {
         var result = 0;
         var builder = SequenceBuilder.Configure(builder =>

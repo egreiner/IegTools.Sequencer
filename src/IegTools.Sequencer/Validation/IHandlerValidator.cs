@@ -3,7 +3,7 @@
 using FluentValidation;
 using FluentValidation.Results;
 
-public interface ISequenceRuleValidator
+public interface IHandlerValidator
 {
     /// <summary>
     /// 

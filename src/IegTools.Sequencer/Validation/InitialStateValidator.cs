@@ -5,7 +5,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using Handler;
 
-public sealed class InitialStateValidator : RuleValidatorBase, ISequenceRuleValidator
+public sealed class InitialStateValidator : HandlerValidatorBase, IHandlerValidator
 {
     /// <inheritdoc />
     public bool Validate(ValidationContext<SequenceConfiguration> context, ValidationResult result)
@@ -13,7 +13,7 @@ public sealed class InitialStateValidator : RuleValidatorBase, ISequenceRuleVali
         var config = context.InstanceToValidate;
         if (!ShouldBeValidated(config.InitialState, config)) return true;
 
-        if (RuleIsValidated(config)) return true;
+        if (HandlerIsValidated(config)) return true;
 
         result.Errors.Add(new ValidationFailure("InitialState", 
             "The Initial-State must have an StateTransition counterpart"));
@@ -21,8 +21,8 @@ public sealed class InitialStateValidator : RuleValidatorBase, ISequenceRuleVali
         return false;
     }
 
-    private bool RuleIsValidated(SequenceConfiguration config) =>
-        config.Rules.OfType<StateTransitionHandler>().Any(x => config.InitialState == x.FromState) ||
-        config.Rules.OfType<ContainsStateTransitionHandler>().Any(x => config.InitialState.Contains(x.FromStateContains)) ||
-        config.Rules.OfType<AnyStateTransitionHandler>().Any(x => x.FromStates.Contains(config.InitialState));
+    private bool HandlerIsValidated(SequenceConfiguration config) =>
+        config.Handler.OfType<StateTransitionHandler>().Any(x => config.InitialState == x.FromState) ||
+        config.Handler.OfType<ContainsStateTransitionHandler>().Any(x => config.InitialState.Contains(x.FromStateContains)) ||
+        config.Handler.OfType<AnyStateTransitionHandler>().Any(x => x.FromStates.Contains(config.InitialState));
 }

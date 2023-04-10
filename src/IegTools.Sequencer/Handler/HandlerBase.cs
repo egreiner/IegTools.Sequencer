@@ -1,7 +1,7 @@
 ﻿namespace IegTools.Sequencer.Handler;
 
 /// <summary>
-/// The base rule
+/// The base handler
 /// </summary>
 public abstract class HandlerBase : IHandler
 {
@@ -26,7 +26,7 @@ public abstract class HandlerBase : IHandler
     public abstract bool IsConditionFulfilled(ISequence sequence);
 
     /// <summary>
-    /// Returns true if the rules constraint is fulfilled
+    /// Returns true if the handler condition is fulfilled
     /// </summary>
     protected bool IsConditionFulfilled() =>
         Condition?.Invoke() ?? true;

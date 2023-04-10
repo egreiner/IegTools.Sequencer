@@ -27,18 +27,18 @@ public interface ISequenceBuilder
     ISequenceBuilder SetInitialState(string initialState);
 
     /// <summary>
-    /// Adds an sequence rule
+    /// Adds an sequence handler
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <param name="rule">The rule.</param>
-    ISequenceBuilder AddRule<T>(T rule) where T: IHandler;
+    /// <param name="handler">The handler.</param>
+    ISequenceBuilder AddHandler<T>(T handler) where T: IHandler;
 
     /// <summary>
-    /// Adds an Rule-Validator
+    /// Adds an Handler-Validator
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    ISequenceBuilder AddRuleValidator<T>() where T : ISequenceRuleValidator, new();
+    ISequenceBuilder AddValidator<T>() where T : IHandlerValidator, new();
 
     /// <summary>
     /// Does not validate the sequence configuration on build

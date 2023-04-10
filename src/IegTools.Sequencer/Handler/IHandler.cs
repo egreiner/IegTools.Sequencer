@@ -37,7 +37,7 @@ public interface IHandler
     bool ExecuteIfValid(ISequence sequence);
     
     /// <summary>
-    /// Returns true if the queried state is registered in the rule.
+    /// Returns true if the queried state is registered in the handler.
     /// </summary>
     /// <param name="state">The state</param>
     bool IsRegisteredState(string state);

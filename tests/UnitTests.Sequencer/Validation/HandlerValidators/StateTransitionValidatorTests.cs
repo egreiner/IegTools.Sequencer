@@ -1,6 +1,6 @@
-﻿namespace UnitTests.Sequencer.Validation.RuleValidators;
+﻿namespace UnitTests.Sequencer.Validation.HandlerValidators;
 
-public class ContainsStateTransitionRuleValidatorTests
+public class StateTransitionValidatorTests
 {
     [Fact]
     public void Test_ThrowsValidationError_wrong_FromState()
@@ -9,16 +9,14 @@ public class ContainsStateTransitionRuleValidatorTests
             =>
         {
             builder.SetInitialState("State1");
-            builder.AddTransition("State1", "State2", () => true);
-            builder.AddTransition("State2", "State1", () => true);
-
-            builder.AddContainsTransition("StateX", "!State3", () => true);
+            builder.AddTransition("State1", "!State2", () => true);
+            builder.AddTransition("State3", "!State2", () => true);
         });
 
         FluentActions.Invoking(() => builder.Build())
             .Should().Throw<FluentValidation.ValidationException>()
-            .WithMessage("*ContainsStateTransition*")
-            .WithMessage("*Each 'State-part'*");
+            .WithMessage("*StateTransition*")
+            .WithMessage("*Each 'FromState'*");
     }
 
     [Fact]
@@ -29,14 +27,11 @@ public class ContainsStateTransitionRuleValidatorTests
         {
             builder.SetInitialState("State1");
             builder.AddTransition("State1", "State2", () => true);
-            builder.AddTransition("State2", "State1", () => true);
-
-            builder.AddContainsTransition("State", "not existing", () => true);
         });
 
         FluentActions.Invoking(() => builder.Build())
             .Should().Throw<FluentValidation.ValidationException>()
-            .WithMessage("*ContainsStateTransition*")
+            .WithMessage("*StateTransition*")
             .WithMessage("*Each 'ToState'*");
     }
 
@@ -49,8 +44,6 @@ public class ContainsStateTransitionRuleValidatorTests
             builder.SetInitialState("State1");
             builder.AddTransition("State1", "State2", () => true);
             builder.AddTransition("State2", "State1", () => true);
-
-            builder.AddContainsTransition("State", "!ActivatedByApi", () => true);
         });
 
         var build = () => builder.Build();
@@ -64,12 +57,9 @@ public class ContainsStateTransitionRuleValidatorTests
             =>
         {
             builder.SetInitialState("State1");
-            builder.AddTransition("State1", "State2", () => true);
             builder.AddTransition("State2", "State1", () => true);
 
-            builder.AddContainsTransition("State", "ActivatedByApi", () => true);
-
-            builder.AddContainsTransition("ActivatedBy", "!State3", () => true);
+            builder.AddContainsTransition("State", "State2", () => true);
         });
 
         var build = () => builder.Build();
@@ -84,11 +74,7 @@ public class ContainsStateTransitionRuleValidatorTests
         {
             builder.SetInitialState("State1");
             builder.AddTransition("State1", "State2", () => true);
-            builder.AddTransition("State2", "State1", () => true);
-
-            builder.AddContainsTransition("State", "ActivatedByApi", () => true);
-
-            builder.AddAnyTransition(new[] { "State1", "ActivatedByApi" }, "!State4", () => true);
+            builder.AddAnyTransition(new[] { "State1", "State2" }, "!State3", () => true);
         });
 
         var build = () => builder.Build();

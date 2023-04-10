@@ -27,16 +27,16 @@ public class Sequence : ISequence
 
     /// <inheritdoc />
     public bool IsRegisteredState(string state) =>
-        _configuration.Rules.Any(x => x.IsRegisteredState(state));
+        _configuration.Handler.Any(x => x.IsRegisteredState(state));
 
 
     /// <inheritdoc />
     public virtual ISequence Run()
     {
-        foreach (var rule in _configuration.Rules)
+        foreach (var handler in _configuration.Handler)
         {
-            var executed = rule.ExecuteIfValid(this);
-            if (!rule.ResumeSequence && executed) 
+            var executed = handler.ExecuteIfValid(this);
+            if (!handler.ResumeSequence && executed) 
                 break;
         }
 
