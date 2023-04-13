@@ -5,7 +5,6 @@
 
 		<RepositoryUrl>https://github.com/egreiner/IegTools.Sequencer</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/egreiner/IegTools.Sequencer</PackageProjectUrl>
-		<PackageLicenseUrl>https://github.com/egreiner/IegTools.Sequencer/blob/master/LICENSE.txt</PackageLicenseUrl>
 		<PackageReadme>https://github.com/egreiner/IegTools.Sequencer/blob/master/README.md</PackageReadme>
 		<PackageReadmeFile>docs\README.md</PackageReadmeFile>
 		<PackageLicenseFile>docs\LICENSE.txt</PackageLicenseFile>
