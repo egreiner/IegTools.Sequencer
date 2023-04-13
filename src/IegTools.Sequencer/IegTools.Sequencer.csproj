@@ -1,19 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<LangVersion>latest</LangVersion>
 
-		<RepositoryUrl>https://github.com/egreiner/Ieg.Sequencer</RepositoryUrl>
-		<PackageProjectUrl>https://github.com/egreiner/Ieg.Sequencer</PackageProjectUrl>
-		<PackageReadme>https://github.com/egreiner/Ieg.Sequencer/blob/master/README.md</PackageReadme>
+		<RepositoryUrl>https://github.com/egreiner/IegTools.Sequencer</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/egreiner/IegTools.Sequencer</PackageProjectUrl>
+		<PackageLicenseUrl>https://github.com/egreiner/IegTools.Sequencer/blob/master/LICENSE.txt</PackageLicenseUrl>
+		<PackageReadme>https://github.com/egreiner/IegTools.Sequencer/blob/master/README.md</PackageReadme>
 		<PackageReadmeFile>docs\README.md</PackageReadmeFile>
 		<PackageLicenseFile>docs\LICENSE.txt</PackageLicenseFile>
 		<PackageIcon>docs\icon2.png</PackageIcon>
 		
 		<PackageId>IegTools.Sequencer</PackageId>
 		<Title>IegTools.Sequencer</Title>
-		<Version>2.0.2-rc.1</Version>
+		<Version>2.0.2</Version>
 		
 		<Company>ieg Systems</Company>
 		<Authors>Ing. Ernst Greiner</Authors>
@@ -21,7 +21,7 @@
 
 		<Description>IegTools.Sequencer provides a fluent interface for creating easy-to-read and extensible sequences, eliminating the need for lengthy if/else statements.</Description>
 
-		<PackageReleaseNotes>Bugfix AnyStateTransitionHandler, ContainsStateTransitionHandler, extend SequenceValidator</PackageReleaseNotes>
+		<PackageReleaseNotes>GA v2.0.2</PackageReleaseNotes>
 		
 		<PackageTags>sequence, sequencer, statemachine</PackageTags>
 		
@@ -56,5 +56,4 @@
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
-
 </Project>

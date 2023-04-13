@@ -12,11 +12,13 @@ public interface ISequenceBuilder
 
     /// <summary>
     /// Builds a default sequence with the specified configuration
+    /// Throws an exception if the sequence is not valid.
     /// </summary>
     ISequence Build();
 
     /// <summary>
     /// Builds a customized sequence with the specified configuration
+    /// Throws an exception if the sequence is not valid.
     /// </summary>
     ISequence Build<TSequence>() where TSequence : ISequence, new();
 

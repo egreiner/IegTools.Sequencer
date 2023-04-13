@@ -1,9 +1,10 @@
-# IegTools.Sequencer in a Nutshell
+# IegTools.Sequencer  
 
 IegTools.Sequencer provides a fluent interface for creating easy-to-read and extensible sequences,
 eliminating the need for lengthy if/else statements.
+The library is written in C# 11.0 and targets .NET Standard 2.0 (.NET Core and .NET Framework).
 
-The tool allows you to define:
+The library allows you to define:
 
 - Transition jobs: from one state to another state, when it should be triggered, and the action that should be invoked.
 - Force state on specified conditions.
