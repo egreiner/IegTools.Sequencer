@@ -1,14 +1,23 @@
 # IegTools.Sequencer  
 
 IegTools.Sequencer provides a fluent interface for creating easy-to-read and extensible sequences,
-eliminating the need for lengthy if/else statements.
+eliminating the need for lengthy if/else statements.  
 The library is written in C# 11.0 and targets .NET Standard 2.0 (.NET Core and .NET Framework).
 
 The library allows you to define:
 
-- Transition jobs: from one state to another state, when it should be triggered, and the action that should be invoked.
-- Force state on specified conditions.
-- Invoke actions on specified states.
+- Transition jobs: from one state to another state, when it should be triggered, and the action that should be invoked.  
+- Force state on specified conditions.  
+- Invoke actions on specified states.  
+
+
+# Topics
+[Usage](#usage)  
+[States](#states)  
+[State Tags](#state-tags)  
+[Validation](#validation)  
+[Extensibility](#extensibility)  
+[Handler](#handler)  
 
 
 # Usage
@@ -144,7 +153,7 @@ Validation could be disabled
 - completely turn off validation  
     `builder.DisableValidation()`  
 
-- or with specifing states that shouldn't be validated:  
+- or with specifying states that shouldn't be validated:  
     `builder.DisableValidationForStates("state1", "state2", ...)`  
     `builder.DisableValidationForStates(Enum.State1, Enum.State2, ...)`  
 
