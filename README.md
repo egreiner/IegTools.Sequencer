@@ -12,12 +12,17 @@ The library allows you to define:
 
 
 # Topics
+[Installation](#installation)  
 [Usage](#usage)  
 [States](#states)  
 [State Tags](#state-tags)  
 [Validation](#validation)  
 [Extensibility](#extensibility)  
 [Handler](#handler)  
+
+
+## Installation  
+The library is available as a [NuGet package](https://www.nuget.org/packages/IegTools.Sequencer/).  
 
 
 # Usage
