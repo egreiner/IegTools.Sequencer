@@ -12,7 +12,6 @@ The library allows you to define:
 
 ### Build Status  
 &nbsp; ![workflow tests](https://github.com/egreiner/IegTools.Sequencer/actions/workflows/ci-tests.yml/badge.svg)  
-&nbsp; ![workflow tests](https://github.com/egreiner/IegTools.Sequencer/actions/workflows/ci-tests.yml/badge.svg?event=push)    
 &nbsp; ![workflow complete](https://github.com/egreiner/IegTools.Sequencer/actions/workflows/create-nuget-package.yaml/badge.svg)    
 
 
@@ -26,14 +25,10 @@ The library allows you to define:
 [Handler](#handler)  
 
 
-[Top 🠉](#table-of-contents)
-
 
 # Installation  
 The library is available as a [NuGet package](https://www.nuget.org/packages/IegTools.Sequencer/).  
 
-
-[Top 🠉](#table-of-contents)
 
 
 # Usage
@@ -107,6 +102,10 @@ A more complex example configuration for a pump-anti-sticking-sequence:
         });
 ```
 
+
+[Top 🠉](#table-of-contents)
+
+
 ## Config in Detail
 
 - Force state on condition:  
@@ -126,8 +125,6 @@ A more complex example configuration for a pump-anti-sticking-sequence:
 
 States can be defined as strings or enums, internally they will be stored as strings.
 
-
-[Top 🠉](#table-of-contents)
 
 
 # State Tags
