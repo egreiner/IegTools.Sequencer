@@ -125,7 +125,7 @@ States can be defined as strings or enums, internally they will be stored as str
 [Top 🠉](#table-of-contents)
 
 
-## State Tags
+# State Tags
 
 State-Tags can only be used with string-states.
 For enum-states there are other possibilities. (-> Validation Handler)  
@@ -134,7 +134,7 @@ There are available two state tags as prefix for states
 - the IgnoreTag '!'
 - and the InitialStateTag '>'
 
-### IgnoreTag
+## IgnoreTag
 Use the IgnoreTag as prefix for an state to tell the Validator not to check this state for counterpart-plausibility.
 
 Example:  
@@ -143,7 +143,7 @@ Example:
 ```
 
 
-### InitialStateTag
+## InitialStateTag
 Use the InitialStateTag as prefix for an state to tell the Sequence what state to start from.
 
 Example:  
