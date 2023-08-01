@@ -11,7 +11,7 @@ The library allows you to define:
 - Invoke actions on specified states.  
 
 
-# Topics
+# Table of Contents
 [Installation](#installation)  
 [Usage](#usage)  
 [States](#states)  
@@ -21,8 +21,14 @@ The library allows you to define:
 [Handler](#handler)  
 
 
-## Installation  
+[Top 🠉](#table-of-contents)
+
+
+# Installation  
 The library is available as a [NuGet package](https://www.nuget.org/packages/IegTools.Sequencer/).  
+
+
+[Top 🠉](#table-of-contents)
 
 
 # Usage
@@ -31,7 +37,7 @@ The library is available as a [NuGet package](https://www.nuget.org/packages/Ieg
 
 A simple example configuration and usage for an OnTimer-sequence:
 
-```c#
+``` c#
 public class OnTimerExample
 {
     private ISequence _sequence;
@@ -56,11 +62,14 @@ public class OnTimerExample
 ```
 
 
+[Top 🠉](#table-of-contents)
+
+
 ### Configuration .NET 5 style
 
 A more complex example configuration for a pump-anti-sticking-sequence:
 
-```c#
+``` c#
  private ISequenceBuilder SequenceConfig =>
         SequenceBuilder.Configure(builder =>
         {
@@ -105,11 +114,15 @@ A more complex example configuration for a pump-anti-sticking-sequence:
   `builder.AddStateAction("State", action)` 
 
 
+[Top 🠉](#table-of-contents)
 
-## States
+
+# States
 
 States can be defined as strings or enums, internally they will be stored as strings.
 
+
+[Top 🠉](#table-of-contents)
 
 
 ## State Tags
@@ -124,8 +137,8 @@ There are available two state tags as prefix for states
 ### IgnoreTag
 Use the IgnoreTag as prefix for an state to tell the Validator not to check this state for counterpart-plausibility.
 
-Example:
-```C#
+Example:  
+``` C#
  .AddTransition("PrepareOff", "!Off", () => Stopwatch.Expired(MyTimeSpan));
 ```
 
@@ -133,14 +146,16 @@ Example:
 ### InitialStateTag
 Use the InitialStateTag as prefix for an state to tell the Sequence what state to start from.
 
-Example:
-```C#
+Example:  
+``` C#
  builder.AddForceState(">Paused", () => !_onTimer.Out);
 ```
 
 
+[Top 🠉](#table-of-contents)
 
-## Validation
+
+# Validation
 
 The sequence will be validated on build.  
 `_sequence = builder.Build();` 
@@ -166,8 +181,10 @@ Validation could be disabled
     `.AddTransition("PrepareOn", "!On", ...);`  
 
 
+[Top 🠉](#table-of-contents)
 
-## Extensibility
+
+# Extensibility
 Write your own customized 
 - Handler
 - Sequence
@@ -176,8 +193,10 @@ Write your own customized
 TODO Documentation
 
 
+[Top 🠉](#table-of-contents)
 
-### Handler
+
+## Handler
 
 Internally the Framework is working with Handler (you can write your own customized handler).
 The Handler describe what they are supposed to do within the sequence.
@@ -190,3 +209,6 @@ There are five default handler at the moment:
 - The StateActionHandler
 
 TODO Documentation
+
+
+[Top 🠉](#table-of-contents)  
