@@ -15,6 +15,10 @@ The library allows you to define:
 &nbsp; ![workflow complete](https://github.com/egreiner/IegTools.Sequencer/actions/workflows/create-nuget-package.yaml/badge.svg)    
 
 
+
+
+
+
 # Table of Contents
 [Installation](#installation)  
 [Usage](#usage)  
