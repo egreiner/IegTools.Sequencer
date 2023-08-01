@@ -10,6 +10,11 @@ The library allows you to define:
 - Force state on specified conditions.  
 - Invoke actions on specified states.  
 
+### Build Status  
+&nbsp; ![workflow tests](https://github.com/egreiner/IegTools.Sequencer/actions/workflows/ci-tests.yml/badge.svg)  
+&nbsp; ![workflow tests](https://github.com/egreiner/IegTools.Sequencer/actions/workflows/ci-tests.yml/badge.svg?event=push)    
+&nbsp; ![workflow complete](https://github.com/egreiner/IegTools.Sequencer/actions/workflows/create-nuget-package.yaml/badge.svg)    
+
 
 # Table of Contents
 [Installation](#installation)  
