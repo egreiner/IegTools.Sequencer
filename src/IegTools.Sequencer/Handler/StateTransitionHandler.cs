@@ -6,6 +6,13 @@
 /// </summary>
 public class StateTransitionHandler : HandlerBase, IHasToState
 {
+    /// <summary>
+    /// Creates a new instance of the <see cref="StateTransitionHandler"/>
+    /// </summary>
+    /// <param name="fromState">The current sequence-state as precondition for any further actions</param>
+    /// <param name="toState">The state the sequence will transition to when the condition is fulfilled</param>
+    /// <param name="condition">The condition that must be fulfilled to execute the state-transition</param>
+    /// <param name="action">The action that will be executed after the transition</param>
     public StateTransitionHandler(string fromState, string toState, Func<bool> condition, Action action)
     {
         FromState = fromState;

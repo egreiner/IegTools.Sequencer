@@ -9,6 +9,13 @@ using System.Linq;
 /// </summary>
 public class AnyStateTransitionHandler : HandlerBase, IHasToState
 {
+    /// <summary>
+    /// Creates a new instance of the <see cref="AnyStateTransitionHandler"/>
+    /// </summary>
+    /// <param name="fromStates">The current sequence-states as precondition for any further actions</param>
+    /// <param name="toState">The state the sequence will transition to when the condition is fulfilled</param>
+    /// <param name="condition">The condition that must be fulfilled to execute the state-transition</param>
+    /// <param name="action">The action that will be executed after the transition</param>
     public AnyStateTransitionHandler(string[] fromStates, string toState, Func<bool> condition, Action action)
     {
         FromStates = fromStates;
