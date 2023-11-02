@@ -36,6 +36,9 @@ public class AnyStateTransitionHandler : HandlerBase, IHasToState
     public string ToState      { get; }
 
     
+    /// <summary>
+    /// Returns a string representation of the handler-state
+    /// </summary>
     public override string ToString() =>
         $"Any-StateTransition: [ {string.Join(", ", FromStates)} ]->{ToState}";
 

@@ -5,6 +5,12 @@
 /// </summary>
 public class ForceStateHandler : HandlerBase, IHasToState
 {
+    /// <summary>
+    /// Creates a new instance of the <see cref="AnyStateTransitionHandler"/>
+    /// </summary>
+    /// <param name="toState">The state the sequence will transition to when the condition is fulfilled</param>
+    /// <param name="condition">The condition that must be fulfilled to execute the state-transition</param>
+    /// <param name="action">The action that will be executed after the transition</param>
     public ForceStateHandler(string toState, Func<bool> condition, Action action)
     {
         ToState        = toState;
@@ -20,6 +26,9 @@ public class ForceStateHandler : HandlerBase, IHasToState
     public string ToState { get; }
     
     
+    /// <summary>
+    /// Returns a string representation of the handler-state
+    /// </summary>
     public override string ToString() =>
         $"Force-State: {ToState}";
 

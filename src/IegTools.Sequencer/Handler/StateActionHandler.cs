@@ -5,6 +5,12 @@
 /// </summary>
 public class StateActionHandler : HandlerBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="StateActionHandler"/> class.
+    /// This handler is responsible for linking a specific state to its corresponding action.
+    /// </summary>
+    /// <param name="state">This is the state to which the action is associated. It should be defined within the context of the sequence's possible states.</param>
+    /// <param name="action">The action that will be executed when the sequence is in the defined state</param>
     public StateActionHandler(string state, Action action)
     {
         State  = state;
@@ -18,6 +24,9 @@ public class StateActionHandler : HandlerBase
     public string State  { get; }
 
 
+    /// <summary>
+    /// Returns a string representation of the handler-state
+    /// </summary>
     public override string ToString() =>
         $"State-Action: {State}";
 

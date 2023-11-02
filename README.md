@@ -16,17 +16,17 @@ The library allows you to define:
 
 
 
-
-
-
 # Table of Contents
 [Installation](#installation)  
 [Usage](#usage)  
 [States](#states)  
 [State Tags](#state-tags)  
 [Validation](#validation)  
-[Extensibility](#extensibility)  
 [Handler](#handler)  
+[SequenceBuilder Extensions](#sequencebuilder-extensions)  
+[Extensibility](#extensibility)  
+[Version Changes](#version-changes)  
+[Breaking Changes](#breaking-changes)  
 
 
 
@@ -64,7 +64,6 @@ public class OnTimerExample
             .AddTransition("PrepareOn", "!On", () => _sequence.Stopwatch.Expired(MyTimeSpan));
 }
 ```
-
 
 [Top 🠉](#table-of-contents)
 
@@ -106,7 +105,6 @@ A more complex example configuration for a pump-anti-sticking-sequence:
         });
 ```
 
-
 [Top 🠉](#table-of-contents)
 
 
@@ -121,7 +119,6 @@ A more complex example configuration for a pump-anti-sticking-sequence:
 - Action on state:  
   `builder.AddStateAction("State", action)` 
 
-
 [Top 🠉](#table-of-contents)
 
 
@@ -129,6 +126,7 @@ A more complex example configuration for a pump-anti-sticking-sequence:
 
 States can be defined as strings or enums, internally they will be stored as strings.
 
+[Top 🠉](#table-of-contents)
 
 
 # State Tags
@@ -156,7 +154,6 @@ Example:
 ``` C#
  builder.AddForceState(">Paused", () => !_onTimer.Out);
 ```
-
 
 [Top 🠉](#table-of-contents)
 
@@ -186,35 +183,105 @@ Validation could be disabled
 - or with the IgnoreTag '!':  
     `.AddTransition("PrepareOn", "!On", ...);`  
 
+[Top 🠉](#table-of-contents)
+
+
+# Handler
+
+Internally the Framework is working with Handler (you can write your own customized handler).
+The Handler describe what they are supposed to do within the sequence.
+
+There are five default handler at the moment:  
+- The [StateTransitionHandler](#statetransitionhandler)  
+- The [ContainsStateTransitionHandler](#containsstatetransitionhandler)  
+- The [AnyStateTransitionHandler](#anystatetransitionhandler)  
+- The [ForceStateHandler](#forcestatehandler)  
+- The [StateActionHandler](#stateactionhandler)    
+
+## StateTransitionHandler
+The StateTransitionHandler is responsible for the transition between two states.
+It switches the sequence from start-state to end-state when the sequence current state is the start-state and the state-transition-condition is true.
+Additionally an action can be executed when the transition is done.
+
+## ContainsStateTransitionHandler
+It's basically the same as the StateTransitionHandler, but it can handle multiple start-states to one end-state.
+
+## AnyStateTransitionHandler
+It's basically the same as the ContainsStateTransitionHandler, but it can handle all start-states that contains the specified string to one end-state.
+
+## ForceStateHandler
+Forces the sequence into the specified state when the force-state-condition is fulfilled.
+Additionally an action can be executed when the force-transition is done.
+
+## StateActionHandler
+Executes continuously the specified action when the sequence is in the specified state.
+
+
+[Top 🠉](#table-of-contents)  
+
+# SequenceBuilder Extensions
+## ExtensionMethods for existing Handler
+All existing Handler can be added to a sequence via the SequenceBuilders ExtensionMethods.
+
+## AllowOnceIn(timeSpan)
+Each Transition can be enhanced with the ExtensionMethod .AllowOnceIn(timeSpan).
+This prevents the transition from being triggered again within the specified timeSpan.
+
+Example from an xUnit test:
+``` C#
+    [Fact]
+    public void Test_AllowOnlyOnceIn_set()
+    {
+        var x = 0;
+        var builder = SequenceBuilder.Configure(builder =>
+        {
+            builder.SetInitialState("State1");
+            builder.AddTransition("State1", "State2", () => true, () => x++)
+                .AllowOnlyOnceIn(TimeSpan.FromSeconds(1))
+                .DisableValidation();
+        });
+
+        var sut = builder.Build();
+
+        sut.SetState("State1");
+
+        for (int i = 0; i < 3; i++)
+        {
+            sut.Run();
+            sut.SetState("State1");
+        }
+
+        x.Should().Be(1);
+    }
+```
+
+For more examples take a look at the UnitTests.
 
 [Top 🠉](#table-of-contents)
 
 
+
 # Extensibility
-Write your own customized 
+Write your own customized
 - Handler
 - Sequence
 - and Validator
 
 TODO Documentation
 
-
 [Top 🠉](#table-of-contents)
 
 
-## Handler
+# Version Changes
+## v2.0 -> v2.1
 
-Internally the Framework is working with Handler (you can write your own customized handler).
-The Handler describe what they are supposed to do within the sequence.
+- new ExtensionMethod .AllowOnceIn(timeSpan)
 
-There are five default handler at the moment:  
-- The StateTransitionHandler
-- The ContainsStateTransitionHandler
-- The AnyStateTransitionHandler
-- The ForceStateHandler
-- The StateActionHandler
+[Top 🠉](#table-of-contents)  
 
-TODO Documentation
 
+# Breaking Changes
+
+so far none
 
 [Top 🠉](#table-of-contents)  

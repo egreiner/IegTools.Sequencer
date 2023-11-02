@@ -33,6 +33,9 @@ public class StateTransitionHandler : HandlerBase, IHasToState
     public string ToState      { get; }
 
 
+    /// <summary>
+    /// Returns a string representation of the handler-state
+    /// </summary>
     public override string ToString() =>
         $"State-Transition: {FromState} -> {ToState}";
 
