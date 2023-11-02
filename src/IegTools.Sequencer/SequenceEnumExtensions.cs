@@ -40,7 +40,7 @@ public static class SequenceEnumExtensions
     public static ISequence SetState<T>(this ISequence sequence, T state)
         where T : Enum =>
         sequence.SetState(state.ToString());
-
+    
     /// <summary>
     /// If the constraint is fulfilled the CurrentState will be set to the state immediately
     /// and the execution of the sequence will continue.

@@ -87,4 +87,26 @@ public class StateTransitionHandlerTests
 
         sut.CurrentState.Should().Be("State3");
     }
+
+    [Theory]
+    [InlineData("State1", true, "State2")]
+    [InlineData("State1", false, "State1")]
+    [InlineData("StateX", true, "State2")]
+    [InlineData("StateX", false, "State1")]
+    public async void Test_RunAsync(string currentState, bool constraint, string expected)
+    {
+        var builder = SequenceBuilder.Configure(builder =>
+        {
+            builder.SetInitialState("State1");
+            builder.AddTransition("State1", "State2", () => constraint)
+                .DisableValidation();
+        });
+
+        var sut = builder.Build();
+
+        sut.SetState(currentState);
+        await sut.RunAsync();
+
+        sut.CurrentState.Should().Be(expected);
+    }
 }
