@@ -17,6 +17,11 @@ public interface IHandler
     /// </summary>
     Action Action { get; set; }
 
+    /// <summary>
+    /// The last time the handler was executed
+    /// </summary>
+    DateTime LastExecutedAt { get; }
+
 
     /// <summary>
     /// Returns true if all conditions are fulfilled and the action is allowed to be executed
@@ -41,4 +46,10 @@ public interface IHandler
     /// </summary>
     /// <param name="state">The state</param>
     bool IsRegisteredState(string state);
+
+    /// <summary>
+    /// Sets a time span that defines the time that the action is allowed to be executed only once
+    /// </summary>
+    /// <param name="timeSpan">The timespan in which the execution is allowed only once</param>
+    void AllowOnlyOnceIn(TimeSpan timeSpan);
 }
