@@ -273,8 +273,10 @@ TODO Documentation
 
 
 # Version Changes
-## v2.0 -> v2.1
+## v2.1 -> v2.2
+- new builder.SetLogger(...) methods
 
+## v2.0 -> v2.1
 - new ExtensionMethod .AllowOnceIn(timeSpan)
 
 [Top 🠉](#table-of-contents)  
