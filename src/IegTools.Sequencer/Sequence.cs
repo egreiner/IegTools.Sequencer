@@ -4,6 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
+/// <summary>
+/// A sequence
+/// </summary>
 public class Sequence : ISequence
 {
     private SequenceConfiguration _configuration;
@@ -16,6 +19,9 @@ public class Sequence : ISequence
     public Stopwatch Stopwatch { get; } = new();
 
 
+    /// <summary>
+    /// Returns a string that represents the current object.
+    /// </summary>
     public override string ToString() => $"CurrentState: {CurrentState}";
 
 

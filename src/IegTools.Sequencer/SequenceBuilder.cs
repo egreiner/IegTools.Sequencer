@@ -135,7 +135,7 @@ public class SequenceBuilder : ISequenceBuilder
     }
 
     /// <inheritdoc />
-    public ISequenceBuilder SetLogger(ILogger logger, string initialMessageAsInformation, params object?[] args)
+    public ISequenceBuilder SetLogger(ILogger logger, string initialMessageAsInformation, params object[] args)
     {
         SetLogger(logger);
         logger.LogInformation(initialMessageAsInformation, args);

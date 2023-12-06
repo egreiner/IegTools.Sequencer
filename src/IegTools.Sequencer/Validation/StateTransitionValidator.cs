@@ -6,6 +6,9 @@ using FluentValidation;
 using FluentValidation.Results;
 using Handler;
 
+/// <summary>
+/// The state transition validator.
+/// </summary>
 public sealed class StateTransitionValidator : HandlerValidatorBase, IHandlerValidator
 {
     private List<StateTransitionHandler> _handlerFrom;

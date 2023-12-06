@@ -13,7 +13,7 @@ public class SequenceConfiguration
     /// <summary>
     /// The logger that can be used for logging
     /// </summary>
-    public ILogger? Logger { get; set; }
+    public ILogger Logger { get; set; }
 
     /// <summary>
     /// Prefix states with the IgnoreTag, does tag states as dead-end-states (the validator will not check for dead ends)

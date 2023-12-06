@@ -3,6 +3,9 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Interface for a sequence
+/// </summary>
 public interface ISequence
 {
     /// <summary>

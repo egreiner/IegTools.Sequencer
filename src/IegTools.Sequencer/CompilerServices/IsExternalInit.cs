@@ -1,4 +1,7 @@
-﻿namespace System.Runtime.CompilerServices;
+﻿// ReSharper disable once CheckNamespace
+namespace System.Runtime.CompilerServices;
 
-// Compiler hack 
+/// <summary>
+/// Compiler hack
+/// </summary>
 public class IsExternalInit { }

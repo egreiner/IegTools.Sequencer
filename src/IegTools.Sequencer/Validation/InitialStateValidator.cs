@@ -5,6 +5,9 @@ using FluentValidation;
 using FluentValidation.Results;
 using Handler;
 
+/// <summary>
+/// The initial state validator.
+/// </summary>
 public sealed class InitialStateValidator : HandlerValidatorBase, IHandlerValidator
 {
     /// <inheritdoc />

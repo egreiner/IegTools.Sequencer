@@ -2,6 +2,9 @@
 
 using System.Linq;
 
+/// <summary>
+/// Extensions for states of type Enum.
+/// </summary>
 public static class SequenceEnumExtensions
 {
     /// <summary>

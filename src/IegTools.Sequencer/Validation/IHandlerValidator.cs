@@ -3,6 +3,9 @@
 using FluentValidation;
 using FluentValidation.Results;
 
+/// <summary>
+/// The handler validator base interface.
+/// </summary>
 public interface IHandlerValidator
 {
     /// <summary>

@@ -1,5 +1,8 @@
 ﻿namespace IegTools.Sequencer.Handler;
 
+/// <summary>
+/// The handler interface.
+/// </summary>
 public interface IHandler
 {
     /// <summary>

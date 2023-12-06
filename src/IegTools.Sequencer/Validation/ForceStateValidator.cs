@@ -6,6 +6,9 @@ using FluentValidation;
 using FluentValidation.Results;
 using Handler;
 
+/// <summary>
+/// The force state validator.
+/// </summary>
 public sealed class ForceStateValidator : HandlerValidatorBase, IHandlerValidator
 {
     private List<ForceStateHandler> _handler;
