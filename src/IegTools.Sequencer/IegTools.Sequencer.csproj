@@ -12,7 +12,7 @@
 		
 		<PackageId>IegTools.Sequencer</PackageId>
 		<Title>IegTools.Sequencer</Title>
-		<Version>2.1.0</Version>
+		<Version>2.2.0</Version>
 		
 		<Company>ieg Systems</Company>
 		<Authors>Ing. Ernst Greiner</Authors>
@@ -20,7 +20,7 @@
 
 		<Description>IegTools.Sequencer provides a fluent interface for creating easy-to-read and extensible sequences, eliminating the need for lengthy if/else statements.</Description>
 
-		<PackageReleaseNotes>v2.1.0 add AllowOnceIn(timeSpan) ExtensionMethod</PackageReleaseNotes>
+		<PackageReleaseNotes>v2.2.0 add builder.SetLogger(...) methods</PackageReleaseNotes>
 		
 		<PackageTags>sequence, sequencer, statemachine</PackageTags>
 		
@@ -32,6 +32,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="FluentValidation" Version="11.8.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

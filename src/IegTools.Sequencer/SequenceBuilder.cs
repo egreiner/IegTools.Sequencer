@@ -1,5 +1,6 @@
 ﻿namespace IegTools.Sequencer;
 
+using Microsoft.Extensions.Logging;
 using FluentValidation;
 using Handler;
 using Validation;
@@ -125,6 +126,22 @@ public class SequenceBuilder : ISequenceBuilder
         Configuration.DisableValidationForStates = states;
         return this;
     }
+
+    /// <inheritdoc />
+    public ISequenceBuilder SetLogger(ILogger logger)
+    {
+        Configuration.Logger = logger;
+        return this;
+    }
+
+    /// <inheritdoc />
+    public ISequenceBuilder SetLogger(ILogger logger, string initialMessageAsInformation, params object?[] args)
+    {
+        SetLogger(logger);
+        logger.LogInformation(initialMessageAsInformation, args);
+        return this;
+    }
+
 
     
     private void AddDefaultValidators()

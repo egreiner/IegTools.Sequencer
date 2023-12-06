@@ -1,8 +1,12 @@
 ﻿namespace IegTools.Sequencer;
 
+using Microsoft.Extensions.Logging;
 using Handler;
 using Validation;
 
+/// <summary>
+/// The Sequence-Builder interface
+/// </summary>
 public interface ISequenceBuilder
 {
     /// <summary>
@@ -52,4 +56,18 @@ public interface ISequenceBuilder
     /// </summary>
     /// <param name="states">A list of states that should not be validated.</param>
     ISequenceBuilder DisableValidationForStates(params string[] states);
+
+    /// <summary>
+    /// The logger that can be used for logging
+    /// </summary>
+    /// <param name="logger">The logger</param>
+    ISequenceBuilder SetLogger(ILogger logger);
+
+    /// <summary>
+    /// The logger that can be used for logging
+    /// </summary>
+    /// <param name="logger">The logger</param>
+    /// <param name="initialMessageAsInformation">The initial message logged as information</param>
+    /// <param name="args">Teh message arguments</param>
+    ISequenceBuilder SetLogger(ILogger logger, string initialMessageAsInformation, params object[] args);
 }

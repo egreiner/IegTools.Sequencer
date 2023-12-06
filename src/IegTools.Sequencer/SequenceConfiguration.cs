@@ -1,5 +1,6 @@
 ﻿namespace IegTools.Sequencer;
 
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using Handler;
 using Validation;
@@ -9,6 +10,11 @@ using Validation;
 /// </summary>
 public class SequenceConfiguration
 {
+    /// <summary>
+    /// The logger that can be used for logging
+    /// </summary>
+    public ILogger? Logger { get; set; }
+
     /// <summary>
     /// Prefix states with the IgnoreTag, does tag states as dead-end-states (the validator will not check for dead ends)
     /// </summary>
