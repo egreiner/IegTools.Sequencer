@@ -3,7 +3,10 @@
 using Microsoft.Extensions.Logging;
 using FluentValidation;
 using Handler;
+using JetBrains.Annotations;
 using Validation;
+
+#nullable enable
 
 /// <summary>
 /// Provides methods to build a sequence.
@@ -135,7 +138,8 @@ public class SequenceBuilder : ISequenceBuilder
     }
 
     /// <inheritdoc />
-    public ISequenceBuilder SetLogger(ILogger logger, string initialMessageAsInformation, params object[] args)
+    [Obsolete("Will be deleted in next major version, doesn't really makes sense here... sorry")]
+    public ISequenceBuilder SetLogger(ILogger logger, [StructuredMessageTemplate] string? initialMessageAsInformation, params object?[] args)
     {
         SetLogger(logger);
         logger.LogInformation(initialMessageAsInformation, args);

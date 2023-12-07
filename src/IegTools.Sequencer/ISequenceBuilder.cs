@@ -2,7 +2,10 @@
 
 using Microsoft.Extensions.Logging;
 using Handler;
+using JetBrains.Annotations;
 using Validation;
+
+#nullable enable
 
 /// <summary>
 /// The Sequence-Builder interface
@@ -69,5 +72,6 @@ public interface ISequenceBuilder
     /// <param name="logger">The logger</param>
     /// <param name="initialMessageAsInformation">The initial message logged as information</param>
     /// <param name="args">Teh message arguments</param>
-    ISequenceBuilder SetLogger(ILogger logger, string initialMessageAsInformation, params object[] args);
+    [Obsolete("Will be deleted in next major version, doesn't really makes sense here... sorry")]
+    ISequenceBuilder SetLogger(ILogger logger, [StructuredMessageTemplate] string? initialMessageAsInformation, params object?[] args);
 }
