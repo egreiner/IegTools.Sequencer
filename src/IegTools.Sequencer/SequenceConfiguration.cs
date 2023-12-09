@@ -11,6 +11,12 @@ using Validation;
 public class SequenceConfiguration
 {
     /// <summary>
+    /// The Sequence that this configuration is for.
+    /// Is set in Sequence.SetConfiguration()
+    /// </summary>
+    public ISequence Sequence { get; set; }
+
+    /// <summary>
     /// The logger that can be used for logging
     /// </summary>
     public ILogger Logger    { get; set; }
@@ -24,6 +30,7 @@ public class SequenceConfiguration
     /// The EventId for logging
     /// </summary>
     public EventId EventId { get; set; }
+
 
 
     /// <summary>

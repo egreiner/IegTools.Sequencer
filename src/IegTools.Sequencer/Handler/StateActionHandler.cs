@@ -1,10 +1,14 @@
 ﻿namespace IegTools.Sequencer.Handler;
 
+using Microsoft.Extensions.Logging;
+
 /// <summary>
 /// Invokes an specified action when the sequence is in the specified state
 /// </summary>
 public class StateActionHandler : HandlerBase
 {
+    private bool _loggingDone;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="StateActionHandler"/> class.
     /// This handler is responsible for linking a specific state to its corresponding action.
@@ -13,6 +17,7 @@ public class StateActionHandler : HandlerBase
     /// <param name="action">The action that will be executed when the sequence is in the defined state</param>
     public StateActionHandler(string state, Action action)
     {
+        Name   = "State Action";
         State  = state;
         Action = action;
     }
@@ -39,13 +44,27 @@ public class StateActionHandler : HandlerBase
     /// Returns true if the sequence is in the specified state
     /// </summary>
     /// <param name="sequence">The sequence</param>
-    public override bool IsConditionFulfilled(ISequence sequence) =>
-        sequence.HasCurrentState(State) && IsConditionFulfilled();
+    public override bool IsConditionFulfilled(ISequence sequence)
+    {
+        var result = sequence.HasCurrentState(State) && IsConditionFulfilled();
+
+        if (!result) _loggingDone = false;
+
+        return result;
+    }
 
     /// <summary>
     /// Executes the specified action
     /// </summary>
     /// <param name="sequence">The sequence</param>
-    public override void ExecuteAction(ISequence sequence) =>
+    public override void ExecuteAction(ISequence sequence)
+    {
+        if (!_loggingDone && Configuration.LogLevel <= LogLevel.Debug)
+        {
+            Logger?.Log(LogLevel.Debug, EventId, "{Handler} {Method} in {CurrentState}", Name, "Execute Action", State);
+            _loggingDone = true;
+        }
+
         Action?.Invoke();
+    }
 }

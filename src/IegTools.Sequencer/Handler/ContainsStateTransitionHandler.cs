@@ -1,5 +1,7 @@
 ﻿namespace IegTools.Sequencer.Handler;
 
+using Microsoft.Extensions.Logging;
+
 /// <summary>
 /// Transfers the sequence from the current state to the next state
 /// when the condition is met
@@ -16,6 +18,7 @@ public class ContainsStateTransitionHandler : HandlerBase, IHasToState
     /// <param name="action">The action that will be executed after the transition</param>
     public ContainsStateTransitionHandler(string fromStateContains, string toState, Func<bool> condition, Action action)
     {
+        Name              = "Contains-State Transition";
         FromStateContains = fromStateContains;
         ToState           = toState;
         Condition         = condition;
@@ -50,7 +53,8 @@ public class ContainsStateTransitionHandler : HandlerBase, IHasToState
     /// </summary>
     /// <param name="sequence">The sequence</param>
     public override bool IsConditionFulfilled(ISequence sequence) =>
-        !sequence.HasCurrentState(ToState) && sequence.CurrentState.Contains(FromStateContains) && IsConditionFulfilled();
+        !sequence.HasCurrentState(ToState) && sequence.CurrentState.Contains(FromStateContains) &&
+        IsConditionFulfilled();
 
 
     /// <summary>
@@ -59,6 +63,9 @@ public class ContainsStateTransitionHandler : HandlerBase, IHasToState
     /// <param name="sequence">The sequence</param>
     public override void ExecuteAction(ISequence sequence)
     {
+        if (Configuration.LogLevel <= LogLevel.Debug)
+            Logger?.Log(LogLevel.Debug, EventId, "{Handler} {Method} from {From} to {To}", Name, "Execute Action", Sequence?.CurrentState ?? "unknown", ToState);
+
         sequence.SetState(ToState);
         Action?.Invoke();
     }

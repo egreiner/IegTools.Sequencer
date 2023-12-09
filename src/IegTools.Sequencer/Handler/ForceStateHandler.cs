@@ -1,10 +1,14 @@
 ﻿namespace IegTools.Sequencer.Handler;
 
+using Microsoft.Extensions.Logging;
+
 /// <summary>
 /// Forces the sequence to the specified state if the condition is fulfilled
 /// </summary>
 public class ForceStateHandler : HandlerBase, IHasToState
 {
+    private bool _loggingDone;
+
     /// <summary>
     /// Creates a new instance of the <see cref="AnyStateTransitionHandler"/>
     /// </summary>
@@ -13,6 +17,7 @@ public class ForceStateHandler : HandlerBase, IHasToState
     /// <param name="action">The action that will be executed after the transition</param>
     public ForceStateHandler(string toState, Func<bool> condition, Action action)
     {
+        Name           = "Force State";
         ToState        = toState;
         Condition      = condition;
         ResumeSequence = false;
@@ -42,13 +47,27 @@ public class ForceStateHandler : HandlerBase, IHasToState
     /// It depends on the condition only.
     /// </summary>
     /// <param name="sequence">The sequence</param>
-    public override bool IsConditionFulfilled(ISequence sequence) =>
-        !sequence.HasCurrentState(ToState) && (Condition?.Invoke() ?? false);
+    public override bool IsConditionFulfilled(ISequence sequence)
+    {
+        var result = !sequence.HasCurrentState(ToState) && (Condition?.Invoke() ?? false);
+
+        if (!result) _loggingDone = false;
+
+        return result;
+    }
 
     /// <summary>
     /// Transitions to the new state
     /// </summary>
     /// <param name="sequence">The sequence</param>
-    public override void ExecuteAction(ISequence sequence) =>
+    public override void ExecuteAction(ISequence sequence)
+    {
+        if (!_loggingDone && Configuration.LogLevel <= LogLevel.Debug)
+        {
+            Logger?.Log(LogLevel.Debug, EventId, "{Handler} {Method} Forced to {CurrentState}", Name, "Execute Action", ToState);
+            _loggingDone = true;
+        }
+
         sequence.SetState(ToState);
+    }
 }

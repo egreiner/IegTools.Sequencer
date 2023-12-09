@@ -8,7 +8,7 @@ public class LoggingTests
         var logger = Substitute.For<ILogger<LoggingTests>>();
         _ = SequenceBuilder.Configure(config =>
             config.SetInitialState("Off")
-                .SetLogger(logger)
+                .SetLogger(logger, new EventId(-1))
         );
 
         logger.Received(0).Log(

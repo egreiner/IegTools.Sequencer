@@ -42,7 +42,7 @@ public class Sequence : ISequence
         foreach (var handler in _configuration.Handler)
         {
             var executed = handler.ExecuteIfValid(this);
-            if (!handler.ResumeSequence && executed) 
+            if (executed && !handler.ResumeSequence)
                 break;
         }
 
@@ -56,8 +56,9 @@ public class Sequence : ISequence
     /// <inheritdoc />
     public ISequence SetConfiguration(SequenceConfiguration configuration)
     {
-        _configuration = configuration;
-        CurrentState   = configuration.InitialState;
+        configuration.Sequence = this;
+        _configuration         = configuration;
+        CurrentState           = configuration.InitialState;
         return this;
     }
 

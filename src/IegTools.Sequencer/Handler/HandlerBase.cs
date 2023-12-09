@@ -31,15 +31,22 @@ public abstract class HandlerBase : IHandler
     public DateTime LastExecutedAt { get; private set; }
 
 
+
     /// <summary>
     /// The logger
     /// </summary>
-    protected ILogger Logger => Configuration?.Logger;
+    protected ILogger Logger => Configuration.Logger;
 
     /// <summary>
     /// The logger
     /// </summary>
     protected EventId EventId => Configuration.EventId;
+
+    /// <summary>
+    /// The Sequence that this handler is bound to
+    /// </summary>
+    protected ISequence Sequence => Configuration.Sequence;
+
 
 
     /// <summary>
