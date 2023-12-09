@@ -6,6 +6,11 @@
 public interface IHandler
 {
     /// <summary>
+    /// The Sequence-Configuration
+    /// </summary>
+    SequenceConfiguration Configuration { get; set; }
+
+    /// <summary>
     /// Standard is that the sequence should continue to run after a action is executed
     /// </summary>
     bool ResumeSequence { get; set; }

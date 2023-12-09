@@ -9,6 +9,9 @@ public abstract class HandlerBase : IHandler
 
 
     /// <inheritdoc />
+    public SequenceConfiguration Configuration { get; set; }
+
+    /// <inheritdoc />
     public bool ResumeSequence { get; set; } = true;
 
     /// <inheritdoc />

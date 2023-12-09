@@ -64,14 +64,6 @@ public interface ISequenceBuilder
     /// The logger that can be used for logging
     /// </summary>
     /// <param name="logger">The logger</param>
-    ISequenceBuilder SetLogger(ILogger logger);
-
-    /// <summary>
-    /// The logger that can be used for logging
-    /// </summary>
-    /// <param name="logger">The logger</param>
-    /// <param name="initialMessageAsInformation">The initial message logged as information</param>
-    /// <param name="args">Teh message arguments</param>
-    [Obsolete("Will be deleted in next major version, doesn't really makes sense here... sorry")]
-    ISequenceBuilder SetLogger(ILogger logger, [StructuredMessageTemplate] string? initialMessageAsInformation, params object?[] args);
+    /// <param name="logLevel">The LogLevel, default is Information, if you enable Debug you get debug messages from every handler</param>
+    ISequenceBuilder SetLogger(ILogger logger, LogLevel logLevel = LogLevel.Information);
 }
