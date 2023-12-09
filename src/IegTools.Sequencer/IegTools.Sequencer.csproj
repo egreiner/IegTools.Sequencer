@@ -12,7 +12,7 @@
 		
 		<PackageId>IegTools.Sequencer</PackageId>
 		<Title>IegTools.Sequencer</Title>
-		<Version>2.2.1</Version>
+		<Version>2.2.2-alpha</Version>
 		
 		<Company>ieg Systems</Company>
 		<Authors>Ing. Ernst Greiner</Authors>
@@ -20,7 +20,7 @@
 
 		<Description>IegTools.Sequencer provides a fluent interface for creating easy-to-read and extensible sequences, eliminating the need for lengthy if/else statements.</Description>
 
-		<PackageReleaseNotes>v2.2.1 add builder.SetLogger(...) method</PackageReleaseNotes>
+		<PackageReleaseNotes>v2.2.2-alpha wip logging</PackageReleaseNotes>
 		
 		<PackageTags>sequence, sequencer, statemachine</PackageTags>
 		
