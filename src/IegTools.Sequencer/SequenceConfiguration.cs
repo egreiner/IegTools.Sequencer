@@ -21,6 +21,12 @@ public class SequenceConfiguration
     public LogLevel LogLevel { get; set; }
 
     /// <summary>
+    /// The EventId for logging
+    /// </summary>
+    public EventId EventId { get; set; }
+
+
+    /// <summary>
     /// Prefix states with the IgnoreTag, does tag states as dead-end-states (the validator will not check for dead ends)
     /// </summary>
     public char IgnoreTag { get; set; } = '!';

@@ -64,6 +64,7 @@ public interface ISequenceBuilder
     /// The logger that can be used for logging
     /// </summary>
     /// <param name="logger">The logger</param>
+    /// <param name="eventId">The EventId</param>
     /// <param name="logLevel">The LogLevel, default is Information, if you enable Debug you get debug messages from every handler</param>
-    ISequenceBuilder SetLogger(ILogger logger, LogLevel logLevel = LogLevel.Information);
+    ISequenceBuilder SetLogger(ILogger logger, EventId eventId, LogLevel logLevel = LogLevel.Information);
 }

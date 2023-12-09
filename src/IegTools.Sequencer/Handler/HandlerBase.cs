@@ -1,5 +1,7 @@
 ﻿namespace IegTools.Sequencer.Handler;
 
+using Microsoft.Extensions.Logging;
+
 /// <summary>
 /// The base handler
 /// </summary>
@@ -7,6 +9,11 @@ public abstract class HandlerBase : IHandler
 {
     private TimeSpan? _allowOnlyOnceTimeSpan;
 
+
+    /// <summary>
+    /// The handlers name
+    /// </summary>
+    public string Name { get; protected init; }
 
     /// <inheritdoc />
     public SequenceConfiguration Configuration { get; set; }
@@ -22,6 +29,17 @@ public abstract class HandlerBase : IHandler
 
     /// <inheritdoc />
     public DateTime LastExecutedAt { get; private set; }
+
+
+    /// <summary>
+    /// The logger
+    /// </summary>
+    protected ILogger Logger => Configuration?.Logger;
+
+    /// <summary>
+    /// The logger
+    /// </summary>
+    protected EventId EventId => Configuration.EventId;
 
 
     /// <summary>

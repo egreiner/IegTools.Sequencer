@@ -6,6 +6,11 @@
 public interface IHandler
 {
     /// <summary>
+    /// The handlers name
+    /// </summary>
+    string Name { get; }
+
+    /// <summary>
     /// The Sequence-Configuration
     /// </summary>
     SequenceConfiguration Configuration { get; set; }

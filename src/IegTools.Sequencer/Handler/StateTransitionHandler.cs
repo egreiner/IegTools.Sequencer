@@ -1,5 +1,7 @@
 ﻿namespace IegTools.Sequencer.Handler;
 
+using Microsoft.Extensions.Logging;
+
 /// <summary>
 /// Transfers the sequence from the current state to the next state
 /// if the condition is met and invokes the specified action
@@ -15,6 +17,7 @@ public class StateTransitionHandler : HandlerBase, IHasToState
     /// <param name="action">The action that will be executed after the transition</param>
     public StateTransitionHandler(string fromState, string toState, Func<bool> condition, Action action)
     {
+        Name      = "State Transition";
         FromState = fromState;
         ToState   = toState;
         Condition = condition;
@@ -58,6 +61,9 @@ public class StateTransitionHandler : HandlerBase, IHasToState
     /// <param name="sequence">The sequence</param>
     public override void ExecuteAction(ISequence sequence)
     {
+        if (Configuration.LogLevel <= LogLevel.Debug)
+            Logger?.Log(LogLevel.Debug, EventId, "{Handler} {Method} from {From} to {To}", Name, "Execute Action", FromState, ToState);
+
         sequence.SetState(ToState);
         Action?.Invoke();
     }

@@ -132,9 +132,10 @@ public class SequenceBuilder : ISequenceBuilder
     }
 
     /// <inheritdoc />
-    public ISequenceBuilder SetLogger(ILogger logger, LogLevel logLevel = LogLevel.Information)
+    public ISequenceBuilder SetLogger(ILogger logger, EventId eventId, LogLevel logLevel = LogLevel.Information)
     {
         Configuration.Logger   = logger;
+        Configuration.EventId  = eventId;
         Configuration.LogLevel = logLevel;
         return this;
     }
