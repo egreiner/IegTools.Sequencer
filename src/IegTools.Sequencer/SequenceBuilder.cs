@@ -105,6 +105,7 @@ public class SequenceBuilder : ISequenceBuilder
     public ISequenceBuilder AddHandler<T>(T handler) where T: IHandler
     {
         Configuration.Handler.Add(handler);
+        handler.Configuration = Configuration;
         return this;
     }
 
@@ -131,21 +132,12 @@ public class SequenceBuilder : ISequenceBuilder
     }
 
     /// <inheritdoc />
-    public ISequenceBuilder SetLogger(ILogger logger)
+    public ISequenceBuilder SetLogger(ILogger logger, LogLevel logLevel = LogLevel.Information)
     {
-        Configuration.Logger = logger;
+        Configuration.Logger   = logger;
+        Configuration.LogLevel = logLevel;
         return this;
     }
-
-    /// <inheritdoc />
-    [Obsolete("Will be deleted in next major version, doesn't really makes sense here... sorry")]
-    public ISequenceBuilder SetLogger(ILogger logger, [StructuredMessageTemplate] string? initialMessageAsInformation, params object?[] args)
-    {
-        SetLogger(logger);
-        logger.LogInformation(initialMessageAsInformation, args);
-        return this;
-    }
-
 
     
     private void AddDefaultValidators()
