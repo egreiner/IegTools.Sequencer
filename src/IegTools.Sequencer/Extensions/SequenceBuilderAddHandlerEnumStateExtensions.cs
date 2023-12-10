@@ -10,16 +10,6 @@ using System.Linq;
 public static class SequenceBuilderAddHandlerEnumStateExtensions
 {
     /// <summary>
-    /// Sets the initial state
-    /// </summary>
-    /// <param name="builder">The sequence-builder</param>
-    /// <param name="initialState">The initial state</param>
-    /// <returns></returns>
-    public static ISequenceBuilder SetInitialState<T>(this ISequenceBuilder builder, T initialState)
-        where T : Enum =>
-        builder.SetInitialState(initialState.ToString());
-
-    /// <summary>
     /// Adds a 'state to state'-transition.
     /// The state transition will be executed if the constraint is complied.
     /// The action will be executed just once, at the moment when the constraint is complied.
@@ -92,17 +82,4 @@ public static class SequenceBuilderAddHandlerEnumStateExtensions
     public static ISequenceBuilder AddForceState<T>(this ISequenceBuilder builder, T state, Func<bool> constraint, Action action = null)
         where T : Enum =>
         builder.AddForceState(state.ToString(), constraint, action);
-
-
-    /// <summary>
-    /// Does not validate states that are in this list
-    /// </summary>
-    /// <param name="builder">The sequence-builder</param>
-    /// <param name="states">A list of states that should not be validated.</param>
-    public static ISequenceBuilder DisableValidationForStates<T>(this ISequenceBuilder builder, params T[] states)
-        where T : Enum
-    {
-        builder.Configuration.DisableValidationForStates = states.Select(x1 => x1.ToString()).ToArray();
-        return builder;
-    }
 }
