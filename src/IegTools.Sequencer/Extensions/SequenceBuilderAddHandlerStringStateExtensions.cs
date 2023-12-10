@@ -7,7 +7,7 @@ using Handler;
 /// <summary>
 /// Default String-Extensions für the SequenceBuilder
 /// </summary>
-public static class SequenceBuilderDefaultExtensions
+public static class SequenceBuilderAddHandlerStringStateExtensions
 {
     /// <summary>
     /// Adds a 'state to state'-transition.

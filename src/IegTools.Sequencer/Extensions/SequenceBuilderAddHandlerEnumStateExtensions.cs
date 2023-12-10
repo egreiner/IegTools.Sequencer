@@ -5,9 +5,9 @@ using System.Linq;
 
 /// <summary>
 /// Default Enum-Extensions für the SequenceBuilder.
-/// Forward all calls to <see cref="SequenceBuilderDefaultExtensions"/>
+/// Forward all calls to <see cref="SequenceBuilderAddHandlerStringStateExtensions"/>
 /// </summary>
-public static class SequenceBuilderEnumExtensions
+public static class SequenceBuilderAddHandlerEnumStateExtensions
 {
     /// <summary>
     /// Sets the initial state
