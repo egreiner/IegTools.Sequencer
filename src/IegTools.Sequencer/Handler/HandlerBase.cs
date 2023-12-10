@@ -18,8 +18,6 @@ public abstract class HandlerBase : IHandler
     /// <inheritdoc />
     public SequenceConfiguration Configuration { get; set; }
 
-    /// <inheritdoc />
-    public bool ResumeSequence { get; set; } = true;
 
     /// <inheritdoc />
     public Func<bool> Condition { get; set; }
@@ -31,6 +29,9 @@ public abstract class HandlerBase : IHandler
     public DateTime LastExecutedAt { get; private set; }
 
 
+    /// <inheritdoc />
+    public bool ResumeSequence { get; set; } = true;
+
 
     /// <summary>
     /// The logger
@@ -38,7 +39,7 @@ public abstract class HandlerBase : IHandler
     protected ILogger Logger => Configuration.Logger;
 
     /// <summary>
-    /// The logger
+    /// The EventId for the logger
     /// </summary>
     protected EventId EventId => Configuration.EventId;
 

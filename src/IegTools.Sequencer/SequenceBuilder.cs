@@ -23,6 +23,34 @@ public class SequenceBuilder : ISequenceBuilder
     public SequenceConfiguration Configuration { get; init; } = new();
 
 
+
+    /// <inheritdoc />
+    public ISequenceBuilder ActivateDebugLogging(ILogger logger, EventId eventId)
+    {
+        Configuration.Logger  = logger;
+        Configuration.EventId = eventId;
+        return this;
+    }
+
+
+
+    /// <inheritdoc />
+    public ISequence Build() => Build<Sequence>();
+
+
+    /// <inheritdoc />
+    public ISequence Build<TSequence>() where TSequence : ISequence, new()
+    {
+        AddDefaultValidators();
+
+        if (!Configuration.DisableValidation)
+            _validator?.ValidateAndThrow(Configuration);
+
+        return new TSequence().SetConfiguration(Configuration);
+    }
+
+
+
     /// <summary>
     /// Creates a new Sequence-Builder with an empty sequence.
     /// In some scenarios it is useful to have an empty sequence.
@@ -37,7 +65,6 @@ public class SequenceBuilder : ISequenceBuilder
         return builder;
     }
 
-
     /// <summary>
     /// Creates a new Sequence-Builder for configuration in .NET 6 style.
     /// This is good for short crispy configs.
@@ -51,6 +78,8 @@ public class SequenceBuilder : ISequenceBuilder
     /// </summary>
     public static ISequenceBuilder Create(IValidator<SequenceConfiguration> validator) =>
         new SequenceBuilder(validator);
+
+
 
     /// <summary>
     /// Configures the sequence in .NET 5 style.
@@ -78,29 +107,7 @@ public class SequenceBuilder : ISequenceBuilder
     }
 
 
-    /// <inheritdoc />
-    public ISequence Build() =>
-        Build<Sequence>();
 
-    /// <inheritdoc />
-    public ISequence Build<TSequence>() where TSequence : ISequence, new()
-    {
-        AddDefaultValidators();
-
-        if (!Configuration.DisableValidation)
-            _validator?.ValidateAndThrow(Configuration);
-
-        return new TSequence().SetConfiguration(Configuration);
-    }
-
-
-    /// <inheritdoc />
-    public ISequenceBuilder SetInitialState(string initialState)
-    {
-        Configuration.InitialState = initialState;
-        return this;
-    }
-    
     /// <inheritdoc />
     public ISequenceBuilder AddHandler<T>(T handler) where T: IHandler
     {
@@ -117,6 +124,8 @@ public class SequenceBuilder : ISequenceBuilder
         return this;
     }
 
+
+
     /// <inheritdoc />
     public ISequenceBuilder DisableValidation()
     {
@@ -132,11 +141,9 @@ public class SequenceBuilder : ISequenceBuilder
     }
 
     /// <inheritdoc />
-    public ISequenceBuilder SetLogger(ILogger logger, EventId eventId, LogLevel logLevel = LogLevel.Information)
+    public ISequenceBuilder SetInitialState(string initialState)
     {
-        Configuration.Logger   = logger;
-        Configuration.EventId  = eventId;
-        Configuration.LogLevel = logLevel;
+        Configuration.InitialState = initialState;
         return this;
     }
 

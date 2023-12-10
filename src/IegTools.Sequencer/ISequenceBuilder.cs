@@ -17,23 +17,13 @@ public interface ISequenceBuilder
     /// </summary>
     SequenceConfiguration Configuration { get; init; }
 
-    /// <summary>
-    /// Builds a default sequence with the specified configuration
-    /// Throws an exception if the sequence is not valid.
-    /// </summary>
-    ISequence Build();
 
     /// <summary>
-    /// Builds a customized sequence with the specified configuration
-    /// Throws an exception if the sequence is not valid.
+    /// Activates debug logging messages
     /// </summary>
-    ISequence Build<TSequence>() where TSequence : ISequence, new();
-
-    /// <summary>
-    /// Sets the initial state
-    /// </summary>
-    /// <param name="initialState">The initial state</param>
-    ISequenceBuilder SetInitialState(string initialState);
+    /// <param name="logger">The logger</param>
+    /// <param name="eventId">The EventId</param>
+    ISequenceBuilder ActivateDebugLogging(ILogger logger, EventId eventId);
 
     /// <summary>
     /// Adds an sequence handler
@@ -50,6 +40,18 @@ public interface ISequenceBuilder
     ISequenceBuilder AddValidator<T>() where T : IHandlerValidator, new();
 
     /// <summary>
+    /// Builds a default sequence with the specified configuration
+    /// Throws an exception if the sequence is not valid.
+    /// </summary>
+    ISequence Build();
+
+    /// <summary>
+    /// Builds a customized sequence with the specified configuration
+    /// Throws an exception if the sequence is not valid.
+    /// </summary>
+    ISequence Build<TSequence>() where TSequence : ISequence, new();
+
+    /// <summary>
     /// Does not validate the sequence configuration on build
     /// </summary>
     ISequenceBuilder DisableValidation();
@@ -61,10 +63,8 @@ public interface ISequenceBuilder
     ISequenceBuilder DisableValidationForStates(params string[] states);
 
     /// <summary>
-    /// The logger that can be used for logging
+    /// Sets the initial state
     /// </summary>
-    /// <param name="logger">The logger</param>
-    /// <param name="eventId">The EventId</param>
-    /// <param name="logLevel">The LogLevel, default is Information, if you enable Debug you get debug messages from every handler</param>
-    ISequenceBuilder SetLogger(ILogger logger, EventId eventId, LogLevel logLevel = LogLevel.Information);
+    /// <param name="initialState">The initial state</param>
+    ISequenceBuilder SetInitialState(string initialState);
 }

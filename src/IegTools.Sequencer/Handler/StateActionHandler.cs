@@ -59,9 +59,9 @@ public class StateActionHandler : HandlerBase
     /// <param name="sequence">The sequence</param>
     public override void ExecuteAction(ISequence sequence)
     {
-        if (!_loggingDone && Configuration.LogLevel <= LogLevel.Debug)
+        if (!_loggingDone)
         {
-            Logger?.Log(LogLevel.Debug, EventId, "{Handler} {Method} in {CurrentState}", Name, "Execute Action", State);
+            Logger?.Log(LogLevel.Debug, EventId, "{Method} - {Handler} -> in {StateTo}", "Execute Action", Name, State);
             _loggingDone = true;
         }
 

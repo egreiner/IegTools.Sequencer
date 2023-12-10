@@ -61,8 +61,7 @@ public class StateTransitionHandler : HandlerBase, IHasToState
     /// <param name="sequence">The sequence</param>
     public override void ExecuteAction(ISequence sequence)
     {
-        if (Configuration.LogLevel <= LogLevel.Debug)
-            Logger?.Log(LogLevel.Debug, EventId, "{Handler} {Method} from {From} to {To}", Name, "Execute Action", FromState, ToState);
+        Logger?.Log(LogLevel.Debug, EventId, "{Method} - {Handler} -> from state '{StateFrom}' to state '{StateTo}'", "Execute Action", Name, FromState, ToState);
 
         sequence.SetState(ToState);
         Action?.Invoke();

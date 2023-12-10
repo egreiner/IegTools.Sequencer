@@ -62,9 +62,9 @@ public class ForceStateHandler : HandlerBase, IHasToState
     /// <param name="sequence">The sequence</param>
     public override void ExecuteAction(ISequence sequence)
     {
-        if (!_loggingDone && Configuration.LogLevel <= LogLevel.Debug)
+        if (!_loggingDone)
         {
-            Logger?.Log(LogLevel.Debug, EventId, "{Handler} {Method} Forced to {CurrentState}", Name, "Execute Action", ToState);
+            Logger?.Log(LogLevel.Debug, EventId, "{Method} - {Handler} Forced to {StateTo}", "Execute Action", Name, ToState);
             _loggingDone = true;
         }
 

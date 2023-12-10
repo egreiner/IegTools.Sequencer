@@ -22,14 +22,43 @@ public class SequenceConfiguration
     public ILogger Logger    { get; set; }
 
     /// <summary>
-    /// The LogLevel
-    /// </summary>
-    public LogLevel LogLevel { get; set; }
-
-    /// <summary>
     /// The EventId for logging
     /// </summary>
     public EventId EventId { get; set; }
+
+
+
+    /// <summary>
+    /// The sequence-handler that describe how the sequence is supposed to work
+    /// </summary>
+    public List<IHandler> Handler { get; } = new();
+
+    /// <summary>
+    /// All validators
+    /// </summary>
+    public IList<IHandlerValidator> Validators { get; set; } = new List<IHandlerValidator>();
+
+
+
+    /// <summary>
+    /// The complete validation will be disabled
+    /// </summary>
+    public bool DisableValidation { get; set; }
+
+    /// <summary>
+    /// Does tell the validator to not check this states
+    /// </summary>
+    public string[] DisableValidationForStates { get; set; }
+
+
+
+    /// <summary>
+    /// Is an empty sequence.
+    /// On run nothings happens.
+    /// No state changes.
+    /// Validation is disabled.
+    /// </summary>
+    public bool IsEmpty { get; set; }
 
 
 
@@ -44,35 +73,7 @@ public class SequenceConfiguration
     public char InitialStateTag { get; set; } = '>';
 
     /// <summary>
-    /// Is an empty sequence.
-    /// On run nothings happens.
-    /// No state changes.
-    /// Validation is disabled.
-    /// </summary>
-    public bool IsEmpty { get; set; }
-
-    /// <summary>
-    /// The complete validation will be disabled
-    /// </summary>
-    public bool DisableValidation { get; set; }
-
-    /// <summary>
-    /// Does tell the validator to not check this states
-    /// </summary>
-    public string[] DisableValidationForStates { get; set; }
-
-    /// <summary>
     /// The state the sequence will start from
     /// </summary>
     public string InitialState { get; set; }
-
-    /// <summary>
-    /// The sequence-handler that describe how the sequence is supposed to work
-    /// </summary>
-    public List<IHandler> Handler { get; } = new();
-
-    /// <summary>
-    /// All validators
-    /// </summary>
-    public IList<IHandlerValidator> Validators { get; set; } = new List<IHandlerValidator>();
 }
