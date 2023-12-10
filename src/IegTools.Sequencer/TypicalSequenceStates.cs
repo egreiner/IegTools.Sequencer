@@ -1,75 +1,33 @@
-﻿namespace IegTools.Sequencer;
+﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+namespace IegTools.Sequencer;
 
 /// <summary>
-/// Defines typical sequence states.
-/// The reason why this is not an enum is easy to inherit and extend.
-/// Build your own custom states and inherit from this class if the states are used internally only.
-/// Better use your own Enum if the states are used in public interfaces.
+/// The TypicalSequenceStates class defines a set of standard states for sequences.
+/// Designed as a class rather than an enum for greater flexibility, it allows easy inheritance and extension.
+/// Use this class to define internal sequence states within your application, offering the ability to add custom states as needed.
+/// For public interfaces, where a fixed set of states is preferable, consider defining an enum instead.
 /// </summary>
 public class TypicalSequenceStates
 {
-    /// <summary>
-    /// State Initializing
-    /// </summary>
     public readonly string Initializing = "Initializing";
-
-    /// <summary>
-    /// State Initialized
-    /// </summary>
     public readonly string Initialized  = "Initialized";
 
-    /// <summary>
-    /// State Enabled
-    /// </summary>
-    public readonly string Enabled = "Enabled";
-
-    /// <summary>
-    /// State Disabled
-    /// </summary>
+    public readonly string Enabled  = "Enabled";
     public readonly string Disabled = "Disabled";
 
-    /// <summary>
-    /// State On
-    /// </summary>
     public readonly string On  = "On";
-
-    /// <summary>
-    /// State Off
-    /// </summary>
     public readonly string Off = "Off";
 
-    /// <summary>
-    /// State WaitOn
-    /// </summary>
+    public readonly string Wait    = "Wait";
     public readonly string WaitOn  = "WaitOn";
-
-    /// <summary>
-    /// State WaitOff
-    /// </summary>
     public readonly string WaitOff = "WaitOff";
 
-    /// <summary>
-    /// State Activated
-    /// </summary>
-    public readonly string Activated = "Activated";
-
-    /// <summary>
-    /// State Deactivated
-    /// </summary>
+    public readonly string Activated   = "Activated";
     public readonly string Deactivated = "Deactivated";
 
-    /// <summary>
-    /// State Paused
-    /// </summary>
-    public readonly string Paused = "Paused";
-
-    /// <summary>
-    /// State Paused
-    /// </summary>
+    public readonly string Paused  = "Paused";
     public readonly string Resumed = "Resumed";
 
-    /// <summary>
-    /// State Prepared
-    /// </summary>
+    public readonly string Preparing = "Preparing";
     public readonly string Prepared  = "Prepared";
 }
