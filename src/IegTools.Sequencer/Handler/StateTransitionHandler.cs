@@ -1,5 +1,6 @@
 ﻿namespace IegTools.Sequencer.Handler;
 
+using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 
 /// <summary>
@@ -15,13 +16,15 @@ public class StateTransitionHandler : HandlerBase, IHasToState
     /// <param name="toState">The state the sequence will transition to when the condition is fulfilled</param>
     /// <param name="condition">The condition that must be fulfilled to execute the state-transition</param>
     /// <param name="action">The action that will be executed after the transition</param>
-    public StateTransitionHandler(string fromState, string toState, Func<bool> condition, Action action)
+    /// <param name="title">The transition title (for debugging or just to describe what is it for)</param>
+    public StateTransitionHandler(string fromState, string toState, Func<bool> condition, Action action, string title = "")
     {
         Name      = "State Transition";
         FromState = fromState;
         ToState   = toState;
         Condition = condition;
         Action    = action;
+        Title     = title;
     }
 
 
@@ -61,7 +64,8 @@ public class StateTransitionHandler : HandlerBase, IHasToState
     /// <param name="sequence">The sequence</param>
     public override void ExecuteAction(ISequence sequence)
     {
-        Logger?.Log(LogLevel.Debug, EventId, "{Method} - {Handler} -> from state '{StateFrom}' to state '{StateTo}'", "Execute Action", Name, FromState, ToState);
+        using var scope = GetLoggerScope("Execute Action");
+        Logger?.Log(LogLevel.Debug, EventId, "{Handler} -> from state '{StateFrom}' to state '{StateTo}'", Name, FromState, ToState);
 
         sequence.SetState(ToState);
         Action?.Invoke();

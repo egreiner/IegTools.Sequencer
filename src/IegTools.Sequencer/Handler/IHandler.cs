@@ -11,6 +11,11 @@ public interface IHandler
     string Name { get; }
 
     /// <summary>
+    /// The title of the transition
+    /// </summary>
+    string Title { get; }
+
+    /// <summary>
     /// The Sequence-Configuration
     /// </summary>
     SequenceConfiguration Configuration { get; set; }

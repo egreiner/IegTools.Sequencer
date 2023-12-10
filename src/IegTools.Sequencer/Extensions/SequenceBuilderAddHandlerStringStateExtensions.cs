@@ -27,6 +27,24 @@ public static class SequenceBuilderAddHandlerStringStateExtensions
     }
 
     /// <summary>
+    /// Adds a 'state to state'-transition.
+    /// The state transition will be executed if the constraint is complied.
+    /// The action will be executed just once, at the moment when the constraint is complied.
+    /// </summary>
+    /// <param name="builder">The sequence-builder</param>
+    /// <param name="title">The transition title (for debugging or just to describe what is it for)</param>
+    /// <param name="currentState">The current state.</param>
+    /// <param name="nextState">The next state.</param>
+    /// <param name="constraint">The constraint.</param>
+    /// <param name="action">The action that should be executed.</param>
+    public static ISequenceBuilder AddTransition(this ISequenceBuilder builder, string title, string currentState, string nextState, Func<bool> constraint, Action action = null)
+    {
+        builder.AddInitialStates(currentState, nextState);
+        return builder.AddHandler(
+            new StateTransitionHandler(currentState, nextState, constraint, action, title));
+    }
+
+    /// <summary>
     /// Adds a 'state_s_ to state'-transition.
     /// The state transition will be executed if
     /// the CurrentState contains a substring of the currentStateContains

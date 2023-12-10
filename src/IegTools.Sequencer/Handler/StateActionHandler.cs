@@ -61,7 +61,8 @@ public class StateActionHandler : HandlerBase
     {
         if (!_loggingDone)
         {
-            Logger?.Log(LogLevel.Debug, EventId, "{Method} - {Handler} -> in {StateTo}", "Execute Action", Name, State);
+            using var scope = GetLoggerScope("Execute Action");
+            Logger?.Log(LogLevel.Debug, EventId, "{Handler} -> in state '{StateTo}'", Name, State);
             _loggingDone = true;
         }
 

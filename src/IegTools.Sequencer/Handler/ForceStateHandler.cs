@@ -64,7 +64,8 @@ public class ForceStateHandler : HandlerBase, IHasToState
     {
         if (!_loggingDone)
         {
-            Logger?.Log(LogLevel.Debug, EventId, "{Method} - {Handler} Forced to {StateTo}", "Execute Action", Name, ToState);
+            using var scope = GetLoggerScope("Execute Action");
+            Logger?.Log(LogLevel.Debug, EventId, "{Handler} -> Forced to state '{StateTo}'", Name, ToState);
             _loggingDone = true;
         }
 

@@ -1,5 +1,6 @@
 ﻿namespace IegTools.Sequencer.Handler;
 
+using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 
 /// <summary>
@@ -10,10 +11,11 @@ public abstract class HandlerBase : IHandler
     private TimeSpan? _allowOnlyOnceTimeSpan;
 
 
-    /// <summary>
-    /// The handlers name
-    /// </summary>
+    /// <inheritdoc />
     public string Name { get; protected init; }
+
+    /// <inheritdoc />
+    public string Title { get; protected init;} = string.Empty;
 
     /// <inheritdoc />
     public SequenceConfiguration Configuration { get; set; }
@@ -86,5 +88,18 @@ public abstract class HandlerBase : IHandler
         LastExecutedAt = DateTime.Now;
 
         return true;
+    }
+
+    /// <summary>
+    /// Returns a logger scope
+    /// </summary>
+    /// <param name="methodName">The method-name</param>
+    protected IDisposable GetLoggerScope(string methodName)
+    {
+        return Logger?.BeginScope(new Dictionary<string, object>
+        {
+            { "Title", Title },
+            { "Method", methodName },
+        });
     }
 }
