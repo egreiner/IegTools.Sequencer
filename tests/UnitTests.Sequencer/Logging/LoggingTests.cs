@@ -1,7 +1,5 @@
 namespace UnitTests.Sequencer.Logging;
 
-using NSubstitute.Extensions;
-
 public class LoggingTests
 {
     [Fact]
@@ -11,7 +9,7 @@ public class LoggingTests
 
         _ = SequenceBuilder.Configure(config =>
             config.SetInitialState("Off")
-                .ActivateDebugLogging(logger, new EventId(-1))
+                .ActivateDebugLogging(logger, new EventId(-1, "Test EventId"))
         );
 
         logger.Received(0).Log(
@@ -53,5 +51,4 @@ public class LoggingTests
             Arg.Any<Exception>(),
             Arg.Any<Func<object, Exception?, string>>());
     }
-
 }

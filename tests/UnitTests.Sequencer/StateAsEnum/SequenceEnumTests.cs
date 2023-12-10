@@ -95,7 +95,29 @@ public class SequenceEnumTests
         {
             builder.SetInitialState(InitialState);
             builder.AddTransition(TestEnum.State1, TestEnum.State2, () => constraint)
-                   .DisableValidation();
+                .DisableValidation();
+        });
+
+        var sut = builder.Build();
+
+        sut.SetState(currentState);
+        sut.Run();
+
+        sut.CurrentState.Should().Be(expected.ToString());
+    }
+
+    [Theory]
+    [InlineData(TestEnum.State1, true, TestEnum.State2)]
+    [InlineData(TestEnum.State1, false, TestEnum.State1)]
+    [InlineData(TestEnum.StateX, true, TestEnum.InitialState)]
+    [InlineData(TestEnum.StateX, false, TestEnum.InitialState)]
+    public void Test_Constrain_Add_Conditional_State_with_Title(TestEnum currentState, bool constraint, TestEnum expected)
+    {
+        var builder = SequenceBuilder.Configure(builder =>
+        {
+            builder.SetInitialState(InitialState);
+            builder.AddTransition("Test description", TestEnum.State1, TestEnum.State2, () => constraint)
+                .DisableValidation();
         });
 
         var sut = builder.Build();
