@@ -11,37 +11,33 @@ public static class SequenceBuilderAddHandlerStringStateExtensions
 {
     /// <summary>
     /// Adds a 'state to state'-transition.
-    /// The state transition will be executed if the constraint is complied.
-    /// The action will be executed just once, at the moment when the constraint is complied.
+    /// The state transition will be executed if the condition is complied.
+    /// The action will be executed just once, at the moment when the condition is complied.
     /// </summary>
     /// <param name="builder">The sequence-builder</param>
     /// <param name="currentState">The current state.</param>
     /// <param name="nextState">The next state.</param>
-    /// <param name="constraint">The constraint.</param>
+    /// <param name="condition">The condition.</param>
     /// <param name="action">The action that should be executed.</param>
-    public static ISequenceBuilder AddTransition(this ISequenceBuilder builder, string currentState, string nextState, Func<bool> constraint, Action action = null)
-    {
-        builder.AddInitialStates(currentState, nextState);
-        return builder.AddHandler(
-            new StateTransitionHandler(currentState, nextState, constraint, action));
-    }
+    public static ISequenceBuilder AddTransition(this ISequenceBuilder builder, string currentState, string nextState, Func<bool> condition, Action action = null) =>
+        builder.AddTransition(string.Empty, currentState, nextState, condition, action);
 
     /// <summary>
     /// Adds a 'state to state'-transition.
-    /// The state transition will be executed if the constraint is complied.
-    /// The action will be executed just once, at the moment when the constraint is complied.
+    /// The state transition will be executed if the condition is complied.
+    /// The action will be executed just once, at the moment when the condition is complied.
     /// </summary>
     /// <param name="builder">The sequence-builder</param>
     /// <param name="title">The transition title (for debugging or just to describe what is it for)</param>
     /// <param name="currentState">The current state.</param>
     /// <param name="nextState">The next state.</param>
-    /// <param name="constraint">The constraint.</param>
+    /// <param name="condition">The condition.</param>
     /// <param name="action">The action that should be executed.</param>
-    public static ISequenceBuilder AddTransition(this ISequenceBuilder builder, string title, string currentState, string nextState, Func<bool> constraint, Action action = null)
+    public static ISequenceBuilder AddTransition(this ISequenceBuilder builder, string title, string currentState, string nextState, Func<bool> condition, Action action = null)
     {
-        builder.AddInitialStates(currentState, nextState);
+        builder.SetInitialStatesIfTagged(currentState, nextState);
         return builder.AddHandler(
-            new StateTransitionHandler(currentState, nextState, constraint, action, title));
+            new StateTransitionHandler(currentState, nextState, condition, action, title));
     }
 
 
@@ -53,20 +49,16 @@ public static class SequenceBuilderAddHandlerStringStateExtensions
     /// (eg1. CurrentState 'ActivatedByApi' contains 'Activated')
     /// (eg2. CurrentState 'ActivatedByApi' contains 'ByApi')
     /// (eg3. CurrentState 'ActivatedByApi' contains 'tedBy')
-    /// and the constraint is complied.
-    /// The action will be executed just once, at the moment when the constraint is complied.
+    /// and the condition is complied.
+    /// The action will be executed just once, at the moment when the condition is complied.
     /// </summary>
     /// <param name="builder">The sequence-builder</param>
     /// <param name="currentStateContains">Does current-state contains this substring?</param>
     /// <param name="nextState">The next state.</param>
-    /// <param name="constraint">The constraint.</param>
+    /// <param name="condition">The condition.</param>
     /// <param name="action">The action that should be executed.</param>
-    public static ISequenceBuilder AddContainsTransition(this ISequenceBuilder builder, string currentStateContains, string nextState, Func<bool> constraint, Action action = null)
-    {
-        builder.AddInitialStates(nextState);
-        return builder.AddHandler(
-            new ContainsStateTransitionHandler(currentStateContains, nextState, constraint, action));
-    }
+    public static ISequenceBuilder AddContainsTransition(this ISequenceBuilder builder, string currentStateContains, string nextState, Func<bool> condition, Action action = null) =>
+        builder.AddContainsTransition(string.Empty, currentStateContains, nextState, condition, action);
 
     /// <summary>
     /// Adds a 'state_s_ to state'-transition.
@@ -75,20 +67,20 @@ public static class SequenceBuilderAddHandlerStringStateExtensions
     /// (eg1. CurrentState 'ActivatedByApi' contains 'Activated')
     /// (eg2. CurrentState 'ActivatedByApi' contains 'ByApi')
     /// (eg3. CurrentState 'ActivatedByApi' contains 'tedBy')
-    /// and the constraint is complied.
-    /// The action will be executed just once, at the moment when the constraint is complied.
+    /// and the condition is complied.
+    /// The action will be executed just once, at the moment when the condition is complied.
     /// </summary>
     /// <param name="builder">The sequence-builder</param>
     /// <param name="title">The transition title (for debugging or just to describe what is it for)</param>
     /// <param name="currentStateContains">Does current-state contains this substring?</param>
     /// <param name="nextState">The next state.</param>
-    /// <param name="constraint">The constraint.</param>
+    /// <param name="condition">The condition.</param>
     /// <param name="action">The action that should be executed.</param>
-    public static ISequenceBuilder AddContainsTransition(this ISequenceBuilder builder, string title, string currentStateContains, string nextState, Func<bool> constraint, Action action = null)
+    public static ISequenceBuilder AddContainsTransition(this ISequenceBuilder builder, string title, string currentStateContains, string nextState, Func<bool> condition, Action action = null)
     {
-        builder.AddInitialStates(nextState);
+        builder.SetInitialStatesIfTagged(nextState);
         return builder.AddHandler(
-            new ContainsStateTransitionHandler(currentStateContains, nextState, constraint, action, title));
+            new ContainsStateTransitionHandler(currentStateContains, nextState, condition, action, title));
     }
 
 
@@ -98,44 +90,38 @@ public static class SequenceBuilderAddHandlerStringStateExtensions
     /// The state transition will be executed if
     /// the CurrentState is one of the specified compareStates
     /// (eg. CurrentState is compareState1 or compareState2 or...) 
-    /// and the constraint is complied.
-    /// The action will be executed just once, at the moment when the constraint is complied.
+    /// and the condition is complied.
+    /// The action will be executed just once, at the moment when the condition is complied.
     /// </summary>
     /// <param name="builder">The sequence-builder</param>
     /// <param name="compareStates">The state(s) that will be compared with the current state.</param>
     /// <param name="nextState">The next state.</param>
-    /// <param name="constraint">The constraint.</param>
+    /// <param name="condition">The condition.</param>
     /// <param name="action">The action that should be executed.</param>
-    public static ISequenceBuilder AddAnyTransition(this ISequenceBuilder builder, string[] compareStates, string nextState, Func<bool> constraint, Action action = null)
-    {
-        builder.AddInitialStates(compareStates);
-        builder.AddInitialStates(nextState);
-        
-        return builder.AddHandler(
-            new AnyStateTransitionHandler(compareStates, nextState, constraint, action));
-    }
+    public static ISequenceBuilder AddAnyTransition(this ISequenceBuilder builder, string[] compareStates, string nextState, Func<bool> condition, Action action = null) =>
+        builder.AddAnyTransition(string.Empty, compareStates, nextState, condition, action);
 
     /// <summary>
     /// Adds a 'state_s_ to state'-transition.
     /// The state transition will be executed if
     /// the CurrentState is one of the specified compareStates
     /// (eg. CurrentState is compareState1 or compareState2 or...)
-    /// and the constraint is complied.
-    /// The action will be executed just once, at the moment when the constraint is complied.
+    /// and the condition is complied.
+    /// The action will be executed just once, at the moment when the condition is complied.
     /// </summary>
     /// <param name="builder">The sequence-builder</param>
     /// <param name="title">The transition title (for debugging or just to describe what is it for)</param>
     /// <param name="compareStates">The state(s) that will be compared with the current state.</param>
     /// <param name="nextState">The next state.</param>
-    /// <param name="constraint">The constraint.</param>
+    /// <param name="condition">The condition.</param>
     /// <param name="action">The action that should be executed.</param>
-    public static ISequenceBuilder AddAnyTransition(this ISequenceBuilder builder, string title, string[] compareStates, string nextState, Func<bool> constraint, Action action = null)
+    public static ISequenceBuilder AddAnyTransition(this ISequenceBuilder builder, string title, string[] compareStates, string nextState, Func<bool> condition, Action action = null)
     {
-        builder.AddInitialStates(compareStates);
-        builder.AddInitialStates(nextState);
+        builder.SetInitialStatesIfTagged(compareStates);
+        builder.SetInitialStatesIfTagged(nextState);
 
         return builder.AddHandler(
-            new AnyStateTransitionHandler(compareStates, nextState, constraint, action, title));
+            new AnyStateTransitionHandler(compareStates, nextState, condition, action, title));
     }
 
 
@@ -146,13 +132,9 @@ public static class SequenceBuilderAddHandlerStringStateExtensions
     /// <param name="builder">The sequence-builder</param>
     /// <param name="state">The state where the action should be invoked</param>
     /// <param name="action">The action.</param>
-    /// <param name="constraint">The constraint that must be fulfilled that the sequence executes the action, default is true.</param>
-    public static ISequenceBuilder AddStateAction(this ISequenceBuilder builder, string state, Action action, Func<bool> constraint = null)
-    {
-        builder.AddInitialStates(state);
-        return builder.AddHandler(new StateActionHandler(state, action)
-            { Condition = constraint });
-    }
+    /// <param name="condition">The condition that must be fulfilled that the sequence executes the action, default is true.</param>
+    public static ISequenceBuilder AddStateAction(this ISequenceBuilder builder, string state, Action action, Func<bool> condition = null) =>
+        builder.AddStateAction(string.Empty, state, action, condition);
 
     /// <summary>
     /// Adds a state action that should be executed during the state is active.
@@ -161,49 +143,45 @@ public static class SequenceBuilderAddHandlerStringStateExtensions
     /// <param name="title">The transition title (for debugging or just to describe what is it for)</param>
     /// <param name="state">The state where the action should be invoked</param>
     /// <param name="action">The action.</param>
-    /// <param name="constraint">The constraint that must be fulfilled that the sequence executes the action, default is true.</param>
-    public static ISequenceBuilder AddStateAction(this ISequenceBuilder builder, string title, string state, Action action, Func<bool> constraint = null)
+    /// <param name="condition">The condition that must be fulfilled that the sequence executes the action, default is true.</param>
+    public static ISequenceBuilder AddStateAction(this ISequenceBuilder builder, string title, string state, Action action, Func<bool> condition = null)
     {
-        builder.AddInitialStates(state);
-        return builder.AddHandler(new StateActionHandler(state, action, title)
-            { Condition = constraint });
+        builder.SetInitialStatesIfTagged(state);
+        return builder.AddHandler(new StateActionHandler(state, condition, action, title));
     }
 
 
 
     /// <summary>
     /// Adds a ForceStateHandler to the sequence-handler.
-    /// If the constraint is fulfilled on execution the CurrentState will be set to the state
+    /// If the condition is fulfilled on execution the CurrentState will be set to the state
     /// and further execution of the sequence will be prevented.
     /// </summary>
     /// <param name="builder">The sequence-builder</param>
     /// <param name="state">The state that should be forced.</param>
-    /// <param name="constraint">The constraint that must be fulfilled that the sequence is forced to the defined state.</param>
+    /// <param name="condition">The condition that must be fulfilled that the sequence is forced to the defined state.</param>
     /// <param name="action">The action.</param>
-    public static ISequenceBuilder AddForceState(this ISequenceBuilder builder, string state, Func<bool> constraint, Action action = null)
-    {
-        builder.AddInitialStates(state);
-        return builder.AddHandler(new ForceStateHandler(state, constraint, action));
-    }
+    public static ISequenceBuilder AddForceState(this ISequenceBuilder builder, string state, Func<bool> condition, Action action = null) =>
+        builder.AddForceState(string.Empty, state, condition, action);
 
     /// <summary>
     /// Adds a ForceStateHandler to the sequence-handler.
-    /// If the constraint is fulfilled on execution the CurrentState will be set to the state
+    /// If the condition is fulfilled on execution the CurrentState will be set to the state
     /// and further execution of the sequence will be prevented.
     /// </summary>
     /// <param name="builder">The sequence-builder</param>
     /// <param name="title">The transition title (for debugging or just to describe what is it for)</param>
     /// <param name="state">The state that should be forced.</param>
-    /// <param name="constraint">The constraint that must be fulfilled that the sequence is forced to the defined state.</param>
+    /// <param name="condition">The condition that must be fulfilled that the sequence is forced to the defined state.</param>
     /// <param name="action">The action.</param>
-    public static ISequenceBuilder AddForceState(this ISequenceBuilder builder, string title, string state, Func<bool> constraint, Action action = null)
+    public static ISequenceBuilder AddForceState(this ISequenceBuilder builder, string title, string state, Func<bool> condition, Action action = null)
     {
-        builder.AddInitialStates(state);
-        return builder.AddHandler(new ForceStateHandler(state, constraint, action, title));
+        builder.SetInitialStatesIfTagged(state);
+        return builder.AddHandler(new ForceStateHandler(state, condition, action, title));
     }
 
 
-    private static void AddInitialStates(this ISequenceBuilder builder, params string[] states)
+    private static void SetInitialStatesIfTagged(this ISequenceBuilder builder, params string[] states)
     {
         foreach (var state in states.Where(state => state.StartsWith(builder.InitialStateTag())))
             builder.SetInitialState(state);

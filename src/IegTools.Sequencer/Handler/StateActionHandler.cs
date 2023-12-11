@@ -14,10 +14,11 @@ public class StateActionHandler : HandlerBase
     /// This handler is responsible for linking a specific state to its corresponding action.
     /// </summary>
     /// <param name="state">This is the state to which the action is associated. It should be defined within the context of the sequence's possible states.</param>
+    /// <param name="condition">The constraint that must be fulfilled that the sequence executes the action, default is true.</param>
     /// <param name="action">The action that will be executed when the sequence is in the defined state</param>
     /// <param name="title">The transition title (for debugging or just to describe what is it for)</param>
-    public StateActionHandler(string state, Action action, string title = "")
-        : base(() => true, action, title)
+    public StateActionHandler(string state, Func<bool> condition, Action action, string title = "")
+        : base(condition, action, title)
     {
         Name   = "State Action";
         State  = state;

@@ -47,4 +47,27 @@ public class StateActionHandlerTests
 
         result.Should().Be(expected);
     }
+
+    [Theory]
+    [InlineData(">State1", true,  01)]
+    [InlineData(">State1", false, 00)]
+    [InlineData(">State2", true,  10)]
+    [InlineData(">State2", false, 00)]
+    public void Test_AddStateActionHandler_with_Condition(string state, bool condition, int expected)
+    {
+        var result = 0;
+        var builder = SequenceBuilder.Configure(builder =>
+        {
+            builder.AddStateAction(">State1", () => result = 01, () => condition);
+            builder.AddStateAction(">State2", () => result = 10, () => condition)
+                .DisableValidation();
+        });
+
+        var sut = builder.Build();
+
+        sut.SetState(state);
+        sut.Run();
+
+        result.Should().Be(expected);
+    }
 }
