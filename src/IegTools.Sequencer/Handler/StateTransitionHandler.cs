@@ -18,13 +18,11 @@ public class StateTransitionHandler : HandlerBase, IHasToState
     /// <param name="action">The action that will be executed after the transition</param>
     /// <param name="title">The transition title (for debugging or just to describe what is it for)</param>
     public StateTransitionHandler(string fromState, string toState, Func<bool> condition, Action action, string title = "")
+        : base(condition, action, title)
     {
         Name      = "State Transition";
         FromState = fromState;
         ToState   = toState;
-        Condition = condition;
-        Action    = action;
-        Title     = title;
     }
 
 
@@ -65,7 +63,7 @@ public class StateTransitionHandler : HandlerBase, IHasToState
     public override void ExecuteAction(ISequence sequence)
     {
         using var scope = GetLoggerScope("Execute Action");
-        Logger?.Log(LogLevel.Debug, EventId, "{Handler} -> from state '{StateFrom}' to state '{StateTo}'", Name, FromState, ToState);
+        Logger?.Log(LogLevel.Debug, EventId, "{Handler} -> from state {StateFrom} to state {StateTo}", Name, FromState, ToState);
 
         sequence.SetState(ToState);
         Action?.Invoke();

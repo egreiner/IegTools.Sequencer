@@ -15,11 +15,12 @@ public class StateActionHandler : HandlerBase
     /// </summary>
     /// <param name="state">This is the state to which the action is associated. It should be defined within the context of the sequence's possible states.</param>
     /// <param name="action">The action that will be executed when the sequence is in the defined state</param>
-    public StateActionHandler(string state, Action action)
+    /// <param name="title">The transition title (for debugging or just to describe what is it for)</param>
+    public StateActionHandler(string state, Action action, string title = "")
+        : base(() => true, action, title)
     {
         Name   = "State Action";
         State  = state;
-        Action = action;
     }
 
     
@@ -62,7 +63,7 @@ public class StateActionHandler : HandlerBase
         if (!_loggingDone)
         {
             using var scope = GetLoggerScope("Execute Action");
-            Logger?.Log(LogLevel.Debug, EventId, "{Handler} -> in state '{StateTo}'", Name, State);
+            Logger?.Log(LogLevel.Debug, EventId, "{Handler} -> in state {StateTo}", Name, State);
             _loggingDone = true;
         }
 

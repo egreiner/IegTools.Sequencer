@@ -10,12 +10,25 @@ public abstract class HandlerBase : IHandler
 {
     private TimeSpan? _allowOnlyOnceTimeSpan;
 
+    /// <summary>
+    /// Creates a new instance of the <see cref="HandlerBase"/>
+    /// </summary>
+    /// <param name="condition">The condition that must be fulfilled to execute the state-transition</param>
+    /// <param name="action">The action that will be executed after the transition</param>
+    /// <param name="title">The transition title (for debugging or just to describe what is it for)</param>
+    protected HandlerBase(Func<bool> condition, Action action, string title)
+    {
+        Condition = condition;
+        Action    = action;
+        Title     = title;
+    }
+
 
     /// <inheritdoc />
     public string Name { get; protected init; }
 
     /// <inheritdoc />
-    public string Title { get; protected init;} = string.Empty;
+    public string Title { get; }
 
     /// <inheritdoc />
     public SequenceConfiguration Configuration { get; set; }

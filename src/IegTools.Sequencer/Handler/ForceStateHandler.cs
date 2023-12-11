@@ -15,13 +15,13 @@ public class ForceStateHandler : HandlerBase, IHasToState
     /// <param name="toState">The state the sequence will transition to when the condition is fulfilled</param>
     /// <param name="condition">The condition that must be fulfilled to execute the state-transition</param>
     /// <param name="action">The action that will be executed after the transition</param>
-    public ForceStateHandler(string toState, Func<bool> condition, Action action)
+    /// <param name="title">The transition title (for debugging or just to describe what is it for)</param>
+    public ForceStateHandler(string toState, Func<bool> condition, Action action, string title = "")
+        : base(condition, action, title)
     {
         Name           = "Force State";
         ToState        = toState;
-        Condition      = condition;
         ResumeSequence = false;
-        Action         = action;
     }
 
 
@@ -65,7 +65,7 @@ public class ForceStateHandler : HandlerBase, IHasToState
         if (!_loggingDone)
         {
             using var scope = GetLoggerScope("Execute Action");
-            Logger?.Log(LogLevel.Debug, EventId, "{Handler} -> Forced to state '{StateTo}'", Name, ToState);
+            Logger?.Log(LogLevel.Debug, EventId, "{Handler} -> Forced to state {StateTo}", Name, ToState);
             _loggingDone = true;
         }
 

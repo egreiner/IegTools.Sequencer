@@ -17,13 +17,13 @@ public class AnyStateTransitionHandler : HandlerBase, IHasToState
     /// <param name="toState">The state the sequence will transition to when the condition is fulfilled</param>
     /// <param name="condition">The condition that must be fulfilled to execute the state-transition</param>
     /// <param name="action">The action that will be executed after the transition</param>
-    public AnyStateTransitionHandler(string[] fromStates, string toState, Func<bool> condition, Action action)
+    /// <param name="title">The transition title (for debugging or just to describe what is it for)</param>
+    public AnyStateTransitionHandler(string[] fromStates, string toState, Func<bool> condition, Action action, string title = "")
+        : base(condition, action, title)
     {
         Name       = "Any-State Transition";
         FromStates = fromStates;
         ToState    = toState;
-        Condition  = condition;
-        Action     = action;
     }
 
 
@@ -64,7 +64,7 @@ public class AnyStateTransitionHandler : HandlerBase, IHasToState
     public override void ExecuteAction(ISequence sequence)
     {
         using var scope = GetLoggerScope("Execute Action");
-        Logger?.Log(LogLevel.Debug, EventId, "{Handler} -> from state '{StateFrom}' to state '{StateTo}'", Name, Sequence.CurrentState, ToState);
+        Logger?.Log(LogLevel.Debug, EventId, "{Handler} -> from state {StateFrom} to state {StateTo}", Name, Sequence.CurrentState, ToState);
 
         sequence.SetState(ToState);
         Action?.Invoke();
