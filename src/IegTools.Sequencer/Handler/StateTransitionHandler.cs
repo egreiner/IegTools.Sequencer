@@ -16,9 +16,9 @@ public class StateTransitionHandler : HandlerBase, IHasToState
     /// <param name="toState">The state the sequence will transition to when the condition is fulfilled</param>
     /// <param name="condition">The condition that must be fulfilled to execute the state-transition</param>
     /// <param name="action">The action that will be executed after the transition</param>
-    /// <param name="title">The transition title (for debugging or just to describe what is it for)</param>
-    public StateTransitionHandler(string fromState, string toState, Func<bool> condition, Action action, string title = "")
-        : base(condition, action, title)
+    /// <param name="description">The transition description (for debugging or just to describe what is it for)</param>
+    public StateTransitionHandler(string fromState, string toState, Func<bool> condition, Action action, string description = "")
+        : base(condition, action, description)
     {
         Name      = "State Transition";
         FromState = fromState;

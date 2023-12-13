@@ -15,12 +15,12 @@ public abstract class HandlerBase : IHandler
     /// </summary>
     /// <param name="condition">The condition that must be fulfilled to execute the state-transition</param>
     /// <param name="action">The action that will be executed after the transition</param>
-    /// <param name="title">The transition title (for debugging or just to describe what is it for)</param>
-    protected HandlerBase(Func<bool> condition, Action action, string title)
+    /// <param name="description">The transition description (for debugging or just to describe what is it for)</param>
+    protected HandlerBase(Func<bool> condition, Action action, string description)
     {
-        Condition = condition;
-        Action    = action;
-        Title     = title;
+        Condition   = condition;
+        Action      = action;
+        Description = description;
     }
 
 
@@ -28,7 +28,7 @@ public abstract class HandlerBase : IHandler
     public string Name { get; protected init; }
 
     /// <inheritdoc />
-    public string Title { get; }
+    public string Description { get; }
 
     /// <inheritdoc />
     public SequenceConfiguration Configuration { get; set; }
@@ -38,7 +38,7 @@ public abstract class HandlerBase : IHandler
     public Func<bool> Condition { get; set; }
 
     /// <inheritdoc />
-    public Action Action        { get; set; }
+    public Action Action { get; set; }
 
     /// <inheritdoc />
     public DateTime LastExecutedAt { get; private set; }
@@ -62,7 +62,6 @@ public abstract class HandlerBase : IHandler
     /// The Sequence that this handler is bound to
     /// </summary>
     protected ISequence Sequence => Configuration.Sequence;
-
 
 
     /// <summary>
@@ -111,7 +110,7 @@ public abstract class HandlerBase : IHandler
     {
         return Logger?.BeginScope(new Dictionary<string, object>
         {
-            { "Title", Title },
+            { "Description", Description },
             { "Method", methodName },
         });
     }

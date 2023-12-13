@@ -13,7 +13,7 @@ public interface IHandler
     /// <summary>
     /// The title of the transition
     /// </summary>
-    string Title { get; }
+    string Description { get; }
 
     /// <summary>
     /// The Sequence-Configuration
