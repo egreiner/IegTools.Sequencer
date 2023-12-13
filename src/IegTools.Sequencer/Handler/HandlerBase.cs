@@ -107,7 +107,7 @@ public abstract class HandlerBase : IHandler
     /// </summary>
     /// <param name="methodName">The method-name</param>
     protected IDisposable GetSequenceLoggerScope(string methodName) =>
-        Logger.BeginScope(new Dictionary<string, object>
+        Logger?.BeginScope(new Dictionary<string, object>
         {
             { "Description", Description ?? string.Empty },
             { "Seq-Stopwatch", Configuration.Sequence.Stopwatch.Elapsed },
