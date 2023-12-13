@@ -9,6 +9,8 @@ using Handler;
 /// </summary>
 public static class SequenceBuilderAddHandlerStringStateExtensions
 {
+    private const string DefaultDescription = "no description available";
+
     /// <summary>
     /// Adds a 'state to state'-transition.
     /// The state transition will be executed if the condition is complied.
@@ -20,7 +22,7 @@ public static class SequenceBuilderAddHandlerStringStateExtensions
     /// <param name="condition">The condition.</param>
     /// <param name="action">The action that should be executed.</param>
     public static ISequenceBuilder AddTransition(this ISequenceBuilder builder, string currentState, string nextState, Func<bool> condition, Action action = null) =>
-        builder.AddTransition(string.Empty, currentState, nextState, condition, action);
+        builder.AddTransition(DefaultDescription, currentState, nextState, condition, action);
 
     /// <summary>
     /// Adds a 'state to state'-transition.
@@ -58,7 +60,7 @@ public static class SequenceBuilderAddHandlerStringStateExtensions
     /// <param name="condition">The condition.</param>
     /// <param name="action">The action that should be executed.</param>
     public static ISequenceBuilder AddContainsTransition(this ISequenceBuilder builder, string currentStateContains, string nextState, Func<bool> condition, Action action = null) =>
-        builder.AddContainsTransition(string.Empty, currentStateContains, nextState, condition, action);
+        builder.AddContainsTransition(DefaultDescription, currentStateContains, nextState, condition, action);
 
     /// <summary>
     /// Adds a 'state_s_ to state'-transition.
@@ -99,7 +101,7 @@ public static class SequenceBuilderAddHandlerStringStateExtensions
     /// <param name="condition">The condition.</param>
     /// <param name="action">The action that should be executed.</param>
     public static ISequenceBuilder AddAnyTransition(this ISequenceBuilder builder, string[] compareStates, string nextState, Func<bool> condition, Action action = null) =>
-        builder.AddAnyTransition(string.Empty, compareStates, nextState, condition, action);
+        builder.AddAnyTransition(DefaultDescription, compareStates, nextState, condition, action);
 
     /// <summary>
     /// Adds a 'state_s_ to state'-transition.
@@ -134,7 +136,7 @@ public static class SequenceBuilderAddHandlerStringStateExtensions
     /// <param name="action">The action.</param>
     /// <param name="condition">The condition that must be fulfilled that the sequence executes the action, default is true.</param>
     public static ISequenceBuilder AddStateAction(this ISequenceBuilder builder, string state, Action action, Func<bool> condition = null) =>
-        builder.AddStateAction(string.Empty, state, action, condition);
+        builder.AddStateAction(DefaultDescription, state, action, condition);
 
     /// <summary>
     /// Adds a state action that should be executed during the state is active.
@@ -162,7 +164,7 @@ public static class SequenceBuilderAddHandlerStringStateExtensions
     /// <param name="condition">The condition that must be fulfilled that the sequence is forced to the defined state.</param>
     /// <param name="action">The action.</param>
     public static ISequenceBuilder AddForceState(this ISequenceBuilder builder, string state, Func<bool> condition, Action action = null) =>
-        builder.AddForceState(string.Empty, state, condition, action);
+        builder.AddForceState(DefaultDescription, state, condition, action);
 
     /// <summary>
     /// Adds a ForceStateHandler to the sequence-handler.
