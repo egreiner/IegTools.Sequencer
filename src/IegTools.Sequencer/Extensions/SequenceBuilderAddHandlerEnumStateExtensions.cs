@@ -30,15 +30,15 @@ public static class SequenceBuilderAddHandlerEnumStateExtensions
     /// The action will be executed just once, at the moment when the condition is complied.
     /// </summary>
     /// <param name="builder">The sequence-builder</param>
-    /// <param name="title">The transition title (for debugging or just to describe what is it for)</param>
+    /// <param name="description">The transition description (for debugging or just to describe what is it for)</param>
     /// <param name="currentState">The current state</param>
     /// <param name="nextState">The next state</param>
     /// <param name="condition">The condition</param>
     /// <param name="action">The action that should be executed.</param>
     public static ISequenceBuilder AddTransition<T>(
-        this ISequenceBuilder builder, string title, T currentState, T nextState, Func<bool> condition, Action action = null)
+        this ISequenceBuilder builder, string description, T currentState, T nextState, Func<bool> condition, Action action = null)
         where T : Enum =>
-        builder.AddTransition(title, currentState.ToString(), nextState.ToString(), condition, action);
+        builder.AddTransition(description, currentState.ToString(), nextState.ToString(), condition, action);
 
 
 
@@ -73,15 +73,15 @@ public static class SequenceBuilderAddHandlerEnumStateExtensions
     /// The action will be executed just once, at the moment when the condition is complied.
     /// </summary>
     /// <param name="builder">The sequence-builder</param>
-    /// <param name="title">The transition title (for debugging or just to describe what is it for)</param>
+    /// <param name="description">The transition description (for debugging or just to describe what is it for)</param>
     /// <param name="currentStateContains">Does current-state contains this substring?</param>
     /// <param name="nextState">The next state.</param>
     /// <param name="condition">The condition.</param>
     /// <param name="action">The action that should be executed.</param>
     public static ISequenceBuilder AddContainsTransition<T>(
-        this ISequenceBuilder builder, string title, string currentStateContains, T nextState, Func<bool> condition, Action action = null)
+        this ISequenceBuilder builder, string description, string currentStateContains, T nextState, Func<bool> condition, Action action = null)
         where T : Enum =>
-        builder.AddContainsTransition(title, currentStateContains, nextState.ToString(), condition, action);
+        builder.AddContainsTransition(description, currentStateContains, nextState.ToString(), condition, action);
 
 
 
@@ -107,15 +107,15 @@ public static class SequenceBuilderAddHandlerEnumStateExtensions
     /// The action will be executed just once, at the moment when the condition is complied.
     /// </summary>
     /// <param name="builder">The sequence-builder</param>
-    /// <param name="title">The transition title (for debugging or just to describe what is it for)</param>
+    /// <param name="description">The transition description (for debugging or just to describe what is it for)</param>
     /// <param name="compareStates">The state(s) that will be compared with the current state.</param>
     /// <param name="nextState">The next state</param>
     /// <param name="condition">The condition</param>
     /// <param name="action">The action that should be executed.</param>
     public static ISequenceBuilder AddAnyTransition<T>(
-        this ISequenceBuilder builder, string title, T[] compareStates, T nextState, Func<bool> condition, Action action = null)
+        this ISequenceBuilder builder, string description, T[] compareStates, T nextState, Func<bool> condition, Action action = null)
         where T : Enum =>
-        builder.AddAnyTransition(title, compareStates.Select(x => x.ToString()).ToArray(), nextState.ToString(), condition, action);
+        builder.AddAnyTransition(description, compareStates.Select(x => x.ToString()).ToArray(), nextState.ToString(), condition, action);
 
 
 
@@ -134,13 +134,13 @@ public static class SequenceBuilderAddHandlerEnumStateExtensions
     /// Adds a state action that should be executed during the state is active.
     /// </summary>
     /// <param name="builder">The sequence-builder</param>
-    /// <param name="title">The transition title (for debugging or just to describe what is it for)</param>
+    /// <param name="description">The transition description (for debugging or just to describe what is it for)</param>
     /// <param name="state">State of the current.</param>
     /// <param name="action">The action.</param>
     /// <param name="condition">The condition that must be fulfilled that the sequence executes the action, default is true.</param>
-    public static ISequenceBuilder AddStateAction<T>(this ISequenceBuilder builder, string title, T state, Action action, Func<bool> condition = null)
+    public static ISequenceBuilder AddStateAction<T>(this ISequenceBuilder builder, string description, T state, Action action, Func<bool> condition = null)
         where T : Enum =>
-        builder.AddStateAction(title, state.ToString(), action, condition);
+        builder.AddStateAction(description, state.ToString(), action, condition);
 
 
 
@@ -163,11 +163,11 @@ public static class SequenceBuilderAddHandlerEnumStateExtensions
     /// and further execution of the sequence will be prevented.
     /// </summary>
     /// <param name="builder">The sequence-builder</param>
-    /// <param name="title">The transition title (for debugging or just to describe what is it for)</param>
+    /// <param name="description">The transition description (for debugging or just to describe what is it for)</param>
     /// <param name="state">The state that should be forced.</param>
     /// <param name="condition">The condition that must be fulfilled that the sequence is forced to the defined state.</param>
     /// <param name="action">The action.</param>
-    public static ISequenceBuilder AddForceState<T>(this ISequenceBuilder builder, string title, T state, Func<bool> condition, Action action = null)
+    public static ISequenceBuilder AddForceState<T>(this ISequenceBuilder builder, string description, T state, Func<bool> condition, Action action = null)
         where T : Enum =>
-        builder.AddForceState(title, state.ToString(), condition, action);
+        builder.AddForceState(description, state.ToString(), condition, action);
 }

@@ -11,7 +11,7 @@ public interface IHandler
     string Name { get; }
 
     /// <summary>
-    /// The title of the transition
+    /// The description of the transition
     /// </summary>
     string Description { get; }
 

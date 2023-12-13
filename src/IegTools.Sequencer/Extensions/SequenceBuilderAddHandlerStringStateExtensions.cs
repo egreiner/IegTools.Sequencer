@@ -28,16 +28,16 @@ public static class SequenceBuilderAddHandlerStringStateExtensions
     /// The action will be executed just once, at the moment when the condition is complied.
     /// </summary>
     /// <param name="builder">The sequence-builder</param>
-    /// <param name="title">The transition title (for debugging or just to describe what is it for)</param>
+    /// <param name="description">The transition description (for debugging or just to describe what is it for)</param>
     /// <param name="currentState">The current state.</param>
     /// <param name="nextState">The next state.</param>
     /// <param name="condition">The condition.</param>
     /// <param name="action">The action that should be executed.</param>
-    public static ISequenceBuilder AddTransition(this ISequenceBuilder builder, string title, string currentState, string nextState, Func<bool> condition, Action action = null)
+    public static ISequenceBuilder AddTransition(this ISequenceBuilder builder, string description, string currentState, string nextState, Func<bool> condition, Action action = null)
     {
         builder.SetInitialStatesIfTagged(currentState, nextState);
         return builder.AddHandler(
-            new StateTransitionHandler(currentState, nextState, condition, action, title));
+            new StateTransitionHandler(currentState, nextState, condition, action, description));
     }
 
 
@@ -71,16 +71,16 @@ public static class SequenceBuilderAddHandlerStringStateExtensions
     /// The action will be executed just once, at the moment when the condition is complied.
     /// </summary>
     /// <param name="builder">The sequence-builder</param>
-    /// <param name="title">The transition title (for debugging or just to describe what is it for)</param>
+    /// <param name="description">The transition description (for debugging or just to describe what is it for)</param>
     /// <param name="currentStateContains">Does current-state contains this substring?</param>
     /// <param name="nextState">The next state.</param>
     /// <param name="condition">The condition.</param>
     /// <param name="action">The action that should be executed.</param>
-    public static ISequenceBuilder AddContainsTransition(this ISequenceBuilder builder, string title, string currentStateContains, string nextState, Func<bool> condition, Action action = null)
+    public static ISequenceBuilder AddContainsTransition(this ISequenceBuilder builder, string description, string currentStateContains, string nextState, Func<bool> condition, Action action = null)
     {
         builder.SetInitialStatesIfTagged(nextState);
         return builder.AddHandler(
-            new ContainsStateTransitionHandler(currentStateContains, nextState, condition, action, title));
+            new ContainsStateTransitionHandler(currentStateContains, nextState, condition, action, description));
     }
 
 
@@ -110,18 +110,18 @@ public static class SequenceBuilderAddHandlerStringStateExtensions
     /// The action will be executed just once, at the moment when the condition is complied.
     /// </summary>
     /// <param name="builder">The sequence-builder</param>
-    /// <param name="title">The transition title (for debugging or just to describe what is it for)</param>
+    /// <param name="description">The transition description (for debugging or just to describe what is it for)</param>
     /// <param name="compareStates">The state(s) that will be compared with the current state.</param>
     /// <param name="nextState">The next state.</param>
     /// <param name="condition">The condition.</param>
     /// <param name="action">The action that should be executed.</param>
-    public static ISequenceBuilder AddAnyTransition(this ISequenceBuilder builder, string title, string[] compareStates, string nextState, Func<bool> condition, Action action = null)
+    public static ISequenceBuilder AddAnyTransition(this ISequenceBuilder builder, string description, string[] compareStates, string nextState, Func<bool> condition, Action action = null)
     {
         builder.SetInitialStatesIfTagged(compareStates);
         builder.SetInitialStatesIfTagged(nextState);
 
         return builder.AddHandler(
-            new AnyStateTransitionHandler(compareStates, nextState, condition, action, title));
+            new AnyStateTransitionHandler(compareStates, nextState, condition, action, description));
     }
 
 
@@ -140,14 +140,14 @@ public static class SequenceBuilderAddHandlerStringStateExtensions
     /// Adds a state action that should be executed during the state is active.
     /// </summary>
     /// <param name="builder">The sequence-builder</param>
-    /// <param name="title">The transition title (for debugging or just to describe what is it for)</param>
+    /// <param name="description">The transition description (for debugging or just to describe what is it for)</param>
     /// <param name="state">The state where the action should be invoked</param>
     /// <param name="action">The action.</param>
     /// <param name="condition">The condition that must be fulfilled that the sequence executes the action, default is true.</param>
-    public static ISequenceBuilder AddStateAction(this ISequenceBuilder builder, string title, string state, Action action, Func<bool> condition = null)
+    public static ISequenceBuilder AddStateAction(this ISequenceBuilder builder, string description, string state, Action action, Func<bool> condition = null)
     {
         builder.SetInitialStatesIfTagged(state);
-        return builder.AddHandler(new StateActionHandler(state, condition, action, title));
+        return builder.AddHandler(new StateActionHandler(state, condition, action, description));
     }
 
 
@@ -170,14 +170,14 @@ public static class SequenceBuilderAddHandlerStringStateExtensions
     /// and further execution of the sequence will be prevented.
     /// </summary>
     /// <param name="builder">The sequence-builder</param>
-    /// <param name="title">The transition title (for debugging or just to describe what is it for)</param>
+    /// <param name="description">The transition description (for debugging or just to describe what is it for)</param>
     /// <param name="state">The state that should be forced.</param>
     /// <param name="condition">The condition that must be fulfilled that the sequence is forced to the defined state.</param>
     /// <param name="action">The action.</param>
-    public static ISequenceBuilder AddForceState(this ISequenceBuilder builder, string title, string state, Func<bool> condition, Action action = null)
+    public static ISequenceBuilder AddForceState(this ISequenceBuilder builder, string description, string state, Func<bool> condition, Action action = null)
     {
         builder.SetInitialStatesIfTagged(state);
-        return builder.AddHandler(new ForceStateHandler(state, condition, action, title));
+        return builder.AddHandler(new ForceStateHandler(state, condition, action, description));
     }
 
 
