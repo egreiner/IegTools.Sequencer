@@ -6,11 +6,6 @@ using Xunit.Abstractions;
 
 public class LoggingTests
 {
-    private ITestOutputHelper _output;
-
-    public LoggingTests(ITestOutputHelper output) =>
-        _output = output;
-
     [Fact]
     public void Should_not_send_any_log_messages()
     {
@@ -29,23 +24,17 @@ public class LoggingTests
             Arg.Any<Func<object, Exception?, string>>());
     }
 
-    [Fact(Skip="wip")]
+    // [Fact(Skip="wip")]
+    [Fact]
     public void Should_send_log_messages_with_Description()
     {
-        // var serviceProvider = new ServiceCollection()
-        //     .AddLogging(builder =>
-        //     {
-        //         builder.SetMinimumLevel(LogLevel.Debug);
-        //     })
-        //     .BuildServiceProvider();
-
         var logger = Substitute.For<ILogger<LoggingTests>>();
 
         var builder = SequenceBuilder.Configure(config =>
             config.SetInitialState(TestEnum.InitialState)
                   .ActivateDebugLogging(logger, new EventId(-1, "Test EventId"))
                   .DisableValidation()
-                  .AddTransition("Test description", TestEnum.State1, TestEnum.State2, () => true)
+                  .AddTransition("Test description", TestEnum.InitialState, TestEnum.State2, () => true)
         );
 
         var sequence = builder.Build();
