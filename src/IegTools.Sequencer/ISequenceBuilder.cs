@@ -23,7 +23,8 @@ public interface ISequenceBuilder
     /// </summary>
     /// <param name="logger">The logger</param>
     /// <param name="eventId">The EventId</param>
-    ISequenceBuilder ActivateDebugLogging(ILogger logger, EventId eventId);
+    /// <param name="loggerScope">The logger-scope</param>
+    ISequenceBuilder ActivateDebugLogging(ILogger logger, EventId eventId, Func<IDisposable>? loggerScope = null);
 
     /// <summary>
     /// Adds an sequence handler

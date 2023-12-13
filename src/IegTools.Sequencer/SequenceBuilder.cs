@@ -18,20 +18,19 @@ public class SequenceBuilder : ISequenceBuilder
     private SequenceBuilder(IValidator<SequenceConfiguration> validator) =>
         _validator = validator;
 
-    
+
     /// <inheritdoc />
     public SequenceConfiguration Configuration { get; init; } = new();
 
 
-
     /// <inheritdoc />
-    public ISequenceBuilder ActivateDebugLogging(ILogger logger, EventId eventId)
+    public ISequenceBuilder ActivateDebugLogging(ILogger logger, EventId eventId, Func<IDisposable> loggerScope = null)
     {
-        Configuration.Logger  = logger;
-        Configuration.EventId = eventId;
+        Configuration.Logger      = logger;
+        Configuration.EventId     = eventId;
+        Configuration.LoggerScope = loggerScope;
         return this;
     }
-
 
 
     /// <inheritdoc />
@@ -48,7 +47,6 @@ public class SequenceBuilder : ISequenceBuilder
 
         return new TSequence().SetConfiguration(Configuration);
     }
-
 
 
     /// <summary>
@@ -80,7 +78,6 @@ public class SequenceBuilder : ISequenceBuilder
         new SequenceBuilder(validator);
 
 
-
     /// <summary>
     /// Configures the sequence in .NET 5 style.
     /// This is good for larger complex configs.
@@ -99,7 +96,8 @@ public class SequenceBuilder : ISequenceBuilder
     /// </summary>
     /// <param name="validator">Custom validator</param>
     /// <param name="configurationActions">The action.</param>
-    public static ISequenceBuilder Configure(IValidator<SequenceConfiguration> validator, Action<ISequenceBuilder> configurationActions)
+    public static ISequenceBuilder Configure(IValidator<SequenceConfiguration> validator,
+        Action<ISequenceBuilder>                                               configurationActions)
     {
         var sequenceBuilder = Create(validator);
         configurationActions.Invoke(sequenceBuilder);
@@ -107,9 +105,8 @@ public class SequenceBuilder : ISequenceBuilder
     }
 
 
-
     /// <inheritdoc />
-    public ISequenceBuilder AddHandler<T>(T handler) where T: IHandler
+    public ISequenceBuilder AddHandler<T>(T handler) where T : IHandler
     {
         Configuration.Handler.Add(handler);
         handler.Configuration = Configuration;
@@ -123,7 +120,6 @@ public class SequenceBuilder : ISequenceBuilder
         Configuration.Validators.Add(new T());
         return this;
     }
-
 
 
     /// <inheritdoc />
@@ -147,7 +143,7 @@ public class SequenceBuilder : ISequenceBuilder
         return this;
     }
 
-    
+
     private void AddDefaultValidators()
     {
         AddValidator<InitialStateValidator>();

@@ -16,10 +16,21 @@ public class SequenceConfiguration
     /// </summary>
     public ISequence Sequence { get; set; }
 
+    // /// <summary>
+    // /// The logger that can be used for logging
+    // /// </summary>
+    // public ILoggerAdapter LoggerAdapter { get; set; }
+
+
     /// <summary>
     /// The logger that can be used for logging
     /// </summary>
     public ILogger Logger    { get; set; }
+
+    /// <summary>
+    /// The logger-scope
+    /// </summary>
+    public Func<IDisposable> LoggerScope { get; set; }
 
     /// <summary>
     /// The EventId for logging

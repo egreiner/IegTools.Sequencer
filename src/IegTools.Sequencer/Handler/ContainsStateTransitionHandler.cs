@@ -63,8 +63,10 @@ public class ContainsStateTransitionHandler : HandlerBase, IHasToState
     /// <param name="sequence">The sequence</param>
     public override void ExecuteAction(ISequence sequence)
     {
-        using var scope = GetLoggerScope("Execute Action");
-        Logger?.Log(LogLevel.Debug, EventId, "{Handler} -> from state {StateFrom} to state {StateTo}", Name, Sequence.CurrentState, ToState);
+        // using var scope = Configuration.LoggerAdapter.GetLoggerScope(this, "Execute Action");
+        using var internalScope = GetSequenceLoggerScope("Execute Action");
+        using var externalScope = Configuration.LoggerScope?.Invoke();
+        Logger?.LogDebug(EventId, "{Handler} -> from state {StateFrom} to state {StateTo}", Name, Sequence.CurrentState, ToState);
 
         sequence.SetState(ToState);
         Action?.Invoke();
