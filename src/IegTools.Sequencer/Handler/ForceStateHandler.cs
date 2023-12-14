@@ -64,10 +64,8 @@ public class ForceStateHandler : HandlerBase, IHasToState
     {
         if (!_loggingDone)
         {
-            // using var scope = Configuration.LoggerAdapter.GetLoggerScope(this, "Execute Action");
-            using var internalScope = GetSequenceLoggerScope("Execute Action");
-            using var externalScope = Configuration.LoggerScope?.Invoke();
-            Logger?.LogDebug(EventId, "{Handler} -> Forced to state {StateTo}", Name, ToState);
+            using var scope = Logger?.GetSequenceLoggerScope(this, "Execute Action");
+            Logger?.LogDebug(Logger.EventId, "{Handler} -> Forced to state {StateTo}", Name, ToState);
             _loggingDone = true;
         }
 

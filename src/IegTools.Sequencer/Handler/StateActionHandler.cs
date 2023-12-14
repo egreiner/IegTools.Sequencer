@@ -63,10 +63,8 @@ public class StateActionHandler : HandlerBase
     {
         if (!_loggingDone)
         {
-            // using var scope = Configuration.LoggerAdapter.GetLoggerScope(this, "Execute Action");
-            using var internalScope = GetSequenceLoggerScope("Execute Action");
-            using var externalScope = Configuration.LoggerScope?.Invoke();
-            Logger?.LogDebug(EventId, "{Handler} -> in state {StateTo}", Name, State);
+            using var scope = Logger?.GetSequenceLoggerScope(this, "Execute Action");
+            Logger?.LogDebug(Logger.EventId, "{Handler} -> in state {StateTo}", Name, State);
             _loggingDone = true;
         }
 

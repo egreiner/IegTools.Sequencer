@@ -1,19 +1,21 @@
 ﻿namespace IegTools.Sequencer.Handler;
 
+using Logging;
+
 /// <summary>
 /// The handler interface.
 /// </summary>
 public interface IHandler
 {
     /// <summary>
+    /// The logger-adapter
+    /// </summary>
+    ILoggerAdapter Logger { get; set; }
+
+    /// <summary>
     /// The Sequence that this handler is bound to
     /// </summary>
     ISequence Sequence { get; set; }
-
-    // /// <summary>
-    // /// The Sequence-Configuration
-    // /// </summary>
-    // SequenceConfiguration Configuration { get; }
 
     /// <summary>
     /// The handlers name

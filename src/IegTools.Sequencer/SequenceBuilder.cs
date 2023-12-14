@@ -3,7 +3,7 @@
 using Microsoft.Extensions.Logging;
 using FluentValidation;
 using Handler;
-using JetBrains.Annotations;
+using Logging;
 using Validation;
 
 #nullable enable
@@ -14,6 +14,7 @@ using Validation;
 public class SequenceBuilder : ISequenceBuilder
 {
     private readonly IValidator<SequenceBuilder> _validator;
+    private          ILoggerAdapter?             _debugLogger;
 
     private SequenceBuilder(IValidator<SequenceBuilder> validator) =>
         _validator = validator;
@@ -26,11 +27,9 @@ public class SequenceBuilder : ISequenceBuilder
     public SequenceData Data { get; } = new();
 
     /// <inheritdoc />
-    public ISequenceBuilder ActivateDebugLogging(ILogger logger, EventId eventId, Func<IDisposable>? loggerScope = null)
+    public ISequenceBuilder ActivateDebugLogging(ILogger? logger, EventId eventId, Func<IDisposable>? loggerScope = null)
     {
-        Configuration.Logger      = logger;
-        Configuration.EventId     = eventId;
-        Configuration.LoggerScope = loggerScope;
+        _debugLogger = new LoggerAdapter(logger, eventId, loggerScope);
         return this;
     }
 
@@ -53,11 +52,12 @@ public class SequenceBuilder : ISequenceBuilder
     private ISequence CreateSequence<TSequence>() where TSequence : ISequence, new()
     {
         var sequence = new TSequence().SetConfiguration(Configuration, Data);
+        _debugLogger ??= new LoggerAdapter();
 
-        // TODO create log-adapter and add it to the handler
         foreach (var handler in Data.Handler)
         {
             handler.Sequence = sequence;
+            handler.Logger   = _debugLogger;
         }
 
         return sequence;

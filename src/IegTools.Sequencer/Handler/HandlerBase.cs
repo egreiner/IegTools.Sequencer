@@ -1,7 +1,6 @@
 ﻿namespace IegTools.Sequencer.Handler;
 
-using System.Collections.Generic;
-using Microsoft.Extensions.Logging;
+using Logging;
 
 /// <summary>
 /// The base handler
@@ -25,27 +24,16 @@ public abstract class HandlerBase : IHandler
 
 
     /// <inheritdoc />
+    public ILoggerAdapter Logger { get; set; }
+
+    /// <inheritdoc />
     public ISequence Sequence { get; set; }
+
 
     /// <summary>
     /// The Sequence-Configuration
     /// </summary>
     protected SequenceConfiguration Configuration => Sequence.Configuration;
-
-
-
-    /// <summary>
-    /// TODO move to logger-adapter
-    /// The logger
-    /// </summary>
-    protected ILogger Logger => Configuration.Logger;
-
-    /// <summary>
-    /// TODO move to logger-adapter
-    /// The EventId for the logger
-    /// </summary>
-    protected EventId EventId => Configuration.EventId;
-
 
 
     /// <inheritdoc />
@@ -106,17 +94,4 @@ public abstract class HandlerBase : IHandler
 
         return true;
     }
-
-    /// <summary>
-    /// TODO move to logger-adapter
-    /// Returns a logger scope
-    /// </summary>
-    /// <param name="methodName">The method-name</param>
-    protected IDisposable GetSequenceLoggerScope(string methodName) =>
-        Logger?.BeginScope(new Dictionary<string, object>
-        {
-            { "Description", Description ?? string.Empty },
-            { "Seq-Stopwatch", Sequence.Stopwatch.Elapsed },
-            { "Method", methodName },
-        });
 }
