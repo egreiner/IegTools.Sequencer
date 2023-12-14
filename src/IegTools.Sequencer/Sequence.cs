@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 /// </summary>
 public class Sequence : ISequence
 {
-    private SequenceConfiguration _configuration;
+    /// <inheritdoc />
+    public  SequenceConfiguration Configuration { get; private set; }
 
 
     /// <inheritdoc />
@@ -33,13 +34,13 @@ public class Sequence : ISequence
 
     /// <inheritdoc />
     public bool IsRegisteredState(string state) =>
-        _configuration.Handler.Any(x => x.IsRegisteredState(state));
+        Configuration.Handler.Any(x => x.IsRegisteredState(state));
 
 
     /// <inheritdoc />
     public virtual ISequence Run()
     {
-        foreach (var handler in _configuration.Handler)
+        foreach (var handler in Configuration.Handler)
         {
             var executed = handler.ExecuteIfValid(this);
             if (executed && !handler.ResumeSequence)
@@ -52,20 +53,19 @@ public class Sequence : ISequence
     /// <inheritdoc />
     public virtual async Task<ISequence> RunAsync() => await Task.Run(Run);
 
-        
+
     /// <inheritdoc />
     public ISequence SetConfiguration(SequenceConfiguration configuration)
     {
-        configuration.Sequence = this;
-        _configuration         = configuration;
-        CurrentState           = configuration.InitialState;
+        Configuration = configuration;
+        CurrentState  = configuration.InitialState;
         return this;
     }
 
     /// <inheritdoc />
     public ISequence SetState(string state)
     {
-        CurrentState = IsRegisteredState(state) ? state : _configuration.InitialState;
+        CurrentState = IsRegisteredState(state) ? state : Configuration.InitialState;
         return this;
     }
 

@@ -45,9 +45,21 @@ public class SequenceBuilder : ISequenceBuilder
         if (!Configuration.DisableValidation)
             _validator?.ValidateAndThrow(Configuration);
 
-        return new TSequence().SetConfiguration(Configuration);
+        return CreateSequence<TSequence>();
     }
 
+    private ISequence CreateSequence<TSequence>() where TSequence : ISequence, new()
+    {
+        var sequence = new TSequence().SetConfiguration(Configuration);
+
+        // TODO create log-adapter and add it to the handler
+        foreach (var handler in Configuration.Handler)
+        {
+            handler.Sequence = sequence;
+        }
+
+        return sequence;
+    }
 
     /// <summary>
     /// Creates a new Sequence-Builder with an empty sequence.
@@ -109,7 +121,6 @@ public class SequenceBuilder : ISequenceBuilder
     public ISequenceBuilder AddHandler<T>(T handler) where T : IHandler
     {
         Configuration.Handler.Add(handler);
-        handler.Configuration = Configuration;
         return this;
     }
 

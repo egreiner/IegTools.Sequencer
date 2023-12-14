@@ -9,6 +9,12 @@ using System.Threading.Tasks;
 public interface ISequence
 {
     /// <summary>
+    /// The sequence-configuration
+    /// </summary>
+    SequenceConfiguration Configuration { get; }
+
+
+    /// <summary>
     /// The current state of the sequence
     /// </summary>
     string CurrentState { get; }
@@ -18,7 +24,7 @@ public interface ISequence
     /// </summary>
     Stopwatch Stopwatch { get; }
 
-    
+
     /// <summary>
     /// Returns true if the sequence.CurrentState is in the specified state.
     /// </summary>

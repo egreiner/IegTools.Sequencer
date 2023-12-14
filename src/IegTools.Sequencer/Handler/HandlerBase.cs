@@ -25,14 +25,34 @@ public abstract class HandlerBase : IHandler
 
 
     /// <inheritdoc />
+    public ISequence Sequence { get; set; }
+
+    /// <summary>
+    /// The Sequence-Configuration
+    /// </summary>
+    protected SequenceConfiguration Configuration => Sequence.Configuration;
+
+
+
+    /// <summary>
+    /// TODO move to logger-adapter
+    /// The logger
+    /// </summary>
+    protected ILogger Logger => Configuration.Logger;
+
+    /// <summary>
+    /// TODO move to logger-adapter
+    /// The EventId for the logger
+    /// </summary>
+    protected EventId EventId => Configuration.EventId;
+
+
+
+    /// <inheritdoc />
     public string Name { get; protected init; }
 
     /// <inheritdoc />
     public string Description { get; }
-
-    /// <inheritdoc />
-    public SequenceConfiguration Configuration { get; set; }
-
 
     /// <inheritdoc />
     public Func<bool> Condition { get; set; }
@@ -40,28 +60,13 @@ public abstract class HandlerBase : IHandler
     /// <inheritdoc />
     public Action Action { get; set; }
 
-    /// <inheritdoc />
-    public DateTime LastExecutedAt { get; private set; }
-
 
     /// <inheritdoc />
     public bool ResumeSequence { get; set; } = true;
 
+    /// <inheritdoc />
+    public DateTime LastExecutedAt { get; private set; }
 
-    /// <summary>
-    /// The logger
-    /// </summary>
-    protected ILogger Logger => Configuration.Logger;
-
-    /// <summary>
-    /// The EventId for the logger
-    /// </summary>
-    protected EventId EventId => Configuration.EventId;
-
-    /// <summary>
-    /// The Sequence that this handler is bound to
-    /// </summary>
-    protected ISequence Sequence => Configuration.Sequence;
 
 
     /// <summary>
@@ -103,6 +108,7 @@ public abstract class HandlerBase : IHandler
     }
 
     /// <summary>
+    /// TODO move to logger-adapter
     /// Returns a logger scope
     /// </summary>
     /// <param name="methodName">The method-name</param>
@@ -110,7 +116,7 @@ public abstract class HandlerBase : IHandler
         Logger?.BeginScope(new Dictionary<string, object>
         {
             { "Description", Description ?? string.Empty },
-            { "Seq-Stopwatch", Configuration.Sequence.Stopwatch.Elapsed },
+            { "Seq-Stopwatch", Sequence.Stopwatch.Elapsed },
             { "Method", methodName },
         });
 }

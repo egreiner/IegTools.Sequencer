@@ -56,5 +56,13 @@
 			<Link>LICENSE.txt</Link>
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		
+		<Compile Remove="Logging\ILoggerAdapter.cs" />
+		
+		<None Include="Logging\ILoggerAdapter.cs" />
+		
+		<Compile Remove="Logging\LoggerAdapter.cs" />
+		
+		<None Include="Logging\LoggerAdapter.cs" />
 	</ItemGroup>
 </Project>

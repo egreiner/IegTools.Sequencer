@@ -6,24 +6,24 @@
 public interface IHandler
 {
     /// <summary>
+    /// The Sequence that this handler is bound to
+    /// </summary>
+    ISequence Sequence { get; set; }
+
+    // /// <summary>
+    // /// The Sequence-Configuration
+    // /// </summary>
+    // SequenceConfiguration Configuration { get; }
+
+    /// <summary>
     /// The handlers name
     /// </summary>
     string Name { get; }
 
     /// <summary>
-    /// The description of the transition
+    /// The description of the handler
     /// </summary>
     string Description { get; }
-
-    /// <summary>
-    /// The Sequence-Configuration
-    /// </summary>
-    SequenceConfiguration Configuration { get; set; }
-
-    /// <summary>
-    /// Standard is that the sequence should continue to run after a action is executed
-    /// </summary>
-    bool ResumeSequence { get; set; }
 
     /// <summary>
     /// The Condition that should be met to make the transition
@@ -34,6 +34,12 @@ public interface IHandler
     /// The action that will be invoked when the state transition will be executed
     /// </summary>
     Action Action { get; set; }
+
+    /// <summary>
+    /// Standard is that the sequence should continue to run after a action is executed
+    /// </summary>
+    bool ResumeSequence { get; set; }
+
 
     /// <summary>
     /// The last time the handler was executed
