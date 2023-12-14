@@ -16,7 +16,7 @@ public sealed class StateTransitionValidator : HandlerValidatorBase, IHandlerVal
 
 
     /// <inheritdoc />
-    public bool Validate(ValidationContext<SequenceConfiguration> context, ValidationResult result)
+    public bool Validate(ValidationContext<SequenceBuilder> context, ValidationResult result)
     {
         var isValid = true;
 
@@ -49,25 +49,25 @@ public sealed class StateTransitionValidator : HandlerValidatorBase, IHandlerVal
     /// otherwise you have created an dead-end.
     /// Use '!' as first character to tag an state as dead-end with purpose.
     /// </summary>
-    private bool HandlerValidatedFrom(SequenceConfiguration config)
+    private bool HandlerValidatedFrom(SequenceBuilder builder)
     {
-        var transitions = config.Handler.OfType<StateTransitionHandler>().ToList();
-        var allTransitions = config.Handler.OfType<IHasToState>().ToList();
+        var transitions = builder.Data.Handler.OfType<StateTransitionHandler>().ToList();
+        var allTransitions = builder.Data.Handler.OfType<IHasToState>().ToList();
         if (transitions.Count == 0) return true;
 
         _handlerFrom = new List<StateTransitionHandler>();
 
         // for easy reading do not simplify this
         // each StateTransition should have an counterpart so that no dead-end is reached
-        foreach (var transition in transitions.Where(x => ShouldBeValidated(x.FromState, config)))
+        foreach (var transition in transitions.Where(x => ShouldBeValidated(x.FromState, builder)))
         {
             if (allTransitions.All(x => transition.FromState != x.ToState) && 
-                transition.FromState != config.InitialState)
+                transition.FromState != builder.Configuration.InitialState)
                 _handlerFrom.Add(transition);
             
             ////if (transitions.All(x => transition.FromState != x.ToState) &&
             ////    allTransitions.All(x => transition.FromState != x.ToState) &&
-            ////    transition.FromState != config.InitialState)
+            ////    transition.FromState != builder.InitialState)
             ////    _handlerFrom.Add(transition);
         }
 
@@ -80,9 +80,9 @@ public sealed class StateTransitionValidator : HandlerValidatorBase, IHandlerVal
     /// otherwise you have created an dead-end.
     /// Use '!' as first character to tag an state as dead-end with purpose.
     /// </summary>
-    private bool HandlerValidatedTo(SequenceConfiguration config)
+    private bool HandlerValidatedTo(SequenceBuilder builder)
     {
-        var result = HandlerIsValidatedTo<StateTransitionHandler>(config);
+        var result = HandlerIsValidatedTo<StateTransitionHandler>(builder);
         _handlerTo = result.list.ToList();
 
         return result.isValid;

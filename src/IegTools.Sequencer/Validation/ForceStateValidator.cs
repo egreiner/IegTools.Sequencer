@@ -14,7 +14,7 @@ public sealed class ForceStateValidator : HandlerValidatorBase, IHandlerValidato
     private List<ForceStateHandler> _handler;
 
     /// <inheritdoc />
-    public bool Validate(ValidationContext<SequenceConfiguration> context, ValidationResult result)
+    public bool Validate(ValidationContext<SequenceBuilder> context, ValidationResult result)
     {
         if (HandlerIsValidated(context.InstanceToValidate)) return true;
 
@@ -29,9 +29,9 @@ public sealed class ForceStateValidator : HandlerValidatorBase, IHandlerValidato
     /// Each 'Force.State' must have an corresponding 'Transition.FromState(s) '
     /// otherwise you have created an dead-end.
     /// </summary>
-    private bool HandlerIsValidated(SequenceConfiguration config)
+    private bool HandlerIsValidated(SequenceBuilder builder)
     {
-        var result = HandlerIsValidatedTo<ForceStateHandler>(config);
+        var result = HandlerIsValidatedTo<ForceStateHandler>(builder);
         _handler = result.list.ToList();
 
         return result.isValid;

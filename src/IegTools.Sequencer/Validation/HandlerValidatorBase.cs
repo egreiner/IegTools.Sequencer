@@ -16,14 +16,13 @@ public class HandlerValidatorBase
     /// Returns true if the state should be validated.
     /// </summary>
     /// <param name="state">The specified state</param>
-    /// <param name="config">The sequence-configuration</param>
-    /// <returns></returns>
-    protected static bool ShouldBeValidated(string state, SequenceConfiguration config)
+    /// <param name="builder">The sequence builder</param>
+    protected static bool ShouldBeValidated(string state, SequenceBuilder builder)
     {
-        return (!state?.StartsWith(config.IgnoreTag.ToString()) ?? true) && !disabledStates().Contains(state);
+        return (!state?.StartsWith(builder.Configuration.IgnoreTag.ToString()) ?? true) && !disabledStates().Contains(state);
 
         IEnumerable<string> disabledStates() =>
-            config.DisableValidationForStates?.ToList() ?? Enumerable.Empty<string>();
+            builder.Configuration.DisableValidationForStates?.ToList() ?? Enumerable.Empty<string>();
     }
 
             
@@ -32,63 +31,64 @@ public class HandlerValidatorBase
     /// otherwise you have created an dead-end.
     /// Use '!' as first character to tag an state as dead-end with purpose.
     /// </summary>
-    protected (bool isValid, IEnumerable<T> list) HandlerIsValidatedTo<T>(SequenceConfiguration config) where T: IHasToState
+    protected (bool isValid, IEnumerable<T> list) HandlerIsValidatedTo<T>(SequenceBuilder builder) where T: IHasToState
     {
-        var containsTransitions = config.Handler.OfType<T>().ToList();
+        var containsTransitions = builder.Data.Handler.OfType<T>().ToList();
         if (containsTransitions is null || containsTransitions.Count == 0)
             return (true, Enumerable.Empty<T>());
 
-        var transitions = config.Handler.OfType<StateTransitionHandler>().ToList();
+        var transitions = builder.Data.Handler.OfType<StateTransitionHandler>().ToList();
 
         this._handlerTo = new List<IHasToState>();
 
         
-        AddMissingTransitions(config, containsTransitions, transitions);
+        AddMissingTransitions(builder, containsTransitions, transitions);
         
         if (this._handlerTo.Count == 0)
             return (true, Enumerable.Empty<T>());
 
         
-        RemoveWithContainsTransitions(config, containsTransitions);
+        RemoveWithContainsTransitions(builder, containsTransitions);
         
         if (this._handlerTo.Count == 0)
             return (true, Enumerable.Empty<T>());
 
 
-        RemoveWithAnyTransitions(config, containsTransitions);
+        RemoveWithAnyTransitions(builder, containsTransitions);
 
         return (this._handlerTo.Count == 0, this._handlerTo.ConvertAll(x => (T)x));
     }
 
 
-    private void AddMissingTransitions<T>(SequenceConfiguration config, List<T> containsTransitions, List<StateTransitionHandler> transitions)
+    private void AddMissingTransitions<T>(SequenceBuilder builder, List<T> containsTransitions,
+        List<StateTransitionHandler>                      transitions)
         where T : IHasToState
     {
         // for easy reading do not simplify this
         // each StateTransition should have an counterpart so that no dead-end is reached
-        foreach (var transition in containsTransitions.Where(x => ShouldBeValidated(x.ToState, config)))
+        foreach (var transition in containsTransitions.Where(x => ShouldBeValidated(x.ToState, builder)))
         {
             if (transitions.All(x => transition.ToState != x.FromState))
                 this._handlerTo.Add(transition);
         }
     }
 
-    private void RemoveWithAnyTransitions<T>(SequenceConfiguration config, List<T> containsTransitions)
+    private void RemoveWithAnyTransitions<T>(SequenceBuilder builder, List<T> containsTransitions)
         where T : IHasToState
     {
-        foreach (var transition in containsTransitions.Where(x => ShouldBeValidated(x.ToState, config)))
+        foreach (var transition in containsTransitions.Where(x => ShouldBeValidated(x.ToState, builder)))
         {
-            if (config.Handler.OfType<AnyStateTransitionHandler>().Any(x => x.FromStates.Contains(transition.ToState)))
+            if (builder.Data.Handler.OfType<AnyStateTransitionHandler>().Any(x => x.FromStates.Contains(transition.ToState)))
                 this._handlerTo.Remove(transition);
         }
     }
 
-    private void RemoveWithContainsTransitions<T>(SequenceConfiguration config, List<T> containsTransitions)
+    private void RemoveWithContainsTransitions<T>(SequenceBuilder builder, List<T> containsTransitions)
         where T : IHasToState
     {
-        foreach (var transition in containsTransitions.Where(x => ShouldBeValidated(x.ToState, config)))
+        foreach (var transition in containsTransitions.Where(x => ShouldBeValidated(x.ToState, builder)))
         {
-            if (config.Handler.OfType<ContainsStateTransitionHandler>()
+            if (builder.Data.Handler.OfType<ContainsStateTransitionHandler>()
                 .Any(x => transition.ToState.Contains(x.FromStateContains)))
                 this._handlerTo.Remove(transition);
         }

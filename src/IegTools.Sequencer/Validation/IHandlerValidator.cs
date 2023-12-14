@@ -11,8 +11,8 @@ public interface IHandlerValidator
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="context"></param>
+    /// <param name="builder"></param>
     /// <param name="result"></param>
     /// <returns>true if valid</returns>
-    bool Validate(ValidationContext<SequenceConfiguration> context, ValidationResult result);
+    bool Validate(ValidationContext<SequenceBuilder> builder, ValidationResult result);
 }

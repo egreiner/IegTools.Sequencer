@@ -13,18 +13,20 @@ using Validation;
 /// </summary>
 public class SequenceBuilder : ISequenceBuilder
 {
-    private readonly IValidator<SequenceConfiguration> _validator;
+    private readonly IValidator<SequenceBuilder> _validator;
 
-    private SequenceBuilder(IValidator<SequenceConfiguration> validator) =>
+    private SequenceBuilder(IValidator<SequenceBuilder> validator) =>
         _validator = validator;
 
 
     /// <inheritdoc />
     public SequenceConfiguration Configuration { get; init; } = new();
 
+    /// <inheritdoc />
+    public SequenceData Data { get; } = new();
 
     /// <inheritdoc />
-    public ISequenceBuilder ActivateDebugLogging(ILogger logger, EventId eventId, Func<IDisposable> loggerScope = null)
+    public ISequenceBuilder ActivateDebugLogging(ILogger logger, EventId eventId, Func<IDisposable>? loggerScope = null)
     {
         Configuration.Logger      = logger;
         Configuration.EventId     = eventId;
@@ -43,17 +45,17 @@ public class SequenceBuilder : ISequenceBuilder
         AddDefaultValidators();
 
         if (!Configuration.DisableValidation)
-            _validator?.ValidateAndThrow(Configuration);
+            _validator?.ValidateAndThrow(this);
 
         return CreateSequence<TSequence>();
     }
 
     private ISequence CreateSequence<TSequence>() where TSequence : ISequence, new()
     {
-        var sequence = new TSequence().SetConfiguration(Configuration);
+        var sequence = new TSequence().SetConfiguration(Configuration, Data);
 
         // TODO create log-adapter and add it to the handler
-        foreach (var handler in Configuration.Handler)
+        foreach (var handler in Data.Handler)
         {
             handler.Sequence = sequence;
         }
@@ -86,7 +88,7 @@ public class SequenceBuilder : ISequenceBuilder
     /// Creates a new Sequence-Builder for configuration in .NET 6 style.
     /// This is good for short crispy configs.
     /// </summary>
-    public static ISequenceBuilder Create(IValidator<SequenceConfiguration> validator) =>
+    public static ISequenceBuilder Create(IValidator<SequenceBuilder> validator) =>
         new SequenceBuilder(validator);
 
 
@@ -108,8 +110,7 @@ public class SequenceBuilder : ISequenceBuilder
     /// </summary>
     /// <param name="validator">Custom validator</param>
     /// <param name="configurationActions">The action.</param>
-    public static ISequenceBuilder Configure(IValidator<SequenceConfiguration> validator,
-        Action<ISequenceBuilder>                                               configurationActions)
+    public static ISequenceBuilder Configure(IValidator<SequenceBuilder> validator, Action<ISequenceBuilder> configurationActions)
     {
         var sequenceBuilder = Create(validator);
         configurationActions.Invoke(sequenceBuilder);
@@ -120,7 +121,7 @@ public class SequenceBuilder : ISequenceBuilder
     /// <inheritdoc />
     public ISequenceBuilder AddHandler<T>(T handler) where T : IHandler
     {
-        Configuration.Handler.Add(handler);
+        Data.Handler.Add(handler);
         return this;
     }
 
@@ -128,7 +129,7 @@ public class SequenceBuilder : ISequenceBuilder
     /// <inheritdoc />
     public ISequenceBuilder AddValidator<T>() where T : IHandlerValidator, new()
     {
-        Configuration.Validators.Add(new T());
+        Data.Validators.Add(new T());
         return this;
     }
 

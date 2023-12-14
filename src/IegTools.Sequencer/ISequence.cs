@@ -58,7 +58,7 @@ public interface ISequence
     /// <summary>
     /// Set the sequence-configuration
     /// </summary>
-    ISequence SetConfiguration(SequenceConfiguration configuration);
+    ISequence SetConfiguration(SequenceConfiguration configuration, SequenceData data);
 
 
     /// <summary>

@@ -11,12 +11,12 @@ using Handler;
 public sealed class InitialStateValidator : HandlerValidatorBase, IHandlerValidator
 {
     /// <inheritdoc />
-    public bool Validate(ValidationContext<SequenceConfiguration> context, ValidationResult result)
+    public bool Validate(ValidationContext<SequenceBuilder> context, ValidationResult result)
     {
-        var config = context.InstanceToValidate;
-        if (!ShouldBeValidated(config.InitialState, config)) return true;
+        var builder = context.InstanceToValidate;
+        if (!ShouldBeValidated(builder.Configuration.InitialState, builder)) return true;
 
-        if (HandlerIsValidated(config)) return true;
+        if (HandlerIsValidated(builder)) return true;
 
         result.Errors.Add(new ValidationFailure("InitialState", 
             "The Initial-State must have an StateTransition counterpart"));
@@ -24,8 +24,8 @@ public sealed class InitialStateValidator : HandlerValidatorBase, IHandlerValida
         return false;
     }
 
-    private bool HandlerIsValidated(SequenceConfiguration config) =>
-        config.Handler.OfType<StateTransitionHandler>().Any(x => config.InitialState == x.FromState) ||
-        config.Handler.OfType<ContainsStateTransitionHandler>().Any(x => config.InitialState.Contains(x.FromStateContains)) ||
-        config.Handler.OfType<AnyStateTransitionHandler>().Any(x => x.FromStates.Contains(config.InitialState));
+    private bool HandlerIsValidated(SequenceBuilder builder) =>
+        builder.Data.Handler.OfType<StateTransitionHandler>().Any(x => builder.Configuration.InitialState == x.FromState) ||
+        builder.Data.Handler.OfType<ContainsStateTransitionHandler>().Any(x => builder.Configuration.InitialState.Contains(x.FromStateContains)) ||
+        builder.Data.Handler.OfType<AnyStateTransitionHandler>().Any(x => x.FromStates.Contains(builder.Configuration.InitialState));
 }

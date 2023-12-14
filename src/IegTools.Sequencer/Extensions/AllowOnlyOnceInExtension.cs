@@ -16,7 +16,7 @@ public static class AllowOnlyOnceInExtension
     /// <param name="timeSpan">The timespan in which the execution of the transition action is is allowed only once</param>
     public static ISequenceBuilder AllowOnlyOnceIn(this ISequenceBuilder builder, TimeSpan timeSpan)
     {
-        var lastHandler = builder.Configuration.Handler.LastOrDefault();
+        var lastHandler = builder.Data.Handler.LastOrDefault();
         if (lastHandler is not null)
             lastHandler.AllowOnlyOnceIn(timeSpan);
 

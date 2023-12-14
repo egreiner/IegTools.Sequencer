@@ -16,7 +16,7 @@ public sealed class ContainsStateTransitionValidator : HandlerValidatorBase, IHa
 
 
     /// <inheritdoc />
-    public bool Validate(ValidationContext<SequenceConfiguration> context, ValidationResult result)
+    public bool Validate(ValidationContext<SequenceBuilder> context, ValidationResult result)
     {
         var isValid = true;
 
@@ -53,10 +53,10 @@ public sealed class ContainsStateTransitionValidator : HandlerValidatorBase, IHa
     /// otherwise you have created an dead-end.
     /// Use '!' as first character to tag an state as dead-end with purpose.
     /// </summary>
-    private bool HandlerValidatedFrom(SequenceConfiguration config)
+    private bool HandlerValidatedFrom(SequenceBuilder builder)
     {
-        var transitions = config.Handler.OfType<ContainsStateTransitionHandler>().ToList();
-        var allTransitions = config.Handler.OfType<IHasToState>().ToList();
+        var transitions = builder.Data.Handler.OfType<ContainsStateTransitionHandler>().ToList();
+        var allTransitions = builder.Data.Handler.OfType<IHasToState>().ToList();
         if (transitions.Count == 0) return true;
 
         _handlerFrom = new List<ContainsStateTransitionHandler>();
@@ -67,7 +67,7 @@ public sealed class ContainsStateTransitionValidator : HandlerValidatorBase, IHa
         {
             if (transitions.All(x => !x.ToState.Contains(transition.FromStateContains)) &&
                 ////allTransitions.All(x => transition.FromState != x.ToState) &&
-                !config.InitialState.Contains(transition.FromStateContains))
+                !builder.Configuration.InitialState.Contains(transition.FromStateContains))
                 _handlerFrom.Add(transition);
         }
 
@@ -79,9 +79,9 @@ public sealed class ContainsStateTransitionValidator : HandlerValidatorBase, IHa
     /// otherwise you have created an dead-end.
     /// Use '!' as first character to tag an state as dead-end with purpose.
     /// </summary>
-    private bool HandlerValidatedTo(SequenceConfiguration config)
+    private bool HandlerValidatedTo(SequenceBuilder builder)
     {
-        var result = HandlerIsValidatedTo<ContainsStateTransitionHandler>(config);
+        var result = HandlerIsValidatedTo<ContainsStateTransitionHandler>(builder);
         _handlerTo = result.list.ToList();
 
         return result.isValid;

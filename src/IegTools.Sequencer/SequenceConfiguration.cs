@@ -10,6 +10,7 @@ using Validation;
 /// </summary>
 public class SequenceConfiguration
 {
+    // TODO the logger-adapter will be created in builder and injected in the handler
     // /// <summary>
     // /// The logger that can be used for logging
     // /// </summary>
@@ -17,31 +18,22 @@ public class SequenceConfiguration
 
 
     /// <summary>
+    /// TODO move to logger-adapter
     /// The logger that can be used for logging
     /// </summary>
     public ILogger Logger    { get; set; }
 
     /// <summary>
+    /// TODO move to logger-adapter
     /// The logger-scope
     /// </summary>
     public Func<IDisposable> LoggerScope { get; set; }
 
     /// <summary>
+    /// TODO move to logger-adapter
     /// The EventId for logging
     /// </summary>
     public EventId EventId { get; set; }
-
-
-
-    /// <summary>
-    /// The sequence-handler that describe how the sequence is supposed to work
-    /// </summary>
-    public List<IHandler> Handler { get; } = new();
-
-    /// <summary>
-    /// All validators
-    /// </summary>
-    public IList<IHandlerValidator> Validators { get; set; } = new List<IHandlerValidator>();
 
 
 

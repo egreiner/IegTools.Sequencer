@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 /// </summary>
 public class Sequence : ISequence
 {
+    private SequenceData _data;
+
     /// <inheritdoc />
     public  SequenceConfiguration Configuration { get; private set; }
 
@@ -34,13 +36,13 @@ public class Sequence : ISequence
 
     /// <inheritdoc />
     public bool IsRegisteredState(string state) =>
-        Configuration.Handler.Any(x => x.IsRegisteredState(state));
+        _data.Handler.Any(x => x.IsRegisteredState(state));
 
 
     /// <inheritdoc />
     public virtual ISequence Run()
     {
-        foreach (var handler in Configuration.Handler)
+        foreach (var handler in _data.Handler)
         {
             var executed = handler.ExecuteIfValid(this);
             if (executed && !handler.ResumeSequence)
@@ -55,9 +57,10 @@ public class Sequence : ISequence
 
 
     /// <inheritdoc />
-    public ISequence SetConfiguration(SequenceConfiguration configuration)
+    public ISequence SetConfiguration(SequenceConfiguration configuration, SequenceData data)
     {
         Configuration = configuration;
+        _data         = data;
         CurrentState  = configuration.InitialState;
         return this;
     }

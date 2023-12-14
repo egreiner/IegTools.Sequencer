@@ -17,6 +17,11 @@ public interface ISequenceBuilder
     /// </summary>
     SequenceConfiguration Configuration { get; init; }
 
+    /// <summary>
+    /// The sequence data
+    /// </summary>
+    SequenceData Data { get; }
+
 
     /// <summary>
     /// Activates debug logging messages
