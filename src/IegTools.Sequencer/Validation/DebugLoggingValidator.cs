@@ -35,14 +35,12 @@ public sealed class DebugLoggingValidator : HandlerValidatorBase, IHandlerValida
     private bool HandlerIsValidated(ISequenceBuilder builder)
     {
         var notValid = builder.Data.Handler.Any(x =>
-            x.Description == null ||
-            x.Description.Contains(builder.DefaultDescription) ||
-            x.Description.Contains(string.Empty));
+            string.IsNullOrEmpty(x.Description) ||
+            x.Description.Contains(builder.DefaultDescription));
 
         _handler = builder.Data.Handler.Where(x =>
-            x.Description == null ||
-            x.Description.Contains(builder.DefaultDescription) ||
-            x.Description.Contains(string.Empty)).ToList();
+            string.IsNullOrEmpty(x.Description) ||
+            x.Description.Contains(builder.DefaultDescription)).ToList();
 
         return !notValid;
     }
