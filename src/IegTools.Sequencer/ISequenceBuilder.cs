@@ -22,6 +22,11 @@ public interface ISequenceBuilder
     /// </summary>
     SequenceData Data { get; }
 
+    /// <summary>
+    /// Default description for a sequence handler
+    /// </summary>
+    string DefaultDescription { get; }
+
 
     /// <summary>
     /// Activates debug logging messages

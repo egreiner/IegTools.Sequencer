@@ -24,7 +24,6 @@ public sealed class SequenceConfigurationValidator : AbstractValidator<SequenceB
     /// </summary>
     /// <param name="context">The Validation context</param>
     /// <param name="result">The validation-result</param>
-    /// <returns></returns>
     protected override bool PreValidate(ValidationContext<SequenceBuilder> context, ValidationResult result)
     {
         var isValid = true;

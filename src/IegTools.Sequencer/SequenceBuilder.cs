@@ -27,11 +27,20 @@ public class SequenceBuilder : ISequenceBuilder
     public SequenceData Data { get; } = new();
 
     /// <inheritdoc />
+    public string DefaultDescription { get; } = "no description available";
+    
+    /// <inheritdoc />
     public ISequenceBuilder ActivateDebugLogging(ILogger? logger, EventId eventId, Func<IDisposable>? loggerScope = null)
     {
-        _debugLogger = new LoggerAdapter(logger, eventId, loggerScope);
+        DebugLoggingActivated = true;
+        _debugLogger          = new LoggerAdapter(logger, eventId, loggerScope);
         return this;
     }
+
+    /// <summary>
+    /// The debug logging is activated
+    /// </summary>
+    public bool DebugLoggingActivated { get; private set; }
 
 
     /// <inheritdoc />
@@ -158,6 +167,7 @@ public class SequenceBuilder : ISequenceBuilder
 
     private void AddDefaultValidators()
     {
+        AddValidator<DebugLoggingValidator>();
         AddValidator<InitialStateValidator>();
         AddValidator<ForceStateValidator>();
         AddValidator<StateTransitionValidator>();
