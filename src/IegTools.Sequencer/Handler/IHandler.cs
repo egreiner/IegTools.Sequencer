@@ -30,12 +30,12 @@ public interface IHandler
     /// <summary>
     /// The Condition that should be met to make the transition
     /// </summary>
-    Func<bool> Condition { get; set; }
+    Func<bool> Condition { get; init; }
 
     /// <summary>
     /// The action that will be invoked when the state transition will be executed
     /// </summary>
-    Action Action { get; set; }
+    Action Action { get; init; }
 
     /// <summary>
     /// Standard is that the sequence should continue to run after a action is executed

@@ -43,10 +43,10 @@ public abstract class HandlerBase : IHandler
     public string Description { get; }
 
     /// <inheritdoc />
-    public Func<bool> Condition { get; set; }
+    public Func<bool> Condition { get; init; }
 
     /// <inheritdoc />
-    public Action Action { get; set; }
+    public Action Action { get; init; }
 
 
     /// <inheritdoc />
@@ -90,8 +90,46 @@ public abstract class HandlerBase : IHandler
         if (!this.IsConditionFulfilled(sequence)) return false;
 
         ExecuteAction(sequence);
-        LastExecutedAt = DateTime.Now;
 
         return true;
+    }
+
+    /// <summary>
+    /// Invokes the specified action,
+    /// sets the last execution time
+    /// and invokes the OnStateChangedAction if the state has changed
+    /// </summary>
+    protected void TryInvokeAction()
+    {
+        try
+        {
+            Action?.Invoke();
+
+            if (Action is not null)
+                LastExecutedAt = DateTime.Now;
+        }
+        catch (Exception e)
+        {
+            Logger?.LogError(Logger.EventId, e, "Try to invoke action failed");
+        }
+    }
+
+    /// <summary>
+    /// Sets the state of the sequence if the state is registered
+    /// </summary>
+    /// <param name="state">The state</param>
+    protected void SetState(string state)
+    {
+        Sequence.SetState(state);
+
+        try
+        {
+            if (Sequence.LastState != Sequence.CurrentState)
+                Sequence.Data.OnStateChangedAction?.Invoke();
+        }
+        catch (Exception e)
+        {
+            Logger?.LogError(Logger.EventId, e, "Try to invoke OnStateChangedAction failed");
+        }
     }
 }

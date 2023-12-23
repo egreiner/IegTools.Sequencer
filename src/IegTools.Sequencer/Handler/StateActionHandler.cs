@@ -68,6 +68,6 @@ public class StateActionHandler : HandlerBase
             _loggingDone = true;
         }
 
-        Action?.Invoke();
+        TryInvokeAction();
     }
 }

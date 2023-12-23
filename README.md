@@ -131,6 +131,8 @@ States can be defined as strings or enums, internally they will be stored as str
 
 # State Tags
 
+[I tend to delete this feature, it's to much magic, the Initial-State and ignored States should be defined explicit.]
+
 State-Tags can only be used with string-states.
 For enum-states there are other possibilities. (-> Validation Handler)  
 

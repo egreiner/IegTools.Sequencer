@@ -18,4 +18,9 @@ public class SequenceData
     /// All validators
     /// </summary>
     public IList<IHandlerValidator> Validators { get; set; } = new List<IHandlerValidator>();
+
+    /// <summary>
+    /// The action that is invoked when the sequence-state is changed
+    /// </summary>
+    public Action OnStateChangedAction { get; set; }
 }

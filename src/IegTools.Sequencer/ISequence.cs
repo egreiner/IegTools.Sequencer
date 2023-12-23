@@ -13,11 +13,22 @@ public interface ISequence
     /// </summary>
     SequenceConfiguration Configuration { get; }
 
+    /// <summary>
+    /// The sequence-data
+    /// </summary>
+    SequenceData Data { get; }
+
 
     /// <summary>
     /// The current state of the sequence
     /// </summary>
     string CurrentState { get; }
+
+
+    /// <summary>
+    /// The last state of the sequence (previous state)
+    /// </summary>
+    string LastState { get; }
 
     /// <summary>
     /// A builtin stopwatch
@@ -62,17 +73,17 @@ public interface ISequence
 
 
     /// <summary>
-    /// CurrentState will be set to the state immediately and unconditional.
-    /// The execution of the sequence will continue.
-    /// </summary>
-    /// <param name="state">The state that will be set</param>
-    ISequence SetState(string state);
-    
-    /// <summary>
     /// If the constraint is fulfilled the CurrentState will be set to the state immediately
     /// and the execution of the sequence will continue.
     /// </summary>
     /// <param name="state">The state that should be set</param>
     /// <param name="constraint">The constraint that must be fulfilled that the sequence is set to the defined state</param>
     ISequence SetState(string state, Func<bool> constraint);
+
+    /// <summary>
+    /// CurrentState will be set to the state immediately and unconditional.
+    /// The execution of the sequence will continue.
+    /// </summary>
+    /// <param name="state">The state that will be set</param>
+    ISequence SetState(string state);
 }

@@ -66,7 +66,7 @@ public class ContainsStateTransitionHandler : HandlerBase, IHasToState
         using var scope = Logger?.GetSequenceLoggerScope(this, "Execute Action");
         Logger?.LogDebug(Logger.EventId, "{Handler} -> from state {StateFrom} to state {StateTo}", Name, Sequence.CurrentState, ToState);
 
-        sequence.SetState(ToState);
-        Action?.Invoke();
+        SetState(ToState);
+        TryInvokeAction();
     }
 }

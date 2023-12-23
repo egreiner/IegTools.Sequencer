@@ -69,6 +69,6 @@ public class ForceStateHandler : HandlerBase, IHasToState
             _loggingDone = true;
         }
 
-        sequence.SetState(ToState);
+        SetState(ToState);
     }
 }
