@@ -48,6 +48,7 @@ public class ForceStateHandlerTests
         var builder = SequenceBuilder.Configure(builder =>
             builder.SetInitialState(InitialState)
                 .AddForceState("Force", () => constraint)
+                .AddTransition("Set", InitialState, () => constraint)
                 .DisableValidation());
 
         var sut = builder.Build();
@@ -67,6 +68,8 @@ public class ForceStateHandlerTests
         var builder = SequenceBuilder.Configure(builder =>
             builder.SetInitialState(InitialState)
                 .AddForceState("Force", () => constraint)
+                .AddTransition("Set", InitialState, () => constraint)
+                .AddTransition(InitialState, "test", () => constraint)
                 .DisableValidation());
 
         var sut = builder.Build();

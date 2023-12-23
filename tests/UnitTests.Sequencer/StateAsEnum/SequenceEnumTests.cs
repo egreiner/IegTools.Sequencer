@@ -43,18 +43,41 @@ public class SequenceEnumTests
     [Theory]
     [InlineData(true, TestEnum.State1)]
     [InlineData(false, InitialState)]
-    public void Test_Set(bool constraint, TestEnum expected)
+    public void Test_SetState_if_constraint(bool constraint, TestEnum expected)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.SetInitialState(InitialState);
-            builder.AddForceState(TestEnum.Force, () => constraint)
-                   .DisableValidation();
+            builder.AddForceState(TestEnum.Force, () => constraint);
+            builder.AddTransition(InitialState, TestEnum.State1, () => constraint);
+            builder.DisableValidation();
         });
 
         var sut = builder.Build();
 
         sut.SetState(TestEnum.State1, () => constraint);
+
+        // no Execute is necessary
+
+        sut.CurrentState.Should().Be(expected.ToString());
+    }
+
+    [Theory]
+    [InlineData(true, InitialState)]
+    [InlineData(false, InitialState)]
+    public void Test_SetState_not_specified(bool constraint, TestEnum expected)
+    {
+        var builder = SequenceBuilder.Configure(builder =>
+        {
+            builder.SetInitialState(InitialState);
+            builder.AddForceState(TestEnum.Force, () => constraint);
+            builder.AddTransition(InitialState, TestEnum.State1, () => constraint);
+            builder.DisableValidation();
+        });
+
+        var sut = builder.Build();
+
+        sut.SetState(TestEnum.State2, () => constraint);
 
         // no Execute is necessary
 
@@ -69,8 +92,9 @@ public class SequenceEnumTests
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.SetInitialState(InitialState);
-            builder.AddForceState(TestEnum.Force, () => constraint)
-                   .DisableValidation();
+            builder.AddForceState(TestEnum.Force, () => constraint);
+            builder.AddTransition(InitialState, TestEnum.State1, () => constraint);
+            builder.DisableValidation();
 
         });
 
