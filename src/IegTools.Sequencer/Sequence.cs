@@ -3,12 +3,16 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Logging;
 
 /// <summary>
 /// A sequence
 /// </summary>
 public class Sequence : ISequence
 {
+    /// <inheritdoc />
+    public ILoggerAdapter Logger { get; set; }
+
     /// <inheritdoc />
     public  SequenceConfiguration Configuration { get; private set; }
 
@@ -82,8 +86,28 @@ public class Sequence : ISequence
     public ISequence SetState(string state)
     {
         LastState    = CurrentState;
-        CurrentState = IsRegisteredState(state) ? state : Configuration.InitialState;
+        CurrentState = IsRegisteredState(state) ? state : CurrentState;
+
+        TryToInvokeOnStateChangedAction();
 
         return this;
+    }
+
+
+    /// <summary>
+    /// Try to invoke the OnStateChangedAction
+    /// </summary>
+    private void TryToInvokeOnStateChangedAction()
+    {
+        if (LastState == CurrentState) return;
+
+        try
+        {
+            Data.OnStateChangedAction?.Invoke();
+        }
+        catch (Exception e)
+        {
+            Logger?.LogError(Logger.EventId, e, "Try to invoke OnStateChangedAction failed");
+        }
     }
 }

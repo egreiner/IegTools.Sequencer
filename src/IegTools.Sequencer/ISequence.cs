@@ -2,12 +2,18 @@
 
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Logging;
 
 /// <summary>
 /// Interface for a sequence
 /// </summary>
 public interface ISequence
 {
+    /// <summary>
+    /// The debug logger
+    /// </summary>
+    ILoggerAdapter Logger { get; set; }
+
     /// <summary>
     /// The sequence-configuration
     /// </summary>

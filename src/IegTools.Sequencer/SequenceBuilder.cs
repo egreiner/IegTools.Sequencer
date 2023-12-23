@@ -60,8 +60,9 @@ public class SequenceBuilder : ISequenceBuilder
 
     private ISequence CreateSequence<TSequence>() where TSequence : ISequence, new()
     {
-        var sequence = new TSequence().SetConfiguration(Configuration, Data);
-        _debugLogger ??= new LoggerAdapter();
+        _debugLogger  ??= new LoggerAdapter();
+        var sequence    = new TSequence().SetConfiguration(Configuration, Data);
+        sequence.Logger = _debugLogger;
 
         foreach (var handler in Data.Handler)
         {
@@ -161,6 +162,13 @@ public class SequenceBuilder : ISequenceBuilder
     public ISequenceBuilder SetInitialState(string initialState)
     {
         Configuration.InitialState = initialState;
+        return this;
+    }
+
+    /// <inheritdoc />
+    public ISequenceBuilder SetOnStateChangedAction(Action onStateChangedAction)
+    {
+        Data.OnStateChangedAction = onStateChangedAction;
         return this;
     }
 

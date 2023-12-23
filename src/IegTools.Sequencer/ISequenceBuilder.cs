@@ -78,4 +78,10 @@ public interface ISequenceBuilder
     /// </summary>
     /// <param name="initialState">The initial state</param>
     ISequenceBuilder SetInitialState(string initialState);
+
+    /// <summary>
+    /// Sets the OnStateChanged-Action
+    /// </summary>
+    /// <param name="onStateChangedAction">The action that will be invoked after a state-change is detected</param>
+    ISequenceBuilder SetOnStateChangedAction(Action onStateChangedAction);
 }

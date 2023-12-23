@@ -118,18 +118,6 @@ public abstract class HandlerBase : IHandler
     /// Sets the state of the sequence if the state is registered
     /// </summary>
     /// <param name="state">The state</param>
-    protected void SetState(string state)
-    {
+    protected void SetState(string state) =>
         Sequence.SetState(state);
-
-        try
-        {
-            if (Sequence.LastState != Sequence.CurrentState)
-                Sequence.Data.OnStateChangedAction?.Invoke();
-        }
-        catch (Exception e)
-        {
-            Logger?.LogError(Logger.EventId, e, "Try to invoke OnStateChangedAction failed");
-        }
-    }
 }
