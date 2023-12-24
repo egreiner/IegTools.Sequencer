@@ -37,6 +37,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>UnitTests.Sequencer</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Include="..\..\images\icon2.png">
 			<Pack>True</Pack>
 			<PackagePath>docs</PackagePath>
