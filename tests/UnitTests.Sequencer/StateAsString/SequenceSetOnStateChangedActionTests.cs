@@ -51,9 +51,8 @@ public class SequenceSetOnStateChangedActionTests
     }
 
     [Theory]
-    [InlineData(InitialState)]
     [InlineData("Stage1")]
-    public void Test_SetOnStateChangedAction_can_handle_exceptions(string setState)
+    public void Test_SetOnStateChangedAction_can_should_throw_exceptions(string setState)
     {
         var x = 0;
 
@@ -67,7 +66,7 @@ public class SequenceSetOnStateChangedActionTests
 
         var sut = builder.Build();
 
-        // sut.Run();
-        sut.SetState(setState).Should();
+        Action act = () => sut.SetState(setState);
+        act.Should().Throw<Exception>();
     }
 }

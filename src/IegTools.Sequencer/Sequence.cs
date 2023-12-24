@@ -3,6 +3,7 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Core;
 using Logging;
 
 /// <summary>
@@ -10,11 +11,20 @@ using Logging;
 /// </summary>
 public class Sequence : ISequence
 {
+    private readonly SimpleChangeDetector<string> _stateChangeDetector = new("SequenceStateChangeDetector");
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Sequence"/> class.
+    /// </summary>
+    public Sequence() =>
+        _stateChangeDetector.OnChange(() => CurrentState, () => Data?.OnStateChangedAction?.Invoke());
+
+
     /// <inheritdoc />
     public ILoggerAdapter Logger { get; set; }
 
     /// <inheritdoc />
-    public  SequenceConfiguration Configuration { get; private set; }
+    public SequenceConfiguration Configuration { get; private set; }
 
     /// <inheritdoc />
     public SequenceData Data { get; private set; }
@@ -24,7 +34,7 @@ public class Sequence : ISequence
     public string CurrentState { get; private set; }
 
     /// <inheritdoc />
-    public string LastState { get; private set; }
+    public (string Value, TimeSpan Duration) LastState => _stateChangeDetector.LastState;
 
     /// <inheritdoc />
     public Stopwatch Stopwatch { get; } = new();
@@ -70,6 +80,9 @@ public class Sequence : ISequence
         Configuration = configuration;
         Data          = data;
         CurrentState  = configuration.InitialState;
+
+        _stateChangeDetector.SetValue(CurrentState);
+
         return this;
     }
 
@@ -85,29 +98,10 @@ public class Sequence : ISequence
     /// <inheritdoc />
     public ISequence SetState(string state)
     {
-        LastState    = CurrentState;
         CurrentState = IsRegisteredState(state) ? state : CurrentState;
 
-        TryToInvokeOnStateChangedAction();
+        _stateChangeDetector.Detect();
 
         return this;
-    }
-
-
-    /// <summary>
-    /// Try to invoke the OnStateChangedAction
-    /// </summary>
-    private void TryToInvokeOnStateChangedAction()
-    {
-        if (LastState == CurrentState) return;
-
-        try
-        {
-            Data.OnStateChangedAction?.Invoke();
-        }
-        catch (Exception e)
-        {
-            Logger?.LogError(Logger.EventId, e, "Try to invoke OnStateChangedAction failed");
-        }
     }
 }

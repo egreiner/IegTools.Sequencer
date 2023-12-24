@@ -34,7 +34,7 @@ public interface ISequence
     /// <summary>
     /// The last state of the sequence (previous state)
     /// </summary>
-    string LastState { get; }
+    (string Value, TimeSpan Duration) LastState { get; }
 
     /// <summary>
     /// A builtin stopwatch
