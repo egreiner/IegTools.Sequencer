@@ -80,9 +80,16 @@ public interface ISequenceBuilder
     ISequenceBuilder SetInitialState(string initialState);
 
     /// <summary>
-    /// Sets the OnStateChanged-Action
+    /// Sets the OnStateChanged-Action (enabled default)
     /// </summary>
     /// <param name="onStateChangedAction">The action that will be invoked after a state-change is detected</param>
-    /// <param name="enable">Enable/disable the action invocation</param>
-    ISequenceBuilder SetOnStateChangedAction(Action onStateChangedAction, bool enable = true);
+    ISequenceBuilder SetOnStateChangedAction(Action onStateChangedAction);
+
+    /// <summary>
+    /// Sets the OnStateChanged-Action and the enabledFunc-function
+    /// </summary>
+    /// <param name="onStateChangedAction">The action that will be invoked after a state-change is detected</param>
+    /// <param name="enabledFunc">Function that enables or disables the call of the action</param>
+    ISequenceBuilder SetOnStateChangedAction(Action onStateChangedAction, Func<bool> enabledFunc);
+
 }

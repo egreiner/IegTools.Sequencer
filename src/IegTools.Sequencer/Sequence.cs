@@ -17,7 +17,12 @@ public class Sequence : ISequence
     /// Initializes a new instance of the <see cref="Sequence"/> class.
     /// </summary>
     public Sequence() =>
-        _stateChangeDetector.OnChange(() => CurrentState, () => Data?.OnStateChangedAction?.Invoke());
+        _stateChangeDetector.OnChange(() => CurrentState, () =>
+        {
+            var onChange = Data?.OnStateChangedAction;
+            if (onChange?.enabled?.Invoke() ?? false)
+                onChange?.action?.Invoke();
+        });
 
 
     /// <inheritdoc />

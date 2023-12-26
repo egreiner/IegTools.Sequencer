@@ -22,5 +22,5 @@ public class SequenceData
     /// <summary>
     /// The action that is invoked when the sequence-state is changed
     /// </summary>
-    public Action OnStateChangedAction { get; set; }
+    public (Action action, Func<bool> enabled) OnStateChangedAction { get; set; }
 }
