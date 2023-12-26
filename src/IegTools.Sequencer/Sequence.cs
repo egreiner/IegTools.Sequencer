@@ -86,7 +86,7 @@ public class Sequence : ISequence
         Data          = data;
         CurrentState  = configuration.InitialState;
 
-        _stateChangeDetector.SetValue(CurrentState);
+        _stateChangeDetector.SetValue(configuration.InitialState);
 
         return this;
     }

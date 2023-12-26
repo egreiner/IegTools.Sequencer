@@ -35,11 +35,8 @@ internal abstract class ChangeDetectorBase<TValue> : IChangeDetector<TValue>
 
     
     /// <inheritdoc />
-    public IChangeDetector<TValue> SetValue(TValue value)
-    {
-        PreviousValue = value;
-        return this;
-    }
+    public IChangeDetector<TValue> SetValue(TValue value) =>
+        SaveLastState(value, DateTime.Now);
 
 
     protected IChangeDetector<TValue> OnChange([NotNull] Func<TValue> detectValue, [NotNull] Action action)
@@ -52,10 +49,13 @@ internal abstract class ChangeDetectorBase<TValue> : IChangeDetector<TValue>
         return this;
     }
 
-    protected void SaveLastState(TValue value, DateTime timestamp)
+    protected IChangeDetector<TValue> SaveLastState(TValue value, DateTime timestamp)
     {
-        LastState     = (PreviousValue, timestamp - Timestamp);
-        PreviousValue = value;
-        Timestamp     = timestamp;
+        PreviousValue ??= value;
+        LastState     =   (PreviousValue, timestamp - Timestamp);
+        PreviousValue =   value;
+        Timestamp     =   timestamp;
+
+        return this;
     }
 }
