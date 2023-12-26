@@ -83,5 +83,6 @@ public interface ISequenceBuilder
     /// Sets the OnStateChanged-Action
     /// </summary>
     /// <param name="onStateChangedAction">The action that will be invoked after a state-change is detected</param>
-    ISequenceBuilder SetOnStateChangedAction(Action onStateChangedAction);
+    /// <param name="enable">Enable/disable the action invocation</param>
+    ISequenceBuilder SetOnStateChangedAction(Action onStateChangedAction, bool enable = true);
 }

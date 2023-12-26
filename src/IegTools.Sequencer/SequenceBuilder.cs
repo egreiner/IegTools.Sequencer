@@ -166,9 +166,11 @@ public class SequenceBuilder : ISequenceBuilder
     }
 
     /// <inheritdoc />
-    public ISequenceBuilder SetOnStateChangedAction(Action onStateChangedAction)
+    public ISequenceBuilder SetOnStateChangedAction(Action onStateChangedAction, bool enable = true)
     {
-        Data.OnStateChangedAction = onStateChangedAction;
+        if (enable)
+            Data.OnStateChangedAction = onStateChangedAction;
+
         return this;
     }
 
