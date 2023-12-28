@@ -11,18 +11,13 @@ using Logging;
 /// </summary>
 public class Sequence : ISequence
 {
-    private readonly SimpleChangeDetector<string> _stateChangeDetector = new("SequenceStateChangeDetector");
+    private readonly SimpleChangeDetector<string> _stateChangedDetector = new("SequenceStateChangeDetector");
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Sequence"/> class.
     /// </summary>
     public Sequence() =>
-        _stateChangeDetector.OnChange(() => CurrentState, () =>
-        {
-            var onChange = Data?.OnStateChangedAction;
-            if (onChange?.enabled?.Invoke() ?? false)
-                onChange?.action?.Invoke();
-        });
+        InitializeOnStateChangedDetector();
 
 
     /// <inheritdoc />
@@ -39,7 +34,7 @@ public class Sequence : ISequence
     public string CurrentState { get; private set; }
 
     /// <inheritdoc />
-    public (string Value, TimeSpan Duration) LastState => _stateChangeDetector.LastState;
+    public (string Value, TimeSpan Duration) LastState => _stateChangedDetector.LastState;
 
     /// <inheritdoc />
     public Stopwatch Stopwatch { get; } = new();
@@ -86,7 +81,7 @@ public class Sequence : ISequence
         Data          = data;
         CurrentState  = configuration.InitialState;
 
-        _stateChangeDetector.SetValue(configuration.InitialState);
+        _stateChangedDetector.SetValue(configuration.InitialState);
 
         return this;
     }
@@ -105,8 +100,17 @@ public class Sequence : ISequence
     {
         CurrentState = IsRegisteredState(state) ? state : CurrentState;
 
-        _stateChangeDetector.Detect();
+        _stateChangedDetector.Detect();
 
         return this;
     }
+
+
+    private void InitializeOnStateChangedDetector() =>
+        _stateChangedDetector.OnChange(() => CurrentState, () =>
+        {
+            var onChange = Data?.OnStateChangedAction;
+            if (onChange?.enabled?.Invoke() ?? false)
+                onChange?.action?.Invoke();
+        });
 }
