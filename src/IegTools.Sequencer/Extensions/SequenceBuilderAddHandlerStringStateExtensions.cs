@@ -188,20 +188,20 @@ public static class SequenceBuilderAddHandlerStringStateExtensions
     /// </summary>
     /// <param name="builder">The sequence-builder</param>
     /// <param name="description">The transition description (for debugging or just to describe what is it for)</param>
-    /// <param name="resetState">The sequence-state to reset to</param>
-    /// <param name="setState">The sequence-state to set to</param>
-    /// <param name="dominantSetCondition">The dominant set-condition that must be fulfilled to execute the state-transition from reset to set-state</param>
-    /// <param name="resetCondition">The reset-condition that must be fulfilled to execute the state-transition from set to reset-state</param>
-    /// <param name="setAction">The action that will be executed after the set-state-transition</param>
-    /// <param name="resetAction">The action that will be executed after the reset-state-transition</param>
+    /// <param name="fromState">The sequence-state to reset to</param>
+    /// <param name="toState">The sequence-state to set to</param>
+    /// <param name="dominantSetToCondition">The dominant set-condition that must be fulfilled to execute the state-transition from reset to set-state</param>
+    /// <param name="setFromCondition">The reset-condition that must be fulfilled to execute the state-transition from set to reset-state</param>
+    /// <param name="setToAction">The action that will be executed after the set-state-transition</param>
+    /// <param name="setFromAction">The action that will be executed after the reset-state-transition</param>
     public static ISequenceBuilder AddStateToggle(this ISequenceBuilder builder,
         string description,
-        string resetState, string setState,
-        Func<bool> dominantSetCondition, Func<bool> resetCondition,
-        Action setAction = null, Action resetAction = null)
+        string fromState, string toState,
+        Func<bool> dominantSetToCondition, Func<bool> setFromCondition,
+        Action setToAction = null, Action setFromAction = null)
     {
-        builder.SetInitialStatesIfTagged(resetState, setState);
-        return builder.AddHandler(new StateToggleHandler(resetState, setState, dominantSetCondition, resetCondition, setAction, resetAction, description));
+        builder.SetInitialStatesIfTagged(fromState, toState);
+        return builder.AddHandler(new StateToggleHandler(fromState, toState, dominantSetToCondition, setFromCondition, setToAction, setFromAction, description));
     }
 
     /// <summary>
@@ -211,17 +211,17 @@ public static class SequenceBuilderAddHandlerStringStateExtensions
     /// The set is dominant over the reset.
     /// </summary>
     /// <param name="builder">The sequence-builder</param>
-    /// <param name="resetState">The sequence-state to reset to</param>
-    /// <param name="setState">The sequence-state to set to</param>
-    /// <param name="dominantSetCondition">The dominant set-condition that must be fulfilled to execute the state-transition from reset to set-state</param>
-    /// <param name="resetCondition">The reset-condition that must be fulfilled to execute the state-transition from set to reset-state</param>
-    /// <param name="setAction">The action that will be executed after the set-state-transition</param>
-    /// <param name="resetAction">The action that will be executed after the reset-state-transition</param>
+    /// <param name="fromState">The sequence-state to reset to</param>
+    /// <param name="toState">The sequence-state to set to</param>
+    /// <param name="dominantSetToCondition">The dominant set-condition that must be fulfilled to execute the state-transition from reset to set-state</param>
+    /// <param name="setFromCondition">The reset-condition that must be fulfilled to execute the state-transition from set to reset-state</param>
+    /// <param name="setToAction">The action that will be executed after the set-state-transition</param>
+    /// <param name="setFromAction">The action that will be executed after the reset-state-transition</param>
     public static ISequenceBuilder AddStateToggle(this ISequenceBuilder builder,
-        string resetState, string setState,
-        Func<bool> dominantSetCondition, Func<bool> resetCondition,
-        Action setAction = null, Action resetAction = null) =>
-        builder.AddStateToggle(builder.DefaultDescription, resetState, setState, dominantSetCondition, resetCondition, setAction, resetAction);
+        string fromState, string toState,
+        Func<bool> dominantSetToCondition, Func<bool> setFromCondition,
+        Action setToAction = null, Action setFromAction = null) =>
+        builder.AddStateToggle(builder.DefaultDescription, fromState, toState, dominantSetToCondition, setFromCondition, setToAction, setFromAction);
 
 
     private static void SetInitialStatesIfTagged(this ISequenceBuilder builder, params string[] states)

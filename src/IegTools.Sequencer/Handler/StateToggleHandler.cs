@@ -1,7 +1,5 @@
 ﻿namespace IegTools.Sequencer.Handler;
 
-// TODO this can be built as simply two StateTransitionHandler
-
 /// <summary>
 /// Toggles the sequence between set-state and reset-state
 /// if the condition for set or reset is met.
@@ -10,63 +8,63 @@
 /// </summary>
 public class StateToggleHandler : HandlerBase
 {
-    private readonly StateTransitionHandler _resetSetHandler;
-    private readonly StateTransitionHandler _setResetHandler;
+    private readonly StateTransitionHandler _setToHandler;
+    private readonly StateTransitionHandler _setFromHandler;
 
     /// <summary>
     /// Creates a new instance of the <see cref="StateToggleHandler"/>
     /// </summary>
-    /// <param name="resetState">The sequence-state to reset to</param>
-    /// <param name="setState">The sequence-state to set to</param>
-    /// <param name="dominantSetCondition">The dominant set-condition that must be fulfilled to execute the state-transition from reset to set-state</param>
-    /// <param name="resetCondition">The reset-condition that must be fulfilled to execute the state-transition from set to reset-state</param>
-    /// <param name="setAction">The action that will be executed after the set-state-transition</param>
-    /// <param name="resetAction">The action that will be executed after the reset-state-transition</param>
+    /// <param name="fromState">The sequence-state to reset to</param>
+    /// <param name="toState">The sequence-state to set to</param>
+    /// <param name="dominantSetToCondition">The dominant set-condition that must be fulfilled to execute the state-transition from reset to set-state</param>
+    /// <param name="setFromCondition">The reset-condition that must be fulfilled to execute the state-transition from set to reset-state</param>
+    /// <param name="setToAction">The action that will be executed after the set-state-transition</param>
+    /// <param name="setFromAction">The action that will be executed after the reset-state-transition</param>
     /// <param name="description">The transition description (for debugging or just to describe what is it for)</param>
     public StateToggleHandler(
-        string     resetState,           string     setState,
-        Func<bool> dominantSetCondition, Func<bool> resetCondition,
-        Action     setAction = null,     Action     resetAction = null,
+        string     fromState,           string     toState,
+        Func<bool> dominantSetToCondition, Func<bool> setFromCondition,
+        Action     setToAction = null,     Action     setFromAction = null,
         string description = "")
-        : base(dominantSetCondition, setAction, description)
+        : base(dominantSetToCondition, setToAction, description)
     {
-        Name             = "Toggle States";
-        ResetToggleState = resetState;
-        SetToggleState   = setState;
+        Name      = "Toggle States";
+        FromState = fromState;
+        ToState   = toState;
 
-        _resetSetHandler = new StateTransitionHandler(resetState, setState, dominantSetCondition, setAction, description);
-        _setResetHandler = new StateTransitionHandler(setState, resetState, resetCondition, resetAction, description);
+        _setToHandler   = new StateTransitionHandler(fromState, toState, dominantSetToCondition, setToAction, description);
+        _setFromHandler = new StateTransitionHandler(toState, fromState, setFromCondition, setFromAction, description);
     }
 
 
     /// <summary>
     /// The Reset-State
     /// </summary>
-    public string ResetToggleState { get; }
+    public string FromState { get; }
 
     /// <summary>
     /// The Set-State
     /// </summary>
-    public string SetToggleState   { get; }
+    public string ToState   { get; }
 
 
     /// <summary>
     /// Returns a string representation of the handler-state
     /// </summary>
     public override string ToString() =>
-        $"{Name}: {ResetToggleState} -> {SetToggleState}";
+        $"{Name}: {FromState} -> {ToState}";
 
 
     /// <inheritdoc />
     public override bool IsRegisteredState(string state) =>
-        state == ResetToggleState || state == SetToggleState;
+        state.IsIn(FromState, ToState);
 
     /// <summary>
     /// Returns true if the sequence met the specified state and the set or reset condition is fulfilled
     /// </summary>
     /// <param name="sequence">The sequence</param>
     public override bool IsConditionFulfilled(ISequence sequence) =>
-        _resetSetHandler.IsConditionFulfilled(sequence) || _setResetHandler.IsConditionFulfilled(sequence);
+        _setToHandler.IsConditionFulfilled(sequence) || _setFromHandler.IsConditionFulfilled(sequence);
 
 
     /// <summary>
@@ -78,25 +76,25 @@ public class StateToggleHandler : HandlerBase
         using var scope = Logger?.GetSequenceLoggerScope(this, "Execute Action");
 
         // Hack to inject the sequence into the internal handler
-        _resetSetHandler.Sequence = sequence;
+        _setToHandler.Sequence = sequence;
 
-        if (_resetSetHandler.IsConditionFulfilled(sequence))
+        if (_setToHandler.IsConditionFulfilled(sequence))
         {
-            Logger?.LogDebug(Logger.EventId, "{Handler} -> set state {SetState}", Name, SetToggleState);
+            Logger?.LogDebug(Logger.EventId, "{Handler} -> set state {SetState}", Name, ToState);
 
-            _resetSetHandler.ExecuteAction(sequence);
+            _setToHandler.ExecuteAction(sequence);
             return;
         }
 
         // Hack to inject the sequence into the internal handler
-        _setResetHandler.Sequence = sequence;
+        _setFromHandler.Sequence = sequence;
 
         var lockReset = Condition?.Invoke() ?? false;
-        if (!lockReset && _setResetHandler.IsConditionFulfilled(sequence))
+        if (!lockReset && _setFromHandler.IsConditionFulfilled(sequence))
         {
-            Logger?.LogDebug(Logger.EventId, "{Handler} -> reset to state {ResetToggleState}", Name, ResetToggleState);
+            Logger?.LogDebug(Logger.EventId, "{Handler} -> reset to state {FromState}", Name, FromState);
 
-            _setResetHandler.ExecuteAction(Sequence);
+            _setFromHandler.ExecuteAction(Sequence);
         }
     }
 }
