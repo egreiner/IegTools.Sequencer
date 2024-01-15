@@ -30,7 +30,8 @@ public static class SequenceEnumExtensions
     /// </summary>
     /// <param name="sequence">The sequence.</param>
     /// <param name="state">The state</param>
-    public static bool IsRegisteredState<T>(this ISequence sequence, T state) =>
+    public static bool IsRegisteredState<T>(this ISequence sequence, T state)
+        where T : Enum =>
         sequence.IsRegisteredState(state.ToString());
 
 
