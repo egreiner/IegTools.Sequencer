@@ -8,13 +8,13 @@
 /// The set-condition is dominant, that means if the set-condition and reset-condition is met,
 /// the sequence will be set to the set-state.
 /// </summary>
-public class ToggleStatesHandler : HandlerBase
+public class StateToggleHandler : HandlerBase
 {
     private readonly StateTransitionHandler _resetSetHandler;
     private readonly StateTransitionHandler _setResetHandler;
 
     /// <summary>
-    /// Creates a new instance of the <see cref="ToggleStatesHandler"/>
+    /// Creates a new instance of the <see cref="StateToggleHandler"/>
     /// </summary>
     /// <param name="resetState">The sequence-state to reset to</param>
     /// <param name="setState">The sequence-state to set to</param>
@@ -23,7 +23,7 @@ public class ToggleStatesHandler : HandlerBase
     /// <param name="setAction">The action that will be executed after the set-state-transition</param>
     /// <param name="resetAction">The action that will be executed after the reset-state-transition</param>
     /// <param name="description">The transition description (for debugging or just to describe what is it for)</param>
-    public ToggleStatesHandler(
+    public StateToggleHandler(
         string     resetState,           string     setState,
         Func<bool> dominantSetCondition, Func<bool> resetCondition,
         Action     setAction = null,     Action     resetAction = null,

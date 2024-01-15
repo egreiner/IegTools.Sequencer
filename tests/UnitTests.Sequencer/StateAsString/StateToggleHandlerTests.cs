@@ -1,6 +1,6 @@
 ﻿namespace UnitTests.Sequencer.StateAsString;
 
-public class ToggleStatesHandlerTests
+public class StateToggleHandlerTests
 {
     private const string InitialState = "InitialState";
 
@@ -14,7 +14,7 @@ public class ToggleStatesHandlerTests
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.SetInitialState(InitialState);
-            builder.AddToggleStates(
+            builder.AddStateToggle(
                     resetState: InitialState,
                     setState: "SetState",
                     dominantSetCondition: () => setCondition,
@@ -43,7 +43,7 @@ public class ToggleStatesHandlerTests
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.SetInitialState(InitialState);
-            builder.AddToggleStates(
+            builder.AddStateToggle(
                     resetState: InitialState,
                     setState: "SetState",
                     dominantSetCondition: () => setCondition,
@@ -76,7 +76,7 @@ public class ToggleStatesHandlerTests
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.SetInitialState(InitialState);
-            builder.AddToggleStates(
+            builder.AddStateToggle(
                     resetState: InitialState,
                     setState: "SetState",
                     dominantSetCondition: () => setCondition,
@@ -110,7 +110,7 @@ public class ToggleStatesHandlerTests
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.SetInitialState(InitialState);
-            builder.AddToggleStates(
+            builder.AddStateToggle(
                     resetState: InitialState,
                     setState: "SetState",
                     dominantSetCondition: () => setCondition,

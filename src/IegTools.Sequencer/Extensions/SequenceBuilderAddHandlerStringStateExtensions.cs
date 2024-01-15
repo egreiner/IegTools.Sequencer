@@ -181,7 +181,7 @@ public static class SequenceBuilderAddHandlerStringStateExtensions
     }
 
     /// <summary>
-    /// Adds a ToggleStatesHandler to the sequence-handler.
+    /// Adds a StateToggleHandler to the sequence-handler.
     /// If the set condition is fulfilled on execution the CurrentState will be set to the set-state
     /// If the reset condition is fulfilled on execution the CurrentState will be set to the reset-state.
     /// The set is dominant over the reset.
@@ -194,18 +194,18 @@ public static class SequenceBuilderAddHandlerStringStateExtensions
     /// <param name="resetCondition">The reset-condition that must be fulfilled to execute the state-transition from set to reset-state</param>
     /// <param name="setAction">The action that will be executed after the set-state-transition</param>
     /// <param name="resetAction">The action that will be executed after the reset-state-transition</param>
-    public static ISequenceBuilder AddToggleStates(this ISequenceBuilder builder,
+    public static ISequenceBuilder AddStateToggle(this ISequenceBuilder builder,
         string description,
         string resetState, string setState,
         Func<bool> dominantSetCondition, Func<bool> resetCondition,
         Action setAction = null, Action resetAction = null)
     {
         builder.SetInitialStatesIfTagged(resetState, setState);
-        return builder.AddHandler(new ToggleStatesHandler(resetState, setState, dominantSetCondition, resetCondition, setAction, resetAction, description));
+        return builder.AddHandler(new StateToggleHandler(resetState, setState, dominantSetCondition, resetCondition, setAction, resetAction, description));
     }
 
     /// <summary>
-    /// Adds a ToggleStatesHandler to the sequence-handler.
+    /// Adds a StateToggleHandler to the sequence-handler.
     /// If the set condition is fulfilled on execution the CurrentState will be set to the set-state
     /// If the reset condition is fulfilled on execution the CurrentState will be set to the reset-state.
     /// The set is dominant over the reset.
@@ -217,11 +217,11 @@ public static class SequenceBuilderAddHandlerStringStateExtensions
     /// <param name="resetCondition">The reset-condition that must be fulfilled to execute the state-transition from set to reset-state</param>
     /// <param name="setAction">The action that will be executed after the set-state-transition</param>
     /// <param name="resetAction">The action that will be executed after the reset-state-transition</param>
-    public static ISequenceBuilder AddToggleStates(this ISequenceBuilder builder,
+    public static ISequenceBuilder AddStateToggle(this ISequenceBuilder builder,
         string resetState, string setState,
         Func<bool> dominantSetCondition, Func<bool> resetCondition,
         Action setAction = null, Action resetAction = null) =>
-        builder.AddToggleStates(builder.DefaultDescription, resetState, setState, dominantSetCondition, resetCondition, setAction, resetAction);
+        builder.AddStateToggle(builder.DefaultDescription, resetState, setState, dominantSetCondition, resetCondition, setAction, resetAction);
 
 
     private static void SetInitialStatesIfTagged(this ISequenceBuilder builder, params string[] states)
