@@ -170,4 +170,45 @@ public static class SequenceBuilderAddHandlerEnumStateExtensions
     public static ISequenceBuilder AddForceState<T>(this ISequenceBuilder builder, string description, T state, Func<bool> condition, Action action = null)
         where T : Enum =>
         builder.AddForceState(description, state.ToString(), condition, action);
+
+     /// <summary>
+    /// Adds a StateToggleHandler to the sequence-handler.
+    /// If the set condition is fulfilled on execution the CurrentState will be set to the set-state
+    /// If the reset condition is fulfilled on execution the CurrentState will be set to the reset-state.
+    /// The set is dominant over the reset.
+    /// </summary>
+    /// <param name="builder">The sequence-builder</param>
+    /// <param name="description">The transition description (for debugging or just to describe what is it for)</param>
+    /// <param name="fromState">The sequence-state to reset to</param>
+    /// <param name="toState">The sequence-state to set to</param>
+    /// <param name="dominantSetToCondition">The dominant set-condition that must be fulfilled to execute the state-transition from reset to set-state</param>
+    /// <param name="setFromCondition">The reset-condition that must be fulfilled to execute the state-transition from set to reset-state</param>
+    /// <param name="setToAction">The action that will be executed after the set-state-transition</param>
+    /// <param name="setFromAction">The action that will be executed after the reset-state-transition</param>
+    public static ISequenceBuilder AddStateToggle<T>(this ISequenceBuilder builder,
+        string description,
+        T fromState, T toState,
+        Func<bool> dominantSetToCondition, Func<bool> setFromCondition,
+        Action setToAction = null, Action setFromAction = null) where T : Enum =>
+        builder.AddStateToggle(description, fromState.ToString(), toState.ToString(), dominantSetToCondition, setFromCondition, setToAction, setFromAction);
+
+
+    /// <summary>
+    /// Adds a StateToggleHandler to the sequence-handler.
+    /// If the set condition is fulfilled on execution the CurrentState will be set to the set-state
+    /// If the reset condition is fulfilled on execution the CurrentState will be set to the reset-state.
+    /// The set is dominant over the reset.
+    /// </summary>
+    /// <param name="builder">The sequence-builder</param>
+    /// <param name="fromState">The sequence-state to reset to</param>
+    /// <param name="toState">The sequence-state to set to</param>
+    /// <param name="dominantSetToCondition">The dominant set-condition that must be fulfilled to execute the state-transition from reset to set-state</param>
+    /// <param name="setFromCondition">The reset-condition that must be fulfilled to execute the state-transition from set to reset-state</param>
+    /// <param name="setToAction">The action that will be executed after the set-state-transition</param>
+    /// <param name="setFromAction">The action that will be executed after the reset-state-transition</param>
+    public static ISequenceBuilder AddStateToggle<T>(this ISequenceBuilder builder,
+        T fromState, T toState,
+        Func<bool> dominantSetToCondition, Func<bool> setFromCondition,
+        Action setToAction = null, Action setFromAction = null) where T : Enum =>
+        builder.AddStateToggle(builder.DefaultDescription, fromState, toState, dominantSetToCondition, setFromCondition, setToAction, setFromAction);
 }
