@@ -60,7 +60,7 @@ public abstract class HandlerBase : IHandler
     /// <summary>
     /// Returns true if a AllowOnlyOnceIn is set and the time is over
     /// </summary>
-    private bool IsTimeOver =>
+    protected bool IsTimeOver =>
         _allowOnlyOnceTimeSpan == null || DateTime.Now > LastExecutedAt + _allowOnlyOnceTimeSpan;
 
 

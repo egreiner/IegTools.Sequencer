@@ -180,6 +180,25 @@ public static class SequenceBuilderAddHandlerStringStateExtensions
         return builder.AddHandler(new ForceStateHandler(state, condition, action, description));
     }
 
+    /// <summary>
+    /// Adds a ForceStateHandler to the sequence-handler.
+    /// If the condition is fulfilled on execution the CurrentState will be set to the state
+    /// and further execution of the sequence will be prevented.
+    /// </summary>
+    /// <param name="builder">The sequence-builder</param>
+    /// <param name="description">The transition description (for debugging or just to describe what is it for)</param>
+    public static ISequenceBuilder AddToggleStates(this ISequenceBuilder builder,
+        string description,
+        string resetState, string setState,
+        Func<bool> dominantSetCondition, Func<bool> resetCondition)
+    {
+        builder.SetInitialStatesIfTagged(resetState, setState);
+        return builder.AddHandler(new ToggleStatesHandler(resetState, setState, dominantSetCondition, resetCondition, null, null, description));
+    }
+
+    public static ISequenceBuilder AddToggleStates(this ISequenceBuilder builder, string resetState, string setState, Func<bool> dominantSetCondition, Func<bool> resetCondition) =>
+        builder.AddToggleStates(builder.DefaultDescription, resetState, setState, dominantSetCondition, resetCondition);
+
 
     private static void SetInitialStatesIfTagged(this ISequenceBuilder builder, params string[] states)
     {
