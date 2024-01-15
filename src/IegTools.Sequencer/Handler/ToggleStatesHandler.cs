@@ -10,6 +10,9 @@
 /// </summary>
 public class ToggleStatesHandler : HandlerBase
 {
+    private readonly StateTransitionHandler _resetSetHandler;
+    private readonly StateTransitionHandler _setResetHandler;
+
     /// <summary>
     /// Creates a new instance of the <see cref="ToggleStatesHandler"/>
     /// </summary>
@@ -27,64 +30,43 @@ public class ToggleStatesHandler : HandlerBase
         string description = "")
         : base(dominantSetCondition, setAction, description)
     {
-        Name           = "Toggle States";
-        ResetState     = resetState;
-        SetState       = setState;
-        ResetCondition = resetCondition;
-        ResetAction    = resetAction;
+        Name             = "Toggle States";
+        ResetToggleState = resetState;
+        SetToggleState   = setState;
+
+        _resetSetHandler = new StateTransitionHandler(resetState, setState, dominantSetCondition, setAction, description);
+        _setResetHandler = new StateTransitionHandler(setState, resetState, resetCondition, resetAction, description);
     }
 
 
     /// <summary>
     /// The Reset-State
     /// </summary>
-    public string ResetState { get; }
+    public string ResetToggleState { get; }
 
     /// <summary>
     /// The Set-State
     /// </summary>
-    public string SetState   { get; }
-
-    /// <summary>
-    /// The reset-condition that must be fulfilled to execute the state-transition from set to reset-state
-    /// </summary>
-    public Func<bool> ResetCondition { get; }
-
-    /// <summary>
-    /// The action that will be executed after the reset-state-transition
-    /// </summary>
-    public Action     ResetAction    { get; }
+    public string SetToggleState   { get; }
 
 
     /// <summary>
     /// Returns a string representation of the handler-state
     /// </summary>
     public override string ToString() =>
-        $"{Name}: {ResetState} -> {SetState}";
+        $"{Name}: {ResetToggleState} -> {SetToggleState}";
 
 
     /// <inheritdoc />
     public override bool IsRegisteredState(string state) =>
-        state == ResetState || state == SetState;
+        state == ResetToggleState || state == SetToggleState;
 
     /// <summary>
     /// Returns true if the sequence met the specified state and the set or reset condition is fulfilled
     /// </summary>
     /// <param name="sequence">The sequence</param>
     public override bool IsConditionFulfilled(ISequence sequence) =>
-        IsSetConditionFulfilled() || IsResetConditionFulfilled();
-
-    /// <summary>
-    /// Returns true if the handler set-condition is fulfilled
-    /// </summary>
-    private bool IsSetConditionFulfilled() =>
-        Sequence.HasCurrentState(ResetState) && IsTimeOver && (Condition?.Invoke() ?? true);
-
-    /// <summary>
-    /// Returns true if the handler reset-condition is fulfilled
-    /// </summary>
-    private bool IsResetConditionFulfilled() =>
-        Sequence.HasCurrentState(SetState) && IsTimeOver && (ResetCondition?.Invoke() ?? true);
+        _resetSetHandler.IsConditionFulfilled(sequence) || _setResetHandler.IsConditionFulfilled(sequence);
 
 
     /// <summary>
@@ -95,42 +77,26 @@ public class ToggleStatesHandler : HandlerBase
     {
         using var scope = Logger?.GetSequenceLoggerScope(this, "Execute Action");
 
-        if (IsSetConditionFulfilled())
-        {
-            Logger?.LogDebug(Logger.EventId, "{Handler} -> set state {SetState}", Name, SetState);
+        // Hack to inject the sequence into the internal handler
+        _resetSetHandler.Sequence = sequence;
 
-            SetState(SetState);
-            TryInvokeAction();
+        if (_resetSetHandler.IsConditionFulfilled(sequence))
+        {
+            Logger?.LogDebug(Logger.EventId, "{Handler} -> set state {SetState}", Name, SetToggleState);
+
+            _resetSetHandler.ExecuteAction(sequence);
             return;
         }
 
+        // Hack to inject the sequence into the internal handler
+        _setResetHandler.Sequence = sequence;
+
         var lockReset = Condition?.Invoke() ?? false;
-        if (!lockReset && IsResetConditionFulfilled())
+        if (!lockReset && _setResetHandler.IsConditionFulfilled(sequence))
         {
-            Logger?.LogDebug(Logger.EventId, "{Handler} -> reset to state {ResetState}", Name, ResetState);
+            Logger?.LogDebug(Logger.EventId, "{Handler} -> reset to state {ResetToggleState}", Name, ResetToggleState);
 
-            SetState(ResetState);
-            TryInvokeResetAction();
-        }
-    }
-
-    /// <summary>
-    /// Invokes the specified action,
-    /// sets the last execution time
-    /// and invokes the OnStateChangedAction if the state has changed
-    /// </summary>
-    private void TryInvokeResetAction()
-    {
-        try
-        {
-            ResetAction?.Invoke();
-
-            // if (Action is not null)
-                // LastExecutedAt = DateTime.Now;
-        }
-        catch (Exception e)
-        {
-            Logger?.LogError(Logger.EventId, e, "Try to invoke action failed");
+            _setResetHandler.ExecuteAction(Sequence);
         }
     }
 }

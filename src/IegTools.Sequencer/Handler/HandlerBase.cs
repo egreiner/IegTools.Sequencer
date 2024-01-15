@@ -119,5 +119,5 @@ public abstract class HandlerBase : IHandler
     /// </summary>
     /// <param name="state">The state</param>
     protected void SetState(string state) =>
-        Sequence.SetState(state);
+        Sequence?.SetState(state);
 }
