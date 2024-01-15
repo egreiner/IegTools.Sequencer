@@ -47,7 +47,7 @@ public class AnyStateTransitionHandler : HandlerBase, IHasToState
 
     /// <inheritdoc />
     public override bool IsRegisteredState(string state) =>
-        state == ToState || FromStates.Contains(state);
+        state.IsIn(FromStates, ToState);
 
     /// <summary>
     /// Returns true if the sequence met the specified state and the condition is fulfilled
