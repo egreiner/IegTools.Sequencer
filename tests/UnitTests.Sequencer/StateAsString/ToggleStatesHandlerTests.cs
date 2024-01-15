@@ -8,12 +8,13 @@ public class ToggleStatesHandlerTests
     [InlineData(false,false, InitialState)]
     [InlineData(false, true, InitialState)]
     [InlineData(true, false, "SetState")]
+    // dominant set condition
+    [InlineData(true, true, "SetState")]
     public void Test_AddToggleStates(bool setCondition, bool resetCondition, string expectedState)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
             builder.SetInitialState(InitialState);
-            // builder.AddToggleStates(resetState: InitialState, setState: "SetState", dominantSetCondition: () => setCondition, resetCondition: () => resetCondition);
             builder.AddToggleStates(
                     resetState: InitialState,
                     setState: "SetState",

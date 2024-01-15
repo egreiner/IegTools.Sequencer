@@ -88,13 +88,13 @@ public class ToggleStatesHandler : HandlerBase
             return;
         }
 
-        if (IsResetConditionFulfilled() && !IsSetConditionFulfilled())
+        var lockReset = Condition?.Invoke() ?? false;
+        if (!lockReset && IsResetConditionFulfilled())
         {
-            Logger?.LogDebug(Logger.EventId, "{Handler} -> set state {ResetState}", Name, ResetState);
+            Logger?.LogDebug(Logger.EventId, "{Handler} -> reset to state {ResetState}", Name, ResetState);
 
             SetState(ResetState);
             TryInvokeResetAction();
-            return;
         }
 
 
@@ -106,7 +106,7 @@ public class ToggleStatesHandler : HandlerBase
     /// sets the last execution time
     /// and invokes the OnStateChangedAction if the state has changed
     /// </summary>
-    protected void TryInvokeResetAction()
+    private void TryInvokeResetAction()
     {
         try
         {
