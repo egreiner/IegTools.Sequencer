@@ -190,14 +190,18 @@ public static class SequenceBuilderAddHandlerStringStateExtensions
     public static ISequenceBuilder AddToggleStates(this ISequenceBuilder builder,
         string description,
         string resetState, string setState,
-        Func<bool> dominantSetCondition, Func<bool> resetCondition)
+        Func<bool> dominantSetCondition, Func<bool> resetCondition,
+        Action setAction = null, Action resetAction = null)
     {
         builder.SetInitialStatesIfTagged(resetState, setState);
-        return builder.AddHandler(new ToggleStatesHandler(resetState, setState, dominantSetCondition, resetCondition, null, null, description));
+        return builder.AddHandler(new ToggleStatesHandler(resetState, setState, dominantSetCondition, resetCondition, setAction, resetAction, description));
     }
 
-    public static ISequenceBuilder AddToggleStates(this ISequenceBuilder builder, string resetState, string setState, Func<bool> dominantSetCondition, Func<bool> resetCondition) =>
-        builder.AddToggleStates(builder.DefaultDescription, resetState, setState, dominantSetCondition, resetCondition);
+    public static ISequenceBuilder AddToggleStates(this ISequenceBuilder builder,
+        string resetState, string setState,
+        Func<bool> dominantSetCondition, Func<bool> resetCondition,
+        Action setAction = null, Action resetAction = null) =>
+        builder.AddToggleStates(builder.DefaultDescription, resetState, setState, dominantSetCondition, resetCondition, setAction, resetAction);
 
 
     private static void SetInitialStatesIfTagged(this ISequenceBuilder builder, params string[] states)
