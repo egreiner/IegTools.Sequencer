@@ -13,10 +13,12 @@ public class ToggleStatesHandler : HandlerBase
     /// <summary>
     /// Creates a new instance of the <see cref="ToggleStatesHandler"/>
     /// </summary>
-    /// <param name="fromState">The current sequence-state as precondition for any further actions</param>
-    /// <param name="toState">The state the sequence will transition to when the condition is fulfilled</param>
-    /// <param name="condition">The condition that must be fulfilled to execute the state-transition</param>
-    /// <param name="action">The action that will be executed after the transition</param>
+    /// <param name="resetState">The sequence-state to reset to</param>
+    /// <param name="setState">The sequence-state to set to</param>
+    /// <param name="dominantSetCondition">The dominant set-condition that must be fulfilled to execute the state-transition from reset to set-state</param>
+    /// <param name="resetCondition">The reset-condition that must be fulfilled to execute the state-transition from set to reset-state</param>
+    /// <param name="setAction">The action that will be executed after the set-state-transition</param>
+    /// <param name="resetAction">The action that will be executed after the reset-state-transition</param>
     /// <param name="description">The transition description (for debugging or just to describe what is it for)</param>
     public ToggleStatesHandler(
         string     resetState,           string     setState,
@@ -33,10 +35,24 @@ public class ToggleStatesHandler : HandlerBase
     }
 
 
+    /// <summary>
+    /// The Reset-State
+    /// </summary>
     public string ResetState { get; }
+
+    /// <summary>
+    /// The Set-State
+    /// </summary>
     public string SetState   { get; }
 
+    /// <summary>
+    /// The reset-condition that must be fulfilled to execute the state-transition from set to reset-state
+    /// </summary>
     public Func<bool> ResetCondition { get; }
+
+    /// <summary>
+    /// The action that will be executed after the reset-state-transition
+    /// </summary>
     public Action     ResetAction    { get; }
 
 
@@ -52,7 +68,7 @@ public class ToggleStatesHandler : HandlerBase
         state == ResetState || state == SetState;
 
     /// <summary>
-    /// Returns true if the sequence met the specified state and the condition is fulfilled
+    /// Returns true if the sequence met the specified state and the set or reset condition is fulfilled
     /// </summary>
     /// <param name="sequence">The sequence</param>
     public override bool IsConditionFulfilled(ISequence sequence) =>
@@ -96,9 +112,6 @@ public class ToggleStatesHandler : HandlerBase
             SetState(ResetState);
             TryInvokeResetAction();
         }
-
-
-        // Logger?.LogDebug(Logger.EventId, "{Handler} -> from state {ResetState} to state {SetState}", Name, ResetState, SetState);
     }
 
     /// <summary>
