@@ -46,10 +46,10 @@ public class ForceStateHandler : HandlerBase, IHasToState
     /// This handler is not dependent on the current sequence state.
     /// It depends on the condition only.
     /// </summary>
-    /// <param name="sequence">The sequence</param>
-    public override bool IsConditionFulfilled(ISequence sequence)
+    public override bool IsConditionFulfilled()
     {
-        var result = !sequence.HasCurrentState(ToState) && (Condition?.Invoke() ?? false);
+        var result = !Sequence.HasCurrentState(ToState) &&
+                     (Condition?.Invoke() ?? false);
 
         if (!result) _loggingDone = false;
 

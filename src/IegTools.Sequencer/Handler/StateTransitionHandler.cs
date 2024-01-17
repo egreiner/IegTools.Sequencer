@@ -50,9 +50,8 @@ public class StateTransitionHandler : HandlerBase, IHasToState
     /// <summary>
     /// Returns true if the sequence met the specified state and the condition is fulfilled
     /// </summary>
-    /// <param name="sequence">The sequence</param>
-    public override bool IsConditionFulfilled(ISequence sequence) =>
-        sequence.HasCurrentState(FromState) &&
+    public override bool IsConditionFulfilled() =>
+        Sequence.HasCurrentState(FromState) &&
         TimeLockExpired &&
         ConditionSatisfied;
 

@@ -70,9 +70,8 @@ public class StateToggleHandler : HandlerBase, IHasToState
     /// <summary>
     /// Returns true if the sequence met the specified state and the set or reset condition is fulfilled
     /// </summary>
-    /// <param name="sequence">The sequence</param>
-    public override bool IsConditionFulfilled(ISequence sequence) =>
-        _setToHandler.IsConditionFulfilled(sequence) || _setFromHandler.IsConditionFulfilled(sequence);
+    public override bool IsConditionFulfilled() =>
+        _setToHandler.IsConditionFulfilled() || _setFromHandler.IsConditionFulfilled();
 
 
     /// <summary>
@@ -82,7 +81,7 @@ public class StateToggleHandler : HandlerBase, IHasToState
     {
         using var scope = Logger?.GetSequenceLoggerScope(this, "Execute Action");
 
-        if (_setToHandler.IsConditionFulfilled(Sequence))
+        if (_setToHandler.IsConditionFulfilled())
         {
             Logger?.LogDebug(Logger.EventId, "{Handler} -> set state {SetState}", Name, ToState);
 
@@ -92,7 +91,7 @@ public class StateToggleHandler : HandlerBase, IHasToState
 
         // the dominant setToCondition locks the execution of the setFromAction
         var lockReset = Condition?.Invoke() ?? false;
-        if (!lockReset && _setFromHandler.IsConditionFulfilled(Sequence))
+        if (!lockReset && _setFromHandler.IsConditionFulfilled())
         {
             Logger?.LogDebug(Logger.EventId, "{Handler} -> set to state {FromState}", Name, FromState);
 

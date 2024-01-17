@@ -59,8 +59,7 @@ public interface IHandler
     /// <summary>
     /// Returns true if all conditions are fulfilled and the action is allowed to be executed
     /// </summary>
-    /// <param name="sequence">The sequence</param>
-    bool IsConditionFulfilled(ISequence sequence);
+    bool IsConditionFulfilled();
 
     /// <summary>
     /// Executes the specified action and enables the adjustment of the sequence state.

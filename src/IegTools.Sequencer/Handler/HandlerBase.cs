@@ -74,7 +74,7 @@ public abstract class HandlerBase : IHandler
     public abstract bool IsRegisteredState(string state);
 
     /// <inheritdoc />
-    public abstract bool IsConditionFulfilled(ISequence sequence);
+    public abstract bool IsConditionFulfilled();
 
 
 
@@ -88,7 +88,7 @@ public abstract class HandlerBase : IHandler
     /// <inheritdoc />
     public bool ExecuteIfValid()
     {
-        if (!this.IsConditionFulfilled(Sequence)) return false;
+        if (!IsConditionFulfilled()) return false;
 
         ExecuteAction();
 
