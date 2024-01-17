@@ -74,7 +74,7 @@ public abstract class HandlerBase : IHandler
     public abstract bool IsRegisteredState(string state);
 
     /// <inheritdoc />
-    public abstract bool IsConditionFulfilled();
+    public abstract bool ExecuteActionAllowed();
 
 
 
@@ -86,9 +86,9 @@ public abstract class HandlerBase : IHandler
     public void AllowOnlyOnceIn(TimeSpan timeSpan) => _allowOnlyOnceTimeSpan = timeSpan;
 
     /// <inheritdoc />
-    public bool ExecuteIfValid()
+    public bool ExecuteIfAllowed()
     {
-        if (!IsConditionFulfilled()) return false;
+        if (!ExecuteActionAllowed()) return false;
 
         ExecuteAction();
 

@@ -59,7 +59,7 @@ public interface IHandler
     /// <summary>
     /// Returns true if all conditions are fulfilled and the action is allowed to be executed
     /// </summary>
-    bool IsConditionFulfilled();
+    bool ExecuteActionAllowed();
 
     /// <summary>
     /// Executes the specified action and enables the adjustment of the sequence state.
@@ -69,7 +69,7 @@ public interface IHandler
     /// <summary>
     /// Validates and invokes the action.
     /// </summary>
-    bool ExecuteIfValid();
+    bool ExecuteIfAllowed();
 
     /// <summary>
     /// Returns true if the queried state is registered in the handler.
