@@ -86,9 +86,9 @@ public abstract class HandlerBase : IHandler
     public void AllowOnlyOnceIn(TimeSpan timeSpan) => _allowOnlyOnceTimeSpan = timeSpan;
 
     /// <inheritdoc />
-    public bool ExecuteIfValid(ISequence sequence)
+    public bool ExecuteIfValid()
     {
-        if (!this.IsConditionFulfilled(sequence)) return false;
+        if (!this.IsConditionFulfilled(Sequence)) return false;
 
         ExecuteAction();
 

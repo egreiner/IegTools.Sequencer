@@ -70,8 +70,7 @@ public interface IHandler
     /// <summary>
     /// Validates and invokes the action.
     /// </summary>
-    /// <param name="sequence">The sequence</param>
-    bool ExecuteIfValid(ISequence sequence);
+    bool ExecuteIfValid();
 
     /// <summary>
     /// Returns true if the queried state is registered in the handler.

@@ -62,7 +62,7 @@ public class Sequence : ISequence
     {
         foreach (var handler in Data.Handler)
         {
-            var executed = handler.ExecuteIfValid(this);
+            var executed = handler.ExecuteIfValid();
             if (executed && !handler.ResumeSequence)
                 break;
         }
