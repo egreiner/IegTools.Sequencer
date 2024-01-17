@@ -53,8 +53,10 @@ public class ContainsStateTransitionHandler : HandlerBase, IHasToState
     /// </summary>
     /// <param name="sequence">The sequence</param>
     public override bool IsConditionFulfilled(ISequence sequence) =>
-        !sequence.HasCurrentState(ToState) && sequence.CurrentState.Contains(FromStateContains) &&
-        IsConditionFulfilled();
+        !sequence.HasCurrentState(ToState) &&
+        sequence.CurrentState.Contains(FromStateContains) &&
+        TimeLockExpired &&
+        ConditionSatisfied;
 
 
     /// <summary>

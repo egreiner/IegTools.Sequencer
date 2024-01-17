@@ -28,7 +28,9 @@ public interface IHandler
     string Description { get; }
 
     /// <summary>
-    /// The Condition that should be met to make the transition
+    /// Represents a delegate that defines a condition to be evaluated for enabling a transition.
+    /// This condition must return true for the transition to occur.
+    /// If undefined, the transition is considered unconditionally allowed.
     /// </summary>
     Func<bool> Condition { get; init; }
 

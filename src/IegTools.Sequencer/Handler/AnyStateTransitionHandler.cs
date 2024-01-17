@@ -1,7 +1,6 @@
 ﻿namespace IegTools.Sequencer.Handler;
 
 using System.Linq;
-using Microsoft.Extensions.Logging;
 
 /// <summary>
 /// Transfers the sequence from the current state to the next state
@@ -54,7 +53,10 @@ public class AnyStateTransitionHandler : HandlerBase, IHasToState
     /// </summary>
     /// <param name="sequence">The sequence</param>
     public override bool IsConditionFulfilled(ISequence sequence) =>
-        !sequence.HasCurrentState(ToState) && FromStates.Contains(sequence.CurrentState) && IsConditionFulfilled();
+        !sequence.HasCurrentState(ToState) &&
+        FromStates.Contains(sequence.CurrentState) &&
+        TimeLockExpired &&
+        ConditionSatisfied;
 
 
     /// <summary>

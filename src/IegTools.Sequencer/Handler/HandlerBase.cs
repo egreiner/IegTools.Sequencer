@@ -56,12 +56,18 @@ public abstract class HandlerBase : IHandler
     public DateTime LastExecutedAt { get; private set; }
 
 
+    /// <summary>
+    /// The condition is fulfilled if the condition is null or the condition returns true
+    /// </summary>
+    protected bool ConditionSatisfied => Condition?.Invoke() ?? true;
 
     /// <summary>
-    /// Returns true if a AllowOnlyOnceIn is set and the time is over
+    /// Returns true if a AllowOnlyOnceIn is set and the lock-time is over
     /// </summary>
-    protected bool IsTimeOver =>
-        _allowOnlyOnceTimeSpan == null || DateTime.Now > LastExecutedAt + _allowOnlyOnceTimeSpan;
+    protected bool TimeLockExpired =>
+        _allowOnlyOnceTimeSpan == null ||
+        DateTime.Now > LastExecutedAt + _allowOnlyOnceTimeSpan;
+
 
 
     /// <inheritdoc />
@@ -70,11 +76,6 @@ public abstract class HandlerBase : IHandler
     /// <inheritdoc />
     public abstract bool IsConditionFulfilled(ISequence sequence);
 
-    /// <summary>
-    /// Returns true if the handler condition is fulfilled
-    /// </summary>
-    protected bool IsConditionFulfilled() =>
-        IsTimeOver && (Condition?.Invoke() ?? true);
 
 
     /// <inheritdoc />

@@ -52,7 +52,9 @@ public class StateTransitionHandler : HandlerBase, IHasToState
     /// </summary>
     /// <param name="sequence">The sequence</param>
     public override bool IsConditionFulfilled(ISequence sequence) =>
-        sequence.HasCurrentState(FromState) && IsConditionFulfilled();
+        sequence.HasCurrentState(FromState) &&
+        TimeLockExpired &&
+        ConditionSatisfied;
 
 
     /// <summary>

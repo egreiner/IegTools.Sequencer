@@ -48,9 +48,12 @@ public class StateActionHandler : HandlerBase
     /// <param name="sequence">The sequence</param>
     public override bool IsConditionFulfilled(ISequence sequence)
     {
-        var result = sequence.HasCurrentState(State) && IsConditionFulfilled();
+        var result = sequence.HasCurrentState(State) &&
+                     TimeLockExpired &&
+                     ConditionSatisfied;
 
-        if (!result) _loggingDone = false;
+        if (!result)
+            _loggingDone = false;
 
         return result;
     }
