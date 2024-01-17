@@ -78,8 +78,7 @@ public class StateToggleHandler : HandlerBase, IHasToState
     /// <summary>
     /// Executes the specified action and transitions to the new state
     /// </summary>
-    /// <param name="sequence">The sequence</param>
-    public override void ExecuteAction(ISequence sequence)
+    public override void ExecuteAction()
     {
         using var scope = Logger?.GetSequenceLoggerScope(this, "Execute Action");
 
@@ -87,7 +86,7 @@ public class StateToggleHandler : HandlerBase, IHasToState
         {
             Logger?.LogDebug(Logger.EventId, "{Handler} -> set state {SetState}", Name, ToState);
 
-            _setToHandler.ExecuteAction(Sequence);
+            _setToHandler.ExecuteAction();
             return;
         }
 
@@ -97,7 +96,7 @@ public class StateToggleHandler : HandlerBase, IHasToState
         {
             Logger?.LogDebug(Logger.EventId, "{Handler} -> set to state {FromState}", Name, FromState);
 
-            _setFromHandler.ExecuteAction(Sequence);
+            _setFromHandler.ExecuteAction();
         }
     }
 }

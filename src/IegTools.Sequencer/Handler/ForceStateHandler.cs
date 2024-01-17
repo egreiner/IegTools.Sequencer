@@ -59,8 +59,7 @@ public class ForceStateHandler : HandlerBase, IHasToState
     /// <summary>
     /// Transitions to the new state
     /// </summary>
-    /// <param name="sequence">The sequence</param>
-    public override void ExecuteAction(ISequence sequence)
+    public override void ExecuteAction()
     {
         if (!_loggingDone)
         {

@@ -61,8 +61,7 @@ public class StateActionHandler : HandlerBase
     /// <summary>
     /// Executes the specified action
     /// </summary>
-    /// <param name="sequence">The sequence</param>
-    public override void ExecuteAction(ISequence sequence)
+    public override void ExecuteAction()
     {
         if (!_loggingDone)
         {

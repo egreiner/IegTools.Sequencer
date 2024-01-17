@@ -79,7 +79,7 @@ public abstract class HandlerBase : IHandler
 
 
     /// <inheritdoc />
-    public abstract void ExecuteAction(ISequence sequence);
+    public abstract void ExecuteAction();
 
 
     /// <inheritdoc />
@@ -90,7 +90,7 @@ public abstract class HandlerBase : IHandler
     {
         if (!this.IsConditionFulfilled(sequence)) return false;
 
-        ExecuteAction(sequence);
+        ExecuteAction();
 
         return true;
     }

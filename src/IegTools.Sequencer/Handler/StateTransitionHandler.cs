@@ -60,8 +60,7 @@ public class StateTransitionHandler : HandlerBase, IHasToState
     /// <summary>
     /// Executes the specified action and transitions to the new state
     /// </summary>
-    /// <param name="sequence">The sequence</param>
-    public override void ExecuteAction(ISequence sequence)
+    public override void ExecuteAction()
     {
         using var scope = Logger?.GetSequenceLoggerScope(this, "Execute Action");
         Logger?.LogDebug(Logger.EventId, "{Handler} -> from state {StateFrom} to state {StateTo}", Name, FromState, ToState);
