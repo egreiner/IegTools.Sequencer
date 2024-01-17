@@ -6,7 +6,7 @@
 /// The set-condition is dominant, that means if the set-condition and reset-condition is met,
 /// the sequence will be set to the set-state.
 /// </summary>
-public class StateToggleHandler : HandlerBase
+public class StateToggleHandler : HandlerBase, IHasToState
 {
     private readonly StateTransitionHandler _setToHandler;
     private readonly StateTransitionHandler _setFromHandler;
@@ -75,24 +75,21 @@ public class StateToggleHandler : HandlerBase
     {
         using var scope = Logger?.GetSequenceLoggerScope(this, "Execute Action");
 
-        // Hack to inject the sequence into the internal handler
-        _setToHandler.Sequence = sequence;
-
-        if (_setToHandler.IsConditionFulfilled(sequence))
+        _setToHandler.Sequence = Sequence;
+        if (_setToHandler.IsConditionFulfilled(Sequence))
         {
             Logger?.LogDebug(Logger.EventId, "{Handler} -> set state {SetState}", Name, ToState);
 
-            _setToHandler.ExecuteAction(sequence);
+            _setToHandler.ExecuteAction(Sequence);
             return;
         }
 
-        // Hack to inject the sequence into the internal handler
-        _setFromHandler.Sequence = sequence;
-
+        // the dominant setToCondition locks the execution of the setFromAction
         var lockReset = Condition?.Invoke() ?? false;
-        if (!lockReset && _setFromHandler.IsConditionFulfilled(sequence))
+        _setFromHandler.Sequence = Sequence;
+        if (!lockReset && _setFromHandler.IsConditionFulfilled(Sequence))
         {
-            Logger?.LogDebug(Logger.EventId, "{Handler} -> reset to state {FromState}", Name, FromState);
+            Logger?.LogDebug(Logger.EventId, "{Handler} -> set to state {FromState}", Name, FromState);
 
             _setFromHandler.ExecuteAction(Sequence);
         }
