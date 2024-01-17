@@ -27,7 +27,7 @@ public abstract class HandlerBase : IHandler
     public ILoggerAdapter Logger { get; set; }
 
     /// <inheritdoc />
-    public ISequence Sequence { get; set; }
+    public ISequence Sequence { get; private set; }
 
 
     /// <summary>
@@ -92,6 +92,13 @@ public abstract class HandlerBase : IHandler
         ExecuteAction(sequence);
 
         return true;
+    }
+
+    /// <inheritdoc />
+    public virtual IHandler SetSequence(ISequence sequence)
+    {
+        Sequence = sequence;
+        return this;
     }
 
     /// <summary>

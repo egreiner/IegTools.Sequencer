@@ -15,7 +15,7 @@ public interface IHandler
     /// <summary>
     /// The Sequence that this handler is bound to
     /// </summary>
-    ISequence Sequence { get; set; }
+    ISequence Sequence { get; }
 
     /// <summary>
     /// The handlers name
@@ -50,6 +50,11 @@ public interface IHandler
 
 
     /// <summary>
+    /// Sets the sequence
+    /// </summary>
+    IHandler SetSequence(ISequence sequence);
+
+    /// <summary>
     /// Returns true if all conditions are fulfilled and the action is allowed to be executed
     /// </summary>
     /// <param name="sequence">The sequence</param>
@@ -60,13 +65,13 @@ public interface IHandler
     /// </summary>
     /// <param name="sequence">The sequence</param>
     void ExecuteAction(ISequence sequence);
-    
+
     /// <summary>
     /// Validates and invokes the action.
     /// </summary>
     /// <param name="sequence">The sequence</param>
     bool ExecuteIfValid(ISequence sequence);
-    
+
     /// <summary>
     /// Returns true if the queried state is registered in the handler.
     /// </summary>

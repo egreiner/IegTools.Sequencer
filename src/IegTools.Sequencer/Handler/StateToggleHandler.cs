@@ -56,6 +56,14 @@ public class StateToggleHandler : HandlerBase, IHasToState
 
 
     /// <inheritdoc />
+    public override IHandler SetSequence(ISequence sequence)
+    {
+        _setToHandler.SetSequence(sequence);
+        _setFromHandler.SetSequence(sequence);
+        return base.SetSequence(sequence);
+    }
+
+    /// <inheritdoc />
     public override bool IsRegisteredState(string state) =>
         state.IsIn(FromState, ToState);
 
@@ -75,7 +83,6 @@ public class StateToggleHandler : HandlerBase, IHasToState
     {
         using var scope = Logger?.GetSequenceLoggerScope(this, "Execute Action");
 
-        _setToHandler.Sequence = Sequence;
         if (_setToHandler.IsConditionFulfilled(Sequence))
         {
             Logger?.LogDebug(Logger.EventId, "{Handler} -> set state {SetState}", Name, ToState);
@@ -86,7 +93,6 @@ public class StateToggleHandler : HandlerBase, IHasToState
 
         // the dominant setToCondition locks the execution of the setFromAction
         var lockReset = Condition?.Invoke() ?? false;
-        _setFromHandler.Sequence = Sequence;
         if (!lockReset && _setFromHandler.IsConditionFulfilled(Sequence))
         {
             Logger?.LogDebug(Logger.EventId, "{Handler} -> set to state {FromState}", Name, FromState);

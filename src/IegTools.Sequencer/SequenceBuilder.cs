@@ -66,7 +66,7 @@ public class SequenceBuilder : ISequenceBuilder
 
         foreach (var handler in Data.Handler)
         {
-            handler.Sequence = sequence;
+            handler.SetSequence(sequence);
             handler.Logger   = _debugLogger;
         }
 
