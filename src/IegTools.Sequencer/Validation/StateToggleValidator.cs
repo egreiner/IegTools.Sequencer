@@ -21,25 +21,15 @@ public sealed class StateToggleValidator : HandlerValidatorBase, IHandlerValidat
     /// <inheritdoc />
     public bool Validate(ValidationContext<SequenceBuilder> context, ValidationResult result)
     {
-        var isValid = true;
-
         if (!HandlerValidatedFrom(context.InstanceToValidate))
-        {
-            result.Errors.Add(new ValidationFailure("StateTransition",
+            result.AddError("StateTransition",
                 "Each 'FromState' must have an 'ToState' counterpart where it comes from (other Transition, Initial-State...)\n" +
-                $"Violating handler: {string.Join("; ", _handlerFrom)}"));
-
-            isValid = false;
-        }
+                $"Violating handler: {string.Join("; ", _handlerFrom)}");
 
         if (!HandlerValidatedTo(context.InstanceToValidate))
-        {
-            result.Errors.Add(new ValidationFailure("StateTransition",
+            result.AddError("StateTransition",
                 "Each 'ToState' must have an 'FromState' counterpart where it goes to (other Transition...)\n" +
-                $"Violating handler: {string.Join("; ", _handlerTo)}"));
-
-            isValid = false;
-        }
+                $"Violating handler: {string.Join("; ", _handlerTo)}");
 
         return result.IsValid;
     }
