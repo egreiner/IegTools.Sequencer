@@ -10,7 +10,7 @@ public class InitialStateValidatorTests
         var builder = SequenceBuilder.Configure(builder
             =>
         {
-            builder.WithValidator<IegTools.Sequencer.Validation.InitialStateValidator>();
+            builder.WithValidator<InitialStateValidator>();
         });
 
         FluentActions.Invoking(() => builder.Build())
