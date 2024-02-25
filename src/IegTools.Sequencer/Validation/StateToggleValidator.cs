@@ -41,7 +41,7 @@ public sealed class StateToggleValidator : HandlerValidatorBase, IHandlerValidat
             isValid = false;
         }
 
-        return isValid;
+        return result.Errors.Count == 0;
     }
 
 

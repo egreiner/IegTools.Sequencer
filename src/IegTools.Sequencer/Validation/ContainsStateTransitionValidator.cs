@@ -42,7 +42,7 @@ public sealed class ContainsStateTransitionValidator : HandlerValidatorBase, IHa
             isValid = false;
         }
 
-        return isValid;
+        return result.Errors.Count == 0;
     }
 
 
