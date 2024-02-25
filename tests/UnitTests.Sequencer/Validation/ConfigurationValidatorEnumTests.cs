@@ -7,7 +7,7 @@ public class ConfigurationValidatorEnumTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_ThrowsValidationError_InitialStateEmpty(bool constraint)
+    public void Should_throw_ValidationError_InitialStateEmpty(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -24,7 +24,7 @@ public class ConfigurationValidatorEnumTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_ThrowsValidationError_HandlerCount(bool constraint)
+    public void Should_throw_ValidationError_HandlerCount(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -42,7 +42,7 @@ public class ConfigurationValidatorEnumTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_DoesNotThrowValidationError_HandlerCount(bool constraint)
+    public void Should_not_throw_ValidationError_HandlerCount(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -59,7 +59,7 @@ public class ConfigurationValidatorEnumTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_DoesThrowValidationError_wrong_NextState(bool constraint)
+    public void Should_throw_ValidationError_wrong_NextState(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -76,7 +76,7 @@ public class ConfigurationValidatorEnumTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_DoesThrowValidationError_wrong_FromState(bool constraint)
+    public void Should_throw_ValidationError_wrong_FromState(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -97,7 +97,7 @@ public class ConfigurationValidatorEnumTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_DoesThrowValidationError_wrong_CurrentState2(bool constraint)
+    public void Should_throw_ValidationError_wrong_CurrentState2(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -118,7 +118,7 @@ public class ConfigurationValidatorEnumTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_DoesNotThrowValidationError(bool constraint)
+    public void Should_not_throw_ValidationError(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -138,7 +138,7 @@ public class ConfigurationValidatorEnumTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_DoesNotThrowValidationError_MissingState(bool constraint)
+    public void Should_not_throw_ValidationError_MissingState(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -158,7 +158,7 @@ public class ConfigurationValidatorEnumTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_DoesNotThrowValidationError_MissingState_with_DeadEndCharacter(bool constraint)
+    public void Should_not_throw_ValidationError_MissingState_with_DeadEndCharacter(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -178,7 +178,7 @@ public class ConfigurationValidatorEnumTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_DoesNotThrowValidationError_HandlerState(bool constraint)
+    public void Should_not_throw_ValidationError_HandlerState(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -195,7 +195,7 @@ public class ConfigurationValidatorEnumTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_DoesNotThrowValidationError_HandlerState2(bool constraint)
+    public void Should_not_throw_ValidationError_HandlerState2(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
