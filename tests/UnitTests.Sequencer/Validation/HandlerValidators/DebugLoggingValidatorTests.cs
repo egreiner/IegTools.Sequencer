@@ -1,5 +1,7 @@
 ﻿namespace UnitTests.Sequencer.Validation.HandlerValidators;
 
+using IegTools.Sequencer.Validation;
+
 public class DebugLoggingValidatorTests
 {
     [Fact]
@@ -8,6 +10,8 @@ public class DebugLoggingValidatorTests
         var logger = Substitute.For<ILogger<DebugLoggingValidatorTests>>();
         var builder = SequenceBuilder.Configure(builder =>
             {
+                builder.WithValidator<DebugLoggingValidator>();
+
                 builder.SetInitialState("Off");
                 builder.DisableValidationForStates("Off", "Test1", "Test2");
                 builder.ActivateDebugLogging(logger, new EventId(-1, "Seq 1"));
@@ -27,6 +31,8 @@ public class DebugLoggingValidatorTests
         var logger = Substitute.For<ILogger<DebugLoggingValidatorTests>>();
         var builder = SequenceBuilder.Configure(builder =>
             {
+                builder.WithValidator<DebugLoggingValidator>();
+
                 builder.SetInitialState("Off");
                 builder.ActivateDebugLogging(logger, new EventId(-1, "Seq 1"));
                 builder.DisableValidation();
@@ -45,6 +51,8 @@ public class DebugLoggingValidatorTests
         var logger = Substitute.For<ILogger<DebugLoggingValidatorTests>>();
         var builder = SequenceBuilder.Configure(builder =>
             {
+                builder.WithValidator<DebugLoggingValidator>();
+
                 builder.SetInitialState("Off");
                 builder.ActivateDebugLogging(logger, new EventId(-1, "Seq 1"));
 
@@ -64,6 +72,8 @@ public class DebugLoggingValidatorTests
         var logger = Substitute.For<ILogger<DebugLoggingValidatorTests>>();
         var builder = SequenceBuilder.Configure(builder =>
             {
+                builder.WithValidator<DebugLoggingValidator>();
+
                 builder.SetInitialState("Off");
                 builder.ActivateDebugLogging(logger, new EventId(-1, "Seq 1"));
 
@@ -82,6 +92,8 @@ public class DebugLoggingValidatorTests
         var logger = Substitute.For<ILogger<DebugLoggingValidatorTests>>();
         var builder = SequenceBuilder.Configure(builder =>
             {
+                builder.WithValidator<DebugLoggingValidator>();
+
                 builder.SetInitialState("Off");
                 builder.ActivateDebugLogging(logger, new EventId(-1, "Seq 1"));
 
