@@ -1,5 +1,7 @@
 ﻿namespace UnitTests.Sequencer.Validation.HandlerValidators;
 
+using IegTools.Sequencer.Validation;
+
 public class StateTransitionValidatorTests
 {
     [Fact]
@@ -8,6 +10,8 @@ public class StateTransitionValidatorTests
         var builder = SequenceBuilder.Configure(builder
             =>
         {
+            builder.WithValidator<StateTransitionValidator>();
+
             builder.SetInitialState("State1");
             builder.AddTransition("State1", "!State2", () => true);
             builder.AddTransition("State3", "!State2", () => true);
@@ -25,6 +29,8 @@ public class StateTransitionValidatorTests
         var builder = SequenceBuilder.Configure(builder
             =>
         {
+            builder.WithValidator<StateTransitionValidator>();
+
             builder.SetInitialState("State1");
             builder.AddTransition("State1", "State2", () => true);
         });
@@ -41,6 +47,8 @@ public class StateTransitionValidatorTests
         var builder = SequenceBuilder.Configure(builder
             =>
         {
+            builder.WithValidator<StateTransitionValidator>();
+
             builder.SetInitialState("State1");
             builder.AddTransition("State1", "State2", () => true);
             builder.AddTransition("State2", "State1", () => true);
@@ -56,6 +64,8 @@ public class StateTransitionValidatorTests
         var builder = SequenceBuilder.Configure(builder
             =>
         {
+            builder.WithValidator<StateTransitionValidator>();
+
             builder.SetInitialState("State1");
             builder.AddTransition("State2", "State1", () => true);
 
@@ -72,6 +82,8 @@ public class StateTransitionValidatorTests
         var builder = SequenceBuilder.Configure(builder
             =>
         {
+            builder.WithValidator<StateTransitionValidator>();
+
             builder.SetInitialState("State1");
             builder.AddTransition("State1", "State2", () => true);
             builder.AddAnyTransition(new[] { "State1", "State2" }, "!State3", () => true);
