@@ -18,9 +18,9 @@ public sealed class ForceStateValidator : HandlerValidatorBase, IHandlerValidato
     {
         if (HandlerIsValidated(context.InstanceToValidate)) return true;
 
-        result.Errors.Add(new ValidationFailure("ForceState",
+        result.AddError("ForceState",
             "Each Force-State must have an StateTransition counterpart.\n\r" +
-            $"Violating handler: {string.Join("; ", _handler)}"));
+            $"Violating handler: {string.Join("; ", _handler)}");
         
         return result.IsValid;
     }
