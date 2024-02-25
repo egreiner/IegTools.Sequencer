@@ -14,13 +14,13 @@ public sealed class InitialStateValidator : HandlerValidatorBase, IHandlerValida
     public bool Validate(ValidationContext<SequenceBuilder> context, ValidationResult result)
     {
         var builder = context.InstanceToValidate;
-        if (!ShouldBeValidated(builder.Configuration.InitialState, builder)) return IsValid;
+        if (!ShouldBeValidated(builder.Configuration.InitialState, builder)) return true;
 
         if (string.IsNullOrEmpty(builder.Configuration.InitialState))
-            AddError(result, "InitialState", "The Initial-State must be defined");
+            result.AddError("InitialState", "The Initial-State must be defined");
 
         if (!HandlerIsValidated(builder))
-            AddError(result, "InitialState", "The Initial-State must have an StateTransition counterpart");
+            result.AddError("InitialState", "The Initial-State must have an StateTransition counterpart");
 
         return result.Errors.Count == 0;
     }

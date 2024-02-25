@@ -3,7 +3,7 @@
 public class InitialStateValidatorTests
 {
     [Fact]
-    public void Test_ThrowsValidationError_no_InitialState()
+    public void Should_throw_ValidationError_No_InitialState()
     {
         var builder = SequenceBuilder.Configure(builder
             =>
@@ -18,7 +18,7 @@ public class InitialStateValidatorTests
     }
 
     [Fact]
-    public void Test_ThrowsValidationError_no_Transition()
+    public void Should_throw_ValidationError_No_Transition()
     {
         var builder = SequenceBuilder.Configure(builder
             =>
@@ -34,7 +34,7 @@ public class InitialStateValidatorTests
     }
 
     [Fact]
-    public void Test_Does_not_throw_ValidationError_Transition()
+    public void Should_not_throw_ValidationError_Transition()
     {
         var builder = SequenceBuilder.Configure(builder
             =>
@@ -49,7 +49,7 @@ public class InitialStateValidatorTests
     }
 
     [Fact]
-    public void Test_Does_not_throw_ValidationError_ContainsTransition()
+    public void Should_not_throw_ValidationError_ContainsTransition()
     {
         var builder = SequenceBuilder.Configure(builder
             =>
@@ -64,7 +64,7 @@ public class InitialStateValidatorTests
     }
 
     [Fact]
-    public void Test_Does_not_throw_ValidationError_AnyTransition()
+    public void Should_not_throw_ValidationError_AnyTransition()
     {
         var builder = SequenceBuilder.Configure(builder
             =>
