@@ -5,15 +5,21 @@ using IegTools.Sequencer.Logging;
 
 public class LoggerAdapterTests
 {
-    [Fact]
-    public void Should_be_enabled()
+    [Theory]
+    [InlineData(LogLevel.Debug, false)]
+    [InlineData(LogLevel.Information, false)]
+    [InlineData(LogLevel.Warning, false)]
+    [InlineData(LogLevel.Error, false)]
+    [InlineData(LogLevel.Critical, false)]
+    [InlineData(LogLevel.None, false)]
+    public void All_LogLevels_should_be_disabled_per_default(LogLevel logLevel, bool expected)
     {
         var logger        = Substitute.For<ILogger<LoggingTests>>();
         var loggerAdapter = new LoggerAdapter(logger, new EventId(-1, "Test EventId"), loggerScope: null);
 
-        var actual = loggerAdapter.IsEnabled(LogLevel.Trace);
+        var actual = loggerAdapter.IsEnabled(logLevel);
 
-        actual.Should().BeFalse();
+        actual.Should().Be(expected);
     }
 
     [Fact]
