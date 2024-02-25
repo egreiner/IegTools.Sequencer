@@ -1,5 +1,7 @@
 ﻿namespace UnitTests.Sequencer.Validation.HandlerValidators;
 
+using IegTools.Sequencer.Validation;
+
 public class AnyStateTransitionValidatorTests
 {
     [Fact]
@@ -8,6 +10,8 @@ public class AnyStateTransitionValidatorTests
         var builder = SequenceBuilder.Configure(builder
             =>
         {
+            builder.WithValidator<AnyStateTransitionValidator>();
+
             builder.SetInitialState("State1");
             builder.AddTransition("State1", "State2", () => true);
             builder.AddTransition("State2", "State1", () => true);
@@ -27,6 +31,8 @@ public class AnyStateTransitionValidatorTests
         var builder = SequenceBuilder.Configure(builder
             =>
         {
+            builder.WithValidator<AnyStateTransitionValidator>();
+
             builder.SetInitialState("State1");
             builder.AddTransition("State1", "State2", () => true);
             builder.AddTransition("State2", "State1", () => true);
@@ -46,6 +52,8 @@ public class AnyStateTransitionValidatorTests
         var builder = SequenceBuilder.Configure(builder
             =>
         {
+            builder.WithValidator<AnyStateTransitionValidator>();
+
             builder.SetInitialState("State1");
             builder.AddTransition("State1", "State2", () => true);
             builder.AddTransition("State2", "State1", () => true);
@@ -63,6 +71,8 @@ public class AnyStateTransitionValidatorTests
         var builder = SequenceBuilder.Configure(builder
             =>
         {
+            builder.WithValidator<AnyStateTransitionValidator>();
+
             builder.SetInitialState("State1");
             builder.AddTransition("State1", "State2", () => true);
             builder.AddTransition("State2", "State1", () => true);
@@ -82,6 +92,8 @@ public class AnyStateTransitionValidatorTests
         var builder = SequenceBuilder.Configure(builder
             =>
         {
+            builder.WithValidator<AnyStateTransitionValidator>();
+
             builder.SetInitialState("State1");
             builder.AddTransition("State1", "State2", () => true);
             builder.AddTransition("State2", "State1", () => true);
