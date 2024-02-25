@@ -21,9 +21,9 @@ public sealed class DebugLoggingValidator : HandlerValidatorBase, IHandlerValida
             !builder.DebugLoggingActivated ||
             HandlerIsValidated(builder)) return true;
 
-        result.Errors.Add(new ValidationFailure("Debug Logging",
+        result.AddError("Debug Logging",
             "Each transition/task in the sequence must have a meaningful description otherwise debug logging doesn't really make sense.\n\r" +
-            $"Violating handler: {string.Join("; ", _handler)}"));
+            $"Violating handler: {string.Join("; ", _handler)}");
 
         return result.IsValid;
     }
