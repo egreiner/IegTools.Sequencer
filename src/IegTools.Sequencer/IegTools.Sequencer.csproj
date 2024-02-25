@@ -12,15 +12,16 @@
 		
 		<PackageId>IegTools.Sequencer</PackageId>
 		<Title>IegTools.Sequencer</Title>
-		<Version>3.0.0-rc.2</Version>
+		<Version>3.0.0-rc.3</Version>
 		
 		<Company>ieg Systems</Company>
 		<Authors>Ing. Ernst Greiner</Authors>
-		<Copyright>(c) 2023 ieg Systems - Ing. Ernst Greiner</Copyright>
+		<Copyright>(c) 2024 ieg Systems - Ing. Ernst Greiner</Copyright>
 
-		<Description>IegTools.Sequencer provides a fluent interface for creating easy-to-read and extensible sequences, eliminating the need for lengthy if/else statements.</Description>
+		<Description>IegTools.Sequencer provides a fluent interface for creating easy-to-read and extensible sequences,
+			eliminating the need for lengthy if/else statements.</Description>
 
-		<PackageReleaseNotes>v3.0.0-rc.2 builder.SetOnStateChangedAction(...)</PackageReleaseNotes>
+		<PackageReleaseNotes>v3.0.0-rc.3 builder.SetOnStateChangedAction(...)</PackageReleaseNotes>
 		
 		<PackageTags>sequence, sequencer, statemachine</PackageTags>
 		
