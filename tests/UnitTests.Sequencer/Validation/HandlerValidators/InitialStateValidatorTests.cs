@@ -2,15 +2,20 @@
 
 public class InitialStateValidatorTests
 {
-    ////[Fact]
-    ////public void Test_ThrowsValidationError_no_InitialState()
-    ////{
-    ////    var builder = SequenceBuilder.Configure(_ => {});
+    [Fact]
+    public void Test_ThrowsValidationError_no_InitialState()
+    {
+        var builder = SequenceBuilder.Configure(builder
+            =>
+        {
+            builder.WithValidator<IegTools.Sequencer.Validation.InitialStateValidator>();
+        });
 
-    ////    FluentActions.Invoking(() => builder.Build())
-    ////        .Should().Throw<FluentValidation.ValidationException>()
-    ////        .WithMessage("*The Initial-State*");
-    ////}
+        FluentActions.Invoking(() => builder.Build())
+            .Should().Throw<FluentValidation.ValidationException>()
+            .WithMessage("*Initial-State*")
+            .WithMessage("*must be defined*");
+    }
 
     [Fact]
     public void Test_ThrowsValidationError_no_Transition()
@@ -18,12 +23,14 @@ public class InitialStateValidatorTests
         var builder = SequenceBuilder.Configure(builder
             =>
         {
+            builder.WithValidator<IegTools.Sequencer.Validation.InitialStateValidator>();
             builder.SetInitialState("State1");
         });
 
         FluentActions.Invoking(() => builder.Build())
             .Should().Throw<FluentValidation.ValidationException>()
-            .WithMessage("*The Initial-State*");
+            .WithMessage("*Initial-State*")
+            .WithMessage("*StateTransition*");
     }
 
     [Fact]

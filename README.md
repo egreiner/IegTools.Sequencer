@@ -2,7 +2,7 @@
 
 IegTools.Sequencer provides a fluent interface for creating easy-to-read and extensible sequences,
 eliminating the need for lengthy if/else statements.  
-The library is written in C# 11.0 and targets .NET Standard 2.0 (.NET Core and .NET Framework).
+The library is written in C# 12.0 and targets .NET Standard 2.0 (.NET (Core) and .NET Framework).
 
 The library allows you to define:
 
@@ -131,7 +131,10 @@ States can be defined as strings or enums, internally they will be stored as str
 
 # State Tags
 
-[I tend to delete this feature, it's to much magic, the Initial-State and ignored States should be defined explicit.]
+[This feature will be deleted in the next major version (v4.0). 
+The existing validators will detect if you have done the necessary changes 
+(the Initial-State and the ignored States should be defined explicitly)
+and throw an exception if not.]
 
 State-Tags can only be used with string-states.
 For enum-states there are other possibilities. (-> Validation Handler)  

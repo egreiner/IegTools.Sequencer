@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using FluentValidation.Results;
 using Handler;
 
 /// <summary>
@@ -11,6 +12,24 @@ public class HandlerValidatorBase
 {
     private List<IHasToState> _handlerTo;
 
+
+    /// <summary>
+    /// Returns true if the state is valid.
+    /// </summary>
+    protected bool IsValid { get; set; } = true;
+
+
+    /// <summary>
+    /// Adds an error to the result.
+    /// </summary>
+    /// <param name="result">The validation result</param>
+    /// <param name="propertyName">The name of the erroneous property</param>
+    /// <param name="message">The validation error message</param>
+    protected void AddError(ValidationResult result, string propertyName, string message)
+    {
+        result.Errors.Add(new ValidationFailure(propertyName, message));
+        IsValid = false;
+    }
 
     /// <summary>
     /// Returns true if the state should be validated.
