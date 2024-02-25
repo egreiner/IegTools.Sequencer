@@ -1,5 +1,7 @@
 ﻿namespace UnitTests.Sequencer.Validation.HandlerValidators;
 
+using IegTools.Sequencer.Validation;
+
 public class StateToggleValidatorTests
 {
     // [Fact]
@@ -8,6 +10,8 @@ public class StateToggleValidatorTests
     //     var builder = SequenceBuilder.Configure(builder
     //         =>
     //     {
+    //         builder.WithValidator<StateToggleValidator>();
+    //
     //         builder.SetInitialState("State1");
     //         builder.AddTransition("State1", "!State2", () => true);
     //         builder.AddTransition("State3", "!State2", () => true);
@@ -18,13 +22,15 @@ public class StateToggleValidatorTests
     //         .WithMessage("*StateTransition*")
     //         .WithMessage("*Each 'FromState'*");
     // }
-
+    //
     // [Fact]
     // public void Test_ThrowsValidationError_wrong_ToState()
     // {
     //     var builder = SequenceBuilder.Configure(builder
     //         =>
     //     {
+    //         builder.WithValidator<StateToggleValidator>();
+    //
     //         builder.SetInitialState("State1");
     //         builder.AddTransition("State1", "State2", () => true);
     //     });
@@ -41,6 +47,8 @@ public class StateToggleValidatorTests
     //     var builder = SequenceBuilder.Configure(builder
     //         =>
     //     {
+    //         builder.WithValidator<StateToggleValidator>();
+    //
     //         builder.SetInitialState("State1");
     //         builder.AddTransition("State1", "State2", () => true);
     //         builder.AddTransition("State2", "State1", () => true);
@@ -56,6 +64,8 @@ public class StateToggleValidatorTests
     //     var builder = SequenceBuilder.Configure(builder
     //         =>
     //     {
+    //         builder.WithValidator<StateToggleValidator>();
+    //
     //         builder.SetInitialState("State1");
     //         builder.AddTransition("State2", "State1", () => true);
     //
@@ -72,6 +82,8 @@ public class StateToggleValidatorTests
     //     var builder = SequenceBuilder.Configure(builder
     //         =>
     //     {
+    //         builder.WithValidator<StateToggleValidator>();
+    //
     //         builder.SetInitialState("State1");
     //         builder.AddTransition("State1", "State2", () => true);
     //         builder.AddAnyTransition(new[] { "State1", "State2" }, "!State3", () => true);
