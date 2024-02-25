@@ -18,31 +18,21 @@ public sealed class ContainsStateTransitionValidator : HandlerValidatorBase, IHa
     /// <inheritdoc />
     public bool Validate(ValidationContext<SequenceBuilder> context, ValidationResult result)
     {
-        var isValid = true;
-
         if (!HandlerValidatedFrom(context.InstanceToValidate))
-        {
-            result.Errors.Add(new ValidationFailure("ContainsStateTransition",
+            result.AddError("ContainsStateTransition",
                 "Each 'State-part' of an ContainsTransition must have an 'ToState' counterpart." +
-                $"Violating handler: {string.Join("; ", _handlerFrom)}"));
+                $"Violating handler: {string.Join("; ", _handlerFrom)}");
 
-            ////result.Errors.Add(new ValidationFailure("AnyStateTransition",
+            ////result.AddError("AnyStateTransition",
             ////    "Each 'FromState' of an AnyTransition must have an 'ToState' counterpart where it comes from (other Transition, Initial-State...)\n" +
-            ////    $"Violating handler: {string.Join("; ", _handlerFrom)}"));
-
-            isValid = false;
-        }
+            ////    $"Violating handler: {string.Join("; ", _handlerFrom)}");
 
         if (!HandlerValidatedTo(context.InstanceToValidate))
-        {
-            result.Errors.Add(new ValidationFailure("ContainsStateTransition",
+            result.AddError("ContainsStateTransition",
                 "Each 'ToState' must have an 'FromState' counterpart where it goes to (other Transition...)\n" +
-                $"Violating handler: {string.Join("; ", _handlerTo)}"));
+                $"Violating handler: {string.Join("; ", _handlerTo)}");
 
-            isValid = false;
-        }
-
-        return result.Errors.Count == 0;
+        return result.IsValid;
     }
 
 
