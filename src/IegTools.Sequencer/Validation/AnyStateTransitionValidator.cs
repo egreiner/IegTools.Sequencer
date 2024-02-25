@@ -18,27 +18,17 @@ public sealed class AnyStateTransitionValidator : HandlerValidatorBase, IHandler
     /// <inheritdoc />
     public bool Validate(ValidationContext<SequenceBuilder> context, ValidationResult result)
     {
-        var isValid = true;
-
         if (!HandlerIsValidatedFrom(context.InstanceToValidate))
-        {
-            result.Errors.Add(new ValidationFailure("AnyStateTransition",
+            result.AddError("AnyStateTransition",
                 "Each 'FromState' of an AnyTransition must have an 'ToState' counterpart where it comes from (other Transition, Initial-State...)\n" +
-                $"Violating handler: {string.Join("; ", _handlerFrom)}"));
-
-            isValid = false;
-        }
+                $"Violating handler: {string.Join("; ", _handlerFrom)}");
 
         if (!HandlerIsValidatedTo(context.InstanceToValidate))
-        {
-            result.Errors.Add(new ValidationFailure("AnyStateTransition",
+            result.AddError("AnyStateTransition",
                 "Each 'ToState' must have an 'FromState' counterpart where it goes to (other Transition...)\n" +
-                $"Violating handler: {string.Join("; ", _handlerTo)}"));
+                $"Violating handler: {string.Join("; ", _handlerTo)}");
 
-            isValid = false;
-        }
-
-        return isValid;
+        return result.Errors.Count == 0;
     }
 
 
