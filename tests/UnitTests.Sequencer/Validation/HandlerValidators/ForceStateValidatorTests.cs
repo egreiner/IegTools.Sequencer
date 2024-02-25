@@ -1,5 +1,7 @@
 ﻿namespace UnitTests.Sequencer.Validation.HandlerValidators;
 
+using IegTools.Sequencer.Validation;
+
 public class ForceStateValidatorTests
 {
     [Fact]
@@ -8,6 +10,8 @@ public class ForceStateValidatorTests
         var builder = SequenceBuilder.Configure(builder
             =>
         {
+            builder.WithValidator<ForceStateValidator>();
+
             builder.SetInitialState("State1");
             builder.AddForceState("unknown", () => true);
         });
@@ -23,6 +27,8 @@ public class ForceStateValidatorTests
         var builder = SequenceBuilder.Configure(builder
             =>
         {
+            builder.WithValidator<ForceStateValidator>();
+
             builder.SetInitialState("State1");
             builder.AddTransition("State1", "!State2", () => true);
 
@@ -39,6 +45,8 @@ public class ForceStateValidatorTests
         var builder = SequenceBuilder.Configure(builder
             =>
         {
+            builder.WithValidator<ForceStateValidator>();
+
             builder.SetInitialState("State1");
             builder.AddContainsTransition("State", "!State2", () => true);
 
@@ -55,6 +63,8 @@ public class ForceStateValidatorTests
         var builder = SequenceBuilder.Configure(builder
             =>
         {
+            builder.WithValidator<ForceStateValidator>();
+
             builder.SetInitialState("State1");
             builder.AddAnyTransition(new[] { "State1", "!State2" }, "!State3", () => true);
 
@@ -64,23 +74,4 @@ public class ForceStateValidatorTests
         var build = () => builder.Build();
         build.Should().NotThrow();
     }
-
-    ////[Theory]
-    ////[InlineData(true)]
-    ////[InlineData(false)]
-    ////public void Test_ThrowsValidationError(bool constraint)
-    ////{
-    ////    var builder = SequenceBuilder.Configure(builder
-    ////        =>
-    ////    {
-    ////        builder.SetInitialState("State1");
-    ////        builder.AddForceState("unknown", () => true);
-    ////    });
-
-    ////    FluentActions.Invoking(() => builder.Build())
-    ////        .Should().Throw<FluentValidation.ValidationException>()
-    ////        .WithMessage("*Each Force-State*");
-    ////}
-
-
 }
