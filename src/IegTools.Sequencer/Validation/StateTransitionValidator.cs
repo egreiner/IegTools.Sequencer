@@ -38,7 +38,7 @@ public sealed class StateTransitionValidator : HandlerValidatorBase, IHandlerVal
             isValid = false;
         }
 
-        return result.Errors.Count == 0;
+        return result.IsValid;
     }
 
 

@@ -22,7 +22,7 @@ public sealed class InitialStateValidator : HandlerValidatorBase, IHandlerValida
         if (!HandlerIsValidated(builder))
             result.AddError("InitialState", "The Initial-State must have an StateTransition counterpart");
 
-        return result.Errors.Count == 0;
+        return result.IsValid;
     }
 
     private bool HandlerIsValidated(SequenceBuilder builder) =>

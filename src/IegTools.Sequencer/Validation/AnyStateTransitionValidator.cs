@@ -28,7 +28,7 @@ public sealed class AnyStateTransitionValidator : HandlerValidatorBase, IHandler
                 "Each 'ToState' must have an 'FromState' counterpart where it goes to (other Transition...)\n" +
                 $"Violating handler: {string.Join("; ", _handlerTo)}");
 
-        return result.Errors.Count == 0;
+        return result.IsValid;
     }
 
 

@@ -22,7 +22,7 @@ public sealed class ForceStateValidator : HandlerValidatorBase, IHandlerValidato
             "Each Force-State must have an StateTransition counterpart.\n\r" +
             $"Violating handler: {string.Join("; ", _handler)}"));
         
-        return result.Errors.Count == 0;
+        return result.IsValid;
     }
 
     /// <summary>
