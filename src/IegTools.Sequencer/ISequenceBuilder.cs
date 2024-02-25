@@ -28,6 +28,23 @@ public interface ISequenceBuilder
     string DefaultDescription { get; }
 
 
+
+    /// <summary>
+    /// Builds a default sequence with the specified configuration
+    /// and the default validators.
+    /// Throws an exception if the sequence is not valid.
+    /// </summary>
+    ISequence Build();
+
+    /// <summary>
+    /// Builds a customized sequence with the specified configuration
+    /// and the default validators.
+    /// Throws an exception if the sequence is not valid.
+    /// </summary>
+    ISequence Build<TSequence>() where TSequence : ISequence, new();
+
+
+
     /// <summary>
     /// Activates debug logging messages
     /// </summary>
@@ -49,18 +66,6 @@ public interface ISequenceBuilder
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
     ISequenceBuilder AddValidator<T>() where T : IHandlerValidator, new();
-
-    /// <summary>
-    /// Builds a default sequence with the specified configuration
-    /// Throws an exception if the sequence is not valid.
-    /// </summary>
-    ISequence Build();
-
-    /// <summary>
-    /// Builds a customized sequence with the specified configuration
-    /// Throws an exception if the sequence is not valid.
-    /// </summary>
-    ISequence Build<TSequence>() where TSequence : ISequence, new();
 
     /// <summary>
     /// Does not validate the sequence configuration on build
@@ -92,4 +97,8 @@ public interface ISequenceBuilder
     /// <param name="enabledFunc">Function that enables or disables the call of the action</param>
     ISequenceBuilder SetOnStateChangedAction(Action onStateChangedAction, Func<bool> enabledFunc);
 
+    /// <summary>
+    /// Adds a validator to the configuration and does not use the default validators anymore.
+    /// </summary>
+    ISequenceBuilder WithValidator<TValidator>() where TValidator : IHandlerValidator, new();
 }
