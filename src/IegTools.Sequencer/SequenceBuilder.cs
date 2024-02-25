@@ -15,6 +15,8 @@ public class SequenceBuilder : ISequenceBuilder
 {
     private readonly IValidator<SequenceBuilder> _validator;
     private          ILoggerAdapter?             _debugLogger;
+    private          bool                        _useDefaultValidators = true;
+
 
     private SequenceBuilder(IValidator<SequenceBuilder> validator) =>
         _validator = validator;
@@ -43,35 +45,19 @@ public class SequenceBuilder : ISequenceBuilder
     public bool DebugLoggingActivated { get; private set; }
 
 
-    /// <inheritdoc />
-    public ISequence Build() => Build<Sequence>();
+    /// <summary>
+    /// Creates a new Sequence-Builder for configuration in .NET 6 style.
+    /// This is good for short crispy configs.
+    /// </summary>
+    public static ISequenceBuilder Create() =>
+        Create(new SequenceConfigurationValidator());
 
-
-    /// <inheritdoc />
-    public ISequence Build<TSequence>() where TSequence : ISequence, new()
-    {
-        AddDefaultValidators();
-
-        if (!Configuration.DisableValidation)
-            _validator?.ValidateAndThrow(this);
-
-        return CreateSequence<TSequence>();
-    }
-
-    private ISequence CreateSequence<TSequence>() where TSequence : ISequence, new()
-    {
-        _debugLogger  ??= new LoggerAdapter();
-        var sequence    = new TSequence().SetConfiguration(Configuration, Data);
-        sequence.Logger = _debugLogger;
-
-        foreach (var handler in Data.Handler)
-        {
-            handler.SetSequence(sequence);
-            handler.Logger   = _debugLogger;
-        }
-
-        return sequence;
-    }
+    /// <summary>
+    /// Creates a new Sequence-Builder for configuration in .NET 6 style.
+    /// This is good for short crispy configs.
+    /// </summary>
+    public static ISequenceBuilder Create(IValidator<SequenceBuilder> validator) =>
+        new SequenceBuilder(validator);
 
     /// <summary>
     /// Creates a new Sequence-Builder with an empty sequence.
@@ -86,20 +72,6 @@ public class SequenceBuilder : ISequenceBuilder
         builder.Configuration.IsEmpty = true;
         return builder;
     }
-
-    /// <summary>
-    /// Creates a new Sequence-Builder for configuration in .NET 6 style.
-    /// This is good for short crispy configs.
-    /// </summary>
-    public static ISequenceBuilder Create() =>
-        Create(new SequenceConfigurationValidator());
-
-    /// <summary>
-    /// Creates a new Sequence-Builder for configuration in .NET 6 style.
-    /// This is good for short crispy configs.
-    /// </summary>
-    public static ISequenceBuilder Create(IValidator<SequenceBuilder> validator) =>
-        new SequenceBuilder(validator);
 
 
     /// <summary>
@@ -126,6 +98,45 @@ public class SequenceBuilder : ISequenceBuilder
         configurationActions.Invoke(sequenceBuilder);
         return sequenceBuilder;
     }
+
+
+    /// <inheritdoc />
+    public ISequence Build() => Build<Sequence>();
+
+
+    /// <inheritdoc />
+    public ISequence Build<TSequence>() where TSequence : ISequence, new()
+    {
+        if (_useDefaultValidators)
+            AddDefaultValidators();
+
+        return BuildFinal<TSequence>();
+    }
+
+
+    private ISequence BuildFinal<TSequence>() where TSequence : ISequence, new()
+    {
+        if (!Configuration.DisableValidation)
+            _validator?.ValidateAndThrow(this);
+
+        return CreateSequence<TSequence>();
+    }
+
+    private ISequence CreateSequence<TSequence>() where TSequence : ISequence, new()
+    {
+        _debugLogger ??= new LoggerAdapter();
+        var sequence = new TSequence().SetConfiguration(Configuration, Data);
+        sequence.Logger = _debugLogger;
+
+        foreach (var handler in Data.Handler)
+        {
+            handler.SetSequence(sequence);
+            handler.Logger = _debugLogger;
+        }
+
+        return sequence;
+    }
+
 
 
     /// <inheritdoc />
@@ -173,6 +184,14 @@ public class SequenceBuilder : ISequenceBuilder
     public ISequenceBuilder SetOnStateChangedAction(Action onStateChangedAction, Func<bool> enabledFunc)
     {
         Data.OnStateChangedAction = (onStateChangedAction, enabledFunc);
+        return this;
+    }
+
+    /// <inheritdoc />
+    public ISequenceBuilder WithValidator<TValidator>() where TValidator : IHandlerValidator, new()
+    {
+        _useDefaultValidators = false;
+        AddValidator<TValidator>();
         return this;
     }
 

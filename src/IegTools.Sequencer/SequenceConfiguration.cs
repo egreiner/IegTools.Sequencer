@@ -1,10 +1,5 @@
 ﻿namespace IegTools.Sequencer;
 
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using Handler;
-using Validation;
-
 /// <summary>
 /// The sequence configuration
 /// </summary>
@@ -35,11 +30,13 @@ public class SequenceConfiguration
     /// <summary>
     /// Prefix states with the IgnoreTag, does tag states as dead-end-states (the validator will not check for dead ends)
     /// </summary>
+    [Obsolete("TODO this will be removed in the next major version (v4.0)")]
     public char IgnoreTag { get; set; } = '!';
 
     /// <summary>
     /// Prefix states with the InitialStateTag, does tag states for the sequence to start from
     /// </summary>
+    [Obsolete("TODO this will be removed in the next major version (v4.0)")]
     public char InitialStateTag { get; set; } = '>';
 
     /// <summary>
