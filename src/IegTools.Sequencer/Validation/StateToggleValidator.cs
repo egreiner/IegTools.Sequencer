@@ -10,7 +10,7 @@ using Handler;
 // TODO add unit-tests
 
 /// <summary>
-/// The state transition validator.
+/// The state toggle validator.
 /// </summary>
 public sealed class StateToggleValidator : HandlerValidatorBase, IHandlerValidator
 {
@@ -22,12 +22,12 @@ public sealed class StateToggleValidator : HandlerValidatorBase, IHandlerValidat
     public bool Validate(ValidationContext<SequenceBuilder> context, ValidationResult result)
     {
         if (!HandlerValidatedFrom(context.InstanceToValidate))
-            result.AddError("StateTransition",
+            result.AddError("StateToggle",
                 "Each 'FromState' must have an 'ToState' counterpart where it comes from (other Transition, Initial-State...)\n" +
                 $"Violating handler: {string.Join("; ", _handlerFrom)}");
 
         if (!HandlerValidatedTo(context.InstanceToValidate))
-            result.AddError("StateTransition",
+            result.AddError("StateToggle",
                 "Each 'ToState' must have an 'FromState' counterpart where it goes to (other Transition...)\n" +
                 $"Violating handler: {string.Join("; ", _handlerTo)}");
 

@@ -62,7 +62,7 @@ public class AllowOnlyOnceInTests
         {
             builder.SetInitialState("State1");
             builder.AddTransition("State1", "State2", () => true, () => x++)
-                .AllowOnlyOnceIn(TimeSpan.FromMicroseconds(1))
+                .AllowOnlyOnceIn(TimeSpan.FromMilliseconds(1))
                 .DisableValidation();
         });
 
@@ -94,7 +94,7 @@ public class AllowOnlyOnceInTests
                 .AddTransition("State1", "State2", () => true, () => x++)
                 .AllowOnlyOnceIn(TimeSpan.FromSeconds(1))
                 .AddTransition("State2", "State3", () => true, () => y++)
-                .AllowOnlyOnceIn(TimeSpan.FromMicroseconds(1))
+                .AllowOnlyOnceIn(TimeSpan.FromMilliseconds(1))
                 .DisableValidation();
         });
 
@@ -125,7 +125,7 @@ public class AllowOnlyOnceInTests
             builder.SetInitialState("State1");
             builder
                 .AddTransition("State1", "State2", () => true, () => x++)
-                .AllowOnlyOnceIn(TimeSpan.FromMicroseconds(1))
+                .AllowOnlyOnceIn(TimeSpan.FromMilliseconds(1))
                 .AddTransition("State2", "State3", () => true, () => y++)
                 .AllowOnlyOnceIn(TimeSpan.FromSeconds(1))
                 .DisableValidation();

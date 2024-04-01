@@ -132,9 +132,9 @@ States can be defined as strings or enums, internally they will be stored as str
 # State Tags
 
 [This feature will be deleted in the next major version (v4.0). 
-The existing validators will detect if you have done the necessary changes 
-(the Initial-State and the ignored States should be defined explicitly)
-and throw an exception if not.]
+The existing validators will detect if you have done the necessary changes
+and throw an exception if not.
+(the Initial-State and the ignored States should be defined explicitly)]
 
 State-Tags can only be used with string-states.
 For enum-states there are other possibilities. (-> Validation Handler)  
@@ -142,6 +142,7 @@ For enum-states there are other possibilities. (-> Validation Handler)
 There are available two state tags as prefix for states
 - the IgnoreTag '!'
 - and the InitialStateTag '>'
+
 
 ## IgnoreTag
 Use the IgnoreTag as prefix for an state to tell the Validator not to check this state for counterpart-plausibility.
@@ -159,6 +160,11 @@ Example:
 ``` C#
  builder.AddForceState(">Paused", () => !_onTimer.Out);
 ```
+
+[This feature will be deleted in the next major version (v4.0).
+The existing validators will detect if you have done the necessary changes
+and throw an exception if not.
+(the Initial-State and the ignored States should be defined explicitly)]
 
 [Top 🠉](#table-of-contents)
 
@@ -272,7 +278,8 @@ Write your own customized
 - Sequence
 - and Validator
 
-TODO Documentation
+TBD
+
 
 [Top 🠉](#table-of-contents)
 

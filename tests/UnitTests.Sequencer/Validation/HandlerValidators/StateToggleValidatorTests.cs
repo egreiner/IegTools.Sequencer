@@ -4,27 +4,27 @@ using IegTools.Sequencer.Validation;
 
 public class StateToggleValidatorTests
 {
+    [Fact]
+    public void Should_throw_ValidationError_missing_FromState()
+    {
+        var builder = SequenceBuilder.Configure(builder
+            =>
+        {
+            builder.WithValidator<StateToggleValidator>();
+
+            builder.SetInitialState("State1");
+            builder.AddStateToggle("State1", "State2", () => true, () => false);
+            builder.AddTransition("State2", "State3", () => true);
+        });
+
+        FluentActions.Invoking(() => builder.Build())
+            .Should().Throw<FluentValidation.ValidationException>()
+            .WithMessage("*StateToggle*")
+            .WithMessage("*missing 'FromState'*");
+    }
+
     // [Fact]
-    // public void Test_ThrowsValidationError_wrong_FromState()
-    // {
-    //     var builder = SequenceBuilder.Configure(builder
-    //         =>
-    //     {
-    //         builder.WithValidator<StateToggleValidator>();
-    //
-    //         builder.SetInitialState("State1");
-    //         builder.AddTransition("State1", "!State2", () => true);
-    //         builder.AddTransition("State3", "!State2", () => true);
-    //     });
-    //
-    //     FluentActions.Invoking(() => builder.Build())
-    //         .Should().Throw<FluentValidation.ValidationException>()
-    //         .WithMessage("*StateTransition*")
-    //         .WithMessage("*Each 'FromState'*");
-    // }
-    //
-    // [Fact]
-    // public void Test_ThrowsValidationError_wrong_ToState()
+    // public void Should_throw_ValidationError_wrong_ToState()
     // {
     //     var builder = SequenceBuilder.Configure(builder
     //         =>
@@ -42,7 +42,7 @@ public class StateToggleValidatorTests
     // }
     //
     // [Fact]
-    // public void Test_Does_not_throw_ValidationError_Transition()
+    // public void Should_not_throw_ValidationError_Transition()
     // {
     //     var builder = SequenceBuilder.Configure(builder
     //         =>
@@ -59,7 +59,7 @@ public class StateToggleValidatorTests
     // }
     //
     // [Fact]
-    // public void Test_Does_not_throw_ValidationError_ContainsTransition()
+    // public void Should_not_throw_ValidationError_ContainsTransition()
     // {
     //     var builder = SequenceBuilder.Configure(builder
     //         =>
@@ -77,7 +77,7 @@ public class StateToggleValidatorTests
     // }
     //
     // [Fact]
-    // public void Test_Does_not_throw_ValidationError_AnyTransition()
+    // public void Should_not_throw_ValidationError_AnyTransition()
     // {
     //     var builder = SequenceBuilder.Configure(builder
     //         =>
