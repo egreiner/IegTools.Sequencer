@@ -23,7 +23,7 @@
 
 		<PackageReleaseNotes>v3.0.0-rc.3 builder.SetOnStateChangedAction(...)</PackageReleaseNotes>
 		
-		<PackageTags>sequence, sequencer, statemachine</PackageTags>
+		<PackageTags>sequence, sequencer, state-machine, state-engine, finite-state-machine, fsm, finite-state-automaton, fsa </PackageTags>
 		
 		<NeutralLanguage>en</NeutralLanguage>
 		<RepositoryType>git</RepositoryType>
