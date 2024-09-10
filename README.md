@@ -26,8 +26,8 @@ The library allows you to define:
 [SequenceBuilder Extensions](#sequencebuilder-extensions)  
 [Extensibility](#extensibility)  
 [Version Changes](#version-changes)  
-[Breaking Changes](#breaking-changes)  
-
+[Breaking Changes](#breaking-changes)
+[Preview next Version v4.0](#preview-next-version-v40)
 
 
 # Installation
@@ -309,9 +309,9 @@ so far none
 
 Removing the State-Tags (InitialStateTag and IgnoreTag) [State Tags 🠉](#state-tags)
 
-Thinking about:
-Renaming sequence.HasCurrentState(state) to sequence.IsInState(state)
-Renaming sequence.HasAnyCurrentState(states) to sequence.IsInStates(state) or IsInAnyState(states)
+Thinking about:  
+Renaming sequence.HasCurrentState(state) to sequence.IsInState(state)  
+Renaming sequence.HasAnyCurrentState(states) to sequence.IsInStates(state) or IsInAnyState(states)  
 
 
 [Top 🠉](#table-of-contents)  
