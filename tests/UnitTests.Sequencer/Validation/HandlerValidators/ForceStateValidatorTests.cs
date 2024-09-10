@@ -7,8 +7,7 @@ public class ForceStateValidatorTests
     [Fact]
     public void Should_throw_ValidationError()
     {
-        var builder = SequenceBuilder.Configure(builder
-            =>
+        var builder = SequenceBuilder.Configure(builder =>
         {
             builder.WithValidator<ForceStateValidator>();
 
@@ -16,16 +15,16 @@ public class ForceStateValidatorTests
             builder.AddForceState("unknown", () => true);
         });
 
-        FluentActions.Invoking(() => builder.Build())
-            .Should().Throw<FluentValidation.ValidationException>()
-            .WithMessage("*Each Force-State*");
+        var build = () => builder.Build();
+
+        build.Should().Throw<FluentValidation.ValidationException>()
+             .WithMessage("*Each Force-State*");
     }
 
     [Fact]
     public void Should_not_throw_ValidationError_Transition()
     {
-        var builder = SequenceBuilder.Configure(builder
-            =>
+        var builder = SequenceBuilder.Configure(builder =>
         {
             builder.WithValidator<ForceStateValidator>();
 
@@ -36,14 +35,14 @@ public class ForceStateValidatorTests
         });
 
         var build = () => builder.Build();
+
         build.Should().NotThrow();
     }
 
     [Fact]
     public void Should_not_throw_ValidationError_ContainsTransition()
     {
-        var builder = SequenceBuilder.Configure(builder
-            =>
+        var builder = SequenceBuilder.Configure(builder =>
         {
             builder.WithValidator<ForceStateValidator>();
 
@@ -54,14 +53,14 @@ public class ForceStateValidatorTests
         });
 
         var build = () => builder.Build();
+
         build.Should().NotThrow();
     }
 
     [Fact]
     public void Should_not_throw_ValidationError_AnyTransition()
     {
-        var builder = SequenceBuilder.Configure(builder
-            =>
+        var builder = SequenceBuilder.Configure(builder =>
         {
             builder.WithValidator<ForceStateValidator>();
 
@@ -72,6 +71,7 @@ public class ForceStateValidatorTests
         });
 
         var build = () => builder.Build();
+
         build.Should().NotThrow();
     }
 }
