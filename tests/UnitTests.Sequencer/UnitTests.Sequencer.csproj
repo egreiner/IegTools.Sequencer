@@ -31,9 +31,4 @@
     <Folder Include="StateAsString\_obsolet\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Remove="Validation\HandlerValidators\StateToggleValidatorTests.cs" />
-    <None Include="Validation\HandlerValidators\StateToggleValidatorTests.cs" />
-  </ItemGroup>
-
 </Project>
