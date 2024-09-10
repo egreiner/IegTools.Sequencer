@@ -13,7 +13,7 @@ public static class StringExtensions
     /// </summary>
     /// <param name="text">The text</param>
     /// <param name="stringValues">The string-values that should be compared</param>
-    public static bool IsIn(this string text, params string[] stringValues) =>
+    public static bool MatchesAny(this string text, params string[] stringValues) =>
         stringValues.Contains(text);
 
     /// <summary>
@@ -22,6 +22,6 @@ public static class StringExtensions
     /// <param name="text">The text</param>
     /// <param name="stringArray">The string-array that should be compared</param>
     /// <param name="stringValues">The string-values that should be compared</param>
-    public static bool IsIn(this string text, string[] stringArray, params string[] stringValues) =>
+    public static bool MatchesAny(this string text, string[] stringArray, params string[] stringValues) =>
         stringArray.Contains(text) || stringValues.Contains(text);
 }
