@@ -1,8 +1,8 @@
 ﻿namespace UnitTests.Sequencer.StateAsString;
 
-public class TypicalSequenceStateTests
+public class DefaultSequenceStateTests
 {
-    private readonly TypicalSequenceStates _states = new();
+    private readonly DefaultSequenceStates _states = new();
 
     [Fact]
     public void Test_Constrain_Add_Conditional_State()

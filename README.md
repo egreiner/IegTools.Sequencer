@@ -26,8 +26,8 @@ The library allows you to define:
 [SequenceBuilder Extensions](#sequencebuilder-extensions)  
 [Extensibility](#extensibility)  
 [Version Changes](#version-changes)  
-[Breaking Changes](#breaking-changes)
-[Preview next Version v4.0](#preview-next-version-v40)
+[Breaking Changes](#breaking-changes)  
+[Preview next Version v4.0](#preview-next-version-v40)  
 
 
 # Installation
@@ -286,7 +286,7 @@ TBD
 
 # Version Changes
 ## v2.2 -> v3.0
-- new TypicalSequenceStates
+- new DefaultSequenceStates, a set of standard (string) states for a sequence
 
 ## v2.1 -> v2.2
 - new builder.SetLogger(...) methods
