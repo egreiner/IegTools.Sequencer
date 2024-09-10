@@ -7,8 +7,7 @@ public class ContainsStateTransitionValidatorTests
     [Fact]
     public void Should_throw_ValidationError_wrong_FromState()
     {
-        var builder = SequenceBuilder.Configure(builder
-            =>
+        var builder = SequenceBuilder.Configure(builder =>
         {
             builder.WithValidator<ContainsStateTransitionValidator>();
 
@@ -19,17 +18,17 @@ public class ContainsStateTransitionValidatorTests
             builder.AddContainsTransition("StateX", "!State3", () => true);
         });
 
-        FluentActions.Invoking(() => builder.Build())
-            .Should().Throw<FluentValidation.ValidationException>()
-            .WithMessage("*ContainsStateTransition*")
-            .WithMessage("*Each 'State-part'*");
+        var build = () => builder.Build();
+
+        build.Should().Throw<FluentValidation.ValidationException>()
+             .WithMessage("*ContainsStateTransition*")
+             .WithMessage("*Each 'State-part'*");
     }
 
     [Fact]
     public void Should_throw_ValidationError_wrong_ToState()
     {
-        var builder = SequenceBuilder.Configure(builder
-            =>
+        var builder = SequenceBuilder.Configure(builder =>
         {
             builder.WithValidator<ContainsStateTransitionValidator>();
 
@@ -40,17 +39,17 @@ public class ContainsStateTransitionValidatorTests
             builder.AddContainsTransition("State", "not existing", () => true);
         });
 
-        FluentActions.Invoking(() => builder.Build())
-            .Should().Throw<FluentValidation.ValidationException>()
-            .WithMessage("*ContainsStateTransition*")
-            .WithMessage("*Each 'ToState'*");
+        var build = () => builder.Build();
+
+        build.Should().Throw<FluentValidation.ValidationException>()
+             .WithMessage("*ContainsStateTransition*")
+             .WithMessage("*Each 'ToState'*");
     }
 
     [Fact]
     public void Should_not_throw_ValidationError_Transition()
     {
-        var builder = SequenceBuilder.Configure(builder
-            =>
+        var builder = SequenceBuilder.Configure(builder =>
         {
             builder.WithValidator<ContainsStateTransitionValidator>();
 
@@ -62,14 +61,14 @@ public class ContainsStateTransitionValidatorTests
         });
 
         var build = () => builder.Build();
+
         build.Should().NotThrow();
     }
 
     [Fact]
     public void Should_not_throw_ValidationError_ContainsTransition()
     {
-        var builder = SequenceBuilder.Configure(builder
-            =>
+        var builder = SequenceBuilder.Configure(builder =>
         {
             builder.WithValidator<ContainsStateTransitionValidator>();
 
@@ -83,14 +82,14 @@ public class ContainsStateTransitionValidatorTests
         });
 
         var build = () => builder.Build();
+
         build.Should().NotThrow();
     }
 
     [Fact]
     public void Should_not_throw_ValidationError_AnyTransition()
     {
-        var builder = SequenceBuilder.Configure(builder
-            =>
+        var builder = SequenceBuilder.Configure(builder =>
         {
             builder.WithValidator<ContainsStateTransitionValidator>();
 
@@ -104,6 +103,7 @@ public class ContainsStateTransitionValidatorTests
         });
 
         var build = () => builder.Build();
+
         build.Should().NotThrow();
     }
 }
