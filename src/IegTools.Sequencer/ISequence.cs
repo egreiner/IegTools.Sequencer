@@ -42,12 +42,14 @@ public interface ISequence
     Stopwatch Stopwatch { get; }
 
 
+    // TODO rename to IsInState in v4.0?
     /// <summary>
     /// Returns true if the sequence.CurrentState is in the specified state.
     /// </summary>
     /// <param name="state">The state that is asked for.</param>
     bool HasCurrentState(string state);
 
+    // TODO rename to IsInStates or IsInAnyState in v4.0?
     /// <summary>
     /// Returns true if the sequence.CurrentState is in one of the specified states.
     /// </summary>

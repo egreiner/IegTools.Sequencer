@@ -76,10 +76,9 @@ public abstract class HandlerBase : IHandler
     /// <inheritdoc />
     public abstract bool ExecuteActionAllowed();
 
-
-
     /// <inheritdoc />
     public abstract void ExecuteAction();
+
 
 
     /// <inheritdoc />

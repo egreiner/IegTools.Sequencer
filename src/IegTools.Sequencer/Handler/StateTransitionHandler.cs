@@ -1,7 +1,5 @@
 ﻿namespace IegTools.Sequencer.Handler;
 
-using Microsoft.Extensions.Logging;
-
 /// <summary>
 /// Transfers the sequence from the current state to the next state
 /// if the condition is met and invokes the specified action

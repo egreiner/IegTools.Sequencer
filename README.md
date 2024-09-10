@@ -30,7 +30,7 @@ The library allows you to define:
 
 
 
-# Installation  
+# Installation
 The library is available as a [NuGet package](https://www.nuget.org/packages/IegTools.Sequencer/).  
 
 
@@ -145,7 +145,7 @@ There are available two state tags as prefix for states
 
 
 ## IgnoreTag
-Use the IgnoreTag as prefix for an state to tell the Validator not to check this state for counterpart-plausibility.
+Use the IgnoreTag as prefix for a state to tell the Validator not to check this state for counterpart-plausibility.
 
 Example:  
 ``` C#
@@ -154,7 +154,7 @@ Example:
 
 
 ## InitialStateTag
-Use the InitialStateTag as prefix for an state to tell the Sequence what state to start from.
+Use the InitialStateTag as prefix for a state to tell the Sequence what state to start from.
 
 Example:  
 ``` C#
@@ -178,10 +178,10 @@ The sequence will be validated on build.
 Validation Handler:
 
 - InitialState must be defined
-- The InitialState must have an counterpart in a StateTransition
+- The InitialState must have a counterpart in a StateTransition
 - The Sequence must have at least two steps
-- Each 'NextStep' must have a counterpart StateTransition with an matching 'CurrentState'
-- Each 'CurrentState' must have a counterpart StateTransition with an matching 'NextStep' or ForceState
+- Each 'NextStep' must have a counterpart StateTransition with a matching 'CurrentState'
+- Each 'CurrentState' must have a counterpart StateTransition with a matching 'NextStep' or ForceState
 
 Validation could be disabled
 - completely turn off validation  
@@ -212,7 +212,7 @@ There are five default handler at the moment:
 ## StateTransitionHandler
 The StateTransitionHandler is responsible for the transition between two states.
 It switches the sequence from start-state to end-state when the sequence current state is the start-state and the state-transition-condition is true.
-Additionally an action can be executed when the transition is done.
+Additionally, an action can be executed when the transition is done.
 
 ## ContainsStateTransitionHandler
 It's basically the same as the StateTransitionHandler, but it can handle multiple start-states to one end-state.
@@ -222,7 +222,7 @@ It's basically the same as the ContainsStateTransitionHandler, but it can handle
 
 ## ForceStateHandler
 Forces the sequence into the specified state when the force-state-condition is fulfilled.
-Additionally an action can be executed when the force-transition is done.
+Additionally, an action can be executed when the force-transition is done.
 
 ## StateActionHandler
 Executes continuously the specified action when the sequence is in the specified state.
@@ -285,6 +285,9 @@ TBD
 
 
 # Version Changes
+## v2.2 -> v3.0
+- new TypicalSequenceStates
+
 ## v2.1 -> v2.2
 - new builder.SetLogger(...) methods
 
@@ -297,5 +300,18 @@ TBD
 # Breaking Changes
 
 so far none
+
+[Top 🠉](#table-of-contents)  
+
+
+
+# Preview next Version v4.0
+
+Removing the State-Tags (InitialStateTag and IgnoreTag) [State Tags 🠉](#state-tags)
+
+Thinking about:
+Renaming sequence.HasCurrentState(state) to sequence.IsInState(state)
+Renaming sequence.HasAnyCurrentState(states) to sequence.IsInStates(state) or IsInAnyState(states)
+
 
 [Top 🠉](#table-of-contents)  

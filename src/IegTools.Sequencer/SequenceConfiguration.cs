@@ -19,7 +19,7 @@ public class SequenceConfiguration
 
     /// <summary>
     /// Is an empty sequence.
-    /// On run nothings happens.
+    /// On run nothing happens.
     /// No state changes.
     /// Validation is disabled.
     /// </summary>

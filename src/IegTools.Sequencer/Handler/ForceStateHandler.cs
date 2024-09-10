@@ -1,7 +1,5 @@
 ﻿namespace IegTools.Sequencer.Handler;
 
-using Microsoft.Extensions.Logging;
-
 /// <summary>
 /// Forces the sequence to the specified state if the condition is fulfilled
 /// </summary>
