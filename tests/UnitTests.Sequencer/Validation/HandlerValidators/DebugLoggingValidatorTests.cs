@@ -21,8 +21,9 @@ public class DebugLoggingValidatorTests
             }
         );
 
-        FluentActions.Invoking(() => builder.Build())
-            .Should().NotThrow<FluentValidation.ValidationException>();
+        var build = () => builder.Build();
+
+        build.Should().NotThrow<FluentValidation.ValidationException>();
     }
 
     [Fact]
@@ -41,8 +42,9 @@ public class DebugLoggingValidatorTests
             }
         );
 
-        FluentActions.Invoking(() => builder.Build())
-            .Should().NotThrow<FluentValidation.ValidationException>();
+        var build = () => builder.Build();
+
+        build.Should().NotThrow<FluentValidation.ValidationException>();
     }
 
     [Fact]
@@ -60,9 +62,10 @@ public class DebugLoggingValidatorTests
             }
         );
 
-        FluentActions.Invoking(() => builder.Build())
-            .Should().Throw<FluentValidation.ValidationException>()
-            .WithMessage("*sequence must have a meaningful description*");
+        var build = () => builder.Build();
+
+        build.Should().Throw<FluentValidation.ValidationException>()
+             .WithMessage("*sequence must have a meaningful description*");
     }
 
 
@@ -81,9 +84,10 @@ public class DebugLoggingValidatorTests
             }
         );
 
-        FluentActions.Invoking(() => builder.Build())
-            .Should().Throw<FluentValidation.ValidationException>()
-            .WithMessage("*sequence must have a meaningful description*");
+        var build = () => builder.Build();
+
+        build.Should().Throw<FluentValidation.ValidationException>()
+             .WithMessage("*sequence must have a meaningful description*");
     }
 
     [Fact]
@@ -101,8 +105,9 @@ public class DebugLoggingValidatorTests
             }
         );
 
-        FluentActions.Invoking(() => builder.Build())
-            .Should().Throw<FluentValidation.ValidationException>()
-            .WithMessage("*sequence must have a meaningful description*");
+        var build = () => builder.Build();
+
+        build.Should().Throw<FluentValidation.ValidationException>()
+             .WithMessage("*sequence must have a meaningful description*");
     }
 }
