@@ -36,11 +36,11 @@ public sealed class StateToggleValidator : HandlerValidatorBase, IHandlerValidat
 
 
     /// <summary>
-    /// Each 'FromState' must have an corresponding 'ToState' counterpart,
+    /// Each 'FromState' must have a corresponding 'ToState' counterpart,
     /// or a ForceState where it comes from,
     /// or it must be the initial-state 
-    /// otherwise you have created an dead-end.
-    /// Use '!' as first character to tag an state as dead-end with purpose.
+    /// otherwise you have created a dead-end.
+    /// Use '!' as first character to tag a state as dead-end with purpose.
     /// </summary>
     private bool HandlerValidatedFrom(SequenceBuilder builder)
     {
@@ -52,7 +52,7 @@ public sealed class StateToggleValidator : HandlerValidatorBase, IHandlerValidat
         _handlerFrom = new List<StateToggleHandler>();
 
         // for easy reading do not 'simplify' this
-        // each StateTransition should have an counterpart so that no dead-end is reached
+        // each StateTransition should have a counterpart so that no dead-end is reached
         foreach (var transition in transitions.Where(x => ShouldBeValidated(x.FromState, builder)))
         {
             if (allTransitions.All(x => transition.FromState != x.ToState) && 
@@ -65,9 +65,9 @@ public sealed class StateToggleValidator : HandlerValidatorBase, IHandlerValidat
 
         
     /// <summary>
-    /// Each 'ToState' must have an corresponding 'FromState' counterpart,
-    /// otherwise you have created an dead-end.
-    /// Use '!' as first character to tag an state as dead-end with purpose.
+    /// Each 'ToState' must have a corresponding 'FromState' counterpart,
+    /// otherwise you have created a dead-end.
+    /// Use '!' as first character to tag a state as dead-end with purpose.
     /// </summary>
     private bool HandlerValidatedTo(SequenceBuilder builder)
     {
