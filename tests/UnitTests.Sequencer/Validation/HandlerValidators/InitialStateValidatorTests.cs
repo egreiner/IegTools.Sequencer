@@ -5,7 +5,7 @@ using IegTools.Sequencer.Validation;
 public class InitialStateValidatorTests
 {
     [Fact]
-    public void Should_throw_ValidationError_No_InitialState()
+    public void Build_ShouldThrowValidationError_When_InitialStateIsMissing()
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -20,7 +20,7 @@ public class InitialStateValidatorTests
     }
 
     [Fact]
-    public void Should_throw_ValidationError_No_Transition()
+    public void Build_ShouldThrowValidationError_When_StateTransitionsAreMissing()
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -37,7 +37,7 @@ public class InitialStateValidatorTests
     }
 
     [Fact]
-    public void Should_not_throw_ValidationError_Transition()
+    public void Build_ShouldNotThrowValidationError_When_StateTransitionsAreValid()
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -54,7 +54,7 @@ public class InitialStateValidatorTests
     }
 
     [Fact]
-    public void Should_not_throw_ValidationError_ContainsTransition()
+    public void Build_ShouldNotThrowValidationError_When_ContainsTransitionsAreValid()
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -71,7 +71,7 @@ public class InitialStateValidatorTests
     }
 
     [Fact]
-    public void Should_not_throw_ValidationError_AnyTransition()
+    public void Build_ShouldNotThrowValidationError_When_AnyTransitionsAreValid()
     {
         var builder = SequenceBuilder.Configure(builder =>
         {

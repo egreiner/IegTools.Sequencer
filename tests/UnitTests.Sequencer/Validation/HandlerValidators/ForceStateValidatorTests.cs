@@ -5,7 +5,7 @@ using IegTools.Sequencer.Validation;
 public class ForceStateValidatorTests
 {
     [Fact]
-    public void Should_throw_ValidationError()
+    public void Build_ShouldThrowValidationError_When_ForceStateIsInvalid()
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -22,7 +22,7 @@ public class ForceStateValidatorTests
     }
 
     [Fact]
-    public void Should_not_throw_ValidationError_Transition()
+    public void Build_ShouldNotThrowValidationError_When_ForceStateIsValid()
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -40,7 +40,7 @@ public class ForceStateValidatorTests
     }
 
     [Fact]
-    public void Should_not_throw_ValidationError_ContainsTransition()
+    public void Build_ShouldNotThrowValidationError_When_ContainsTransitionsAreValid()
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -58,7 +58,7 @@ public class ForceStateValidatorTests
     }
 
     [Fact]
-    public void Should_not_throw_ValidationError_AnyTransition()
+    public void Build_ShouldNotThrowValidationError_When_AnyTransitionsAreValid()
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
