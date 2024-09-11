@@ -2,7 +2,7 @@
 
 using FluentValidation;
 
-public class SequenceBuilderConfigureTests
+public class SequenceBuilderDotNetV5StyleConfigureTests
 {
     private const string InitialState = "InitialState";
 

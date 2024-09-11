@@ -2,7 +2,7 @@
 
 using IegTools.Sequencer;
 
-public class SequenceBuilderCreateTests
+public class SequenceBuilderDotNetV6StyleCreateTests
 {
     private const string InitialState = "InitialState";
 
@@ -10,37 +10,22 @@ public class SequenceBuilderCreateTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_Create_NET6v1(bool constraint)
+    public void Example_ValidFluentConfiguration_ShouldNotThrowValidationException(bool constraint)
     {
         var builder = SequenceBuilder.Create()
             .SetInitialState(InitialState)
             .AddForceState("Force", () => constraint)
             .DisableValidation();
 
-        var actual = builder.Build();
+        var build = () => builder.Build();
 
-        actual.Should().NotBeNull();
+        build.Should().NotThrow<FluentValidation.ValidationException>();
     }
-    
+
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_Create_throws_ValidationException(bool constraint)
-    {
-        var builder = SequenceBuilder.Create()
-            .SetInitialState(InitialState)
-            .AddForceState("Force", () => constraint);
-            //.DisableValidation();
-
-            FluentActions.Invoking(() => builder.Build())
-                .Should().Throw<FluentValidation.ValidationException>();
-    }
-
-    
-    [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public void Test_Create_NET6v2(bool constraint)
+    public void Example_ValidNonFluentConfiguration_ShouldNotThrowValidationException(bool constraint)
     {
         var builder = SequenceBuilder.Create();
         builder.SetInitialState(InitialState);
@@ -48,28 +33,45 @@ public class SequenceBuilderCreateTests
         builder.DisableValidation();
 
         var build = () => builder.Build();
-        build.Should().NotThrow();
+
+        build.Should().NotThrow<FluentValidation.ValidationException>();
     }
 
 
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void Example_InvalidConfiguration_ShouldThrowValidationException(bool constraint)
+    {
+        var builder = SequenceBuilder.Create()
+            .SetInitialState(InitialState)
+            .AddForceState("Force", () => constraint);
+            //.DisableValidation();
+
+            var build = () => builder.Build();
+
+            build.Should().Throw<FluentValidation.ValidationException>();
+    }
+
+
+
     [Fact]
-    public void Test_OnTimer()
+    public void Example_ValidFluentConfiguration_for_OnTimer()
     {
         var result = 0;
         var builder = SequenceBuilder.Create()
             .AddForceState(">Off", () => false)
             .AddTransition(">Off", "PrepareOn", () => false, () => result = 1)
-            .AddTransition("PrepareOn", "!On", () => false)
-            .DisableValidation(); // TODO validation error
+            .AddTransition("PrepareOn", "!On", () => false);
 
         var build = () => builder.Build();
-        build.Should().NotThrow();
 
+        build.Should().NotThrow<FluentValidation.ValidationException>();
         result.Should().Be(0);
     }
 
     [Fact]
-    public void Test_OffTimer()
+    public void Example_ValidFluentConfiguration_for_OffTimer()
     {
         var result = 0;
         var builder = SequenceBuilder.Create()
@@ -79,13 +81,13 @@ public class SequenceBuilderCreateTests
             .AddTransition("PrepareOff", "!Off", () => false);
 
         var build = () => builder.Build();
-        build.Should().NotThrow();
 
+        build.Should().NotThrow<FluentValidation.ValidationException>();
         result.Should().Be(0);
     }
 
     [Fact]
-    public void Test_PulseTimer()
+    public void Example_ValidFluentConfiguration_for_PulseTimer()
     {
         var result = 0;
         var builder = SequenceBuilder.Create()
@@ -95,8 +97,8 @@ public class SequenceBuilderCreateTests
             .AddTransition("PrepareOff", ">Off", () => false);
 
         var build = () => builder.Build();
-        build.Should().NotThrow();
 
+        build.Should().NotThrow<FluentValidation.ValidationException>();
         result.Should().Be(0);
     }
 }
