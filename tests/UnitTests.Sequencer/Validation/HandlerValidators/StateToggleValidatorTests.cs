@@ -6,7 +6,7 @@ public class StateToggleValidatorTests
 {
     [Fact(Skip = "not working now")]
     // [Fact]
-    public void Should_throw_ValidationError_missing_FromState()
+    public void Build_ShouldThrowValidationError_When_FromStateIsMissing()
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -19,9 +19,9 @@ public class StateToggleValidatorTests
 
         var build = () => builder.Build();
 
-        build.Should().Throw<FluentValidation.ValidationException>()
-            .WithMessage("*StateToggle*")
-            .WithMessage("*missing 'FromState'*");
+        var exception = build.Should().Throw<FluentValidation.ValidationException>();
+        exception.WithMessage("*StateToggle*");
+        exception.WithMessage("*missing 'FromState'*");
     }
 
     // [Fact]
@@ -91,6 +91,7 @@ public class StateToggleValidatorTests
     //     });
     //
     //     var build = () => builder.Build();
+
     //     build.Should().NotThrow();
     // }
 }

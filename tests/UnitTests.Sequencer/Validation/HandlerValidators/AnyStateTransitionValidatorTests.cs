@@ -5,7 +5,7 @@ using IegTools.Sequencer.Validation;
 public class AnyStateTransitionValidatorTests
 {
     [Fact]
-    public void Should_throw_ValidationError_wrong_FromState()
+    public void Build_ShouldThrowValidationError_When_FromStateIsInvalid()
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -26,7 +26,7 @@ public class AnyStateTransitionValidatorTests
     }
 
     [Fact]
-    public void Should_throw_ValidationError_wrong_ToState()
+    public void Build_ShouldThrowValidationError_When_ToStateIsInvalid()
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -47,7 +47,7 @@ public class AnyStateTransitionValidatorTests
     }
 
     [Fact]
-    public void Should_not_throw_ValidationError_Transition()
+    public void Build_ShouldNotThrowValidationError_When_TransitionsAreValid()
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -66,7 +66,7 @@ public class AnyStateTransitionValidatorTests
     }
 
     [Fact]
-    public void Should_not_throw_ValidationError_ContainsTransition()
+    public void Build_ShouldNotThrowValidationError_When_ContainsTransitionsAreValid()
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -75,8 +75,6 @@ public class AnyStateTransitionValidatorTests
             builder.SetInitialState("State1");
             builder.AddTransition("State1", "State2", () => true);
             builder.AddTransition("State2", "State1", () => true);
-
-            builder.AddAnyTransition(new[] { "State1", "State2" }, "State3", () => true);
 
             builder.AddContainsTransition("State", "State2", () => true);
         });
@@ -87,7 +85,7 @@ public class AnyStateTransitionValidatorTests
     }
 
     [Fact]
-    public void Should_not_throw_ValidationError_AnyTransition()
+    public void Build_ShouldNotThrowValidationError_When_AnyTransitionsAreValid()
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
