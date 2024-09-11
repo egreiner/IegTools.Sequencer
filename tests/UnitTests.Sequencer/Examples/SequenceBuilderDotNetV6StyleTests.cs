@@ -2,7 +2,7 @@
 
 using IegTools.Sequencer;
 
-public class SequenceBuilderDotNetV6StyleCreateTests
+public class SequenceBuilderDotNetV6StyleTests
 {
     private const string InitialState = "InitialState";
 
