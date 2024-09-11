@@ -1,7 +1,6 @@
 ﻿namespace UnitTests.Sequencer.Examples;
 
 using FluentValidation;
-using IegTools.Sequencer;
 
 public class SequenceBuilderConfigureTests
 {
@@ -9,7 +8,7 @@ public class SequenceBuilderConfigureTests
 
 
     [Fact]
-    public void Test_AntiStickingFeature()
+    public void Example_configure_a_AntiStickingFeature()
     {
         var result = 0;
         var builder = SequenceBuilder.Configure(builder =>
@@ -26,15 +25,15 @@ public class SequenceBuilderConfigureTests
         });
 
         var build = () => builder.Build();
-        build.Should().NotThrow();
 
+        build.Should().NotThrow();
         result.Should().Be(0);
     }
     
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_Configure_NET5(bool constraint)
+    public void Example_ValidConfiguration_ShouldNotThrowValidationException(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -44,13 +43,14 @@ public class SequenceBuilderConfigureTests
         });
 
         var build = () => builder.Build();
+
         build.Should().NotThrow();
     }
     
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void Test_Configure_throws_ValidationException(bool constraint)
+    public void Example_InvalidConfiguration_ShouldThrowValidationException(bool constraint)
     {
         var builder = SequenceBuilder.Configure(builder =>
         {
@@ -59,7 +59,8 @@ public class SequenceBuilderConfigureTests
             //builder.DisableValidation();
         });
 
-        FluentActions.Invoking(() => builder.Build())
-            .Should().Throw<ValidationException>();
+        var build = () => builder.Build();
+
+        build.Should().Throw<ValidationException>();
     }
 }
