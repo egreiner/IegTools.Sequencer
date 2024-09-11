@@ -20,7 +20,7 @@ public class SimpleChangeDetectorTests
 
     [InlineData(null, "2", true)]
     [InlineData(null, 2, true)]
-    public void Test_OnChange_Event_raised_on_change_value<T>(T inputStart, T inputChange, bool expectRaised)
+    public void OnChangeEvent_ShouldBeRaised_When_ValueHasChanged<T>(T inputStart, T inputChange, bool expectRaised)
     {
         var sut = new SimpleChangeDetector<T>("UnitTest");
         T value = inputStart;
@@ -45,7 +45,7 @@ public class SimpleChangeDetectorTests
 
     [InlineData(null, "2")]
     [InlineData(null, 2)]
-    public void Test_OnChange_Event_disable_detection<T>(T inputStart, T inputChange)
+    public void OnChangeEvent_ShouldNotBeRaised_When_Disabled<T>(T inputStart, T inputChange)
     {
         var sut   = new SimpleChangeDetector<T>("UnitTest");
         T   value = inputStart;
@@ -54,7 +54,7 @@ public class SimpleChangeDetectorTests
         value = inputChange;
         sut.Detect(false);
 
-        _eventValueChangedRaised.Should().Be(false);
+        _eventValueChangedRaised.Should().BeFalse();
     }
 
 
@@ -70,7 +70,7 @@ public class SimpleChangeDetectorTests
 
     [InlineData(null, "2")]
     [InlineData(null, 2)]
-    public void Test_OnChange_Event_SuspendAction<T>(T inputStart, T inputChange)
+    public void OnChangeEvent_ShouldNotBeRaised_When_SuspendAction<T>(T inputStart, T inputChange)
     {
         var sut   = new SimpleChangeDetector<T>("UnitTest");
         T   value = inputStart;
@@ -80,7 +80,7 @@ public class SimpleChangeDetectorTests
         sut.SuspendAction();
         sut.Detect();
 
-        _eventValueChangedRaised.Should().Be(false);
+        _eventValueChangedRaised.Should().BeFalse();
     }
 
 
@@ -96,7 +96,7 @@ public class SimpleChangeDetectorTests
 
     [InlineData(null, "2", true)]
     [InlineData(null, 2, true)]
-    public void Test_OnChange_Event_ResumeAction<T>(T inputStart, T inputChange, bool expectRaised)
+    public void OnChangeEvent_ShouldBeRaised_When_ValueHasChanged_And_ResumeAction<T>(T inputStart, T inputChange, bool expectRaised)
     {
         var sut   = new SimpleChangeDetector<T>("UnitTest");
         T   value = inputStart;
@@ -123,7 +123,7 @@ public class SimpleChangeDetectorTests
 
     [InlineData(null, "2")]
     [InlineData(null, 2)]
-    public void Test_OnChange_SetValue<T>(T inputStart, T inputChange)
+    public void OnChangeEvent_ShouldNotBeRaised_When_SetValue<T>(T inputStart, T inputChange)
     {
         var sut   = new SimpleChangeDetector<T>("UnitTest");
         T   value = inputStart;
@@ -133,6 +133,6 @@ public class SimpleChangeDetectorTests
         sut.SetValue(inputChange);
         sut.Detect();
 
-        _eventValueChangedRaised.Should().Be(false);
+        _eventValueChangedRaised.Should().BeFalse();
     }
 }
