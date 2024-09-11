@@ -5,7 +5,7 @@ using IegTools.Sequencer.Validation;
 public class DebugLoggingValidatorTests
 {
     [Fact]
-    public void Should_not_throw_ValidationError_Add_Description()
+    public void Build_ShouldNotThrowValidationError_When_DescriptionIsValid()
     {
         var logger = Substitute.For<ILogger<DebugLoggingValidatorTests>>();
         var builder = SequenceBuilder.Configure(builder =>
@@ -27,7 +27,7 @@ public class DebugLoggingValidatorTests
     }
 
     [Fact]
-    public void Should_not_throw_ValidationError_DisableValidation()
+    public void Build_ShouldNotThrowValidationError_When_DisableValidation()
     {
         var logger = Substitute.For<ILogger<DebugLoggingValidatorTests>>();
         var builder = SequenceBuilder.Configure(builder =>
@@ -48,7 +48,7 @@ public class DebugLoggingValidatorTests
     }
 
     [Fact]
-    public void Should_throw_ValidationError_NoDescription()
+    public void Build_ShouldThrowValidationError_When_DescriptionIsMissing()
     {
         var logger = Substitute.For<ILogger<DebugLoggingValidatorTests>>();
         var builder = SequenceBuilder.Configure(builder =>
@@ -70,7 +70,7 @@ public class DebugLoggingValidatorTests
 
 
     [Fact]
-    public void Should_throw_ValidationError_EmptyDescription()
+    public void Build_ShouldThrowValidationError_When_DescriptionIsEmpty()
     {
         var logger = Substitute.For<ILogger<DebugLoggingValidatorTests>>();
         var builder = SequenceBuilder.Configure(builder =>
@@ -91,7 +91,7 @@ public class DebugLoggingValidatorTests
     }
 
     [Fact]
-    public void Should_throw_ValidationError_NullDescription()
+    public void Build_ShouldThrowValidationError_When_DescriptionIsNull()
     {
         var logger = Substitute.For<ILogger<DebugLoggingValidatorTests>>();
         var builder = SequenceBuilder.Configure(builder =>
