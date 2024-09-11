@@ -6,6 +6,7 @@ public class SequenceBuilderDotNetV6StyleTests
 {
     private const string InitialState = "InitialState";
 
+    private readonly DefaultSequenceStates _state = new DefaultSequenceStates();
     
     [Theory]
     [InlineData(true)]
@@ -58,16 +59,21 @@ public class SequenceBuilderDotNetV6StyleTests
     [Fact]
     public void Example_ValidFluentConfiguration_for_OnTimer()
     {
-        var result = 0;
-        var builder = SequenceBuilder.Create()
-            .AddForceState(">Off", () => false)
-            .AddTransition(">Off", "PrepareOn", () => false, () => result = 1)
-            .AddTransition("PrepareOn", "!On", () => false);
+        ISequence sequence = null;
 
-        var build = () => builder.Build();
+        var input = true;
+
+        var builder = SequenceBuilder.Create()
+            .AddForceState(_state.Off, () => !input)
+            .AddTransition(_state.Off, _state.WaitOn, () => input, () => sequence?.Stopwatch.Restart())
+            .AddTransition(_state.WaitOn, _state.On, () => input && sequence?.Stopwatch.ElapsedMilliseconds > 1000);
+
+        builder.SetInitialState(_state.Off)
+               .DisableValidationForStates(_state.On);
+
+        var build = () => sequence = builder.Build();
 
         build.Should().NotThrow<FluentValidation.ValidationException>();
-        result.Should().Be(0);
     }
 
     [Fact]
