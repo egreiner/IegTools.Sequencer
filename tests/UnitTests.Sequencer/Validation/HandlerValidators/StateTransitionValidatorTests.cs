@@ -92,4 +92,20 @@ public class StateTransitionValidatorTests
 
         build.Should().NotThrow();
     }
+
+    [Fact(Skip = "Not implemented yet")]
+    public void Build_ShouldNotThrowValidationError_When_StateTogglesAreValid()
+    {
+        var builder = SequenceBuilder.Configure(builder =>
+        {
+            builder.WithValidator<StateTransitionValidator>();
+
+            builder.SetInitialState("State1");
+            builder.AddStateToggle("State1", "State2", () => true, () => false);
+        });
+
+        var build = () => builder.Build();
+
+        build.Should().NotThrow();
+    }
 }
