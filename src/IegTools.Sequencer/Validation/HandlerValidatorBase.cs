@@ -30,9 +30,9 @@ public class HandlerValidatorBase
 
             
     /// <summary>
-    /// Each 'ToState' must have an corresponding 'FromState' counterpart,
-    /// otherwise you have created an dead-end.
-    /// Use '!' as first character to tag an state as dead-end with purpose.
+    /// Each 'ToState' must have a corresponding 'FromState' counterpart,
+    /// otherwise you have created a dead-end.
+    /// Use '!' as first character to tag a state as dead-end with purpose.
     /// </summary>
     protected (bool isValid, IEnumerable<T> list) HandlerIsValidatedTo<T>(SequenceBuilder builder) where T: IHasToState
     {
@@ -68,7 +68,7 @@ public class HandlerValidatorBase
         where T : IHasToState
     {
         // for easy reading do not simplify this
-        // each StateTransition should have an counterpart so that no dead-end is reached
+        // each StateTransition should have a counterpart so that no dead-end is reached
         foreach (var transition in containsTransitions.Where(x => StateShouldBeValidated(x.ToState, builder)))
         {
             if (transitions.All(x => transition.ToState != x.FromState))
