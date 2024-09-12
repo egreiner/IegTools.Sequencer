@@ -7,7 +7,7 @@ using FluentValidation.Results;
 using Handler;
 
 /// <summary>
-/// The any state transition validator.
+/// Any state transition validator.
 /// </summary>
 public sealed class AnyStateTransitionValidator : HandlerValidatorBase, IHandlerValidator
 {
@@ -33,11 +33,11 @@ public sealed class AnyStateTransitionValidator : HandlerValidatorBase, IHandler
 
 
     /// <summary>
-    /// Each 'FromState' must have an corresponding 'ToState' counterpart,
+    /// Each 'FromState' must have a corresponding 'ToState' counterpart,
     /// or a ForceState where it comes from,
     /// or it must be the initial-state 
-    /// otherwise you have created an dead-end.
-    /// Use '!' as first character to tag an state as dead-end with purpose.
+    /// otherwise you have created a dead-end.
+    /// Use '!' as first character to tag a state as dead-end with purpose.
     /// </summary>
     private bool HandlerIsValidatedFrom(SequenceBuilder builder)
     {
@@ -48,7 +48,7 @@ public sealed class AnyStateTransitionValidator : HandlerValidatorBase, IHandler
         _handlerFrom = new List<AnyStateTransitionHandler>();
 
         // for easy reading do not simplify this
-        // each StateTransition should have an counterpart so that no dead-end is reached
+        // each StateTransition should have a counterpart so that no dead-end is reached
         foreach (var transition in transitions)
         {
             foreach (var state in transition.FromStates.Where(x => StateShouldBeValidated(x, builder)))
@@ -63,9 +63,9 @@ public sealed class AnyStateTransitionValidator : HandlerValidatorBase, IHandler
 
         
     /// <summary>
-    /// Each 'ToState' must have an corresponding 'FromState' counterpart,
-    /// otherwise you have created an dead-end.
-    /// Use '!' as first character to tag an state as dead-end with purpose.
+    /// Each 'ToState' must have a corresponding 'FromState' counterpart,
+    /// otherwise you have created a dead-end.
+    /// Use '!' as first character to tag a state as dead-end with purpose.
     /// </summary>
     private bool HandlerIsValidatedTo(SequenceBuilder builder)
     {
