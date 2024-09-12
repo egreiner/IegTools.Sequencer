@@ -51,7 +51,7 @@ public sealed class AnyStateTransitionValidator : HandlerValidatorBase, IHandler
         // each StateTransition should have an counterpart so that no dead-end is reached
         foreach (var transition in transitions)
         {
-            foreach (var state in transition.FromStates.Where(x => ShouldBeValidated(x, builder)))
+            foreach (var state in transition.FromStates.Where(x => StateShouldBeValidated(x, builder)))
             {
                 if (allTransitions.All(x => state != x.ToState) &&
                     state != builder.Configuration.InitialState)

@@ -14,7 +14,7 @@ public sealed class InitialStateValidator : HandlerValidatorBase, IHandlerValida
     public bool Validate(ValidationContext<SequenceBuilder> context, ValidationResult result)
     {
         var builder = context.InstanceToValidate;
-        if (!ShouldBeValidated(builder.Configuration.InitialState, builder)) return true;
+        if (!StateShouldBeValidated(builder.Configuration.InitialState, builder)) return true;
 
         if (string.IsNullOrEmpty(builder.Configuration.InitialState))
             result.AddError("InitialState", "The Initial-State must be defined");
