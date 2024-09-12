@@ -37,29 +37,29 @@ public class HandlerValidatorBase
     protected (bool isValid, IEnumerable<T> list) HandlerIsValidatedTo<T>(SequenceBuilder builder) where T: IHasToState
     {
         var containsTransitions = builder.Data.Handler.OfType<T>().ToList();
-        if (containsTransitions is null || containsTransitions.Count == 0)
+        if (containsTransitions.Count == 0)
             return (true, Enumerable.Empty<T>());
 
         var transitions = builder.Data.Handler.OfType<StateTransitionHandler>().ToList();
 
-        this._handlerTo = new List<IHasToState>();
+        _handlerTo = new List<IHasToState>();
 
         
         AddMissingTransitions(builder, containsTransitions, transitions);
         
-        if (this._handlerTo.Count == 0)
+        if (_handlerTo.Count == 0)
             return (true, Enumerable.Empty<T>());
 
         
         RemoveWithContainsTransitions(builder, containsTransitions);
         
-        if (this._handlerTo.Count == 0)
+        if (_handlerTo.Count == 0)
             return (true, Enumerable.Empty<T>());
 
 
         RemoveWithAnyTransitions(builder, containsTransitions);
 
-        return (this._handlerTo.Count == 0, this._handlerTo.ConvertAll(x => (T)x));
+        return (_handlerTo.Count == 0, _handlerTo.ConvertAll(x => (T)x));
     }
 
 
@@ -72,7 +72,7 @@ public class HandlerValidatorBase
         foreach (var transition in containsTransitions.Where(x => StateShouldBeValidated(x.ToState, builder)))
         {
             if (transitions.All(x => transition.ToState != x.FromState))
-                this._handlerTo.Add(transition);
+                _handlerTo.Add(transition);
         }
     }
 
@@ -82,7 +82,7 @@ public class HandlerValidatorBase
         foreach (var transition in containsTransitions.Where(x => StateShouldBeValidated(x.ToState, builder)))
         {
             if (builder.Data.Handler.OfType<AnyStateTransitionHandler>().Any(x => x.FromStates.Contains(transition.ToState)))
-                this._handlerTo.Remove(transition);
+                _handlerTo.Remove(transition);
         }
     }
 
@@ -93,7 +93,7 @@ public class HandlerValidatorBase
         {
             if (builder.Data.Handler.OfType<ContainsStateTransitionHandler>()
                 .Any(x => transition.ToState.Contains(x.FromStateContains)))
-                this._handlerTo.Remove(transition);
+                _handlerTo.Remove(transition);
         }
     }
 }
