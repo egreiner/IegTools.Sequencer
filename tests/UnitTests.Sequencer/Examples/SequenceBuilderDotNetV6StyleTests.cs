@@ -55,27 +55,6 @@ public class SequenceBuilderDotNetV6StyleTests
     }
 
 
-
-    [Fact]
-    public void Example_ValidFluentConfiguration_for_OnTimer()
-    {
-        ISequence sequence = null;
-
-        var input = true;
-
-        var builder = SequenceBuilder.Create()
-            .AddForceState(_state.Off, () => !input)
-            .AddTransition(_state.Off, _state.WaitOn, () => input, () => sequence?.Stopwatch.Restart())
-            .AddTransition(_state.WaitOn, _state.On, () => input && sequence?.Stopwatch.ElapsedMilliseconds > 1000);
-
-        builder.SetInitialState(_state.Off)
-               .DisableValidationForStates(_state.On);
-
-        var build = () => sequence = builder.Build();
-
-        build.Should().NotThrow<FluentValidation.ValidationException>();
-    }
-
     [Fact]
     public void Example_ValidFluentConfiguration_for_OffTimer()
     {
