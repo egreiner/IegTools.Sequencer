@@ -14,7 +14,7 @@ public interface ILoggerAdapter : ILogger
     /// <summary>
     /// The logger
     /// </summary>
-    ILogger Logger { get; }
+    ILogger? Logger { get; }
 
     /// <summary>
     /// The logger scope

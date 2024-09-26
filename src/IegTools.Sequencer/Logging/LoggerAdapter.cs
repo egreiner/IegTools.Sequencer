@@ -93,7 +93,9 @@ public class LoggerAdapter : ILoggerAdapter
     public bool IsEnabled(LogLevel logLevel) => Logger?.IsEnabled(logLevel) ?? false;
 
     /// <inheritdoc />
-    public IDisposable? BeginScope<TState>(TState state) => Logger?.BeginScope(state) ?? null;
+    public IDisposable? BeginScope<TState>(TState state) where TState : notnull
+        => Logger?.BeginScope(state) ?? null;
+
 
 
 
@@ -101,7 +103,7 @@ public class LoggerAdapter : ILoggerAdapter
     public IDisposable? GetSequenceLoggerScope(IHandler handler, string methodName) =>
         Logger?.BeginScope(new Dictionary<string, object>
         {
-            { "Description", handler?.Description ?? string.Empty },
-            { "SequenceStopwatch", handler?.Sequence.Stopwatch.Elapsed ?? TimeSpan.Zero },
+            { "Description", handler.Description ?? string.Empty },
+            { "SequenceStopwatch", handler.Sequence?.Stopwatch.Elapsed ?? TimeSpan.Zero },
             { "Method", methodName },
         }) ?? null;}
