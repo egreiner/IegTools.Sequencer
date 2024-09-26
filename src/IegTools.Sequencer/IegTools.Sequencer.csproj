@@ -70,4 +70,8 @@
 
 		<None Include="Logging\LoggerAdapter.cs" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove=".editorconfig" />
+	</ItemGroup>
 </Project>
