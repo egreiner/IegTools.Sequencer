@@ -30,7 +30,7 @@ public class SequenceConfiguration
     /// <summary>
     /// Prefix states with the IgnoreTag, does tag states as dead-end-states (the validator will not check for dead ends)
     /// </summary>
-    [Obsolete("TODO this will be removed in the next major version (v4.0)")]
+    //[Obsolete("TODO this will be removed in the next major version (v4.0)")]
     public char IgnoreTag { get; set; } = '!';
 
     /// <summary>
