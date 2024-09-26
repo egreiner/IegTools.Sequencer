@@ -28,10 +28,10 @@ jobs:
           dotnet-version: ${{ matrix.dotnet-version }}
       
       - name: 'Install dependencies'
-        run: dotnet restore  ${{ env.PROJECT_PATH }}
+        run: dotnet restore
       
       - name: 'Build project'
-        run: dotnet build ${{ env.PROJECT_PATH }} --configuration Release --no-restore /p:TreatWarningsAsErrors=false
+        run: dotnet build --configuration Release --no-restore /p:TreatWarningsAsErrors=false
 
       - name: 'Test project'
         run: dotnet test --no-restore --verbosity normal
