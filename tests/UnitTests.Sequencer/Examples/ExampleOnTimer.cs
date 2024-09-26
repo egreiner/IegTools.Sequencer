@@ -6,7 +6,7 @@ public class ExampleOnTimer
 {
     private readonly DefaultSequenceStates _state = new();
 
-    private ISequence _sequence;
+    private ISequence? _sequence;
     private bool _onTimerInput;
 
 
@@ -14,8 +14,8 @@ public class ExampleOnTimer
     {
         return SequenceBuilder.Create()
             .AddForceState(_state.Off, () => !_onTimerInput)
-            .AddTransition(_state.Off, _state.WaitOn, () => _onTimerInput, () => _sequence.Stopwatch.Restart())
-            .AddTransition(_state.WaitOn, _state.On, () => _onTimerInput && _sequence.Stopwatch.ElapsedMilliseconds > 50)
+            .AddTransition(_state.Off, _state.WaitOn, () => _onTimerInput, () => _sequence?.Stopwatch.Restart())
+            .AddTransition(_state.WaitOn, _state.On, () => _onTimerInput && _sequence?.Stopwatch.ElapsedMilliseconds > 50)
             .SetInitialState(_state.Off)
             .DisableValidationForStates(_state.On);
     }

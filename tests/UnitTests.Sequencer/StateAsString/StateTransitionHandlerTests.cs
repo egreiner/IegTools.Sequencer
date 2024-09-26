@@ -129,7 +129,7 @@ public class StateTransitionHandlerTests
     [InlineData("State1", false, "State1")]
     [InlineData("StateX", true, "State2")]
     [InlineData("StateX", false, "State1")]
-    public async void Test_RunAsync(string currentState, bool constraint, string expected)
+    public async Task Test_RunAsync(string currentState, bool constraint, string expected)
     {
         var sut = SequenceBuilder.Configure(builder =>
         {
