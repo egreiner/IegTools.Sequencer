@@ -36,7 +36,7 @@ public class SequenceConfiguration
     /// <summary>
     /// Prefix states with the InitialStateTag, does tag states for the sequence to start from
     /// </summary>
-    [Obsolete("TODO this will be removed in the next major version (v4.0)")]
+    //[Obsolete("TODO this will be removed in the next major version (v4.0)")]
     public char InitialStateTag { get; set; } = '>';
 
     /// <summary>
