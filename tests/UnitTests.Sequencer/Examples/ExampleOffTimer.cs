@@ -14,8 +14,8 @@ public class ExampleOffTimer
     {
         return SequenceBuilder.Create()
             .AddForceState(_state.On, () => _onTimerInput)
-            .AddTransition(_state.On, _state.WaitOff, () => _onTimerInput, () => _sequence?.Stopwatch.Restart())
-            .AddTransition(_state.WaitOff, _state.Off, () => _onTimerInput && _sequence?.Stopwatch.ElapsedMilliseconds > 50)
+            .AddTransition(_state.On, _state.Pending, () => _onTimerInput, () => _sequence?.Stopwatch.Restart())
+            .AddTransition(_state.Pending, _state.Off, () => _onTimerInput && _sequence?.Stopwatch.ElapsedMilliseconds > 50)
             .SetInitialState(_state.Off)
             .DisableValidationForStates(_state.Off);
     }
