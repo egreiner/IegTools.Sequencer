@@ -25,14 +25,6 @@ jobs:
         run: dotnet build --configuration Release --no-restore  /p:TreatWarningsAsErrors=false
       
       - name: 'Test project'
-        run: dotnet test --no-restore --verbosity normal
+        run: dotnet test --no-restore --verbosity normal 
 
-      - uses: stryker-mutator/github-action@v0.0.1
-        with:
-          testProject: "tests/UnitTests.Sequencer/" # required
-          breakAt: "80" # Optional
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: html-report
-          path: ${{github.workspace}}/UnitTests.Sequencer/StrykerOutput/**/**/*.html
+        
