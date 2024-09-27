@@ -1,11 +1,7 @@
 name: stryker-mutation-tests
 
-on: 
-  # Run the mutation tests when changes are pushed to the main branch
-  push:
-    branches:
-      - 'main'
-      
+on: [workflow_dispatch, push]
+
 jobs:
     mutation-test:
       runs-on: ubuntu-latest
