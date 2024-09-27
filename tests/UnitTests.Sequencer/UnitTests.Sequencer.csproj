@@ -31,4 +31,8 @@
     <Folder Include="StateAsString\_obsolet\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include=".config\dotnet-tools.json" />
+  </ItemGroup>
+
 </Project>
