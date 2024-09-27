@@ -1,0 +1,28 @@
+name: stryker-mutation-tests
+
+on: 
+  # Run the mutation tests when changes are pushed to the main branch
+  push:
+    branches:
+      - 'main'
+      
+jobs:
+    mutation-test:
+      runs-on: ubuntu-latest
+      
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Run Stryker Mutation Tests
+        uses: stryker-mutator/github-action@v0.0.1
+        with:
+          testProject: "tests/UnitTests.Sequencer/" # required 
+          breakAt: "80" # Optional 
+
+      - name: Upload Stryker HTML Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: html-report
+          path: ${{github.workspace}}/test/UnitTests.Sequencer/StrykerOutput/**/**/*.html
+          
