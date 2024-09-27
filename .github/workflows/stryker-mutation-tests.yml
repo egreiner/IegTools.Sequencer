@@ -9,7 +9,15 @@ jobs:
       steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0'  # Set the .NET version you're using
+
+      - name: Restore .NET tools
+        run: dotnet tool restore
+
       - name: Run Stryker Mutation Tests
         uses: stryker-mutator/github-action@v0.0.1
         with:
