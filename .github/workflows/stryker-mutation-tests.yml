@@ -19,7 +19,7 @@ jobs:
         run: dotnet tool install -g dotnet-stryker
 
       - name: Run Stryker Mutation Tests
-        run: dotnet stryker --project tests/UnitTests.Sequencer/ --break-at 80
+        run: dotnet stryker --solution IegTools.Sequencer.sln --project tests/UnitTests.Sequencer/ --break-at 80
 
       - name: Upload Stryker HTML Report
         uses: actions/upload-artifact@v3
