@@ -29,8 +29,8 @@ jobs:
 
       - uses: stryker-mutator/github-action@v0.0.1
         with:
-          testProject: "UnitTests.Sequencer/" # required
-          breakAt: "75" # Optional
+          testProject: "tests/UnitTests.Sequencer/" # required
+          breakAt: "80" # Optional
 
       - uses: actions/upload-artifact@v3
         with:
