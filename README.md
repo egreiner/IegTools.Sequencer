@@ -27,7 +27,7 @@ The library allows you to define:
 [Extensibility](#extensibility)  
 [Version Changes](#version-changes)  
 [Breaking Changes](#breaking-changes)  
-[Preview next Version v4.0](#preview-next-version-v40)  
+[Preview next Version v4.0](#preview-next-version-v4)  
 
 
 # Installation
@@ -314,7 +314,7 @@ TBD
 
 
 
-# Preview next Version v4.0
+# Preview next Version v4
 
 Removing the State-Tags (InitialStateTag and IgnoreTag) [State Tags 🠉](#state-tags)
 
