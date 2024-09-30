@@ -44,7 +44,8 @@ A simple example configuration and usage for an OnTimer-sequence:
 ``` c#
 public class OnTimerExample
 {
-    private ISequence _sequence;
+    private readonly ISequence _sequence;
+    private readonly DefaultSequenceStates _state = new();
 	
     public OnTimerExample() =>
         _sequence = SequenceConfig.Build();
@@ -53,15 +54,16 @@ public class OnTimerExample
     public void In(bool value)
     {
         LastValue = value;
-
         _sequence.Run();
     }
 
     private ISequenceBuilder SequenceConfig =>
         SequenceBuilder.Create()
-            .AddForceState(">Off", () => !LastValue)
-            .AddTransition(">Off", "PrepareOn", () => LastValue, () => _sequence.Stopwatch.Restart())
-            .AddTransition("PrepareOn", "!On", () => _sequence.Stopwatch.Expired(MyTimeSpan));
+            .SetInitialState(_state.Off)
+            .DisableValidationForStates(_state.On)
+            .AddForceState(_state.Off,                () => !LastValue)
+            .AddTransition(_state.Off, _state.WaitOn, () => LastValue, () => _sequence.Stopwatch.Restart())
+            .AddTransition(_state.WaitOn, _state.On,  () => _sequence.Stopwatch.IsExpired(OnDelay));
 }
 ```
 
@@ -76,9 +78,11 @@ A more complex example configuration for a pump-anti-sticking-sequence:
  private ISequenceBuilder SequenceConfig =>
         SequenceBuilder.Configure(builder =>
         {
-            builder.AddForceState(">Paused", () => !_onTimer.Out);
+            builder..SetInitialState("Paused")
+
+            builder.AddForceState("Paused", () => !_onTimer.Out);
             
-            builder.AddTransition(">Paused", "Activated",
+            builder.AddTransition("Paused", "Activated",
                 () => _onTimer.Out,
                 () => _countStarts = 1);
             
@@ -87,7 +91,7 @@ A more complex example configuration for a pump-anti-sticking-sequence:
                 () => Stopwatch.Restart());
             
             builder.AddTransition("Pump on", "Pump off",
-                () => Stopwatch.Expired(_settings.RunTime * _countStarts.Factorial()),
+                () => Stopwatch.IsExpired(_settings.RunTime * _countStarts.Factorial()),
                 () =>
                 {
                     Stopwatch.Restart();
@@ -97,8 +101,8 @@ A more complex example configuration for a pump-anti-sticking-sequence:
             builder.AddTransition("Pump off", "Pump on",
                 () => Stopwatch.Expired(_settings.PauseTime) && !sequenceDone());
 
-            builder.AddTransition("Pump off", ">Paused",
-                () => Stopwatch.Expired(_settings.PauseTime) && sequenceDone(),
+            builder.AddTransition("Pump off", "Paused",
+                () => Stopwatch.IsExpired(_settings.PauseTime) && sequenceDone(),
                 () => _onTimer.In(false));
 
             bool sequenceDone() => _countStarts > _settings.PumpStartQuantity;
@@ -286,20 +290,25 @@ TBD
 
 # Version Changes
 ## v2.2 -> v3.0
-- new DefaultSequenceStates, a set of standard (string) states for a sequence
+- new DefaultSequenceStates, a set of standard (string) states for a sequence  
+- new builder.SetOnStateChangedAction(...);  
+- changed builder.SetLogger(...) to builder.ActivateDebugLogging(...)  
+- update NuGet packages
+- a bunch of internal changes  
+
 
 ## v2.1 -> v2.2
-- new builder.SetLogger(...) methods
+- new builder.SetLogger(...) methods  
 
 ## v2.0 -> v2.1
-- new ExtensionMethod .AllowOnceIn(timeSpan)
+- new ExtensionMethod .AllowOnceIn(timeSpan)  
 
 [Top 🠉](#table-of-contents)  
 
 
 # Breaking Changes
-
-so far none
+## v2.2 -> v3.0
+- changed builder.SetLogger(...) to builder.ActivateDebugLogging(...)  
 
 [Top 🠉](#table-of-contents)  
 
