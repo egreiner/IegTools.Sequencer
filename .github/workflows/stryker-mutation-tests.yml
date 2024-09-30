@@ -1,0 +1,29 @@
+name: stryker-mutation-tests
+
+on: [workflow_dispatch, push]
+
+jobs:
+    mutation-test:
+      runs-on: ubuntu-latest
+      
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0'  # Set the .NET version you're using
+
+      - name: Install Stryker Globally
+        run: dotnet tool install -g dotnet-stryker
+
+      - name: Run Stryker Mutation Tests
+        run: dotnet stryker --solution IegTools.Sequencer.sln --project tests/UnitTests.Sequencer/ --break-at 80
+
+      - name: Upload Stryker HTML Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: html-report
+          path: tests/UnitTests.Sequencer/StrykerOutput/**/*.html
+          

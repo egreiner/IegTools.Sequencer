@@ -25,4 +25,6 @@ jobs:
         run: dotnet build --configuration Release --no-restore  /p:TreatWarningsAsErrors=false
       
       - name: 'Test project'
-        run: dotnet test --no-restore --verbosity normal
+        run: dotnet test --no-restore --verbosity normal 
+
+        
