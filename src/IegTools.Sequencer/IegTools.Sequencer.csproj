@@ -21,7 +21,7 @@
 		<Description>IegTools.Sequencer provides a fluent interface for creating easy-to-read and extensible sequences,
 			eliminating the need for lengthy if/else statements.</Description>
 
-		<PackageReleaseNotes>v3.0.0 builder.SetOnStateChangedAction(...)</PackageReleaseNotes>
+		<PackageReleaseNotes>v3.0.0 ...</PackageReleaseNotes>
 		
 		<PackageTags>sequence, sequencer, state-machine, state-engine, finite-state-machine, fsm, finite-state-automaton, fsa </PackageTags>
 		

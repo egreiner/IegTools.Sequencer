@@ -6,9 +6,10 @@ The library is written in C# 12.0 and targets .NET Standard 2.0 (.NET (Core) and
 
 The library allows you to define:
 
-- Transition jobs: from one state to another state, when it should be triggered, and the action that should be invoked.  
+- Various transition jobs: from one state to another state, when it should be triggered and a optional action that should be invoked.    
 - Force state on specified conditions.  
 - Invoke actions on specified states.  
+- Activate Debug Logging.  
 
 ### Build Status  
 &nbsp; ![workflow tests](https://github.com/egreiner/IegTools.Sequencer/actions/workflows/ci-tests.yml/badge.svg)  
@@ -24,7 +25,6 @@ The library allows you to define:
 [Validation](#validation)  
 [Handler](#handler)  
 [SequenceBuilder Extensions](#sequencebuilder-extensions)  
-[Extensibility](#extensibility)  
 [Version Changes](#version-changes)  
 [Breaking Changes](#breaking-changes)  
 [Preview next Version v4.0](#preview-next-version-v4)  
@@ -37,7 +37,7 @@ The library is available as a [NuGet package](https://www.nuget.org/packages/Ieg
 
 # Usage
 ## Configure, build and run a sequence
-### Configuration .NET 6 style
+### Create a sequence in a compact style
 
 A simple example configuration and usage for an OnTimer-sequence:
 
@@ -70,7 +70,7 @@ public class OnTimerExample
 [Top 🠉](#table-of-contents)
 
 
-### Configuration .NET 5 style
+### Configure a sequence in a detailed style
 
 A more complex example configuration for a pump-anti-sticking-sequence:
 
@@ -78,7 +78,7 @@ A more complex example configuration for a pump-anti-sticking-sequence:
  private ISequenceBuilder SequenceConfig =>
         SequenceBuilder.Configure(builder =>
         {
-            builder..SetInitialState("Paused")
+            builder.SetInitialState("Paused")
 
             builder.AddForceState("Paused", () => !_onTimer.Out);
             
@@ -112,13 +112,27 @@ A more complex example configuration for a pump-anti-sticking-sequence:
 [Top 🠉](#table-of-contents)
 
 
-## Config in Detail
-
-- Force state on condition:  
-  `builder.AddForceState("ForceState", constraint)`  
+## Configurations in Detail
 
 - State transition on condition (with optional action)  
-  `builder.AddTransition("FromState", "ToState", constraint, action)`  
+  Executes a sequence state transition from one state to another state when the condition is true.   
+  `builder.AddTransition("FromState", "ToState", condition, action)`
+  
+
+- Any State transition on condition (with optional action)  
+  Executes a sequence state transition from multiple states to another state when the condition is true.   
+  `string[] currentStateContains = { "State1", "State2" , "StateX" };`    
+  `builder.AddAnyTransition(currentStateContains, "ToState", condition, action)`  
+  
+
+- Contains State transition on condition (with optional action)  
+  Executes a sequence state transition from states that contains the specified string to another state when the condition is true.   
+  `builder.AddContainsTransition("FromStateContains", "ToState", condition, action)`  
+  
+
+- Force state on condition:  
+  `builder.AddForceState("ForceState", constraint)`
+  
 
 - Action on state:  
   `builder.AddStateAction("State", action)` 
@@ -131,6 +145,8 @@ A more complex example configuration for a pump-anti-sticking-sequence:
 States can be defined as strings or enums, internally they will be stored as strings.
 
 [Top 🠉](#table-of-contents)
+
+
 
 
 # State Tags
@@ -173,6 +189,8 @@ and throw an exception if not.
 [Top 🠉](#table-of-contents)
 
 
+
+
 # Validation
 
 The sequence will be validated on build.  
@@ -203,10 +221,10 @@ Validation could be disabled
 
 # Handler
 
-Internally the Framework is working with Handler (you can write your own customized handler).
-The Handler describe what they are supposed to do within the sequence.
+Internally the Framework is working with Handler.  
+The Handler describe what they are supposed to do within the sequence.  
 
-There are five default handler at the moment:  
+There are five handler at the moment:    
 - The [StateTransitionHandler](#statetransitionhandler)  
 - The [ContainsStateTransitionHandler](#containsstatetransitionhandler)  
 - The [AnyStateTransitionHandler](#anystatetransitionhandler)  
@@ -214,35 +232,35 @@ There are five default handler at the moment:
 - The [StateActionHandler](#stateactionhandler)    
 
 ## StateTransitionHandler
-The StateTransitionHandler is responsible for the transition between two states.
-It switches the sequence from start-state to end-state when the sequence current state is the start-state and the state-transition-condition is true.
-Additionally, an action can be executed when the transition is done.
+The StateTransitionHandler is responsible for the transition between two states.  
+It switches the sequence from start-state to end-state when the sequence current state is the start-state and the state-transition-condition is true.  
+Additionally, an action can be executed when the transition is done.  
 
 ## ContainsStateTransitionHandler
-It's basically the same as the StateTransitionHandler, but it can handle multiple start-states to one end-state.
+It's basically the same as the StateTransitionHandler, but it can handle multiple start-states to one end-state.  
 
 ## AnyStateTransitionHandler
-It's basically the same as the ContainsStateTransitionHandler, but it can handle all start-states that contains the specified string to one end-state.
+It's basically the same as the ContainsStateTransitionHandler, but it can handle all start-states that contains the specified string to one end-state.  
 
 ## ForceStateHandler
-Forces the sequence into the specified state when the force-state-condition is fulfilled.
-Additionally, an action can be executed when the force-transition is done.
+Forces the sequence into the specified state when the force-state-condition is fulfilled.  
+Additionally, an action can be executed when the force-transition is done.  
 
 ## StateActionHandler
-Executes continuously the specified action when the sequence is in the specified state.
+Executes continuously the specified action when the sequence is in the specified state.  
 
 
 [Top 🠉](#table-of-contents)  
 
 # SequenceBuilder Extensions
 ## ExtensionMethods for existing Handler
-All existing Handler can be added to a sequence via the SequenceBuilders ExtensionMethods.
+All existing Handler can be added to a sequence via the SequenceBuilders ExtensionMethods.  
 
 ## AllowOnceIn(timeSpan)
-Each Transition can be enhanced with the ExtensionMethod .AllowOnceIn(timeSpan).
-This prevents the transition from being triggered again within the specified timeSpan.
+Each Transition can be enhanced with the ExtensionMethod .AllowOnceIn(timeSpan).  
+This prevents the transition from being triggered again within the specified timeSpan.  
 
-Example from an xUnit test:
+Example from an xUnit test:  
 ``` C#
     [Fact]
     public void Test_AllowOnlyOnceIn_set()
@@ -270,22 +288,10 @@ Example from an xUnit test:
     }
 ```
 
-For more examples take a look at the UnitTests.
+For more examples take a look at the UnitTests.  
 
 [Top 🠉](#table-of-contents)
 
-
-
-# Extensibility
-Write your own customized
-- Handler
-- Sequence
-- and Validator
-
-TBD
-
-
-[Top 🠉](#table-of-contents)
 
 
 # Version Changes
@@ -293,8 +299,8 @@ TBD
 - new DefaultSequenceStates, a set of standard (string) states for a sequence  
 - new builder.SetOnStateChangedAction(...);  
 - changed builder.SetLogger(...) to builder.ActivateDebugLogging(...)  
-- update NuGet packages
-- a bunch of internal changes  
+- update NuGet packages  
+- bunch of internal changes  
 
 
 ## v2.1 -> v2.2
@@ -316,7 +322,7 @@ TBD
 
 # Preview next Version v4
 
-Removing the State-Tags (InitialStateTag and IgnoreTag) [State Tags 🠉](#state-tags)
+Removing the State-Tags (InitialStateTag and IgnoreTag) [State Tags 🠉](#state-tags)  
 
 Thinking about:  
 Renaming sequence.HasCurrentState(state) to sequence.IsInState(state)  
