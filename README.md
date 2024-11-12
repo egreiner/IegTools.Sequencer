@@ -6,7 +6,7 @@ The library is written in C# 12.0 and targets .NET Standard 2.0 (.NET (Core) and
 
 The library allows you to define:
 
-- Various transition jobs: from one state to another state, when it should be triggered and a optional action that should be invoked.    
+- Various transition jobs: from one state to another state, when it should be triggered and an optional action that should be invoked.    
 - Force state on specified conditions.  
 - Invoke actions on specified states.  
 - Activate Debug Logging.  
@@ -131,7 +131,7 @@ A more complex example configuration for a pump-anti-sticking-sequence:
   
 
 - Force state on condition:  
-  `builder.AddForceState("ForceState", constraint)`
+  `builder.AddForceState("ForceState", condition)`
   
 
 - Action on state:  

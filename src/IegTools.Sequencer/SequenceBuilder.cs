@@ -46,21 +46,20 @@ public class SequenceBuilder : ISequenceBuilder
 
 
     /// <summary>
-    /// Creates a new Sequence-Builder for configuration in .NET 6 style.
+    /// Create a sequence in a compact style
     /// This is good for short crispy configs.
     /// </summary>
     public static ISequenceBuilder Create() =>
         Create(new SequenceConfigurationValidator());
 
     /// <summary>
-    /// Creates a new Sequence-Builder for configuration in .NET 6 style.
-    /// This is good for short crispy configs.
+    /// Create a sequence in a compact style
     /// </summary>
     public static ISequenceBuilder Create(IValidator<SequenceBuilder> validator) =>
         new SequenceBuilder(validator);
 
     /// <summary>
-    /// Creates a new Sequence-Builder with an empty sequence.
+    /// Create a new Sequence-Builder with an empty sequence.
     /// In some scenarios it is useful to have an empty sequence.
     /// Validation is disabled.
     /// </summary>
@@ -75,8 +74,7 @@ public class SequenceBuilder : ISequenceBuilder
 
 
     /// <summary>
-    /// Configures the sequence in .NET 5 style.
-    /// This is good for larger complex configs.
+    /// Configure a sequence in a detailed style
     /// </summary>
     /// <param name="configurationActions">The action.</param>
     public static ISequenceBuilder Configure(Action<ISequenceBuilder> configurationActions)
@@ -87,8 +85,7 @@ public class SequenceBuilder : ISequenceBuilder
     }
 
     /// <summary>
-    /// Configures the sequence in .NET 5 style.
-    /// This is good for larger complex configs.
+    /// Configure a sequence in a detailed style
     /// </summary>
     /// <param name="validator">Custom validator</param>
     /// <param name="configurationActions">The action.</param>

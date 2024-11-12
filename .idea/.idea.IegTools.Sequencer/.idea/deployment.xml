@@ -9,7 +9,7 @@
           </mappings>
         </serverdata>
       </paths>
-      <paths name="persas SFTP alfa3209">
+      <paths name="persas FTP alfa3209">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
