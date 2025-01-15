@@ -328,5 +328,7 @@ Thinking about:
 Renaming sequence.HasCurrentState(state) to sequence.IsInState(state)  
 Renaming sequence.HasAnyCurrentState(states) to sequence.IsInStates(state) or IsInAnyState(states)  
 
+Removing FluentAssertions from UnitTests because of there new license since v8.0.0 (and costs about $130,- per dev)
+ - maybe moving to another assertion library (e.g. Shouldly, ...)
 
 [Top 🠉](#table-of-contents)  
