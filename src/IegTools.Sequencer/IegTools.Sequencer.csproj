@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0</TargetFrameworks>
+		<TargetFramework>netstandard2.0</TargetFramework>
 		<LangVersion>latest</LangVersion>
 
 		<RepositoryUrl>https://github.com/egreiner/IegTools.Sequencer</RepositoryUrl>
@@ -16,10 +16,13 @@
 		
 		<Company>ieg Systems</Company>
 		<Authors>Ing. Ernst Greiner</Authors>
-		<Copyright>(c) 2024 ieg Systems - Ing. Ernst Greiner</Copyright>
+		<Copyright>(c) 2025 ieg Systems - Ing. Ernst Greiner</Copyright>
 
 		<Description>IegTools.Sequencer provides a fluent interface for creating easy-to-read and extensible sequences,
-			eliminating the need for lengthy if/else statements.</Description>
+			eliminating the need for lengthy if-else statements.
+            Predecessor of FluentSeq
+            - transaction-based architecture
+        </Description>
 
 		<PackageReleaseNotes>v3.0.1 clean up</PackageReleaseNotes>
 		
