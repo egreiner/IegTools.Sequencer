@@ -19,9 +19,9 @@
 		<Copyright>(c) 2025 ieg Systems - Ing. Ernst Greiner</Copyright>
 
 		<Description>IegTools.Sequencer provides a fluent interface for creating easy-to-read and extensible sequences,
-			eliminating the need for lengthy if-else statements.
-            Predecessor of FluentSeq
-            - transaction-based architecture
+			eliminating the need for lengthy if-else statements.  
+            Predecessor of FluentSeq  
+            - transaction-based architecture  
         </Description>
 
 		<PackageReleaseNotes>v3.0.1 clean up</PackageReleaseNotes>
@@ -37,7 +37,7 @@
 	<ItemGroup>
 		<PackageReference Include="FluentValidation" Version="11.11.0" />
 		<PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.7" />
 	</ItemGroup>
 
 	<ItemGroup>

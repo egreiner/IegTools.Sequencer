@@ -1,8 +1,8 @@
 # IegTools.Sequencer  
 
 IegTools.Sequencer provides a fluent interface for creating easy-to-read and extensible sequences,
-eliminating the need for lengthy if/else statements.  
-The library is written in C# 12.0 and targets .NET Standard 2.0 (.NET (Core) and .NET Framework).
+eliminating the need for lengthy if-else statements.  
+The library is written in C# 12.0 and targets .NET Standard 2.0 (.NET and .NET Framework).
 
 The library allows you to define:
 
@@ -10,6 +10,11 @@ The library allows you to define:
 - Force state on specified conditions.  
 - Invoke actions on specified states.  
 - Activate Debug Logging.  
+
+The Test coverage for .NET 8.0 is greater than 95%
+
+IegTools.Sequencer is the predecessor of [FluentSeq](https://github.com/egreiner/FluentSeq).
+
 
 ### Build Status  
 &nbsp; ![workflow tests](https://github.com/egreiner/IegTools.Sequencer/actions/workflows/ci-tests.yml/badge.svg)  
