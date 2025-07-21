@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
 		<LangVersion>latest</LangVersion>
 
 		<RepositoryUrl>https://github.com/egreiner/IegTools.Sequencer</RepositoryUrl>
@@ -12,7 +12,7 @@
 		
 		<PackageId>IegTools.Sequencer</PackageId>
 		<Title>IegTools.Sequencer</Title>
-		<Version>3.0.1</Version>
+		<Version>3.1.0</Version>
 		
 		<Company>ieg Systems</Company>
 		<Authors>Ing. Ernst Greiner</Authors>
@@ -24,7 +24,7 @@
             - transaction-based architecture  
         </Description>
 
-		<PackageReleaseNotes>v3.0.1 clean up</PackageReleaseNotes>
+		<PackageReleaseNotes>Multi-targets NET Standard 2.0/1 and .NET 8.0</PackageReleaseNotes>
 		
 		<PackageTags>sequence, sequencer, state-machine, state-engine, finite-state-machine, fsm, finite-state-automation, fsa</PackageTags>
 		
