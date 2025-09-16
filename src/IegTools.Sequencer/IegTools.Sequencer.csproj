@@ -12,7 +12,8 @@
 		
 		<PackageId>IegTools.Sequencer</PackageId>
 		<Title>IegTools.Sequencer</Title>
-		<Version>3.1.0</Version>
+		<Version>3.2.0</Version>
+        <PackageReleaseNotes>update NuGet packages</PackageReleaseNotes>
 		
 		<Company>ieg Systems</Company>
 		<Authors>Ing. Ernst Greiner</Authors>
@@ -23,9 +24,7 @@
             Predecessor of FluentSeq  
             - transaction-based architecture  
         </Description>
-
-		<PackageReleaseNotes>Multi-targets NET Standard 2.0/1 and .NET 8.0</PackageReleaseNotes>
-		
+        
 		<PackageTags>sequence, sequencer, state-machine, state-engine, finite-state-machine, fsm, finite-state-automation, fsa</PackageTags>
 		
 		<NeutralLanguage>en</NeutralLanguage>
@@ -36,8 +35,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="FluentValidation" Version="11.11.0" />
-		<PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.7" />
+		<PackageReference Include="JetBrains.Annotations" Version="2025.2.2" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.9" />
 	</ItemGroup>
 
 	<ItemGroup>
