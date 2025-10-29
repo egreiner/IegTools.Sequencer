@@ -1,5 +1,7 @@
 # IegTools.Sequencer  
 
+IegTools.Sequencer is the predecessor of [FluentSeq](https://www.nuget.org/packages/FluentSeq/1.3.0).
+
 IegTools.Sequencer provides a fluent interface for creating easy-to-read and extensible sequences,
 eliminating the need for lengthy if-else statements.  
 The library is written in C# 12.0 and targets .NET Standard 2.0 (.NET and .NET Framework).
@@ -12,8 +14,6 @@ The library allows you to define:
 - Activate Debug Logging.  
 
 The Test coverage for .NET 8.0 is greater than 95%
-
-IegTools.Sequencer is the predecessor of [FluentSeq](https://github.com/egreiner/FluentSeq).
 
 
 ### Build Status  
