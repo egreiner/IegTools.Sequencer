@@ -1,6 +1,6 @@
 # IegTools.Sequencer  
 
-IegTools.Sequencer is the predecessor of [FluentSeq](https://www.nuget.org/packages/FluentSeq/1.3.0).
+IegTools.Sequencer is the predecessor of [FluentSeq](https://www.nuget.org/packages/FluentSeq/1.3.0#readme-body-tab).
 
 IegTools.Sequencer provides a fluent interface for creating easy-to-read and extensible sequences,
 eliminating the need for lengthy if-else statements.  
