@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0;net9.0;net10.0</TargetFrameworks>
 		<LangVersion>latest</LangVersion>
 
 		<RepositoryUrl>https://github.com/egreiner/IegTools.Sequencer</RepositoryUrl>
@@ -12,17 +12,18 @@
 		
 		<PackageId>IegTools.Sequencer</PackageId>
 		<Title>IegTools.Sequencer</Title>
-		<Version>3.2.0</Version>
+		<Version>3.3.0</Version>
         <PackageReleaseNotes>update NuGet packages</PackageReleaseNotes>
 		
 		<Company>ieg Systems</Company>
 		<Authors>Ing. Ernst Greiner</Authors>
-		<Copyright>(c) 2025 ieg Systems - Ing. Ernst Greiner</Copyright>
+		<Copyright>(c) 2026 ieg Systems - Ing. Ernst Greiner</Copyright>
 
-		<Description>IegTools.Sequencer provides a fluent interface for creating easy-to-read and extensible sequences,
+		<Description>
+            IegTools.Sequencer provides a fluent interface for creating easy-to-read and extensible sequences,
 			eliminating the need for lengthy if-else statements.  
-            Predecessor of FluentSeq  
-            - transaction-based architecture  
+            Predecessor of FluentSeq.  
+            Transaction-based architecture.  
         </Description>
         
 		<PackageTags>sequence, sequencer, state-machine, state-engine, finite-state-machine, fsm, finite-state-automation, fsa</PackageTags>
