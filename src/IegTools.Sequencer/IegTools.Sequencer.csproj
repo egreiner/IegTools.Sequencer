@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0;net9.0;net10.0</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
 		<LangVersion>latest</LangVersion>
 
 		<RepositoryUrl>https://github.com/egreiner/IegTools.Sequencer</RepositoryUrl>
@@ -13,7 +13,7 @@
 		<PackageId>IegTools.Sequencer</PackageId>
 		<Title>IegTools.Sequencer</Title>
 		<Version>3.3.0</Version>
-        <PackageReleaseNotes>update NuGet packages</PackageReleaseNotes>
+        <PackageReleaseNotes>cleanup readme</PackageReleaseNotes>
 		
 		<Company>ieg Systems</Company>
 		<Authors>Ing. Ernst Greiner</Authors>
